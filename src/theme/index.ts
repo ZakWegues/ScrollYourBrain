@@ -1,0 +1,59 @@
+import { useSettings } from "@/store/settings";
+
+export type ThemeMode = "amoled" | "default";
+
+const shared = {
+  text: "#F5F5F7",
+  textDim: "#A1A1AA",
+  textMute: "#6B6B76",
+  accent: "#8B5CF6",
+  accent2: "#22D3EE",
+  like: "#FF3B6B",
+  save: "#FBBF24",
+  success: "#34D399",
+  danger: "#F43F5E",
+  onAccent: "#FFFFFF",
+};
+
+const palettes = {
+  amoled: {
+    bg: "#000000",
+    surface: "#0B0B0E",
+    surface2: "#141418",
+    border: "rgba(255,255,255,0.08)",
+    glass: "rgba(12,12,16,0.62)",
+    tab: "#0D0D10",
+  },
+  default: {
+    bg: "#0A0A0F",
+    surface: "#15151C",
+    surface2: "#1D1D26",
+    border: "rgba(255,255,255,0.09)",
+    glass: "rgba(26,26,34,0.62)",
+    tab: "#1A1A22",
+  },
+} as const;
+
+export type Colors = typeof shared & (typeof palettes)[ThemeMode];
+
+export const getColors = (mode: ThemeMode): Colors => ({ ...shared, ...palettes[mode] });
+
+export const useColors = (): Colors => getColors(useSettings((s) => s.theme));
+
+export const fonts = {
+  display: "SpaceGrotesk_700Bold",
+  displayMid: "SpaceGrotesk_600SemiBold",
+  body: "Inter_400Regular",
+  bodyMid: "Inter_500Medium",
+  bodyBold: "Inter_600SemiBold",
+};
+
+export const radius = { sm: 10, md: 16, lg: 22, xl: 28, pill: 999 };
+
+export const gradients = {
+  brand: ["#8B5CF6", "#22D3EE"] as const,
+  warm: ["#F472B6", "#FB923C"] as const,
+};
+
+/** Space reserved at the bottom of screens for the floating tab bar. */
+export const TAB_BAR_SPACE = 104;

@@ -1,0 +1,77 @@
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { getPage } from "@/data/pages";
+import type { FlashItem } from "@/feed/types";
+import { AppText, Icon } from "@/components/ui";
+import { haptic } from "@/lib/haptics";
+import { useSettings } from "@/store/settings";
+import { radius, useColors } from "@/theme";
+import { Backdrop } from "./Backdrop";
+import type { CardProps } from "./types";
+
+/** Tap anywhere to flip. */
+export function FlashCard({ item, active, tapNonce }: CardProps<FlashItem>) {
+  const c = useColors();
+  const page = getPage(item.pageId);
+  const reduceMotion = useSettings((s) => s.reduceMotion);
+  const [flipped, setFlipped] = useState(false);
+  const rot = useSharedValue(0);
+  const [seenTap, setSeenTap] = useState(tapNonce);
+  if (seenTap !== tapNonce) {
+    setSeenTap(tapNonce);
+    if (active) setFlipped((f) => !f);
+  }
+
+  useEffect(() => {
+    if (flipped) haptic.light();
+  }, [flipped]);
+
+  useEffect(() => {
+    const to = flipped ? 180 : 0;
+    rot.value = reduceMotion ? withTiming(to, { duration: 1 }) : withSpring(to, { damping: 14, stiffness: 120, mass: 0.8 });
+  }, [flipped, reduceMotion, rot]);
+
+  const front = useAnimatedStyle(() => ({
+    opacity: rot.value < 90 ? 1 : 0,
+    transform: [{ perspective: 1200 }, { rotateY: `${rot.value}deg` }, { scale: interpolate(Math.abs(90 - rot.value), [0, 90], [0.94, 1]) }],
+  }));
+  const back = useAnimatedStyle(() => ({
+    opacity: rot.value >= 90 ? 1 : 0,
+    transform: [{ perspective: 1200 }, { rotateY: `${rot.value - 180}deg` }, { scale: interpolate(Math.abs(90 - rot.value), [0, 90], [0.94, 1]) }],
+  }));
+
+  return (
+    <View style={StyleSheet.absoluteFill}>
+      <Backdrop pageId={item.pageId} active={active} />
+      <View style={styles.wrap}>
+        <View style={styles.cardBox}>
+          <Animated.View style={[styles.face, { backgroundColor: c.surface, borderColor: c.border }, front]}>
+            <LinearGradient colors={[page.colors[0] + "40", "transparent"]} style={StyleSheet.absoluteFill} />
+            <AppText variant="caption" dim style={styles.kicker}>FLASHCARD · {item.title.toUpperCase()}</AppText>
+            <AppText variant="title" style={{ textAlign: "center" }}>{item.front}</AppText>
+            {item.hint && <AppText dim style={{ textAlign: "center", marginTop: 14 }}>Dica: {item.hint}</AppText>}
+            <View style={styles.flipHint}>
+              <Icon name="rotate-3d-variant" size={16} color={c.textDim} />
+              <AppText variant="caption" dim>Toque para virar</AppText>
+            </View>
+          </Animated.View>
+          <Animated.View style={[styles.face, { backgroundColor: c.surface, borderColor: page.colors[1] }, back]}>
+            <LinearGradient colors={[page.colors[1] + "38", "transparent"]} style={StyleSheet.absoluteFill} />
+            <AppText variant="caption" dim style={styles.kicker}>RESPOSTA</AppText>
+            <AppText variant="headline" style={{ textAlign: "center", fontSize: 22, lineHeight: 30 }}>{item.back}</AppText>
+          </Animated.View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  wrap: { flex: 1, justifyContent: "center", paddingLeft: 20, paddingRight: 80, paddingBottom: 110 },
+  cardBox: { aspectRatio: 0.78, maxHeight: 460, width: "100%", alignSelf: "center" },
+  face: { ...StyleSheet.absoluteFill, borderRadius: radius.xl, borderWidth: 1, padding: 24, justifyContent: "center", overflow: "hidden", backfaceVisibility: "hidden" },
+  kicker: { position: "absolute", top: 22, left: 24, right: 24, letterSpacing: 1.6 },
+  flipHint: { position: "absolute", bottom: 20, alignSelf: "center", flexDirection: "row", alignItems: "center", gap: 6 },
+});
