@@ -20,9 +20,11 @@ interface Props {
   emptyState?: React.ReactNode;
   /** Pause everything (e.g. when another tab is focused). */
   paused?: boolean;
+  /** Bottom space for the card overlays; defaults to the floating tab bar height. */
+  bottomInset?: number;
 }
 
-export function Feed({ source, initialIndex = 0, emptyState, paused }: Props) {
+export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset }: Props) {
   const c = useColors();
   const focused = useIsFocused();
   const { entries, loadMore, drop, needsFollow } = useFeed(source);
@@ -91,8 +93,8 @@ export function Feed({ source, initialIndex = 0, emptyState, paused }: Props) {
           ref={list}
           data={entries}
           keyExtractor={(e) => e.key}
-          renderItem={({ item, index }) => <FeedItem entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} />}
-          extraData={`${active}-${playing}-${height}`}
+          renderItem={({ item, index }) => <FeedItem entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={bottomInset} />}
+          extraData={`${active}-${playing}-${height}-${bottomInset}`}
           pagingEnabled
           snapToInterval={Platform.OS === "web" ? undefined : height}
           snapToAlignment="start"

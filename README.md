@@ -25,9 +25,14 @@
 - **Ajustes:** tema **Preto AMOLED** ou **Padrão**, meta diária, autoplay, começar sem som, economia de dados, vibração, reduzir movimento e interesses.
 - **Barra de navegação jelly:** usa [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma barra flutuante usada pelo [Nuvio](https://nuvio.tv). No Android é renderizada nativamente.
 
-## Instalar (Android)
+## Instalar no celular (Android)
 
-Cada push gera um APK no GitHub Actions. Abra **Actions → Android APK → execução mais recente → Artifacts → `ScrollYourBrain-apk`**, extraia o zip e instale o `app-release.apk`. O APK é para aparelhos arm64, o padrão dos celulares atuais.
+1. No celular, abra este link: **https://github.com/ZakWegues/ScrollYourBrain/releases/latest/download/ScrollYourBrain.apk**
+2. O download do `ScrollYourBrain.apk` começa sozinho. Toque em **Abrir** quando terminar.
+3. Se o Android pedir, permita **instalar apps desta fonte** (o navegador) e toque em **Instalar**.
+4. Para atualizar depois, é só abrir o mesmo link: a versão nova instala por cima e mantém seus dados.
+
+O APK é para aparelhos arm64, o padrão dos celulares atuais. Cada build também fica em **Releases** no GitHub.
 
 ## Rodar localmente
 

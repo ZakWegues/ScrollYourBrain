@@ -26,6 +26,8 @@ jobs:
   apk:
     needs: checks
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,11 +44,29 @@ jobs:
         run: npx expo prebuild --platform android --no-install
         env:
           EXPO_NO_TELEMETRY: 1
+          BUILD_NUMBER: ${{ github.run_number }}
       - name: Build release APK (arm64)
         working-directory: android
         run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/release/app-release.apk ScrollYourBrain.apk
       - uses: actions/upload-artifact@v4
         with:
           name: ScrollYourBrain-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: ScrollYourBrain.apk
           if-no-files-found: error
+      # Every push publishes a release, so the "latest" download link always points to the newest build.
+      - name: Publish release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: ScrollYourBrain build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          files: ScrollYourBrain.apk
+          body: |
+            Instale abrindo este link no celular:
+            https://github.com/${{ github.repository }}/releases/latest/download/ScrollYourBrain.apk
+
+            Commit: ${{ github.sha }}

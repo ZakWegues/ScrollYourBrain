@@ -8,6 +8,7 @@ import type { FeedEntry, ItemKind, StudyItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
+import { toast } from "./Toast";
 import { AppText, Bouncy, Icon, PageAvatar, type IconName } from "./ui";
 import { ConceptCard } from "./cards/ConceptCard";
 import { FlashCard } from "./cards/FlashCard";
@@ -75,9 +76,11 @@ interface Props {
   height: number;
   onFail: (key: string) => void;
   onStudied: (key: string) => void;
+  /** Space kept free at the bottom (the floating tab bar, or just the safe area outside tabs). */
+  bottomInset?: number;
 }
 
-export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, onStudied }: Props) {
+export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, onStudied, bottomInset = TAB_BAR_SPACE }: Props) {
   const { item } = entry;
   const c = useColors();
   const page = getPage(item.pageId);
@@ -124,13 +127,14 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
         </View>
       </GestureDetector>
 
-      <View style={[styles.rail, { bottom: TAB_BAR_SPACE + 8 }]} pointerEvents="box-none">
+      <View style={[styles.rail, { bottom: bottomInset + 8 }]} pointerEvents="box-none">
         <Bouncy onPress={() => router.push(`/page/${page.id}`)} style={styles.avatarWrap} accessibilityLabel={`Abrir página ${page.name}`}>
           <PageAvatar pageId={page.id} size={48} />
           <Bouncy
             onPress={() => {
-              toggleFollow(page.id);
+              const now = toggleFollow(page.id);
               haptic.select();
+              toast({ message: now ? `Seguindo ${page.name}` : `Você deixou de seguir ${page.name}`, icon: now ? "account-check" : "account-remove-outline" });
             }}
             style={[styles.follow, { backgroundColor: following ? c.text : c.like }]}
             accessibilityLabel={following ? `Deixar de seguir ${page.name}` : `Seguir ${page.name}`}
@@ -147,8 +151,13 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
           color={saved ? c.save : "#fff"}
           label={saved ? "Salvo" : "Salvar"}
           onPress={() => {
-            toggleSave(item);
+            const now = toggleSave(item);
             haptic.light();
+            toast({
+              message: now ? "Salvo na Biblioteca" : "Removido dos salvos",
+              icon: now ? "bookmark-check" : "bookmark-remove-outline",
+              action: { label: "Desfazer", onPress: () => toggleSave(item) },
+            });
           }}
           active={saved}
           testID="save-button"
@@ -157,7 +166,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
       </View>
 
       {item.kind !== "quiz" && (
-      <View style={[styles.meta, { bottom: TAB_BAR_SPACE + 10 }]} pointerEvents="box-none">
+      <View style={[styles.meta, { bottom: bottomInset + 10 }]} pointerEvents="box-none">
         <Bouncy onPress={() => router.push(`/page/${page.id}`)} style={styles.pageRow} scaleTo={0.97}>
           <AppText variant="label">{page.name}</AppText>
           <AppText variant="caption" dim>{page.handle}</AppText>

@@ -1,7 +1,8 @@
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import { Alert, Platform, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { ItemTile } from "@/components/ItemTile";
+import { toast } from "@/components/Toast";
 import { StreakCard } from "@/components/StreakCard";
 import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
@@ -14,7 +15,6 @@ import { fonts, radius, useColors } from "@/theme";
 
 type Tab = "saved" | "liked";
 
-const notify = (title: string, msg: string) => (Platform.OS === "web" ? window.alert(`${title}\n${msg}`) : Alert.alert(title, msg));
 
 export default function Library() {
   const c = useColors();
@@ -38,13 +38,14 @@ export default function Library() {
     const id = parseYouTubeId(link);
     if (!id) {
       haptic.error();
-      notify("Link inválido", "Cole um link do YouTube (youtube.com/watch, youtu.be ou shorts).");
+      toast({ message: "Link inválido. Cole um link do YouTube (watch, youtu.be ou shorts).", icon: "link-variant-off", tone: "error" });
       return;
     }
     const page = PAGES.find((p) => p.id === linkPage)!;
     addCustomVideo({ id: `yt-${id}`, kind: "video", youtubeId: id, pageId: page.id, title: `Vídeo de ${page.name}`, caption: "Adicionado por você", tags: ["meus vídeos"] });
     setLink("");
     haptic.success();
+    toast({ message: `Vídeo adicionado em ${page.name}`, icon: "check-circle", tone: "success" });
   };
 
   const accuracy = quiz.answered ? Math.round((quiz.correct / quiz.answered) * 100) : 0;

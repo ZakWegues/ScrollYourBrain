@@ -17,7 +17,7 @@ export default function Viewer() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
-      <Feed source={source} initialIndex={start} />
+      <Feed source={source} initialIndex={start} bottomInset={insets.bottom + 16} />
       <View style={[styles.top, { paddingTop: insets.top + 8 }]} pointerEvents="box-none">
         <Bouncy onPress={() => (router.canGoBack() ? router.back() : router.replace("/"))} style={styles.back} accessibilityLabel="Voltar">
           <Icon name="chevron-left" size={30} color="#fff" />

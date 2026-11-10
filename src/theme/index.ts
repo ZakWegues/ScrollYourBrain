@@ -57,3 +57,16 @@ export const gradients = {
 
 /** Space reserved at the bottom of screens for the floating tab bar. */
 export const TAB_BAR_SPACE = 104;
+
+/** 4-pt spacing scale. Screens use `space.lg` (16) as the side gutter. */
+export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 } as const;
+
+/** Minimum comfortable touch target. */
+export const TOUCH = 44;
+
+export const motion = {
+  fast: 160,
+  base: 240,
+  slow: 420,
+  spring: { damping: 16, stiffness: 180 },
+} as const;
