@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInDown, FadeInRight, ZoomIn, cancelAnimation, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,9 +11,8 @@ import { ALL_PAGES, buildExam, examAvailability, examPages, examScore } from "@/
 import { createRng } from "@/feed/sources/generators";
 import type { QuizItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
-import { useLibrary } from "@/store/library";
 import { useReview } from "@/store/review";
-import { countStudy, useProgress } from "@/store/progress";
+import { countStudy, trackAnswer, trackTime, useProgress } from "@/store/progress";
 import { radius, useColors } from "@/theme";
 
 const SECONDS = 20;
@@ -47,6 +46,7 @@ export default function Exam() {
   const [elapsed, setElapsed] = useState(0);
   const [newBest, setNewBest] = useState(false);
   const [done, setDone] = useState(false);
+  const lastAt = useRef(0);
 
   const close = () => (router.canGoBack() ? router.back() : router.replace("/explore"));
 
@@ -57,14 +57,17 @@ export default function Exam() {
     setNewBest(false);
     setDone(false);
     setStartedAt(Date.now());
+    lastAt.current = Date.now();
     haptic.medium();
   };
 
   const onAnswer = useCallback((item: QuizItem, picked: number) => {
     const ok = picked === item.answer;
-    useLibrary.getState().recordAnswer(ok);
+    trackAnswer(item, ok);
     useReview.getState().recordQuiz(item, ok);
-    countStudy();
+    countStudy(item.pageId);
+    trackTime(item.pageId, Date.now() - lastAt.current);
+    lastAt.current = Date.now();
     if (ok) haptic.success();
     else haptic.error();
     setAnswers((a) => (a.some((x) => x.item.id === item.id) ? a : [...a, { item, picked }]));
@@ -74,6 +77,7 @@ export default function Exam() {
     const score = examScore(list.filter((a) => a.picked === a.item.answer).length, list.length);
     setElapsed(Date.now() - startedAt);
     setNewBest(useProgress.getState().recordExam(settings.pageId, score));
+    useProgress.getState().logEvent(undefined, { exams: 1 });
     setDone(true);
   };
 

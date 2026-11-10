@@ -13,6 +13,7 @@ import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
 import { SheetsHost } from "@/components/Sheets";
 import { ToastHost } from "@/components/Toast";
+import { useAchievementWatcher } from "@/store/achievementWatcher";
 import { useStoresHydrated } from "@/store/hydration";
 import { useSettings } from "@/store/settings";
 import { useColors } from "@/theme";
@@ -30,6 +31,7 @@ export default function RootLayout() {
     ...MaterialCommunityIcons.font,
   });
   const hydrated = useStoresHydrated();
+  useAchievementWatcher(hydrated);
   const c = useColors();
   const reduceMotion = useSettings((s) => s.reduceMotion);
   const [splashDone, setSplashDone] = useState(false);
@@ -64,6 +66,8 @@ export default function RootLayout() {
           <Stack.Screen name="review" options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="import" options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="notebook/[id]" />
+          <Stack.Screen name="stats" />
+          <Stack.Screen name="achievements" />
         </Stack>
         <SheetsHost />
         <ToastHost />

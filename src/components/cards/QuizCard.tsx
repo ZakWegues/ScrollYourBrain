@@ -5,7 +5,7 @@ import type { QuizItem } from "@/feed/types";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Icon } from "@/components/ui";
 import { haptic } from "@/lib/haptics";
-import { useLibrary } from "@/store/library";
+import { trackAnswer } from "@/store/progress";
 import { useReview } from "@/store/review";
 import { radius, TAB_BAR_SPACE, useColors } from "@/theme";
 import { Backdrop } from "./Backdrop";
@@ -13,14 +13,13 @@ import type { CardProps } from "./types";
 
 export function QuizCard({ item, active, onStudied }: CardProps<QuizItem>) {
   const c = useColors();
-  const recordAnswer = useLibrary((s) => s.recordAnswer);
   const [picked, setPicked] = useState<number | null>(null);
 
   const choose = (i: number) => {
     if (picked !== null) return;
     setPicked(i);
     const ok = i === item.answer;
-    recordAnswer(ok);
+    trackAnswer(item, ok);
     useReview.getState().recordQuiz(item, ok);
     onStudied?.();
     if (ok) haptic.success();

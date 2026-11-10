@@ -6,6 +6,7 @@ import { ItemTile, preview } from "@/components/ItemTile";
 import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { openNote } from "@/components/Sheets";
 import { StreakCard } from "@/components/StreakCard";
+import { WeeklyChallenge } from "@/components/WeeklyChallenge";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, PageAvatar, Segmented, type IconName } from "@/components/ui";
 import { PAGES, getPage } from "@/data/pages";
@@ -16,6 +17,8 @@ import { haptic } from "@/lib/haptics";
 import { useLibrary, type Snapshot } from "@/store/library";
 import { NOTEBOOK_COLORS, useNotebooks } from "@/store/notebooks";
 import { useDueCount, useReview } from "@/store/review";
+import { useProgress } from "@/store/progress";
+import { ACHIEVEMENTS } from "@/lib/achievements";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
 
 type Tab = "saved" | "liked" | "notebooks" | "notes";
@@ -25,8 +28,6 @@ export default function Library() {
   const [tab, setTab] = useState<Tab>("saved");
   const saved = useLibrary((s) => s.saved);
   const liked = useLibrary((s) => s.liked);
-  const quiz = useLibrary((s) => s.quiz);
-  const followedCount = useLibrary((s) => Object.keys(s.followed).length);
   const openViewer = useViewer((s) => s.open);
 
   const items = useMemo(() => {
@@ -34,7 +35,6 @@ export default function Library() {
     return Object.values(record).sort((a, b) => b.at - a.at).map((s) => s.item);
   }, [tab, saved, liked]);
 
-  const accuracy = quiz.answered ? Math.round((quiz.correct / quiz.answered) * 100) : 0;
   const open = (list: StudyItem[], i: number, title: string) => {
     openViewer(list, i, title);
     router.push("/viewer");
@@ -53,12 +53,9 @@ export default function Library() {
       <ReviewCard />
       <View style={{ height: space.md }} />
       <StreakCard />
-      <View style={[styles.stats, { marginTop: space.md }]}>
-        <Stat icon="bookmark" color={c.save} value={Object.keys(saved).length} label="Salvos" />
-        <Stat icon="heart" color={c.like} value={Object.keys(liked).length} label="Curtidos" />
-        <Stat icon="account-heart" color={c.accent} value={followedCount} label="Seguindo" />
-        <Stat icon="target" color="#FB923C" value={`${accuracy}%`} label="Acertos" />
-      </View>
+      <QuickLinks />
+      <View style={{ height: space.md }} />
+      <WeeklyChallenge />
 
       <View style={{ marginTop: space.xl, marginBottom: space.md }}>
         <Segmented<Tab>
@@ -89,6 +86,29 @@ export default function Library() {
 
       <AddVideo />
     </Screen>
+  );
+}
+
+function QuickLinks() {
+  const c = useColors();
+  const unlocked = useProgress((s) => Object.keys(s.achievements).length);
+  return (
+    <View style={[styles.links, { marginTop: space.md }]}>
+      <Bouncy onPress={() => router.push("/stats")} scaleTo={0.97} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel="Abrir estatísticas" testID="stats-link">
+        <Icon name="chart-box-outline" size={22} color={c.accent2} />
+        <View style={{ flex: 1 }}>
+          <AppText variant="label">Estatísticas</AppText>
+          <AppText variant="caption" dim>Tempo e precisão</AppText>
+        </View>
+      </Bouncy>
+      <Bouncy onPress={() => router.push("/achievements")} scaleTo={0.97} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel="Abrir conquistas" testID="achievements-link">
+        <Icon name="trophy-outline" size={22} color={c.save} />
+        <View style={{ flex: 1 }}>
+          <AppText variant="label">Conquistas</AppText>
+          <AppText variant="caption" dim>{unlocked}/{ACHIEVEMENTS.length} medalhas</AppText>
+        </View>
+      </Bouncy>
+    </View>
   );
 }
 
@@ -258,23 +278,12 @@ function EmptyState({ icon, title, text }: { icon: IconName; title: string; text
   );
 }
 
-function Stat({ icon, color, value, label }: { icon: IconName; color: string; value: number | string; label: string }) {
-  const c = useColors();
-  return (
-    <View style={[styles.stat, { backgroundColor: c.surface, borderColor: c.border }]}>
-      <Icon name={icon} size={18} color={color} />
-      <AppText variant="headline" style={{ marginTop: space.xs }}>{String(value)}</AppText>
-      <AppText variant="caption" dim numberOfLines={1}>{label}</AppText>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   headerBtn: { width: TOUCH, height: TOUCH, borderRadius: TOUCH / 2, alignItems: "center", justifyContent: "center", borderWidth: StyleSheet.hairlineWidth },
   review: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.lg, borderRadius: radius.lg, overflow: "hidden" },
   reviewIcon: { width: 48, height: 48, borderRadius: 24, alignItems: "center", justifyContent: "center" },
-  stats: { flexDirection: "row", gap: space.sm },
-  stat: { flex: 1, padding: space.md, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth },
+  links: { flexDirection: "row", gap: space.sm },
+  link: { flex: 1, flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, minHeight: 64 },
   empty: { alignItems: "center", padding: space.xl, borderRadius: radius.lg, borderWidth: 1, borderStyle: "dashed" },
   inputRow: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingLeft: space.md, height: 52, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, marginBottom: space.md },
   input: { flex: 1, fontSize: 15, height: "100%", outlineStyle: "none" } as object,

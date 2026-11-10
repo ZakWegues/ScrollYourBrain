@@ -5,7 +5,7 @@ import { useIsFocused } from "expo-router";
 import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
-import { countStudy } from "@/store/progress";
+import { countStudy, trackTime } from "@/store/progress";
 import { useColors } from "@/theme";
 import { FeedItem } from "./FeedItem";
 
@@ -73,17 +73,24 @@ export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset
     (key: string) => {
       if (studied.has(key)) return;
       studied.add(key);
-      countStudy();
+      countStudy(entries.find((e) => e.key === key)?.item.pageId);
     },
-    [studied],
+    [studied, entries],
   );
 
-  const activeKey = entries[active]?.key;
+  const activeEntry = entries[active];
+  const activeKey = activeEntry?.key;
+  const activePage = activeEntry?.item.pageId;
   useEffect(() => {
-    if (!playing || !activeKey) return;
+    if (!playing || !activeKey || !activePage) return;
+    const startedAt = Date.now();
     const id = setTimeout(() => onStudied(activeKey), DWELL_MS);
-    return () => clearTimeout(id);
-  }, [playing, activeKey, onStudied]);
+    // Time on screen counts toward statistics until the card changes or the feed loses focus.
+    return () => {
+      clearTimeout(id);
+      trackTime(activePage, Date.now() - startedAt);
+    };
+  }, [playing, activeKey, activePage, onStudied]);
 
   return (
     <View style={[styles.fill, { backgroundColor: c.bg }]} onLayout={(e) => setHeight(Math.round(e.nativeEvent.layout.height))}>

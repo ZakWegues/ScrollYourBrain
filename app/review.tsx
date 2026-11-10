@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeInDown, FadeInRight, ZoomIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,9 +10,8 @@ import { getPage } from "@/data/pages";
 import type { StudyItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
 import { GRADES, nextLabel, type Grade } from "@/lib/srs";
-import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
-import { countStudy } from "@/store/progress";
+import { countStudy, trackAnswer, trackTime, useProgress } from "@/store/progress";
 import { dueCards, useReview } from "@/store/review";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
@@ -22,6 +21,14 @@ const GRADE_UI: Record<Grade, { label: string; color: string }> = {
   good: { label: "Bom", color: "#22D3EE" },
   easy: { label: "Fácil", color: "#34D399" },
 };
+
+/** Milliseconds since the ref's last mark, then moves the mark to now. */
+function lap(ref: { current: number }): number {
+  const now = Date.now();
+  const elapsed = now - ref.current;
+  ref.current = now;
+  return elapsed;
+}
 
 export default function Review() {
   const c = useColors();
@@ -34,6 +41,10 @@ export default function Review() {
   const [stats, setStats] = useState({ done: 0, right: 0 });
   const cards = useReview((s) => s.cards);
   const total = useMemo(() => new Set(queue).size, [queue]);
+  const shownAt = useRef(0);
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   const close = () => (router.canGoBack() ? router.back() : router.replace("/library"));
   const id = queue[pos];
@@ -44,7 +55,9 @@ export default function Review() {
   const advance = (grade: Grade) => {
     if (!card) return;
     useReview.getState().grade(card.item.id, grade);
-    countStudy();
+    countStudy(card.item.pageId);
+    useProgress.getState().logEvent(card.item.pageId, { reviews: 1 });
+    trackTime(card.item.pageId, lap(shownAt));
     haptic[grade === "again" ? "error" : "select"]();
     setStats((s) => ({ done: s.done + 1, right: s.right + (grade === "again" ? 0 : 1) }));
     if (grade === "again") setQueue((q) => [...q, card.item.id]);
@@ -57,7 +70,7 @@ export default function Review() {
     if (!card || card.item.kind !== "quiz" || picked !== null) return;
     setPicked(i);
     const ok = i === card.item.answer;
-    useLibrary.getState().recordAnswer(ok);
+    trackAnswer(card.item, ok);
     if (ok) haptic.success();
     else haptic.error();
   };
