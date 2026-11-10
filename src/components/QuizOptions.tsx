@@ -51,7 +51,7 @@ export function QuizOptions({ item, picked, onPick }: Props) {
         );
       })}
       {answered && (
-        <Animated.View entering={FadeInDown.springify().damping(16)}>
+        <Animated.View entering={FadeInDown.springify().damping(26).stiffness(280).mass(1)}>
           <Glass style={styles.explain}>
             <AppText variant="label" style={{ color: right ? c.success : c.danger, marginBottom: 4 }}>{headline}</AppText>
             <AppText dim style={{ fontSize: 14, lineHeight: 20 }}>{item.explanation}</AppText>

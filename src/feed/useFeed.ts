@@ -6,6 +6,7 @@ import { fetchWikiBatch } from "@/feed/sources/wiki";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
 import { useLibrary } from "@/store/library";
+import { dueCards, useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 
 export type FeedSource =
@@ -46,6 +47,7 @@ function currentSignals(): Signals {
 export function useFeed(source: FeedSource) {
   const followedKey = useLibrary((s) => Object.keys(s.followed).sort().join(","));
   const customVideos = useLibrary((s) => s.customVideos);
+  const customItems = useLibrary((s) => s.customItems);
   const dataSaver = useSettings((s) => s.dataSaver);
 
   const pages = useMemo<PageId[] | undefined>(() => {
@@ -68,7 +70,7 @@ export function useFeed(source: FeedSource) {
       if (source.type === "list") return [];
       if (pages && pages.length === 0) return [];
       const usedWiki = new Set(memory.engine.recent);
-      const pool = [...SEED, ...CURATED_VIDEOS, ...customVideos, ...wikiCache.filter((w) => !usedWiki.has(w.id))];
+      const pool = [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))];
       const items = nextItems(count, {
         pool,
         signals: currentSignals(),
@@ -77,6 +79,13 @@ export function useFeed(source: FeedSource) {
         pages,
         blocked: blockedItems,
       });
+      // One review card that is due today goes near the top of each batch.
+      const recent = new Set(memory.engine.recent);
+      const due = dueCards(useReview.getState().cards).find((c) => !recent.has(c.item.id) && (!pages || pages.includes(c.item.pageId)));
+      if (due && items.length > 1) {
+        items[1] = due.item;
+        memory.engine.recent.push(due.item.id);
+      }
       // Drop served wiki articles from the cache so the next ones are new.
       for (const item of items) {
         const idx = wikiCache.findIndex((w) => w.id === item.id);
@@ -84,7 +93,7 @@ export function useFeed(source: FeedSource) {
       }
       return toEntries(items);
     },
-    [source.type, pages, customVideos, rng, toEntries, memory],
+    [source.type, pages, customVideos, customItems, rng, toEntries, memory],
   );
 
   // First page is built once; callers remount (via `key`) to switch sources.

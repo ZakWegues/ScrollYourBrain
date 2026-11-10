@@ -23,6 +23,8 @@ interface LibraryData {
   pageSkips: Record<PageId, number>;
   quiz: QuizStats;
   customVideos: VideoItem[];
+  /** Cards the user imported (flashcards from pasted text or files). */
+  customItems: StudyItem[];
 }
 
 export interface LibraryState extends LibraryData {
@@ -33,6 +35,8 @@ export interface LibraryState extends LibraryData {
   recordAnswer: (correct: boolean) => void;
   addCustomVideo: (video: VideoItem) => void;
   removeCustomVideo: (id: string) => void;
+  addCustomItems: (items: StudyItem[]) => void;
+  removeCustomItems: (ids: string[]) => void;
   clearHistory: () => void;
   reset: () => void;
 }
@@ -45,6 +49,7 @@ const empty: LibraryData = {
   pageSkips: {},
   quiz: { answered: 0, correct: 0, streak: 0, best: 0 },
   customVideos: [],
+  customItems: [],
 };
 
 const without = <T,>(record: Record<string, T>, key: string) => {
@@ -86,9 +91,16 @@ export const useLibrary = create<LibraryState>()(
       addCustomVideo: (video) =>
         set((s) => ({ customVideos: [video, ...s.customVideos.filter((v) => v.youtubeId !== video.youtubeId)] })),
       removeCustomVideo: (id) => set((s) => ({ customVideos: s.customVideos.filter((v) => v.id !== id) })),
+      addCustomItems: (items) => set((s) => ({ customItems: [...items, ...s.customItems] })),
+      removeCustomItems: (ids) => set((s) => ({ customItems: s.customItems.filter((i) => !ids.includes(i.id)) })),
       clearHistory: () => set({ pageLikes: {}, pageSkips: {}, quiz: empty.quiz }),
       reset: () => set(empty),
     }),
-    { name: "syb-library", storage: persistStorage, version: 1 },
+    {
+      name: "syb-library",
+      storage: persistStorage,
+      version: 2,
+      migrate: (persisted) => ({ ...empty, ...(persisted as object) }),
+    },
   ),
 );

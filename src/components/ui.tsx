@@ -56,23 +56,24 @@ export function Bouncy({ children, style, scaleTo = 0.92, ...rest }: Omit<Pressa
     <AnimatedPressable
       {...rest}
       style={[style, anim]}
-      onPressIn={(e) => { scale.set(withSpring(scaleTo, { damping: 18, stiffness: 420 })); rest.onPressIn?.(e); }}
-      onPressOut={(e) => { scale.set(withSpring(1, { damping: 12, stiffness: 320 })); rest.onPressOut?.(e); }}
+      onPressIn={(e) => { scale.set(withSpring(scaleTo, { mass: 1, damping: 18, stiffness: 420 })); rest.onPressIn?.(e); }}
+      onPressOut={(e) => { scale.set(withSpring(1, { mass: 1, damping: 20, stiffness: 380 })); rest.onPressOut?.(e); }}
     >
       {children}
     </AnimatedPressable>
   );
 }
 
-export function Segmented<T extends string>({ value, options, onChange }: { value: T; options: { value: T; label: string }[]; onChange: (v: T) => void }) {
+/** Pill switcher. `fill` stretches it to the full width with equal segments. */
+export function Segmented<T extends string>({ value, options, onChange, fill }: { value: T; options: { value: T; label: string }[]; onChange: (v: T) => void; fill?: boolean }) {
   const c = useColors();
   return (
-    <View style={[styles.segment, { backgroundColor: c.surface2, borderColor: c.border }]}>
+    <View style={[styles.segment, fill && styles.segmentFill, { backgroundColor: c.surface2, borderColor: c.border }]}>
       {options.map((o) => {
         const on = o.value === value;
         return (
-          <Pressable key={o.value} onPress={() => onChange(o.value)} style={[styles.segmentItem, on && { backgroundColor: c.text }]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
-            <AppText variant="label" style={{ color: on ? c.bg : c.textDim }}>{o.label}</AppText>
+          <Pressable key={o.value} onPress={() => onChange(o.value)} style={[styles.segmentItem, fill && styles.segmentItemFill, on && { backgroundColor: c.text }]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
+            <AppText variant="label" numberOfLines={1} style={{ color: on ? c.bg : c.textDim }}>{o.label}</AppText>
           </Pressable>
         );
       })}
@@ -107,6 +108,8 @@ const styles = StyleSheet.create({
   under: { zIndex: -1 },
   segment: { flexDirection: "row", borderRadius: radius.pill, padding: 4, borderWidth: StyleSheet.hairlineWidth, alignSelf: "flex-start" },
   segmentItem: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: radius.pill },
+  segmentFill: { alignSelf: "stretch" },
+  segmentItemFill: { flex: 1, alignItems: "center", paddingHorizontal: 4 },
   chip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 14, paddingVertical: 9, borderRadius: radius.pill, borderWidth: 1 },
   gradBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingHorizontal: 20, paddingVertical: 13, borderRadius: radius.pill },
 });

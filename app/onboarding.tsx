@@ -54,7 +54,7 @@ export default function Onboarding() {
       {step === 0 ? (
         <Animated.View key="topics" entering={FadeInRight} exiting={FadeOutLeft} style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={{ paddingTop: insets.top + 44, paddingHorizontal: 16, paddingBottom: 140 }} showsVerticalScrollIndicator={false}>
-            <Animated.View entering={ZoomIn.springify().damping(14)} style={{ alignSelf: "center" }}>
+            <Animated.View entering={ZoomIn.springify().damping(26).stiffness(280).mass(1)} style={{ alignSelf: "center" }}>
               <LogoMark size={84} />
             </Animated.View>
             <AppText variant="display" style={styles.center}>O que você quer aprender?</AppText>
@@ -65,7 +65,7 @@ export default function Onboarding() {
               {PAGES.map((p, i) => {
                 const on = picked.includes(p.id);
                 return (
-                  <Animated.View key={p.id} entering={FadeInDown.delay(80 + i * 35).springify().damping(16)} style={styles.cell}>
+                  <Animated.View key={p.id} entering={FadeInDown.delay(80 + i * 35).springify().damping(26).stiffness(280).mass(1)} style={styles.cell}>
                     <Bouncy
                       onPress={() => toggle(p.id)}
                       scaleTo={0.94}
@@ -79,7 +79,7 @@ export default function Onboarding() {
                       <Icon name={p.icon as IconName} size={28} color={on ? "#fff" : p.colors[1]} />
                       <AppText variant="label" style={{ marginTop: 8, color: on ? "#fff" : c.text }} numberOfLines={1}>{p.name}</AppText>
                       {on && (
-                        <Animated.View entering={ZoomIn.springify()} style={styles.check}>
+                        <Animated.View entering={ZoomIn.springify().damping(18).stiffness(320).mass(1)} style={styles.check}>
                           <Icon name="check" size={14} color="#000" />
                         </Animated.View>
                       )}
@@ -108,7 +108,7 @@ export default function Onboarding() {
           {GOALS.map((g, i) => {
             const on = g.value === goal;
             return (
-              <Animated.View key={g.value} entering={FadeInDown.delay(i * 60).springify().damping(16)}>
+              <Animated.View key={g.value} entering={FadeInDown.delay(i * 60).springify().damping(26).stiffness(280).mass(1)}>
                 <Bouncy
                   onPress={() => { setGoal(g.value); haptic.select(); }}
                   scaleTo={0.97}

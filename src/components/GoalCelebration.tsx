@@ -56,7 +56,7 @@ export function GoalCelebration() {
       <View style={styles.center} pointerEvents="none">
         {!reduceMotion && particles.map((p, i) => <Particle key={i} {...p} />)}
       </View>
-      <Animated.View entering={ZoomIn.springify().damping(12)} style={styles.card}>
+      <Animated.View entering={ZoomIn.springify().damping(18).stiffness(260).mass(1)} style={styles.card}>
         <Icon name="fire" size={64} color="#FB923C" />
         <AppText variant="title" style={{ textAlign: "center", marginTop: 6 }}>Meta do dia batida!</AppText>
         <AppText dim style={{ textAlign: "center", marginTop: 6 }}>

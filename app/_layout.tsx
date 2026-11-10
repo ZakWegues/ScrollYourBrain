@@ -11,6 +11,7 @@ import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
+import { SheetsHost } from "@/components/Sheets";
 import { ToastHost } from "@/components/Toast";
 import { useStoresHydrated } from "@/store/hydration";
 import { useSettings } from "@/store/settings";
@@ -60,7 +61,11 @@ export default function RootLayout() {
           <Stack.Screen name="viewer" options={{ animation: "fade_from_bottom" }} />
           <Stack.Screen name="onboarding" options={{ animation: "fade", gestureEnabled: false }} />
           <Stack.Screen name="exam" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="review" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="import" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="notebook/[id]" />
         </Stack>
+        <SheetsHost />
         <ToastHost />
         <GoalCelebration />
         {!splashDone && <AnimatedSplash bg={c.bg} onDone={finishSplash} reduceMotion={reduceMotion} />}

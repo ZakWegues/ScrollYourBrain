@@ -23,12 +23,13 @@ export default function PageScreen() {
   const following = useLibrary((s) => !!s.followed[page.id]);
   const likes = useLibrary((s) => s.pageLikes[page.id] ?? 0);
   const customVideos = useLibrary((s) => s.customVideos);
+  const customItems = useLibrary((s) => s.customItems);
   const toggleFollow = useLibrary((s) => s.toggleFollow);
   const openViewer = useViewer((s) => s.open);
 
   const items = useMemo(
-    () => [...CURATED_VIDEOS, ...customVideos, ...SEED].filter((i) => i.pageId === page.id),
-    [page.id, customVideos],
+    () => [...CURATED_VIDEOS, ...customVideos, ...customItems, ...SEED].filter((i) => i.pageId === page.id),
+    [page.id, customVideos, customItems],
   );
 
   const watch = (start = 0) => {

@@ -15,8 +15,8 @@ export function AnimatedSplash({ bg, onDone, reduceMotion }: { bg: string; onDon
       fade.value = withTiming(0, { duration: 200 }, (ok) => ok && runOnJS(onDone)());
       return;
     }
-    mark.value = withSequence(withTiming(0.88, { duration: 160, easing: Easing.out(Easing.quad) }), withSpring(1.06, { damping: 9, stiffness: 180 }));
-    word.value = withDelay(220, withSpring(1, { damping: 16, stiffness: 140 }));
+    mark.value = withSequence(withTiming(0.88, { duration: 160, easing: Easing.out(Easing.quad) }), withSpring(1.06, { mass: 1, damping: 9, stiffness: 180 }));
+    word.value = withDelay(220, withSpring(1, { mass: 1, damping: 16, stiffness: 140 }));
     fade.value = withDelay(820, withTiming(0, { duration: 280, easing: Easing.in(Easing.quad) }, (ok) => ok && runOnJS(onDone)()));
   }, [fade, mark, word, onDone, reduceMotion]);
 

@@ -12,6 +12,7 @@ import { createRng } from "@/feed/sources/generators";
 import type { QuizItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
+import { useReview } from "@/store/review";
 import { countStudy, useProgress } from "@/store/progress";
 import { radius, useColors } from "@/theme";
 
@@ -62,6 +63,7 @@ export default function Exam() {
   const onAnswer = useCallback((item: QuizItem, picked: number) => {
     const ok = picked === item.answer;
     useLibrary.getState().recordAnswer(ok);
+    useReview.getState().recordQuiz(item, ok);
     countStudy();
     if (ok) haptic.success();
     else haptic.error();
@@ -122,7 +124,7 @@ function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: 
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 120 }} showsVerticalScrollIndicator={false}>
-      <Animated.View entering={ZoomIn.springify().damping(14)} style={[styles.hero, { backgroundColor: c.surface, borderColor: c.border }]}>
+      <Animated.View entering={ZoomIn.springify().damping(26).stiffness(280).mass(1)} style={[styles.hero, { backgroundColor: c.surface, borderColor: c.border }]}>
         <Icon name="timer-outline" size={44} color={c.accent2} />
         <AppText variant="title" style={{ marginTop: 8, textAlign: "center" }}>Teste o que você aprendeu</AppText>
         <AppText dim style={{ textAlign: "center", marginTop: 4 }}>Só quizzes, sem distrações. No fim você vê a nota e revisa os erros.</AppText>
@@ -223,7 +225,7 @@ function Run({ questions, answers, timed, onAnswer, onDone }: { questions: QuizI
         )}
       </View>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 110 }} showsVerticalScrollIndicator={false}>
-        <Animated.View key={item.id} entering={FadeInRight.springify().damping(18)}>
+        <Animated.View key={item.id} entering={FadeInRight.springify().damping(26).stiffness(280).mass(1)}>
           <AppText variant="title" style={{ fontSize: 24, lineHeight: 30, marginBottom: 18 }} testID="exam-question">{item.question}</AppText>
           <QuizOptions item={item} picked={picked} onPick={(i) => picked === null && onAnswer(item, i)} />
         </Animated.View>
@@ -248,7 +250,7 @@ function Result({ answers, elapsed, newBest, best, pageId, onRetry, onClose }: {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32 }} showsVerticalScrollIndicator={false}>
-      <Animated.View entering={ZoomIn.springify().damping(12)} style={styles.scoreBox}>
+      <Animated.View entering={ZoomIn.springify().damping(18).stiffness(260).mass(1)} style={styles.scoreBox}>
         <Icon name={mood.icon} size={52} color={mood.color} />
         <AppText variant="display" style={{ fontSize: 64, lineHeight: 70, marginTop: 6 }} testID="exam-score">{score}%</AppText>
         <AppText variant="headline">{mood.text}</AppText>

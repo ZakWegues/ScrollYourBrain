@@ -39,7 +39,7 @@ export function ToastHost() {
   const tint = current.tone === "success" ? c.success : current.tone === "error" ? c.danger : c.text;
   return (
     <View style={[styles.wrap, { bottom: TAB_BAR_SPACE + insets.bottom + space.sm }]} pointerEvents="box-none">
-      <Animated.View key={current.id} entering={FadeInDown.springify().damping(18)} exiting={FadeOutDown.duration(160)}>
+      <Animated.View key={current.id} entering={FadeInDown.springify().damping(26).stiffness(280).mass(1)} exiting={FadeOutDown.duration(160)}>
         <Glass style={[styles.toast, { borderColor: c.border }]} intensity={60}>
           {current.icon && <Icon name={current.icon} size={20} color={tint} />}
           <AppText variant="label" style={{ flex: 1 }} numberOfLines={2} accessibilityLiveRegion="polite">{current.message}</AppText>

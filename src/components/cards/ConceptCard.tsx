@@ -46,7 +46,7 @@ export function ConceptCard({ item, active, tapNonce, onStudied }: CardProps<Con
   }, [active, paused, step, steps, progress]);
 
   const bar = useAnimatedStyle(() => ({ width: `${progress.value * 100}%` }));
-  const enter = reduceMotion ? FadeIn.duration(150) : FadeInDown.springify().damping(16).stiffness(140);
+  const enter = reduceMotion ? FadeIn.duration(150) : FadeInDown.springify().damping(16).mass(1).stiffness(140);
   const done = step >= steps - 1;
 
   useEffect(() => {

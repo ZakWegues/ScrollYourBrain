@@ -7,7 +7,9 @@ import { AppText, Bouncy, Chip, Icon, type IconName } from "@/components/ui";
 import { PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
+import { useNotebooks } from "@/store/notebooks";
 import { useProgress } from "@/store/progress";
+import { useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 import { getColors, radius, useColors, type ThemeMode } from "@/theme";
 
@@ -128,7 +130,7 @@ export default function Settings() {
           <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="refresh" size={18} color={c.text} /></View>
           <AppText variant="label" style={{ flex: 1 }}>Limpar histórico do feed</AppText>
         </Bouncy>
-        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, páginas seguidas, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); s.reset(); haptic.success(); })}>
+        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); s.reset(); haptic.success(); })}>
           <View style={[styles.rowIcon, { backgroundColor: "rgba(244,63,94,0.15)" }]}><Icon name="trash-can-outline" size={18} color={c.danger} /></View>
           <AppText variant="label" style={{ flex: 1, color: c.danger }}>Apagar todos os dados</AppText>
         </Bouncy>

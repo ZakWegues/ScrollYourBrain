@@ -7,7 +7,11 @@ import { getPage } from "@/data/pages";
 import type { FeedEntry, ItemKind, StudyItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
+import { useNotebooks } from "@/store/notebooks";
+import { useReview } from "@/store/review";
+import { isDue } from "@/lib/srs";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
+import { openNote, openNotebookPicker } from "./Sheets";
 import { toast } from "./Toast";
 import { AppText, Bouncy, Icon, PageAvatar, type IconName } from "./ui";
 import { ConceptCard } from "./cards/ConceptCard";
@@ -42,7 +46,7 @@ function RailButton({ icon, label, color, onPress, active, testID }: { icon: Ico
   return (
     <Bouncy
       onPress={() => {
-        pop.set(withSequence(withSpring(1.28, { damping: 8, stiffness: 500 }), withSpring(1, { damping: 10, stiffness: 300 })));
+        pop.set(withSequence(withSpring(1.28, { mass: 1, damping: 8, stiffness: 500 }), withSpring(1, { mass: 1, damping: 10, stiffness: 300 })));
         onPress();
       }}
       style={styles.railBtn}
@@ -52,7 +56,7 @@ function RailButton({ icon, label, color, onPress, active, testID }: { icon: Ico
       testID={testID}
     >
       <Animated.View style={[styles.railIcon, style]}>
-        <Icon name={icon} size={30} color={color} />
+        <Icon name={icon} size={28} color={color} />
       </Animated.View>
       <AppText variant="caption" style={styles.railLabel}>{label}</AppText>
     </Bouncy>
@@ -87,6 +91,8 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
   const liked = useLibrary((s) => !!s.liked[item.id]);
   const saved = useLibrary((s) => !!s.saved[item.id]);
   const following = useLibrary((s) => !!s.followed[item.pageId]);
+  const hasNote = useNotebooks((s) => !!s.notes[item.id]);
+  const inReview = useReview((s) => (s.cards[item.id] ? isDue(s.cards[item.id].srs) : false));
   const { toggleLike, toggleSave, toggleFollow } = useLibrary.getState();
   const [tapNonce, setTapNonce] = useState(0);
   const [burst, setBurst] = useState<{ x: number; y: number; id: number; tilt: number } | null>(null);
@@ -140,7 +146,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
             accessibilityLabel={following ? `Deixar de seguir ${page.name}` : `Seguir ${page.name}`}
             testID="follow-button"
           >
-            <Animated.View key={String(following)} entering={ZoomIn.springify()}>
+            <Animated.View key={String(following)} entering={ZoomIn.springify().damping(18).stiffness(320).mass(1)}>
               <Icon name={following ? "check" : "plus"} size={14} color={following ? c.bg : "#fff"} />
             </Animated.View>
           </Bouncy>
@@ -156,12 +162,13 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
             toast({
               message: now ? "Salvo na Biblioteca" : "Removido dos salvos",
               icon: now ? "bookmark-check" : "bookmark-remove-outline",
-              action: { label: "Desfazer", onPress: () => toggleSave(item) },
+              action: now ? { label: "Caderno", onPress: () => openNotebookPicker(item) } : { label: "Desfazer", onPress: () => toggleSave(item) },
             });
           }}
           active={saved}
           testID="save-button"
         />
+        <RailButton icon={hasNote ? "note-text" : "note-edit-outline"} color={hasNote ? c.accent2 : "#fff"} label="Nota" onPress={() => openNote(item)} active={hasNote} testID="note-button" />
         <RailButton icon="share-variant" color="#fff" label="Enviar" onPress={() => Share.share({ message: shareText(item) }).catch(() => {})} />
       </View>
 
@@ -176,6 +183,12 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
             <Icon name={KIND_LABEL[item.kind].icon} size={13} color={c.text} />
             <AppText variant="caption">{KIND_LABEL[item.kind].label}</AppText>
           </View>
+          {inReview && (
+            <View style={[styles.kind, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.16)" }]}>
+              <Icon name="history" size={13} color={c.save} />
+              <AppText variant="caption" style={{ color: c.save }}>Revisão</AppText>
+            </View>
+          )}
           <AppText variant="label" numberOfLines={1} style={{ flex: 1 }}>{item.title}</AppText>
         </View>
       </View>
@@ -188,8 +201,8 @@ function HeartBurst({ x, y, tilt }: { x: number; y: number; tilt: number }) {
   const scale = useSharedValue(0.2);
   const opacity = useSharedValue(1);
   useEffect(() => {
-    scale.value = withSequence(withSpring(1.15, { damping: 7, stiffness: 300 }), withTiming(1.4, { duration: 380 }));
-    opacity.value = withSequence(withTiming(1, { duration: 420 }), withTiming(0, { duration: 260 }));
+    scale.set(withSequence(withSpring(1.15, { mass: 1, damping: 7, stiffness: 300 }), withTiming(1.4, { duration: 380 })));
+    opacity.set(withSequence(withTiming(1, { duration: 420 }), withTiming(0, { duration: 260 })));
   }, [scale, opacity]);
   const style = useAnimatedStyle(() => ({ opacity: opacity.value, transform: [{ scale: scale.value }, { rotate: `${tilt}deg` }] }));
   return (
@@ -203,7 +216,7 @@ function HeartBurst({ x, y, tilt }: { x: number; y: number; tilt: number }) {
 const webSnap = Platform.OS === "web" ? ({ scrollSnapAlign: "start", scrollSnapStop: "always" } as object) : null;
 
 const styles = StyleSheet.create({
-  rail: { position: "absolute", right: 8, alignItems: "center", gap: 14 },
+  rail: { position: "absolute", right: 8, alignItems: "center", gap: 10 },
   avatarWrap: { marginBottom: 8, alignItems: "center" },
   follow: { position: "absolute", bottom: -9, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
   railBtn: { alignItems: "center", minWidth: 60 },

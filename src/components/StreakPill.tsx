@@ -22,7 +22,7 @@ export function StreakPill() {
 
   useEffect(() => {
     fill.set(withTiming(Math.min(count / goal, 1), { duration: 450 }));
-    if (count > 0) bump.set(withSequence(withSpring(1.12, { damping: 8, stiffness: 400 }), withSpring(1)));
+    if (count > 0) bump.set(withSequence(withSpring(1.12, { mass: 1, damping: 10, stiffness: 400 }), withSpring(1, { mass: 1, damping: 18, stiffness: 300 })));
   }, [count, goal, fill, bump]);
 
   const ring = useAnimatedProps(() => ({ strokeDashoffset: CIRC * (1 - fill.value) }));

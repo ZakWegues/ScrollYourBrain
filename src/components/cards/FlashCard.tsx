@@ -1,10 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { getPage } from "@/data/pages";
 import type { FlashItem } from "@/feed/types";
-import { AppText, Icon } from "@/components/ui";
+import { toast } from "@/components/Toast";
+import { AppText, Bouncy, Icon } from "@/components/ui";
+import { useReview } from "@/store/review";
 import { haptic } from "@/lib/haptics";
 import { useSettings } from "@/store/settings";
 import { radius, useColors } from "@/theme";
@@ -66,6 +68,38 @@ export function FlashCard({ item, active, tapNonce, onStudied }: CardProps<Flash
             <AppText variant="headline" style={{ textAlign: "center", fontSize: 22, lineHeight: 30 }}>{item.back}</AppText>
           </Animated.View>
         </View>
+        {flipped && (
+          <Animated.View entering={FadeInDown.springify().damping(26).stiffness(280).mass(1)} style={styles.actions}>
+            <Bouncy
+              onPress={() => {
+                const review = useReview.getState();
+                if (review.cards[item.id]) review.grade(item.id, "again");
+                else review.add(item);
+                haptic.light();
+                toast({ message: "Vai voltar na sua revisão", icon: "history" });
+              }}
+              style={[styles.action, { borderColor: c.border, backgroundColor: c.glass }]}
+              accessibilityLabel="Revisar depois"
+              testID="flash-review"
+            >
+              <Icon name="history" size={18} color={c.save} />
+              <AppText variant="label">Revisar</AppText>
+            </Bouncy>
+            <Bouncy
+              onPress={() => {
+                const review = useReview.getState();
+                if (review.cards[item.id]) review.grade(item.id, "good");
+                haptic.success();
+                toast({ message: "Boa! Siga em frente", icon: "check-circle", tone: "success" });
+              }}
+              style={[styles.action, { borderColor: c.border, backgroundColor: c.glass }]}
+              accessibilityLabel="Já sei"
+            >
+              <Icon name="check-circle-outline" size={18} color={c.success} />
+              <AppText variant="label">Já sei</AppText>
+            </Bouncy>
+          </Animated.View>
+        )}
       </View>
     </View>
   );
@@ -76,5 +110,7 @@ const styles = StyleSheet.create({
   cardBox: { aspectRatio: 0.78, maxHeight: 460, width: "100%", alignSelf: "center" },
   face: { ...StyleSheet.absoluteFill, borderRadius: radius.xl, borderWidth: 1, padding: 24, justifyContent: "center", overflow: "hidden", backfaceVisibility: "hidden" },
   kicker: { position: "absolute", top: 22, left: 24, right: 24, letterSpacing: 1.6 },
+  actions: { flexDirection: "row", gap: 10, marginTop: 14, alignSelf: "center" },
+  action: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 18, height: 44, borderRadius: 22, borderWidth: 1 },
   flipHint: { position: "absolute", bottom: 20, alignSelf: "center", flexDirection: "row", alignItems: "center", gap: 6 },
 });

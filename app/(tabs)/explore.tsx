@@ -24,7 +24,8 @@ export default function Explore() {
   const toggleFollow = useLibrary((s) => s.toggleFollow);
   const openViewer = useViewer((s) => s.open);
 
-  const pool = useMemo(() => [...SEED, ...CURATED_VIDEOS, ...customVideos], [customVideos]);
+  const customItems = useLibrary((s) => s.customItems);
+  const pool = useMemo(() => [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems], [customVideos, customItems]);
   const results = useMemo(() => searchItems(pool, query), [pool, query]);
   const pageResults = useMemo(() => {
     const q = normalize(query.trim());
