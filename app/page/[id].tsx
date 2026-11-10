@@ -7,7 +7,7 @@ import { ItemTile } from "@/components/ItemTile";
 import { Grid } from "@/components/Screen";
 import { AppText, Bouncy, GradientButton, Icon, type IconName } from "@/components/ui";
 import { getPage } from "@/data/pages";
-import { SEED } from "@/feed/sources/seed";
+import { CONTENT } from "@/feed/sources/library";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import { examAvailability, MIN_EXAM_QUESTIONS } from "@/feed/exam";
 import { useViewer } from "@/feed/viewer";
@@ -28,7 +28,7 @@ export default function PageScreen() {
   const openViewer = useViewer((s) => s.open);
 
   const items = useMemo(
-    () => [...CURATED_VIDEOS, ...customVideos, ...customItems, ...SEED].filter((i) => i.pageId === page.id),
+    () => [...CURATED_VIDEOS, ...customVideos, ...customItems, ...CONTENT].filter((i) => i.pageId === page.id),
     [page.id, customVideos, customItems],
   );
 

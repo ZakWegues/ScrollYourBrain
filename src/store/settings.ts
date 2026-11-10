@@ -23,6 +23,8 @@ export interface SettingsState {
   autoSpeak: boolean;
   /** Daily reminder time as minutes after midnight, or null when off. */
   reminder: number | null;
+  /** Ensino médio série (1, 2 or 3); null shows content from every série. */
+  serie: 1 | 2 | 3 | null;
   set: (patch: Partial<Omit<SettingsState, "set" | "toggleInterest" | "reset">>) => void;
   toggleInterest: (id: PageId) => void;
   reset: () => void;
@@ -42,6 +44,7 @@ const defaults = {
   highContrast: false,
   autoSpeak: false,
   reminder: null as number | null,
+  serie: null as 1 | 2 | 3 | null,
 };
 
 export const useSettings = create<SettingsState>()(
@@ -57,7 +60,7 @@ export const useSettings = create<SettingsState>()(
     {
       name: "syb-settings",
       storage: persistStorage,
-      version: 3,
+      version: 4,
       // v1 had no goal or onboarding flag; existing users keep their settings and see onboarding once.
       migrate: (persisted) => ({ ...defaults, ...(persisted as object) }),
     },

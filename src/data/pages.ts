@@ -11,6 +11,8 @@ export const PAGES: StudyPage[] = [
   { id: "portugues", name: "Português", handle: "@portugues", description: "Gramática, escrita e as armadilhas da língua.", icon: "book-open-variant", colors: ["#F43F5E", "#F97316"] },
   { id: "ingles", name: "Inglês", handle: "@english", description: "Vocabulário e expressões para destravar o inglês.", icon: "translate", colors: ["#3B82F6", "#8B5CF6"] },
   { id: "filosofia", name: "Filosofia", handle: "@filosofia", description: "Grandes perguntas e quem tentou respondê-las.", icon: "head-lightbulb-outline", colors: ["#64748B", "#A78BFA"] },
+  { id: "sociologia", name: "Sociologia", handle: "@sociologia", description: "Sociedade, cultura, trabalho e cidadania.", icon: "account-group", colors: ["#0D9488", "#6366F1"] },
+  { id: "macetes", name: "Macetes de prova", handle: "@macetes", description: "Chute inteligente, gestão de tempo, revisão e pegadinhas.", icon: "lightning-bolt", colors: ["#F59E0B", "#EC4899"] },
   { id: "astronomia", name: "Astronomia", handle: "@cosmos", description: "Estrelas, planetas e o tamanho do cosmos.", icon: "telescope", colors: ["#312E81", "#7C3AED"] },
   { id: "curiosidades", name: "Curiosidades", handle: "@wiki", description: "Um verbete aleatório da Wikipédia a cada scroll.", icon: "lightbulb-on-outline", colors: ["#EAB308", "#F97316"] },
 ];

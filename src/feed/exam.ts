@@ -1,6 +1,6 @@
 import { PAGES } from "@/data/pages";
 import { createRng, generateFor, type Rng } from "@/feed/sources/generators";
-import { SEED } from "@/feed/sources/seed";
+import { CONTENT } from "@/feed/sources/library";
 import type { PageId, QuizItem } from "@/feed/types";
 
 /** Pages whose generator produces quizzes, so their exams can be as long as needed. */
@@ -10,7 +10,7 @@ export const MIN_EXAM_QUESTIONS = 5;
 export const ALL_PAGES = "all";
 
 const seedQuizzes = (pageId?: PageId) =>
-  SEED.filter((i): i is QuizItem => i.kind === "quiz" && (!pageId || i.pageId === pageId));
+  CONTENT.filter((i): i is QuizItem => i.kind === "quiz" && (!pageId || i.pageId === pageId));
 
 const availabilityCache = new Map<string, number>();
 
@@ -47,8 +47,13 @@ function shuffle<T>(list: T[], rng: Rng): T[] {
  * Picks `count` distinct quiz questions for a page (or every page). Hand-written
  * questions come first; generated ones fill the rest when the page has a generator.
  */
-export function buildExam({ pageId, count, rng }: { pageId?: PageId; count: number; rng: Rng }): QuizItem[] {
+export function buildExam({ pageId, count, rng, pool }: { pageId?: PageId; count: number; rng: Rng; pool?: readonly QuizItem[] }): QuizItem[] {
   const picked = new Map<string, QuizItem>();
+  if (pool) {
+    // A study mode supplies its own questions: no topic filter, no generated filler.
+    for (const q of shuffle([...pool], rng)) if (picked.size < count) picked.set(q.id, q);
+    return [...picked.values()];
+  }
   for (const q of shuffle(seedQuizzes(pageId), rng)) {
     if (picked.size >= count) break;
     picked.set(q.id, q);

@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { FadeInDown, FadeInRight, FadeOutLeft, ZoomIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoMark } from "@/components/Logo";
-import { AppText, Bouncy, GradientButton, Icon, type IconName } from "@/components/ui";
+import { AppText, Bouncy, GradientButton, Icon, Segmented, type IconName } from "@/components/ui";
 import { PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
@@ -27,6 +27,7 @@ export default function Onboarding() {
   const [step, setStep] = useState<0 | 1>(0);
   const [picked, setPicked] = useState<string[]>(settings.interests);
   const [goal, setGoal] = useState(settings.dailyGoal);
+  const [serie, setSerie] = useState<string>(String(settings.serie ?? 0));
   const enough = picked.length >= MIN_TOPICS;
 
   const toggle = (id: string) => {
@@ -37,7 +38,7 @@ export default function Onboarding() {
   const finish = () => {
     const lib = useLibrary.getState();
     for (const id of picked) if (!lib.followed[id]) lib.toggleFollow(id);
-    settings.set({ interests: picked, dailyGoal: goal, onboarded: true });
+    settings.set({ interests: picked, dailyGoal: goal, onboarded: true, serie: serie === "0" ? null : (Number(serie) as 1 | 2 | 3) });
     haptic.success();
     router.replace("/");
   };
@@ -99,11 +100,18 @@ export default function Onboarding() {
           </View>
         </Animated.View>
       ) : (
-        <Animated.View key="goal" entering={FadeInRight} exiting={FadeOutLeft} style={{ flex: 1, paddingTop: insets.top + 56, paddingHorizontal: 16 }}>
-          <Icon name="fire" size={56} color="#FB923C" style={{ alignSelf: "center" }} />
-          <AppText variant="display" style={styles.center}>Qual sua meta diária?</AppText>
-          <AppText dim style={[styles.center, { marginTop: 6, marginBottom: 22 }]}>
-            Bata a meta todo dia para manter sua sequência acesa. Dá para mudar depois nos Ajustes.
+        <Animated.View key="goal" entering={FadeInRight} exiting={FadeOutLeft} style={{ flex: 1, paddingTop: insets.top + 48, paddingHorizontal: 16 }}>
+          <AppText variant="title" style={styles.center}>Em que série você está?</AppText>
+          <AppText dim style={[styles.center, { marginTop: 4, marginBottom: 12 }]}>O feed e os modos de prova mostram o conteúdo da sua série.</AppText>
+          <Segmented<string>
+            fill
+            value={serie}
+            onChange={(v) => { setSerie(v); haptic.select(); }}
+            options={[{ value: "1", label: "1º ano" }, { value: "2", label: "2º ano" }, { value: "3", label: "3º ano" }, { value: "0", label: "Outra" }]}
+          />
+          <AppText variant="title" style={[styles.center, { marginTop: 28 }]}>Qual sua meta diária?</AppText>
+          <AppText dim style={[styles.center, { marginTop: 4, marginBottom: 16 }]}>
+            Bata a meta todo dia para manter a sequência acesa.
           </AppText>
           {GOALS.map((g, i) => {
             const on = g.value === goal;

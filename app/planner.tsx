@@ -9,7 +9,7 @@ import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, GradientButton, Icon, PageAvatar } from "@/components/ui";
 import { PAGES, getPage } from "@/data/pages";
 import { examAvailability, MIN_EXAM_QUESTIONS } from "@/feed/exam";
-import { SEED } from "@/feed/sources/seed";
+import { CONTENT } from "@/feed/sources/library";
 import { haptic } from "@/lib/haptics";
 import { addDays, countdownLabel, daysUntil, suggestedDaily, type PlannedExam } from "@/lib/planner";
 import { dayKey } from "@/lib/streak";
@@ -77,7 +77,7 @@ function ExamCard({ exam, index, onEdit }: { exam: PlannedExam; index: number; o
   const c = useColors();
   const custom = useLibrary((s) => s.customItems);
   const days = daysUntil(exam.date);
-  const material = [...SEED, ...custom].filter((i) => exam.pageIds.includes(i.pageId)).length;
+  const material = [...CONTENT, ...custom].filter((i) => exam.pageIds.includes(i.pageId)).length;
   const daily = suggestedDaily(material, days);
   const first = exam.pageIds[0];
   const canExam = exam.pageIds.some((p) => examAvailability(p) >= MIN_EXAM_QUESTIONS);

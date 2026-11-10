@@ -17,7 +17,7 @@ describe("buildExam", () => {
   });
 
   it("caps at the available questions for pages without a generator", () => {
-    const exam = buildExam({ pageId: "historia", count: 10, rng: createRng(3) });
+    const exam = buildExam({ pageId: "historia", count: 500, rng: createRng(3) });
     expect(exam.length).toBe(examAvailability("historia"));
   });
 });

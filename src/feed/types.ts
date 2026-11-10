@@ -14,6 +14,8 @@ interface BaseItem {
   pageId: PageId;
   title: string;
   tags: string[];
+  /** Curriculum topic (série + bimestre) this card belongs to, when it is school content. */
+  topicId?: string;
 }
 
 export interface ConceptItem extends BaseItem {

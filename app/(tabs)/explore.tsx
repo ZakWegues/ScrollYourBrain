@@ -7,7 +7,7 @@ import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { AppText, Bouncy, Chip, Glass, Icon, PageAvatar, type IconName } from "@/components/ui";
 import { PAGES } from "@/data/pages";
 import { normalize, searchItems } from "@/feed/engine";
-import { SEED } from "@/feed/sources/seed";
+import { CONTENT } from "@/feed/sources/library";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
@@ -25,7 +25,7 @@ export default function Explore() {
   const openViewer = useViewer((s) => s.open);
 
   const customItems = useLibrary((s) => s.customItems);
-  const pool = useMemo(() => [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems], [customVideos, customItems]);
+  const pool = useMemo(() => [...CONTENT, ...CURATED_VIDEOS, ...customVideos, ...customItems], [customVideos, customItems]);
   const results = useMemo(() => searchItems(pool, query), [pool, query]);
   const pageResults = useMemo(() => {
     const q = normalize(query.trim());
@@ -58,7 +58,7 @@ export default function Explore() {
         <>
           <View style={styles.modes}>
             {[
-              { to: "/exam" as const, icon: "timer-outline" as const, title: "Modo prova", sub: "Quizzes com nota", colors: ["#8B5CF6", "#22D3EE"] as const, id: "exam-banner" },
+              { to: "/modes" as const, icon: "school" as const, title: "Modos de prova", sub: "ENEM, bimestral e mais", colors: ["#8B5CF6", "#22D3EE"] as const, id: "exam-banner" },
               { to: "/focus" as const, icon: "bullseye-arrow" as const, title: "Modo foco", sub: "Ciclos sem distração", colors: ["#6366F1", "#EC4899"] as const, id: "focus-banner" },
             ].map((m) => (
               <Bouncy key={m.id} onPress={() => router.push(m.to)} scaleTo={0.96} style={styles.mode} accessibilityLabel={`Abrir ${m.title}`} testID={m.id}>

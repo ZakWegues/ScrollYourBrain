@@ -1,5 +1,5 @@
 /** Persisted store keys included in a backup, in restore order. */
-export const BACKUP_STORES = ["syb-settings", "syb-library", "syb-progress", "syb-review", "syb-notebooks", "syb-planner"] as const;
+export const BACKUP_STORES = ["syb-settings", "syb-library", "syb-progress", "syb-review", "syb-notebooks", "syb-planner", "syb-modes"] as const;
 export type BackupStore = (typeof BACKUP_STORES)[number];
 
 export interface Backup {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { nextItems, type EngineState, type Signals } from "@/feed/engine";
 import { createRng } from "@/feed/sources/generators";
-import { SEED } from "@/feed/sources/seed";
+import { contentForSerie } from "@/feed/sources/library";
 import { fetchWikiBatch } from "@/feed/sources/wiki";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
@@ -74,8 +74,8 @@ export function useFeed(source: FeedSource) {
       // Offline, only content that works without internet goes in (no videos, no new articles).
       const online = useNetwork.getState().online;
       const pool = online
-        ? [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))]
-        : [...SEED, ...customItems];
+        ? [...contentForSerie(useSettings.getState().serie), ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))]
+        : [...contentForSerie(useSettings.getState().serie), ...customItems];
       const items = nextItems(count, {
         pool,
         signals: currentSignals(),

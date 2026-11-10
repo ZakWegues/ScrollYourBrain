@@ -193,6 +193,15 @@ export default function Settings() {
         <Row icon="account-voice" title="Ler cards em voz alta" subtitle="Lê cada card quando ele aparece no feed" value={s.autoSpeak} onChange={(v) => s.set({ autoSpeak: v })} last />
       </Card>
 
+      <SectionTitle>Sua série</SectionTitle>
+      <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>O feed e os modos de prova usam o conteúdo da sua série do ensino médio.</AppText>
+      <Segmented<string>
+        fill
+        value={String(s.serie ?? 0)}
+        onChange={(v) => s.set({ serie: v === "0" ? null : (Number(v) as 1 | 2 | 3) })}
+        options={[{ value: "1", label: "1º ano" }, { value: "2", label: "2º ano" }, { value: "3", label: "3º ano" }, { value: "0", label: "Todas" }]}
+      />
+
       <SectionTitle>Interesses</SectionTitle>
       <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Temas marcados aparecem com mais frequência no feed.</AppText>
       <View style={styles.chips}>

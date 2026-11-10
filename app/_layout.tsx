@@ -82,6 +82,8 @@ export default function RootLayout() {
           <Stack.Screen name="stats" />
           <Stack.Screen name="focus" options={{ animation: "fade", gestureEnabled: false }} />
           <Stack.Screen name="planner" />
+          <Stack.Screen name="modes" />
+          <Stack.Screen name="mode" />
           <Stack.Screen name="achievements" />
         </Stack>
         <OfflineBadge />

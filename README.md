@@ -17,7 +17,12 @@
 - **O feed nunca fica vazio:** conteúdo embutido, geradores procedurais e fontes online. Funciona **offline**: sem internet aparece um aviso e o feed segue com o que roda sem rede.
 - **O feed aprende com você:** curtir e seguir aumentam um tema; pular rápido diminui.
 - **Revisão espaçada:** erros de quiz e flashcards marcados entram numa fila no estilo SM-2. A revisão diária mostra quando cada card volta.
-- **Modo prova:** quizzes com ou sem tempo, nota, recorde e revisão dos erros.
+- **Modos de prova:**
+  - ENEM (por área), Vestibular;
+  - prova anual, bimestral e mensal, e atividade, por matéria e série do ensino médio.
+  - Cada modo junta o feed do conteúdo, a revisão, um simulado com tempo, o checklist de assuntos e a data no calendário.
+- **Currículo do ensino médio:** 10 matérias × 3 séries × 4 bimestres, com mais de 450 cards e 350 questões.
+- **Macetes de prova:** chute inteligente, gestão de tempo, revisão e pegadinhas.
 - **Modo foco:** Pomodoro (15/25/50 min) com um feed só do tema escolhido.
 - **Ouvir cards:** leitura em voz alta, sob demanda ou automática.
 

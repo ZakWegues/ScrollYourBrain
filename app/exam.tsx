@@ -8,6 +8,7 @@ import { QuizOptions, TIMED_OUT } from "@/components/QuizOptions";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
 import { getPage } from "@/data/pages";
 import { ALL_PAGES, buildExam, examAvailability, examPages, examScore } from "@/feed/exam";
+import { useExamScope, type ExamScope } from "@/feed/examPool";
 import { createRng } from "@/feed/sources/generators";
 import type { QuizItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
@@ -37,9 +38,16 @@ const fmtTime = (ms: number) => {
 export default function Exam() {
   const c = useColors();
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ page?: string }>();
+  const params = useLocalSearchParams<{ page?: string; mode?: string }>();
+  const scope = useExamScope((s) => (params.mode ? s.scope : null));
   const [rng] = useState(() => createRng(Date.now() & 0xffffffff));
-  const [settings, setSettings] = useState<Settings>({ pageId: params.page ?? ALL_PAGES, count: 10, timed: true });
+  const [settings, setSettings] = useState<Settings>(() => ({
+    pageId: params.page ?? ALL_PAGES,
+    count: scope ? Math.min(scope.count, scope.quizzes.length) : 10,
+    timed: true,
+  }));
+  const recordKey = scope ? `mode:${scope.key}` : settings.pageId;
+  const seconds = scope?.secondsPerQuestion ?? SECONDS;
   const [questions, setQuestions] = useState<QuizItem[] | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [startedAt, setStartedAt] = useState(0);
@@ -52,7 +60,7 @@ export default function Exam() {
 
   const start = () => {
     const pageId = settings.pageId === ALL_PAGES ? undefined : settings.pageId;
-    setQuestions(buildExam({ pageId, count: settings.count, rng }));
+    setQuestions(buildExam({ pageId, count: settings.count, rng, pool: scope?.quizzes }));
     setAnswers([]);
     setNewBest(false);
     setDone(false);
@@ -76,7 +84,7 @@ export default function Exam() {
   const onFinish = (list: Answer[]) => {
     const score = examScore(list.filter((a) => a.picked === a.item.answer).length, list.length);
     setElapsed(Date.now() - startedAt);
-    setNewBest(useProgress.getState().recordExam(settings.pageId, score));
+    setNewBest(useProgress.getState().recordExam(recordKey, score));
     useProgress.getState().logEvent(undefined, { exams: 1 });
     setDone(true);
   };
@@ -92,13 +100,14 @@ export default function Exam() {
         <View style={styles.iconBtn} />
       </View>
 
-      {questions === null && <Setup settings={settings} onChange={setSettings} onStart={start} />}
+      {questions === null && <Setup settings={settings} onChange={setSettings} onStart={start} scope={scope} seconds={seconds} recordKey={recordKey} />}
       {questions !== null && !done && (
         <Run
           key={startedAt}
           questions={questions}
           answers={answers}
           timed={settings.timed}
+          seconds={seconds}
           onAnswer={onAnswer}
           onDone={onFinish}
         />
@@ -108,8 +117,9 @@ export default function Exam() {
           answers={answers}
           elapsed={elapsed}
           newBest={newBest}
-          best={useProgress.getState().examBest[settings.pageId] ?? 0}
+          best={useProgress.getState().examBest[recordKey] ?? 0}
           pageId={settings.pageId}
+          scopeTitle={scope?.title}
           onRetry={start}
           onClose={close}
         />
@@ -118,30 +128,35 @@ export default function Exam() {
   );
 }
 
-function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: (s: Settings) => void; onStart: () => void }) {
+function Setup({ settings, onChange, onStart, scope, seconds, recordKey }: { settings: Settings; onChange: (s: Settings) => void; onStart: () => void; scope: ExamScope | null; seconds: number; recordKey: string }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const best = useProgress((s) => s.examBest);
   const pages = useMemo(() => examPages(), []);
-  const available = examAvailability(settings.pageId === ALL_PAGES ? undefined : settings.pageId);
-  const counts = [10, 20].filter((n) => n <= available || n === 10);
+  const available = scope ? scope.quizzes.length : examAvailability(settings.pageId === ALL_PAGES ? undefined : settings.pageId);
+  const counts = scope
+    ? [...new Set([Math.min(scope.count, available), Math.min(Math.ceil(scope.count / 2), available)])].sort((a, b) => a - b)
+    : [10, 20].filter((n) => n <= available || n === 10);
+  const fmtSeconds = seconds >= 60 ? `${seconds / 60} min` : `${seconds}s`;
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 120 }} showsVerticalScrollIndicator={false}>
       <Animated.View entering={ZoomIn.springify().damping(26).stiffness(280).mass(1)} style={[styles.hero, { backgroundColor: c.surface, borderColor: c.border }]}>
         <Icon name="timer-outline" size={44} color={c.accent2} />
-        <AppText variant="title" style={{ marginTop: 8, textAlign: "center" }}>Teste o que você aprendeu</AppText>
-        <AppText dim style={{ textAlign: "center", marginTop: 4 }}>Só quizzes, sem distrações. No fim você vê a nota e revisa os erros.</AppText>
+        <AppText variant="title" style={{ marginTop: 8, textAlign: "center" }}>{scope ? `Simulado · ${scope.title}` : "Teste o que você aprendeu"}</AppText>
+        <AppText dim style={{ textAlign: "center", marginTop: 4 }}>
+          {scope ? `${scope.subtitle} · ${available} questões disponíveis` : "Só quizzes, sem distrações. No fim você vê a nota e revisa os erros."}
+        </AppText>
       </Animated.View>
 
-      <AppText variant="headline" style={styles.label}>Tema</AppText>
-      <View style={styles.chips}>
+      {!scope && <AppText variant="headline" style={styles.label}>Tema</AppText>}
+      {!scope && <View style={styles.chips}>
         <Chip label="Todos os temas" icon="shuffle-variant" active={settings.pageId === ALL_PAGES} onPress={() => onChange({ ...settings, pageId: ALL_PAGES })} />
         {pages.map(({ page }) => (
           <Chip key={page.id} label={page.name} active={settings.pageId === page.id} onPress={() => onChange({ ...settings, pageId: page.id, count: examAvailability(page.id) >= settings.count ? settings.count : 10 })} />
         ))}
-      </View>
-      <AppText variant="caption" dim style={{ marginTop: 8 }}>Temas com poucas questões ainda não aparecem aqui.</AppText>
+      </View>}
+      {!scope && <AppText variant="caption" dim style={{ marginTop: 8 }}>Temas com poucas questões ainda não aparecem aqui.</AppText>}
 
       <AppText variant="headline" style={styles.label}>Questões</AppText>
       <Segmented<string>
@@ -156,13 +171,13 @@ function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: 
         fill
         value={settings.timed ? "timed" : "free"}
         onChange={(v) => onChange({ ...settings, timed: v === "timed" })}
-        options={[{ value: "timed", label: `${SECONDS}s por questão` }, { value: "free", label: "Sem tempo" }]}
+        options={[{ value: "timed", label: `${fmtSeconds} por questão` }, { value: "free", label: "Sem tempo" }]}
       />
 
-      {best[settings.pageId] !== undefined && (
+      {best[recordKey] !== undefined && (
         <Glass style={styles.bestBox}>
           <Icon name="trophy-outline" size={20} color={c.save} />
-          <AppText variant="label">Seu recorde aqui: {best[settings.pageId]}%</AppText>
+          <AppText variant="label">Seu recorde aqui: {best[recordKey]}%</AppText>
         </Glass>
       )}
 
@@ -171,7 +186,7 @@ function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: 
   );
 }
 
-function Run({ questions, answers, timed, onAnswer, onDone }: { questions: QuizItem[]; answers: Answer[]; timed: boolean; onAnswer: (item: QuizItem, picked: number) => void; onDone: (answers: Answer[]) => void }) {
+function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questions: QuizItem[]; answers: Answer[]; timed: boolean; seconds: number; onAnswer: (item: QuizItem, picked: number) => void; onDone: (answers: Answer[]) => void }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const [current, setCurrent] = useState(0);
@@ -189,10 +204,10 @@ function Run({ questions, answers, timed, onAnswer, onDone }: { questions: QuizI
       return;
     }
     time.set(1);
-    time.set(withTiming(0, { duration: SECONDS * 1000, easing: Easing.linear }));
-    const id = setTimeout(() => onAnswer(item, TIMED_OUT), SECONDS * 1000);
+    time.set(withTiming(0, { duration: seconds * 1000, easing: Easing.linear }));
+    const id = setTimeout(() => onAnswer(item, TIMED_OUT), seconds * 1000);
     return () => clearTimeout(id);
-  }, [timed, picked, item, time, onAnswer]);
+  }, [timed, picked, item, time, onAnswer, seconds]);
 
   const next = () => {
     if (last) onDone(answers);
@@ -245,14 +260,14 @@ function Run({ questions, answers, timed, onAnswer, onDone }: { questions: QuizI
   );
 }
 
-function Result({ answers, elapsed, newBest, best, pageId, onRetry, onClose }: { answers: Answer[]; elapsed: number; newBest: boolean; best: number; pageId: string; onRetry: () => void; onClose: () => void }) {
+function Result({ answers, elapsed, newBest, best, pageId, scopeTitle, onRetry, onClose }: { answers: Answer[]; elapsed: number; newBest: boolean; best: number; pageId: string; scopeTitle?: string; onRetry: () => void; onClose: () => void }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const correct = answers.filter((a) => a.picked === a.item.answer).length;
   const score = examScore(correct, answers.length);
   const wrong = answers.filter((a) => a.picked !== a.item.answer);
   const mood = score >= 80 ? { icon: "trophy" as const, text: "Excelente!", color: c.save } : score >= 50 ? { icon: "thumb-up" as const, text: "Bom trabalho!", color: c.accent2 } : { icon: "book-open-variant" as const, text: "Bora revisar!", color: c.like };
-  const topic = pageId === ALL_PAGES ? "Todos os temas" : getPage(pageId).name;
+  const topic = scopeTitle ?? (pageId === ALL_PAGES ? "Todos os temas" : getPage(pageId).name);
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32 }} showsVerticalScrollIndicator={false}>
