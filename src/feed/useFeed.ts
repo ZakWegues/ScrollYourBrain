@@ -6,6 +6,7 @@ import { fetchWikiBatch } from "@/feed/sources/wiki";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
 import { useLibrary } from "@/store/library";
+import { useNetwork } from "@/store/network";
 import { dueCards, useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 
@@ -70,7 +71,11 @@ export function useFeed(source: FeedSource) {
       if (source.type === "list") return [];
       if (pages && pages.length === 0) return [];
       const usedWiki = new Set(memory.engine.recent);
-      const pool = [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))];
+      // Offline, only content that works without internet goes in (no videos, no new articles).
+      const online = useNetwork.getState().online;
+      const pool = online
+        ? [...SEED, ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))]
+        : [...SEED, ...customItems];
       const items = nextItems(count, {
         pool,
         signals: currentSignals(),
@@ -99,9 +104,10 @@ export function useFeed(source: FeedSource) {
   // First page is built once; callers remount (via `key`) to switch sources.
   const [entries, setEntries] = useState<FeedEntry[]>(() => (source.type === "list" ? toEntries(source.items) : build(BATCH)));
 
+  const online = useNetwork((s) => s.online);
   useEffect(() => {
-    if (!dataSaver && source.type !== "list") void refillWiki();
-  }, [dataSaver, source.type, entries.length]);
+    if (online && !dataSaver && source.type !== "list") void refillWiki();
+  }, [online, dataSaver, source.type, entries.length]);
 
   const loadMore = useCallback(() => {
     if (source.type === "list") return;

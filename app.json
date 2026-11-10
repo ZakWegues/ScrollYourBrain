@@ -44,6 +44,25 @@
           "icon": "./assets/adaptive-icon-mono.png",
           "color": "#8B5CF6"
         }
+      ],
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "Streak",
+              "label": "Sequência",
+              "description": "Sua sequência e a meta de hoje",
+              "minWidth": "180dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 3,
+              "targetCellHeight": 2,
+              "previewImage": "./assets/widget-preview.png",
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
       ]
     ],
     "experiments": {

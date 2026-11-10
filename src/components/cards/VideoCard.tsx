@@ -6,6 +6,7 @@ import YoutubePlayer, { PLAYER_STATES } from "react-native-youtube-iframe";
 import type { VideoItem } from "@/feed/types";
 import { youtubeThumb } from "@/feed/sources/youtube";
 import { AppText, Bouncy, Glass, Icon } from "@/components/ui";
+import { useNetwork } from "@/store/network";
 import { usePlayback } from "@/store/playback";
 import { useSettings } from "@/store/settings";
 import { radius, useColors } from "@/theme";
@@ -17,6 +18,7 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
   const { width } = useWindowDimensions();
   const autoplay = useSettings((s) => s.autoplay && !s.dataSaver);
   const { muted, setMuted } = usePlayback();
+  const online = useNetwork((s) => s.online);
   const [playing, setPlaying] = useState(false);
   const [requested, setRequested] = useState(false);
   const [ready, setReady] = useState(false);
@@ -24,7 +26,7 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
   const [attempt, setAttempt] = useState(0);
   const playerW = Math.min(width, 720);
   const playerH = Math.round((playerW * 9) / 16);
-  const mounted = active && (autoplay || requested);
+  const mounted = online && active && (autoplay || requested);
 
   // React to visibility and taps while rendering (no effect round-trip).
   const [seen, setSeen] = useState({ active, autoplay, tapNonce });
@@ -81,6 +83,13 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
               />
             </View>
           )}
+          {!online && (
+            <View style={[styles.overlay, styles.stalled]}>
+              <Icon name="wifi-off" size={28} color="#fff" />
+              <AppText variant="label">Vídeo precisa de internet</AppText>
+              <AppText variant="caption" dim>Role para continuar estudando offline</AppText>
+            </View>
+          )}
           {mounted && !ready && !stalled && (
             <View style={styles.overlay}><ActivityIndicator color="#fff" /></View>
           )}
@@ -97,7 +106,7 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
               </View>
             </View>
           )}
-          {(!mounted || (ready && !playing)) && (
+          {online && (!mounted || (ready && !playing)) && (
             <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.overlay} pointerEvents="none">
               <View style={styles.play}><Icon name="play" size={36} color="#fff" /></View>
             </Animated.View>

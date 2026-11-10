@@ -13,6 +13,7 @@ import { useNotebooks } from "@/store/notebooks";
 import { useProgress, useToday } from "@/store/progress";
 import { useReview } from "@/store/review";
 import { usePlanner } from "@/store/planner";
+import { exportBackup, pickBackup, restoreBackup } from "@/store/backup";
 import { useSettings } from "@/store/settings";
 import { getColors, radius, space, useColors, type ThemeMode } from "@/theme";
 
@@ -121,6 +122,31 @@ export default function Settings() {
   const s = useSettings();
   const lib = useLibrary.getState();
 
+  const doExport = async () => {
+    try {
+      await exportBackup();
+      haptic.success();
+      toast({ message: "Backup pronto", icon: "check-circle", tone: "success" });
+    } catch {
+      toast({ message: "Não deu para criar o backup. Tente de novo.", icon: "alert-circle-outline", tone: "error" });
+    }
+  };
+
+  const doImport = async () => {
+    try {
+      const backup = await pickBackup();
+      if (!backup) return;
+      const when = backup.exportedAt ? new Date(backup.exportedAt).toLocaleDateString("pt-BR") : "data desconhecida";
+      confirm("Restaurar backup?", `Backup de ${when}. Seus dados atuais serão substituídos.`, () => {
+        restoreBackup(backup);
+        haptic.success();
+        toast({ message: "Backup restaurado", icon: "check-circle", tone: "success" });
+      });
+    } catch (e) {
+      toast({ message: e instanceof Error ? e.message : "Arquivo inválido", icon: "file-alert-outline", tone: "error" });
+    }
+  };
+
   return (
     <Screen title="Ajustes" subtitle="Deixe o app do seu jeito">
       <SectionTitle>Aparência</SectionTitle>
@@ -173,6 +199,25 @@ export default function Settings() {
         <Icon name="restart" size={18} color={c.text} />
         <AppText variant="label">Refazer escolha de temas</AppText>
       </Bouncy>
+
+      <SectionTitle>Backup</SectionTitle>
+      <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Guarde um arquivo com todo o seu progresso para restaurar em outro celular.</AppText>
+      <Card>
+        <Bouncy scaleTo={0.98} style={[styles.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: c.border }]} onPress={doExport} testID="backup-export">
+          <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="cloud-upload-outline" size={18} color={c.text} /></View>
+          <View style={{ flex: 1 }}>
+            <AppText variant="label">Fazer backup</AppText>
+            <AppText variant="caption" dim>Salva um arquivo .json (Drive, WhatsApp, e-mail…)</AppText>
+          </View>
+        </Bouncy>
+        <Bouncy scaleTo={0.98} style={styles.row} onPress={doImport} testID="backup-import">
+          <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="cloud-download-outline" size={18} color={c.text} /></View>
+          <View style={{ flex: 1 }}>
+            <AppText variant="label">Restaurar backup</AppText>
+            <AppText variant="caption" dim>Substitui os dados atuais pelos do arquivo</AppText>
+          </View>
+        </Bouncy>
+      </Card>
 
       <SectionTitle>Dados</SectionTitle>
       <Card>

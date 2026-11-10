@@ -2,6 +2,7 @@
 // Usage: npm run assets
 import { Resvg } from "@resvg/resvg-js";
 import { writeFileSync } from "node:fs";
+import { mdiFire } from "@mdi/js";
 
 // Two cards peeking behind the front one (the feed) and a sparkle (the "aha" moment).
 const SPARK = "M256 190 C266 252 288 274 350 284 C288 294 266 316 256 378 C246 316 224 294 162 284 C224 274 246 252 256 190 Z";
@@ -48,3 +49,16 @@ render(adaptive, "adaptive-icon.png", 1024);
 render(mono, "adaptive-icon-mono.png", 1024);
 render(splash, "splash-icon.png", 1024);
 render(icon, "favicon.png", 96);
+
+// Preview shown in the Android widget picker.
+const widget = `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="220" viewBox="0 0 360 220">
+  <defs><linearGradient id="bar" x1="0" x2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs>
+  <rect x="1" y="1" width="358" height="218" rx="24" fill="#0B0B0E" stroke="#26262E"/>
+  <g transform="translate(24 38) scale(1.75)"><path d="${mdiFire}" fill="#FB923C"/></g>
+  <text x="76" y="62" font-size="30" font-weight="700" fill="#F5F5F7" font-family="sans-serif">5 dias</text>
+  <text x="76" y="86" font-size="16" fill="#A1A1AA" font-family="sans-serif">de sequência</text>
+  <text x="28" y="160" font-size="17" font-weight="600" fill="#F5F5F7" font-family="sans-serif">7/10 cards hoje</text>
+  <rect x="28" y="176" width="304" height="8" rx="4" fill="#1D1D26"/>
+  <rect x="28" y="176" width="213" height="8" rx="4" fill="url(#bar)"/>
+</svg>`;
+render(widget, "widget-preview.png", 720);

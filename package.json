@@ -1,7 +1,7 @@
 {
   "name": "scrollyourbrain",
   "version": "0.3.0",
-  "main": "expo-router/entry",
+  "main": "index.ts",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -33,8 +33,10 @@
     "expo-image": "~57.0.5",
     "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.13",
+    "expo-network": "~57.0.3",
     "expo-notifications": "~57.0.25",
     "expo-router": "~57.0.30",
+    "expo-sharing": "~57.0.25",
     "expo-speech": "~57.0.3",
     "expo-splash-screen": "~57.0.11",
     "expo-status-bar": "~57.0.1",
@@ -42,6 +44,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
+    "react-native-android-widget": "^0.26.0",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-jelly-tabs": "^0.1.0",
     "react-native-reanimated": "4.5.1",

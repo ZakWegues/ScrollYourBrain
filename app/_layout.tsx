@@ -12,11 +12,14 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
 import { SheetsHost } from "@/components/Sheets";
+import { OfflineBadge } from "@/components/OfflineBadge";
 import { ToastHost } from "@/components/Toast";
+import { useNetworkWatcher } from "@/store/network";
 import { useAchievementWatcher } from "@/store/achievementWatcher";
 import { useStoresHydrated } from "@/store/hydration";
 import { scheduleReminder } from "@/lib/notifications";
 import { useToday } from "@/store/progress";
+import { useWidgetSync } from "@/widget/sync";
 import { useSettings } from "@/store/settings";
 import { useColors } from "@/theme";
 
@@ -34,8 +37,10 @@ export default function RootLayout() {
   });
   const hydrated = useStoresHydrated();
   useAchievementWatcher(hydrated);
+  useNetworkWatcher();
   const reminder = useSettings((s) => s.reminder);
-  const { streak, goal } = useToday();
+  const { streak, goal, count } = useToday();
+  useWidgetSync(streak, count, goal, hydrated);
   // Keep the reminder text in sync with the current streak and goal.
   useEffect(() => {
     if (hydrated && reminder !== null) scheduleReminder(reminder, streak, goal).catch(() => {});
@@ -79,6 +84,7 @@ export default function RootLayout() {
           <Stack.Screen name="planner" />
           <Stack.Screen name="achievements" />
         </Stack>
+        <OfflineBadge />
         <SheetsHost />
         <ToastHost />
         <GoalCelebration />
