@@ -9,6 +9,7 @@ import { AppText, Bouncy, GradientButton, Icon, type IconName } from "@/componen
 import { getPage } from "@/data/pages";
 import { SEED } from "@/feed/sources/seed";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
+import { examAvailability, MIN_EXAM_QUESTIONS } from "@/feed/exam";
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
@@ -62,6 +63,12 @@ export default function PageScreen() {
           </Bouncy>
           <GradientButton label="Assistir" icon="play" onPress={() => watch(0)} />
         </View>
+        {examAvailability(page.id) >= MIN_EXAM_QUESTIONS && (
+          <Bouncy onPress={() => router.push(`/exam?page=${page.id}`)} style={styles.examBtn} accessibilityLabel={`Fazer prova de ${page.name}`}>
+            <Icon name="timer-outline" size={18} color="#fff" />
+            <AppText variant="label" style={{ color: "#fff" }}>Fazer prova</AppText>
+          </Bouncy>
+        )}
       </View>
 
       <View style={{ paddingHorizontal: 16 }}>
@@ -86,5 +93,6 @@ const styles = StyleSheet.create({
   stat: { color: "rgba(255,255,255,0.85)" },
   actions: { flexDirection: "row", gap: 10, marginTop: 18 },
   followBtn: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 20, paddingVertical: 13, borderRadius: radius.pill },
+  examBtn: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 12, paddingHorizontal: 16, paddingVertical: 9, borderRadius: radius.pill, backgroundColor: "rgba(0,0,0,0.3)" },
   back: { position: "absolute", left: 8, width: 44, height: 44, alignItems: "center", justifyContent: "center" },
 });

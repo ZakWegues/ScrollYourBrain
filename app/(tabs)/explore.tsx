@@ -55,6 +55,15 @@ export default function Explore() {
 
       {!searching && (
         <>
+          <Bouncy onPress={() => router.push("/exam")} scaleTo={0.97} style={styles.examBanner} accessibilityLabel="Abrir modo prova" testID="exam-banner">
+            <LinearGradient colors={["#8B5CF6", "#22D3EE"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+            <Icon name="timer-outline" size={34} color="#fff" />
+            <View style={{ flex: 1 }}>
+              <AppText variant="headline" style={{ color: "#fff" }}>Modo prova</AppText>
+              <AppText variant="caption" style={{ color: "rgba(255,255,255,0.85)" }}>Quizzes cronometrados com nota e revisão</AppText>
+            </View>
+            <Icon name="chevron-right" size={26} color="#fff" />
+          </Bouncy>
           <View style={styles.chips}>
             {TRENDING.map((t) => <Chip key={t} label={t} icon="fire" onPress={() => setQuery(t)} />)}
           </View>
@@ -127,6 +136,7 @@ const styles = StyleSheet.create({
   search: { flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 14, height: 52, borderRadius: radius.pill },
   input: { flex: 1, fontSize: 16, height: "100%", outlineStyle: "none" } as object,
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 14 },
+  examBanner: { flexDirection: "row", alignItems: "center", gap: 12, padding: 16, borderRadius: radius.lg, overflow: "hidden", marginTop: 14 },
   pageCard: { aspectRatio: 0.95, borderRadius: radius.lg, padding: 14, overflow: "hidden", borderWidth: StyleSheet.hairlineWidth },
   pageShade: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(0,0,0,0.18)" },
   followPill: { position: "absolute", top: 12, right: 12, paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill },

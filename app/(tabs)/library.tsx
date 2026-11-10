@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { Alert, Platform, StyleSheet, TextInput, View } from "react-native";
 import { ItemTile } from "@/components/ItemTile";
+import { StreakCard } from "@/components/StreakCard";
 import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
 import { PAGES } from "@/data/pages";
@@ -50,7 +51,8 @@ export default function Library() {
 
   return (
     <Screen title="Biblioteca" subtitle="Tudo que você salvou e curtiu">
-      <View style={styles.stats}>
+      <StreakCard />
+      <View style={[styles.stats, { marginTop: 10 }]}>
         <Stat icon="bookmark" color={c.save} value={Object.keys(saved).length} label="Salvos" />
         <Stat icon="heart" color={c.like} value={Object.keys(liked).length} label="Curtidos" />
         <Stat icon="account-heart" color={c.accent} value={followedCount} label="Seguindo" />

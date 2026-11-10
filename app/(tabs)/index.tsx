@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feed } from "@/components/Feed";
+import { StreakPill } from "@/components/StreakPill";
 import { useLibrary } from "@/store/library";
 import { AppText, Bouncy, GradientButton, Icon, Segmented } from "@/components/ui";
 import type { FeedSource } from "@/feed/useFeed";
@@ -37,9 +38,12 @@ export default function FeedScreen() {
       />
       <View style={[styles.top, { paddingTop: insets.top + 10 }]} pointerEvents="box-none">
         <Segmented<Mode> value={mode} onChange={setMode} options={[{ value: "forYou", label: "Para você" }, { value: "following", label: "Seguindo" }]} />
-        <Bouncy onPress={() => router.navigate("/explore")} style={styles.search} accessibilityLabel="Pesquisar">
-          <Icon name="magnify" size={26} color="#fff" />
-        </Bouncy>
+        <View style={styles.right}>
+          <StreakPill />
+          <Bouncy onPress={() => router.navigate("/explore")} style={styles.search} accessibilityLabel="Pesquisar">
+            <Icon name="magnify" size={26} color="#fff" />
+          </Bouncy>
+        </View>
       </View>
     </View>
   );
@@ -47,6 +51,7 @@ export default function FeedScreen() {
 
 const styles = StyleSheet.create({
   top: { position: "absolute", top: 0, left: 0, right: 0, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  right: { flexDirection: "row", alignItems: "center", gap: 2 },
   search: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   empty: { flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 32, paddingBottom: 80 },
 });

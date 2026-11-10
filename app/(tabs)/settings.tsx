@@ -1,4 +1,5 @@
 import Constants from "expo-constants";
+import { router } from "expo-router";
 import type { ReactNode } from "react";
 import { Alert, Linking, Platform, StyleSheet, Switch, View } from "react-native";
 import { Screen, SectionTitle } from "@/components/Screen";
@@ -6,6 +7,7 @@ import { AppText, Bouncy, Chip, Icon, type IconName } from "@/components/ui";
 import { PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
+import { useProgress } from "@/store/progress";
 import { useSettings } from "@/store/settings";
 import { getColors, radius, useColors, type ThemeMode } from "@/theme";
 
@@ -91,6 +93,12 @@ export default function Settings() {
         <ThemeOption mode="default" label="Padrão" desc="Escuro suave, com mais profundidade." />
       </View>
 
+      <SectionTitle>Meta diária</SectionTitle>
+      <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Cards por dia para manter sua sequência acesa.</AppText>
+      <View style={styles.chips}>
+        {[5, 10, 20, 30].map((g) => <Chip key={g} label={`${g} cards`} icon="fire" active={s.dailyGoal === g} onPress={() => s.set({ dailyGoal: g })} />)}
+      </View>
+
       <SectionTitle>Reprodução</SectionTitle>
       <Card>
         <Row icon="play-speed" title="Reproduzir vídeos automaticamente" subtitle="Toca o vídeo assim que ele aparece" value={s.autoplay} onChange={(v) => s.set({ autoplay: v })} testID="toggle-autoplay" />
@@ -109,6 +117,10 @@ export default function Settings() {
       <View style={styles.chips}>
         {PAGES.map((p) => <Chip key={p.id} label={p.name} active={s.interests.includes(p.id)} onPress={() => s.toggleInterest(p.id)} />)}
       </View>
+      <Bouncy scaleTo={0.98} onPress={() => router.push("/onboarding")} style={[styles.redo, { borderColor: c.border }]} accessibilityLabel="Refazer onboarding">
+        <Icon name="restart" size={18} color={c.text} />
+        <AppText variant="label">Refazer escolha de temas</AppText>
+      </Bouncy>
 
       <SectionTitle>Dados</SectionTitle>
       <Card>
@@ -116,7 +128,7 @@ export default function Settings() {
           <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="refresh" size={18} color={c.text} /></View>
           <AppText variant="label" style={{ flex: 1 }}>Limpar histórico do feed</AppText>
         </Bouncy>
-        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, páginas seguidas e ajustes.", () => { useLibrary.getState().reset(); s.reset(); haptic.success(); })}>
+        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, páginas seguidas, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); s.reset(); haptic.success(); })}>
           <View style={[styles.rowIcon, { backgroundColor: "rgba(244,63,94,0.15)" }]}><Icon name="trash-can-outline" size={18} color={c.danger} /></View>
           <AppText variant="label" style={{ flex: 1, color: c.danger }}>Apagar todos os dados</AppText>
         </Bouncy>
@@ -154,4 +166,5 @@ const styles = StyleSheet.create({
   previewPill: { width: "30%", height: 14, borderRadius: 7 },
   themeLabel: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  redo: { flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "flex-start", paddingHorizontal: 14, paddingVertical: 10, borderRadius: radius.pill, borderWidth: 1, marginTop: 12 },
 });

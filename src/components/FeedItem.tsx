@@ -74,9 +74,10 @@ interface Props {
   active: boolean;
   height: number;
   onFail: (key: string) => void;
+  onStudied: (key: string) => void;
 }
 
-export const FeedItem = memo(function FeedItem({ entry, active, height, onFail }: Props) {
+export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, onStudied }: Props) {
   const { item } = entry;
   const c = useColors();
   const page = getPage(item.pageId);
@@ -118,7 +119,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail }
     <View style={[{ height, overflow: "hidden" }, webSnap]} testID="feed-item">
       <GestureDetector gesture={gesture}>
         <View style={StyleSheet.absoluteFill} collapsable={false}>
-          <Card item={item} active={active} height={height} tapNonce={tapNonce} onFail={() => onFail(entry.key)} />
+          <Card item={item} active={active} height={height} tapNonce={tapNonce} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
           {burst && <HeartBurst key={burst.id} x={burst.x} y={burst.y} tilt={burst.tilt} />}
         </View>
       </GestureDetector>

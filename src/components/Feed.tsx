@@ -5,10 +5,13 @@ import { useIsFocused } from "expo-router";
 import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
+import { countStudy } from "@/store/progress";
 import { useColors } from "@/theme";
 import { FeedItem } from "./FeedItem";
 
 const QUICK_SKIP_MS = 1500;
+/** Staying this long on a card counts it as studied. */
+const DWELL_MS = 3000;
 
 interface Props {
   source: FeedSource;
@@ -62,6 +65,24 @@ export function Feed({ source, initialIndex = 0, emptyState, paused }: Props) {
 
   const playing = focused && !paused;
 
+  // Each entry counts toward the daily goal at most once.
+  const [studied] = useState(() => new Set<string>());
+  const onStudied = useCallback(
+    (key: string) => {
+      if (studied.has(key)) return;
+      studied.add(key);
+      countStudy();
+    },
+    [studied],
+  );
+
+  const activeKey = entries[active]?.key;
+  useEffect(() => {
+    if (!playing || !activeKey) return;
+    const id = setTimeout(() => onStudied(activeKey), DWELL_MS);
+    return () => clearTimeout(id);
+  }, [playing, activeKey, onStudied]);
+
   return (
     <View style={[styles.fill, { backgroundColor: c.bg }]} onLayout={(e) => setHeight(Math.round(e.nativeEvent.layout.height))}>
       {needsFollow && emptyState}
@@ -70,7 +91,7 @@ export function Feed({ source, initialIndex = 0, emptyState, paused }: Props) {
           ref={list}
           data={entries}
           keyExtractor={(e) => e.key}
-          renderItem={({ item, index }) => <FeedItem entry={item} active={playing && index === active} height={height} onFail={onFail} />}
+          renderItem={({ item, index }) => <FeedItem entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} />}
           extraData={`${active}-${playing}-${height}`}
           pagingEnabled
           snapToInterval={Platform.OS === "web" ? undefined : height}

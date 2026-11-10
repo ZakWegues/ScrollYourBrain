@@ -66,12 +66,16 @@ const math: ((rng: Rng) => StudyItem)[] = [
   },
 ];
 
-const CAPITALS: [string, string][] = [
-  ["Austrália", "Camberra"], ["Canadá", "Ottawa"], ["Turquia", "Ancara"], ["Marrocos", "Rabat"], ["Nova Zelândia", "Wellington"],
-  ["Suíça", "Berna"], ["Nigéria", "Abuja"], ["Paquistão", "Islamabad"], ["Vietnã", "Hanói"], ["Egito", "Cairo"],
-  ["Argentina", "Buenos Aires"], ["Chile", "Santiago"], ["Peru", "Lima"], ["Colômbia", "Bogotá"], ["Japão", "Tóquio"],
-  ["Coreia do Sul", "Seul"], ["Quênia", "Nairóbi"], ["Noruega", "Oslo"], ["Polônia", "Varsóvia"], ["Portugal", "Lisboa"],
-  ["Bolívia", "Sucre"], ["Índia", "Nova Délhi"], ["Tailândia", "Bangkok"], ["Grécia", "Atenas"], ["Irlanda", "Dublin"],
+/** [country with its Portuguese contraction, country, capital]. */
+const CAPITALS: [string, string, string][] = [
+  ["da Austrália", "Austrália", "Camberra"], ["do Canadá", "Canadá", "Ottawa"], ["da Turquia", "Turquia", "Ancara"],
+  ["do Marrocos", "Marrocos", "Rabat"], ["da Nova Zelândia", "Nova Zelândia", "Wellington"], ["da Suíça", "Suíça", "Berna"],
+  ["da Nigéria", "Nigéria", "Abuja"], ["do Paquistão", "Paquistão", "Islamabad"], ["do Vietnã", "Vietnã", "Hanói"],
+  ["do Egito", "Egito", "Cairo"], ["da Argentina", "Argentina", "Buenos Aires"], ["do Chile", "Chile", "Santiago"],
+  ["do Peru", "Peru", "Lima"], ["da Colômbia", "Colômbia", "Bogotá"], ["do Japão", "Japão", "Tóquio"],
+  ["da Coreia do Sul", "Coreia do Sul", "Seul"], ["do Quênia", "Quênia", "Nairóbi"], ["da Noruega", "Noruega", "Oslo"],
+  ["da Polônia", "Polônia", "Varsóvia"], ["de Portugal", "Portugal", "Lisboa"], ["da Índia", "Índia", "Nova Délhi"],
+  ["da Tailândia", "Tailândia", "Bangkok"], ["da Grécia", "Grécia", "Atenas"], ["da Irlanda", "Irlanda", "Dublin"],
 ];
 
 const ELEMENTS: [string, string][] = [
@@ -93,15 +97,15 @@ const VOCAB: [string, string, string][] = [
 ];
 
 const geo = (rng: Rng): StudyItem => {
-  const [country, capital] = pick(rng, CAPITALS);
-  const wrong = CAPITALS.filter(([, c]) => c !== capital).sort(() => rng() - 0.5).slice(0, 3).map(([, c]) => c);
-  return quiz(rng, { id: `gen-geo-${country}`, pageId: "geografia", title: "Capitais do mundo", tags: ["capitais"], question: `Qual é a capital de ${country}?`, explanation: `A capital de ${country} é ${capital}.` }, capital, wrong);
+  const [withArticle, country, capital] = pick(rng, CAPITALS);
+  const wrong = CAPITALS.filter(([, , c]) => c !== capital).sort(() => rng() - 0.5).slice(0, 3).map(([, , c]) => c);
+  return quiz(rng, { id: `gen-geo-${country}`, pageId: "geografia", title: "Capitais do mundo", tags: ["capitais"], question: `Qual é a capital ${withArticle}?`, explanation: `A capital ${withArticle} é ${capital}.` }, capital, wrong);
 };
 
 const chem = (rng: Rng): StudyItem => {
   const [name, symbol] = pick(rng, ELEMENTS);
   const wrong = ELEMENTS.filter(([, s]) => s !== symbol).sort(() => rng() - 0.5).slice(0, 3).map(([, s]) => s);
-  return quiz(rng, { id: `gen-qui-${symbol}`, pageId: "quimica", title: "Símbolos químicos", tags: ["tabela periódica"], question: `Qual é o símbolo do ${name.toLowerCase()}?`, explanation: `${name} = ${symbol}. Muitos símbolos vêm do latim.` }, symbol, wrong);
+  return quiz(rng, { id: `gen-qui-${symbol}`, pageId: "quimica", title: "Símbolos químicos", tags: ["tabela periódica"], question: `Qual é o símbolo químico do elemento ${name}?`, explanation: `${name} = ${symbol}. Muitos símbolos vêm do latim.` }, symbol, wrong);
 };
 
 const english = (rng: Rng): FlashItem => {

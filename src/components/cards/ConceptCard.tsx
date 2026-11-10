@@ -11,7 +11,7 @@ import type { CardProps } from "./types";
 const BEAT_MS = 2800;
 
 /** A short "video" rendered in code: beats appear one by one, Stories-style, then the takeaway. */
-export function ConceptCard({ item, active, tapNonce }: CardProps<ConceptItem>) {
+export function ConceptCard({ item, active, tapNonce, onStudied }: CardProps<ConceptItem>) {
   const c = useColors();
   const reduceMotion = useSettings((s) => s.reduceMotion);
   const steps = item.beats.length + 1; // last step = takeaway
@@ -48,6 +48,10 @@ export function ConceptCard({ item, active, tapNonce }: CardProps<ConceptItem>) 
   const bar = useAnimatedStyle(() => ({ width: `${progress.value * 100}%` }));
   const enter = reduceMotion ? FadeIn.duration(150) : FadeInDown.springify().damping(16).stiffness(140);
   const done = step >= steps - 1;
+
+  useEffect(() => {
+    if (done && active) onStudied?.();
+  }, [done, active, onStudied]);
 
   return (
     <View style={StyleSheet.absoluteFill}>

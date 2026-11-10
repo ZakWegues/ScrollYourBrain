@@ -12,7 +12,7 @@ import { Backdrop } from "./Backdrop";
 import type { CardProps } from "./types";
 
 /** Tap anywhere to flip. */
-export function FlashCard({ item, active, tapNonce }: CardProps<FlashItem>) {
+export function FlashCard({ item, active, tapNonce, onStudied }: CardProps<FlashItem>) {
   const c = useColors();
   const page = getPage(item.pageId);
   const reduceMotion = useSettings((s) => s.reduceMotion);
@@ -21,7 +21,10 @@ export function FlashCard({ item, active, tapNonce }: CardProps<FlashItem>) {
   const [seenTap, setSeenTap] = useState(tapNonce);
   if (seenTap !== tapNonce) {
     setSeenTap(tapNonce);
-    if (active) setFlipped((f) => !f);
+    if (active) {
+      setFlipped((f) => !f);
+      onStudied?.();
+    }
   }
 
   useEffect(() => {

@@ -9,4 +9,6 @@ export interface CardProps<T extends StudyItem = StudyItem> {
   tapNonce: number;
   /** Called when the card cannot be shown (e.g. a video that fails to load). */
   onFail?: () => void;
+  /** Called when the user really engaged with the card (answered, flipped, watched to the end). */
+  onStudied?: () => void;
 }

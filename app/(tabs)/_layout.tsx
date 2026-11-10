@@ -1,9 +1,11 @@
 import { mdiBookmarkMultiple, mdiBookmarkMultipleOutline, mdiCog, mdiCogOutline, mdiCompass, mdiCompassOutline, mdiPlayBoxMultiple, mdiPlayBoxMultipleOutline } from "@mdi/js";
 import { BlurView } from "expo-blur";
+import { Redirect } from "expo-router";
 import { Tabs } from "expo-router/js-tabs";
 import { Platform, StyleSheet } from "react-native";
 import { JellyTabBar, pathIcon } from "react-native-jelly-tabs";
 import { haptic } from "@/lib/haptics";
+import { useSettings } from "@/store/settings";
 import { fonts, useColors } from "@/theme";
 
 const FeedIcon = pathIcon(mdiPlayBoxMultiple, { inactivePath: mdiPlayBoxMultipleOutline });
@@ -14,6 +16,8 @@ const SettingsIcon = pathIcon(mdiCog, { inactivePath: mdiCogOutline });
 
 export default function TabLayout() {
   const c = useColors();
+  const onboarded = useSettings((s) => s.onboarded);
+  if (!onboarded) return <Redirect href="/onboarding" />;
   return (
     <Tabs
       screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: c.bg } }}

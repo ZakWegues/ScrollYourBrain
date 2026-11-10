@@ -1,0 +1,65 @@
+import { PAGES } from "@/data/pages";
+import { createRng, generateFor, type Rng } from "@/feed/sources/generators";
+import { SEED } from "@/feed/sources/seed";
+import type { PageId, QuizItem } from "@/feed/types";
+
+/** Pages whose generator produces quizzes, so their exams can be as long as needed. */
+const QUIZ_GENERATORS: readonly PageId[] = ["matematica", "geografia", "quimica", "programacao"];
+
+export const MIN_EXAM_QUESTIONS = 5;
+export const ALL_PAGES = "all";
+
+const seedQuizzes = (pageId?: PageId) =>
+  SEED.filter((i): i is QuizItem => i.kind === "quiz" && (!pageId || i.pageId === pageId));
+
+const availabilityCache = new Map<string, number>();
+
+/** How many distinct questions an exam on this page can have, measured by sampling its generator. */
+export function examAvailability(pageId?: PageId): number {
+  const key = pageId ?? "all";
+  const cached = availabilityCache.get(key);
+  if (cached !== undefined) return cached;
+  const ids = new Set(seedQuizzes(pageId).map((q) => q.id));
+  const generators = pageId ? (QUIZ_GENERATORS.includes(pageId) ? [pageId] : []) : [...QUIZ_GENERATORS];
+  const rng = createRng(42);
+  for (let i = 0; i < 600 && generators.length > 0; i++) {
+    const item = generateFor(generators[i % generators.length], rng);
+    if (item.kind === "quiz") ids.add(item.id);
+  }
+  availabilityCache.set(key, ids.size);
+  return ids.size;
+}
+
+/** Pages that can host an exam, with how many questions each has. */
+export const examPages = () =>
+  PAGES.map((p) => ({ page: p, available: examAvailability(p.id) })).filter((p) => p.available >= MIN_EXAM_QUESTIONS);
+
+function shuffle<T>(list: T[], rng: Rng): T[] {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+/**
+ * Picks `count` distinct quiz questions for a page (or every page). Hand-written
+ * questions come first; generated ones fill the rest when the page has a generator.
+ */
+export function buildExam({ pageId, count, rng }: { pageId?: PageId; count: number; rng: Rng }): QuizItem[] {
+  const picked = new Map<string, QuizItem>();
+  for (const q of shuffle(seedQuizzes(pageId), rng)) {
+    if (picked.size >= count) break;
+    picked.set(q.id, q);
+  }
+  const generators = pageId ? (QUIZ_GENERATORS.includes(pageId) ? [pageId] : []) : [...QUIZ_GENERATORS];
+  for (let tries = 0; picked.size < count && generators.length > 0 && tries < count * 20; tries++) {
+    const item = generateFor(generators[tries % generators.length], rng);
+    if (item.kind === "quiz" && !picked.has(item.id)) picked.set(item.id, item);
+  }
+  return shuffle([...picked.values()], rng);
+}
+
+/** Score from 0 to 100. */
+export const examScore = (correct: number, total: number) => (total === 0 ? 0 : Math.round((correct / total) * 100));

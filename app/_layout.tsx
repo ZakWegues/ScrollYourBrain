@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
+import { GoalCelebration } from "@/components/GoalCelebration";
 import { useStoresHydrated } from "@/store/hydration";
 import { useSettings } from "@/store/settings";
 import { useColors } from "@/theme";
@@ -56,7 +57,10 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="page/[id]" />
           <Stack.Screen name="viewer" options={{ animation: "fade_from_bottom" }} />
+          <Stack.Screen name="onboarding" options={{ animation: "fade", gestureEnabled: false }} />
+          <Stack.Screen name="exam" options={{ animation: "slide_from_bottom" }} />
         </Stack>
+        <GoalCelebration />
         {!splashDone && <AnimatedSplash bg={c.bg} onDone={finishSplash} reduceMotion={reduceMotion} />}
       </ThemeProvider>
     </GestureHandlerRootView>

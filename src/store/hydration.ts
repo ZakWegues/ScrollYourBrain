@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLibrary } from "./library";
+import { useProgress } from "./progress";
 import { useSettings } from "./settings";
 
-/** True once both persisted stores have been read back from storage. */
+const stores = [useLibrary, useSettings, useProgress] as const;
+
+/** True once all persisted stores have been read back from storage. */
 export function useStoresHydrated(): boolean {
-  const check = () => useLibrary.persist.hasHydrated() && useSettings.persist.hasHydrated();
+  const check = () => stores.every((s) => s.persist.hasHydrated());
   const [ready, setReady] = useState(check);
   useEffect(() => {
     if (ready) return;
     const update = () => setReady(check());
-    const unsubs = [useLibrary.persist.onFinishHydration(update), useSettings.persist.onFinishHydration(update)];
+    const unsubs = stores.map((s) => s.persist.onFinishHydration(update));
     update();
     return () => unsubs.forEach((u) => u());
   }, [ready]);

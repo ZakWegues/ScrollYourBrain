@@ -17,9 +17,12 @@
 - **O feed nunca fica vazio:** conteúdo embutido, geradores procedurais (matemática, capitais, química, inglês, binário) e fontes online. Funciona offline.
 - **O feed aprende com você:** "Curtir / Quero mais" e seguir uma página aumentam a frequência daquele tema. Pular rápido diminui.
 - **Interações:** dois toques para curtir (com animação), salvar, seguir páginas e compartilhar.
-- **Explorar:** busca sem diferenciar acentos, assuntos em alta e páginas por tema.
-- **Biblioteca:** salvos, curtidos, estatísticas de quiz e opção de **colar qualquer link do YouTube** para incluir no feed.
-- **Ajustes:** tema **Preto AMOLED** ou **Padrão**, autoplay, começar sem som, economia de dados, vibração, reduzir movimento e interesses.
+- **Onboarding:** na primeira abertura você escolhe os temas (mínimo 3) e uma meta diária. O feed já começa personalizado.
+- **Sequência e meta diária:** cada card estudado conta para a meta (ficar 3 s, responder, virar ou ver o resumo). A pílula 🔥 no topo do feed mostra a sequência e o anel de progresso; quando a meta é batida, aparece uma comemoração.
+- **Modo prova:** quizzes cronometrados (20 s por questão, ou sem tempo) por tema ou misturados, com nota, tempo, recorde e revisão dos erros.
+- **Explorar:** busca sem diferenciar acentos, assuntos em alta, páginas por tema e atalho para o Modo prova.
+- **Biblioteca:** sequência com gráfico dos últimos 7 dias, salvos, curtidos, estatísticas de quiz e opção de **colar qualquer link do YouTube** para incluir no feed.
+- **Ajustes:** tema **Preto AMOLED** ou **Padrão**, meta diária, autoplay, começar sem som, economia de dados, vibração, reduzir movimento e interesses.
 - **Barra de navegação jelly:** usa [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma barra flutuante usada pelo [Nuvio](https://nuvio.tv). No Android é renderizada nativamente.
 
 ## Instalar (Android)
@@ -45,7 +48,7 @@ npm run ios        # macOS + Xcode
 | --- | --- |
 | `npm run typecheck` | Checagem de tipos (TypeScript) |
 | `npm run lint` | ESLint |
-| `npm test` | Testes do motor do feed e dos geradores |
+| `npm test` | Testes do motor do feed, geradores, sequência e provas |
 | `npm run assets` | Regera ícone, splash e favicon a partir do SVG em `scripts/gen-assets.mjs` |
 
 ## Estrutura
