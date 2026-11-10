@@ -7,23 +7,43 @@
 
 ## O que tem
 
-- **Feed infinito** com scroll vertical em tela cheia e snap card a card.
-- **Cinco formatos de card**
-  - **Conceito:** um "vídeo" gerado por código, com cenas animadas, barra de progresso estilo Stories e resumo no final.
-  - **Quiz:** quatro alternativas, feedback na hora e explicação.
-  - **Flashcard:** toque para virar.
-  - **Vídeo:** player do YouTube embutido, com autoplay só no card visível.
-  - **Wikipédia:** um verbete aleatório em português a cada passada.
-- **O feed nunca fica vazio:** conteúdo embutido, geradores procedurais (matemática, capitais, química, inglês, binário) e fontes online. Funciona offline.
-- **O feed aprende com você:** "Curtir / Quero mais" e seguir uma página aumentam a frequência daquele tema. Pular rápido diminui.
-- **Interações:** dois toques para curtir (com animação), salvar, seguir páginas e compartilhar.
-- **Onboarding:** na primeira abertura você escolhe os temas (mínimo 3) e uma meta diária. O feed já começa personalizado.
-- **Sequência e meta diária:** cada card estudado conta para a meta (ficar 3 s, responder, virar ou ver o resumo). A pílula 🔥 no topo do feed mostra a sequência e o anel de progresso; quando a meta é batida, aparece uma comemoração.
-- **Modo prova:** quizzes cronometrados (20 s por questão, ou sem tempo) por tema ou misturados, com nota, tempo, recorde e revisão dos erros.
-- **Explorar:** busca sem diferenciar acentos, assuntos em alta, páginas por tema e atalho para o Modo prova.
-- **Biblioteca:** sequência com gráfico dos últimos 7 dias, salvos, curtidos, estatísticas de quiz e opção de **colar qualquer link do YouTube** para incluir no feed.
-- **Ajustes:** tema **Preto AMOLED** ou **Padrão**, meta diária, autoplay, começar sem som, economia de dados, vibração, reduzir movimento e interesses.
-- **Barra de navegação jelly:** usa [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma barra flutuante usada pelo [Nuvio](https://nuvio.tv). No Android é renderizada nativamente.
+**Estudar**
+- **Feed infinito** em tela cheia, com snap card a card e cinco formatos:
+  - conceitos animados (um "vídeo" feito por código);
+  - quizzes;
+  - flashcards;
+  - vídeos do YouTube;
+  - verbetes da Wikipédia.
+- **O feed nunca fica vazio:** conteúdo embutido, geradores procedurais e fontes online. Funciona **offline**: sem internet aparece um aviso e o feed segue com o que roda sem rede.
+- **O feed aprende com você:** curtir e seguir aumentam um tema; pular rápido diminui.
+- **Revisão espaçada:** erros de quiz e flashcards marcados entram numa fila no estilo SM-2. A revisão diária mostra quando cada card volta.
+- **Modo prova:** quizzes com ou sem tempo, nota, recorde e revisão dos erros.
+- **Modo foco:** Pomodoro (15/25/50 min) com um feed só do tema escolhido.
+- **Ouvir cards:** leitura em voz alta, sob demanda ou automática.
+
+**Organizar**
+- **Cadernos** para juntar cards por prova ou matéria.
+- **Anotações** em qualquer card, que também aparecem na revisão.
+- **Importar matéria:** colar texto ou abrir .txt/.csv (planilha, Anki) para gerar flashcards.
+- **Calendário de provas:** contagem regressiva e meta sugerida de cards por dia.
+- **Biblioteca:** salvos, curtidos, cadernos e notas.
+
+**Motivação**
+- **Sequência e meta diária**, com a pílula 🔥 no feed e uma comemoração ao bater a meta.
+- **Desafio semanal** com três missões.
+- **18 conquistas**.
+- **Estatísticas:** tempo por dia e por tema, precisão e heatmap de 4 meses.
+- **Lembrete diário** por notificação.
+- **Widget Android** com a sequência e a meta do dia na tela inicial.
+
+**Conforto**
+- Tema **Preto AMOLED** ou **Padrão**.
+- Texto Normal/Grande/Enorme e alto contraste.
+- Reduzir movimento, vibração e economia de dados.
+- **Backup** em arquivo para trocar de celular sem perder nada.
+- **Onboarding** com escolha de temas e meta na primeira abertura.
+
+A barra de navegação é a [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma barra flutuante do [Nuvio](https://nuvio.tv). No Android ela é renderizada nativamente.
 
 ## Instalar no celular (Android)
 
@@ -53,7 +73,7 @@ npm run ios        # macOS + Xcode
 | --- | --- |
 | `npm run typecheck` | Checagem de tipos (TypeScript) |
 | `npm run lint` | ESLint |
-| `npm test` | Testes do motor do feed, geradores, sequência e provas |
+| `npm test` | Testes do feed, geradores, sequência, provas, revisão, importação, estatísticas, desafios, calendário e backup |
 | `npm run assets` | Regera ícone, splash e favicon a partir do SVG em `scripts/gen-assets.mjs` |
 
 ## Estrutura

@@ -145,6 +145,7 @@ function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: 
 
       <AppText variant="headline" style={styles.label}>Questões</AppText>
       <Segmented<string>
+        fill
         value={String(settings.count)}
         onChange={(v) => onChange({ ...settings, count: Number(v) })}
         options={counts.map((n) => ({ value: String(n), label: `${Math.min(n, available)} questões` }))}
@@ -152,6 +153,7 @@ function Setup({ settings, onChange, onStart }: { settings: Settings; onChange: 
 
       <AppText variant="headline" style={styles.label}>Tempo</AppText>
       <Segmented<string>
+        fill
         value={settings.timed ? "timed" : "free"}
         onChange={(v) => onChange({ ...settings, timed: v === "timed" })}
         options={[{ value: "timed", label: `${SECONDS}s por questão` }, { value: "free", label: "Sem tempo" }]}

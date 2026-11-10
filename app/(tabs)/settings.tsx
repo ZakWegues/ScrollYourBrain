@@ -110,7 +110,7 @@ function ReminderSettings() {
       <Row icon="bell-ring-outline" title="Me lembrar de estudar" subtitle={reminder === null ? "Uma notificação por dia, no horário que você escolher" : `Todo dia às ${formatTime(reminder)}`} value={reminder !== null} onChange={(v) => apply(v ? (reminder ?? 20 * 60) : null)} last={reminder === null} testID="toggle-reminder" />
       {reminder !== null && (
         <View style={[styles.times, { borderTopColor: c.border }]}>
-          {REMINDER_TIMES.map((t) => <Chip key={t} label={formatTime(t)} active={reminder === t} onPress={() => apply(t)} />)}
+          <Segmented<string> fill value={String(reminder)} onChange={(v) => apply(Number(v))} options={REMINDER_TIMES.map((t) => ({ value: String(t), label: formatTime(t) }))} />
         </View>
       )}
     </Card>
@@ -172,9 +172,12 @@ export default function Settings() {
 
       <SectionTitle>Meta diária</SectionTitle>
       <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Cards por dia para manter sua sequência acesa.</AppText>
-      <View style={styles.chips}>
-        {[5, 10, 20, 30].map((g) => <Chip key={g} label={`${g} cards`} icon="fire" active={s.dailyGoal === g} onPress={() => s.set({ dailyGoal: g })} />)}
-      </View>
+      <Segmented<string>
+        fill
+        value={String(s.dailyGoal)}
+        onChange={(v) => s.set({ dailyGoal: Number(v) })}
+        options={[5, 10, 20, 30].map((g) => ({ value: String(g), label: `${g} cards` }))}
+      />
 
       <SectionTitle>Reprodução</SectionTitle>
       <Card>
@@ -263,6 +266,6 @@ const styles = StyleSheet.create({
   previewPill: { width: "30%", height: 14, borderRadius: 7 },
   themeLabel: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  times: { flexDirection: "row", flexWrap: "wrap", gap: space.sm, padding: space.md, borderTopWidth: StyleSheet.hairlineWidth },
+  times: { padding: space.md, borderTopWidth: StyleSheet.hairlineWidth },
   redo: { flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "flex-start", paddingHorizontal: 14, paddingVertical: 10, borderRadius: radius.pill, borderWidth: 1, marginTop: 12 },
 });

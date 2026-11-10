@@ -25,12 +25,12 @@ const palettes = {
     tab: "#0D0D10",
   },
   default: {
-    bg: "#0A0A0F",
-    surface: "#15151C",
-    surface2: "#1D1D26",
-    border: "rgba(255,255,255,0.09)",
-    glass: "rgba(26,26,34,0.62)",
-    tab: "#1A1A22",
+    bg: "#14141B",
+    surface: "#1E1E27",
+    surface2: "#2A2A35",
+    border: "rgba(255,255,255,0.10)",
+    glass: "rgba(36,36,46,0.66)",
+    tab: "#262630",
   },
 } as const;
 
