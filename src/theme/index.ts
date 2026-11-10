@@ -36,9 +36,17 @@ const palettes = {
 
 export type Colors = typeof shared & (typeof palettes)[ThemeMode];
 
-export const getColors = (mode: ThemeMode): Colors => ({ ...shared, ...palettes[mode] });
+/** Brighter secondary text and borders for readability. */
+const contrast = { textDim: "#D4D4D8", textMute: "#A1A1AA", border: "rgba(255,255,255,0.22)" };
 
-export const useColors = (): Colors => getColors(useSettings((s) => s.theme));
+export const getColors = (mode: ThemeMode, highContrast = false): Colors =>
+  ({ ...shared, ...palettes[mode], ...(highContrast ? contrast : null) }) as Colors;
+
+export const useColors = (): Colors => {
+  const mode = useSettings((s) => s.theme);
+  const hc = useSettings((s) => s.highContrast);
+  return getColors(mode, hc);
+};
 
 export const fonts = {
   display: "SpaceGrotesk_700Bold",

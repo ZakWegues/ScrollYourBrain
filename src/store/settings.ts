@@ -16,6 +16,13 @@ export interface SettingsState {
   dailyGoal: number;
   /** First-launch onboarding finished. */
   onboarded: boolean;
+  /** Text size multiplier (1, 1.15 or 1.3). */
+  textScale: number;
+  highContrast: boolean;
+  /** Read each card aloud when it appears. */
+  autoSpeak: boolean;
+  /** Daily reminder time as minutes after midnight, or null when off. */
+  reminder: number | null;
   set: (patch: Partial<Omit<SettingsState, "set" | "toggleInterest" | "reset">>) => void;
   toggleInterest: (id: PageId) => void;
   reset: () => void;
@@ -31,6 +38,10 @@ const defaults = {
   interests: [] as PageId[],
   dailyGoal: 10,
   onboarded: false,
+  textScale: 1,
+  highContrast: false,
+  autoSpeak: false,
+  reminder: null as number | null,
 };
 
 export const useSettings = create<SettingsState>()(
@@ -46,7 +57,7 @@ export const useSettings = create<SettingsState>()(
     {
       name: "syb-settings",
       storage: persistStorage,
-      version: 2,
+      version: 3,
       // v1 had no goal or onboarding flag; existing users keep their settings and see onboarding once.
       migrate: (persisted) => ({ ...defaults, ...(persisted as object) }),
     },

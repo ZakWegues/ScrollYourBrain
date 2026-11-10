@@ -2,9 +2,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import type { ComponentProps, ReactNode } from "react";
-import { Platform, Pressable, StyleSheet, Text, View, type PressableProps, type StyleProp, type TextProps, type ViewStyle } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View, type PressableProps, type StyleProp, type TextProps, type TextStyle, type ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { getPage } from "@/data/pages";
+import { useSettings } from "@/store/settings";
 import { fonts, radius, useColors } from "@/theme";
 
 export type IconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -21,9 +22,13 @@ const variantStyle: Record<Variant, object> = {
   caption: { fontFamily: fonts.bodyMid, fontSize: 12, lineHeight: 16, letterSpacing: 0.2 },
 };
 
+/** Themed text. Scales with the "Texto confortável" setting and, up to a limit, with the system font size. */
 export function AppText({ variant = "body", dim, style, ...rest }: TextProps & { variant?: Variant; dim?: boolean }) {
   const c = useColors();
-  return <Text {...rest} style={[variantStyle[variant], { color: dim ? c.textDim : c.text }, style]} />;
+  const scale = useSettings((s) => s.textScale);
+  const flat = StyleSheet.flatten([variantStyle[variant], { color: dim ? c.textDim : c.text }, style]) as TextStyle;
+  const sized = scale === 1 ? flat : { ...flat, fontSize: flat.fontSize && flat.fontSize * scale, lineHeight: flat.lineHeight && flat.lineHeight * scale };
+  return <Text maxFontSizeMultiplier={1.3} {...rest} style={sized} />;
 }
 
 /** Frosted surface; blur where the platform renders it cheaply, a translucent fill elsewhere. */

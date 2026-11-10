@@ -10,6 +10,8 @@ import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
 import { useReview } from "@/store/review";
 import { isDue } from "@/lib/srs";
+import { speak, speechText, stopSpeaking } from "@/lib/speech";
+import { useSettings } from "@/store/settings";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
 import { openNote, openNotebookPicker } from "./Sheets";
 import { toast } from "./Toast";
@@ -95,6 +97,31 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
   const inReview = useReview((s) => (s.cards[item.id] ? isDue(s.cards[item.id].srs) : false));
   const { toggleLike, toggleSave, toggleFollow } = useLibrary.getState();
   const [tapNonce, setTapNonce] = useState(0);
+  const [speaking, setSpeaking] = useState(false);
+  const autoSpeak = useSettings((s) => s.autoSpeak);
+
+  // Read the card aloud when it becomes active (if enabled); always stop when it leaves the screen.
+  useEffect(() => {
+    if (!active) return;
+    if (autoSpeak && item.kind !== "video") {
+      speak(speechText(item), { onStart: () => setSpeaking(true), onDone: () => setSpeaking(false) });
+    }
+    return () => {
+      stopSpeaking();
+      setSpeaking(false);
+    };
+  }, [active, autoSpeak, item]);
+
+  const toggleSpeech = () => {
+    if (speaking) {
+      stopSpeaking();
+      setSpeaking(false);
+    } else {
+      setSpeaking(true);
+      speak(speechText(item), { onDone: () => setSpeaking(false) });
+    }
+    haptic.light();
+  };
   const [burst, setBurst] = useState<{ x: number; y: number; id: number; tilt: number } | null>(null);
 
   const like = useCallback(() => {
@@ -132,6 +159,14 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
           {burst && <HeartBurst key={burst.id} x={burst.x} y={burst.y} tilt={burst.tilt} />}
         </View>
       </GestureDetector>
+
+      {item.kind !== "video" && (
+        <Bouncy onPress={toggleSpeech} style={styles.listen} accessibilityLabel={speaking ? "Parar leitura" : "Ouvir este card"} testID="listen-button">
+          <View style={[styles.listenInner, { backgroundColor: speaking ? c.accent : "rgba(0,0,0,0.4)", borderColor: c.border }]}>
+            <Icon name={speaking ? "stop" : "account-voice"} size={20} color="#fff" />
+          </View>
+        </Bouncy>
+      )}
 
       <View style={[styles.rail, { bottom: bottomInset + 8 }]} pointerEvents="box-none">
         <Bouncy onPress={() => router.push(`/page/${page.id}`)} style={styles.avatarWrap} accessibilityLabel={`Abrir página ${page.name}`}>
@@ -216,6 +251,8 @@ function HeartBurst({ x, y, tilt }: { x: number; y: number; tilt: number }) {
 const webSnap = Platform.OS === "web" ? ({ scrollSnapAlign: "start", scrollSnapStop: "always" } as object) : null;
 
 const styles = StyleSheet.create({
+  listen: { position: "absolute", top: 128, right: 12 },
+  listenInner: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", borderWidth: StyleSheet.hairlineWidth },
   rail: { position: "absolute", right: 8, alignItems: "center", gap: 10 },
   avatarWrap: { marginBottom: 8, alignItems: "center" },
   follow: { position: "absolute", bottom: -9, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },

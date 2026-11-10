@@ -15,6 +15,8 @@ import { SheetsHost } from "@/components/Sheets";
 import { ToastHost } from "@/components/Toast";
 import { useAchievementWatcher } from "@/store/achievementWatcher";
 import { useStoresHydrated } from "@/store/hydration";
+import { scheduleReminder } from "@/lib/notifications";
+import { useToday } from "@/store/progress";
 import { useSettings } from "@/store/settings";
 import { useColors } from "@/theme";
 
@@ -32,6 +34,12 @@ export default function RootLayout() {
   });
   const hydrated = useStoresHydrated();
   useAchievementWatcher(hydrated);
+  const reminder = useSettings((s) => s.reminder);
+  const { streak, goal } = useToday();
+  // Keep the reminder text in sync with the current streak and goal.
+  useEffect(() => {
+    if (hydrated && reminder !== null) scheduleReminder(reminder, streak, goal).catch(() => {});
+  }, [hydrated, reminder, streak, goal]);
   const c = useColors();
   const reduceMotion = useSettings((s) => s.reduceMotion);
   const [splashDone, setSplashDone] = useState(false);
@@ -67,6 +75,8 @@ export default function RootLayout() {
           <Stack.Screen name="import" options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="notebook/[id]" />
           <Stack.Screen name="stats" />
+          <Stack.Screen name="focus" options={{ animation: "fade", gestureEnabled: false }} />
+          <Stack.Screen name="planner" />
           <Stack.Screen name="achievements" />
         </Stack>
         <SheetsHost />

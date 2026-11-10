@@ -3,15 +3,18 @@ import { router } from "expo-router";
 import type { ReactNode } from "react";
 import { Alert, Linking, Platform, StyleSheet, Switch, View } from "react-native";
 import { Screen, SectionTitle } from "@/components/Screen";
-import { AppText, Bouncy, Chip, Icon, type IconName } from "@/components/ui";
+import { toast } from "@/components/Toast";
+import { AppText, Bouncy, Chip, Icon, Segmented, type IconName } from "@/components/ui";
+import { ensurePermission, formatTime, remindersSupported, scheduleReminder } from "@/lib/notifications";
 import { PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
-import { useProgress } from "@/store/progress";
+import { useProgress, useToday } from "@/store/progress";
 import { useReview } from "@/store/review";
+import { usePlanner } from "@/store/planner";
 import { useSettings } from "@/store/settings";
-import { getColors, radius, useColors, type ThemeMode } from "@/theme";
+import { getColors, radius, space, useColors, type ThemeMode } from "@/theme";
 
 const REPO = "https://github.com/ZakWegues/ScrollYourBrain";
 
@@ -82,6 +85,37 @@ function ThemeOption({ mode, label, desc }: { mode: ThemeMode; label: string; de
   );
 }
 
+const REMINDER_TIMES = [7 * 60, 12 * 60, 18 * 60, 20 * 60, 21 * 60 + 30];
+
+function ReminderSettings() {
+  const c = useColors();
+  const reminder = useSettings((st) => st.reminder);
+  const set = useSettings((st) => st.set);
+  const { streak, goal } = useToday();
+
+  const apply = async (minutes: number | null) => {
+    if (minutes !== null && !(await ensurePermission())) {
+      toast({ message: remindersSupported ? "Permita notificações nos ajustes do Android" : "Lembretes funcionam no app do celular", icon: "bell-off-outline", tone: "error" });
+      return;
+    }
+    set({ reminder: minutes });
+    await scheduleReminder(minutes, streak, goal);
+    haptic.select();
+    toast({ message: minutes === null ? "Lembrete desligado" : `Lembrete todo dia às ${formatTime(minutes)}`, icon: minutes === null ? "bell-off-outline" : "bell-ring-outline" });
+  };
+
+  return (
+    <Card>
+      <Row icon="bell-ring-outline" title="Me lembrar de estudar" subtitle={reminder === null ? "Uma notificação por dia, no horário que você escolher" : `Todo dia às ${formatTime(reminder)}`} value={reminder !== null} onChange={(v) => apply(v ? (reminder ?? 20 * 60) : null)} last={reminder === null} testID="toggle-reminder" />
+      {reminder !== null && (
+        <View style={[styles.times, { borderTopColor: c.border }]}>
+          {REMINDER_TIMES.map((t) => <Chip key={t} label={formatTime(t)} active={reminder === t} onPress={() => apply(t)} />)}
+        </View>
+      )}
+    </Card>
+  );
+}
+
 export default function Settings() {
   const c = useColors();
   const s = useSettings();
@@ -94,6 +128,21 @@ export default function Settings() {
         <ThemeOption mode="amoled" label="Preto AMOLED" desc="Preto puro. Economiza bateria em telas OLED." />
         <ThemeOption mode="default" label="Padrão" desc="Escuro suave, com mais profundidade." />
       </View>
+
+      <SectionTitle>Texto confortável</SectionTitle>
+      <Segmented<string>
+        fill
+        value={String(s.textScale)}
+        onChange={(v) => s.set({ textScale: Number(v) })}
+        options={[{ value: "1", label: "Normal" }, { value: "1.15", label: "Grande" }, { value: "1.3", label: "Enorme" }]}
+      />
+      <View style={{ height: space.md }} />
+      <Card>
+        <Row icon="contrast-circle" title="Alto contraste" subtitle="Textos secundários e bordas mais fortes" value={s.highContrast} onChange={(v) => s.set({ highContrast: v })} last testID="toggle-contrast" />
+      </Card>
+
+      <SectionTitle>Lembrete diário</SectionTitle>
+      <ReminderSettings />
 
       <SectionTitle>Meta diária</SectionTitle>
       <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Cards por dia para manter sua sequência acesa.</AppText>
@@ -111,7 +160,8 @@ export default function Settings() {
       <SectionTitle>Interação</SectionTitle>
       <Card>
         <Row icon="vibrate" title="Vibração (haptics)" value={s.haptics} onChange={(v) => s.set({ haptics: v })} />
-        <Row icon="motion-pause-outline" title="Reduzir movimento" subtitle="Menos animações e transições" value={s.reduceMotion} onChange={(v) => s.set({ reduceMotion: v })} last />
+        <Row icon="motion-pause-outline" title="Reduzir movimento" subtitle="Menos animações e transições" value={s.reduceMotion} onChange={(v) => s.set({ reduceMotion: v })} />
+        <Row icon="account-voice" title="Ler cards em voz alta" subtitle="Lê cada card quando ele aparece no feed" value={s.autoSpeak} onChange={(v) => s.set({ autoSpeak: v })} last />
       </Card>
 
       <SectionTitle>Interesses</SectionTitle>
@@ -130,7 +180,7 @@ export default function Settings() {
           <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="refresh" size={18} color={c.text} /></View>
           <AppText variant="label" style={{ flex: 1 }}>Limpar histórico do feed</AppText>
         </Bouncy>
-        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); s.reset(); haptic.success(); })}>
+        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); usePlanner.getState().reset(); s.reset(); haptic.success(); })}>
           <View style={[styles.rowIcon, { backgroundColor: "rgba(244,63,94,0.15)" }]}><Icon name="trash-can-outline" size={18} color={c.danger} /></View>
           <AppText variant="label" style={{ flex: 1, color: c.danger }}>Apagar todos os dados</AppText>
         </Bouncy>
@@ -168,5 +218,6 @@ const styles = StyleSheet.create({
   previewPill: { width: "30%", height: 14, borderRadius: 7 },
   themeLabel: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  times: { flexDirection: "row", flexWrap: "wrap", gap: space.sm, padding: space.md, borderTopWidth: StyleSheet.hairlineWidth },
   redo: { flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "flex-start", paddingHorizontal: 14, paddingVertical: 10, borderRadius: radius.pill, borderWidth: 1, marginTop: 12 },
 });

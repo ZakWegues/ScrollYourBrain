@@ -18,6 +18,8 @@ import { useLibrary, type Snapshot } from "@/store/library";
 import { NOTEBOOK_COLORS, useNotebooks } from "@/store/notebooks";
 import { useDueCount, useReview } from "@/store/review";
 import { useProgress } from "@/store/progress";
+import { usePlanner } from "@/store/planner";
+import { countdownLabel, daysUntil } from "@/lib/planner";
 import { ACHIEVEMENTS } from "@/lib/achievements";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
 
@@ -50,6 +52,7 @@ export default function Library() {
         </Bouncy>
       }
     >
+      <NextExam />
       <ReviewCard />
       <View style={{ height: space.md }} />
       <StreakCard />
@@ -92,23 +95,43 @@ export default function Library() {
 function QuickLinks() {
   const c = useColors();
   const unlocked = useProgress((s) => Object.keys(s.achievements).length);
+  const examCount = usePlanner((s) => Object.values(s.exams).filter((e) => daysUntil(e.date) >= 0).length);
+  const links: { icon: IconName; color: string; title: string; sub: string; to: "/stats" | "/achievements" | "/planner"; id: string }[] = [
+    { icon: "chart-box-outline", color: c.accent2, title: "Estatísticas", sub: "seu ritmo", to: "/stats", id: "stats-link" },
+    { icon: "trophy-outline", color: c.save, title: "Conquistas", sub: `${unlocked}/${ACHIEVEMENTS.length}`, to: "/achievements", id: "achievements-link" },
+    { icon: "calendar-star", color: c.like, title: "Provas", sub: examCount ? `${examCount} marcada${examCount > 1 ? "s" : ""}` : "calendário", to: "/planner", id: "planner-link" },
+  ];
   return (
     <View style={[styles.links, { marginTop: space.md }]}>
-      <Bouncy onPress={() => router.push("/stats")} scaleTo={0.97} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel="Abrir estatísticas" testID="stats-link">
-        <Icon name="chart-box-outline" size={22} color={c.accent2} />
-        <View style={{ flex: 1 }}>
-          <AppText variant="label">Estatísticas</AppText>
-          <AppText variant="caption" dim>Tempo e precisão</AppText>
-        </View>
-      </Bouncy>
-      <Bouncy onPress={() => router.push("/achievements")} scaleTo={0.97} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel="Abrir conquistas" testID="achievements-link">
-        <Icon name="trophy-outline" size={22} color={c.save} />
-        <View style={{ flex: 1 }}>
-          <AppText variant="label">Conquistas</AppText>
-          <AppText variant="caption" dim>{unlocked}/{ACHIEVEMENTS.length} medalhas</AppText>
-        </View>
-      </Bouncy>
+      {links.map((l) => (
+        <Bouncy key={l.id} onPress={() => router.push(l.to)} scaleTo={0.96} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={l.title} testID={l.id}>
+          <Icon name={l.icon} size={24} color={l.color} />
+          <AppText variant="label" numberOfLines={1}>{l.title}</AppText>
+          <AppText variant="caption" dim numberOfLines={1}>{l.sub}</AppText>
+        </Bouncy>
+      ))}
     </View>
+  );
+}
+
+function NextExam() {
+  const c = useColors();
+  const exams = usePlanner((s) => s.exams);
+  const next = Object.values(exams).filter((e) => daysUntil(e.date) >= 0).sort((a, b) => a.date.localeCompare(b.date))[0];
+  if (!next) return null;
+  const days = daysUntil(next.date);
+  return (
+    <Bouncy onPress={() => router.push("/planner")} scaleTo={0.98} style={[styles.nextExam, { backgroundColor: c.surface, borderColor: days <= 3 ? c.danger : c.border }]} accessibilityLabel={`Próxima prova: ${next.title}, ${countdownLabel(days)}`}>
+      <View style={[styles.examDays, { backgroundColor: days <= 3 ? "rgba(244,63,94,0.16)" : c.surface2 }]}>
+        <AppText variant="title" style={{ color: days <= 3 ? c.danger : c.text }}>{days}</AppText>
+        <AppText variant="caption" dim>{days === 1 ? "dia" : "dias"}</AppText>
+      </View>
+      <View style={{ flex: 1 }}>
+        <AppText variant="caption" dim>Próxima prova</AppText>
+        <AppText variant="headline" numberOfLines={1}>{next.title}</AppText>
+      </View>
+      <Icon name="chevron-right" size={24} color={c.textDim} />
+    </Bouncy>
   );
 }
 
@@ -283,7 +306,9 @@ const styles = StyleSheet.create({
   review: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.lg, borderRadius: radius.lg, overflow: "hidden" },
   reviewIcon: { width: 48, height: 48, borderRadius: 24, alignItems: "center", justifyContent: "center" },
   links: { flexDirection: "row", gap: space.sm },
-  link: { flex: 1, flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, minHeight: 64 },
+  link: { flex: 1, alignItems: "center", gap: 4, paddingVertical: space.md, paddingHorizontal: space.sm, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth },
+  nextExam: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.lg, borderWidth: 1, marginBottom: space.md },
+  examDays: { width: 56, height: 56, borderRadius: radius.md, alignItems: "center", justifyContent: "center" },
   empty: { alignItems: "center", padding: space.xl, borderRadius: radius.lg, borderWidth: 1, borderStyle: "dashed" },
   inputRow: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingLeft: space.md, height: 52, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, marginBottom: space.md },
   input: { flex: 1, fontSize: 15, height: "100%", outlineStyle: "none" } as object,
