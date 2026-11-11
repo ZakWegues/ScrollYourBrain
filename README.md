@@ -39,7 +39,7 @@
   - conceitos animados;
   - quizzes;
   - flashcards;
-  - **vídeos reais em português** (Shorts em tela cheia e trechos de aula);
+  - **mais de 300 Shorts reais em português**, de todas as matérias, e trechos de aula, tocando dentro do app;
   - curiosidades da Wikipédia.
 - **Para você · Seguindo · Mix:** o Mix junta as contas que você mais curtiu.
 - **56 páginas**: 14 matérias e **42 contas de submatéria** (Funções, Cinemática, Genética, Redação…). Seguir uma matéria segue todas as contas dela.
@@ -149,7 +149,7 @@ Mais detalhes em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - **Questões geradas:** os geradores de `src/feed/sources/` criam questões com números novos, com resposta e explicação calculadas. Todos têm testes.
 - **Vídeos:** canais brasileiros de professores, achados e filtrados por `scripts/curate-videos.mjs`.
   - Só entram vídeos em português que o YouTube permite incorporar; os que falham são pulados no app.
-  - Os vídeos continuam pertencendo aos seus autores e são exibidos pelo player oficial do YouTube.
+  - Os vídeos continuam pertencendo aos seus autores e são exibidos pelo player oficial do YouTube (IFrame API), dentro do app.
 
 Como adicionar conteúdo: [docs/CONTENT.md](docs/CONTENT.md).
 

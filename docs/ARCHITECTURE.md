@@ -51,6 +51,13 @@ src/
 - **`src/feed/sources/generators*.ts`:** questões procedurais por conta. `gen-utils.ts` garante 4 opções distintas.
 - **`src/feed/sources/videos.json`:** vídeos curados (ver `scripts/curate-videos.mjs`).
 
+## Player de vídeo
+- **`src/lib/ytEmbed.ts`** monta a página do player (IFrame API do YouTube) e define a origem do app, `https://com.zakwegues.scrollyourbrain`.
+- **`src/components/video/YouTubeEmbed.tsx`** carrega essa página num WebView com `baseUrl` igual à origem. O YouTube exige que o embed identifique o app pelo Referer; sem isso o vídeo falha com erro de configuração (152/153).
+  - Comandos (tocar, pausar, som, 2×) entram por `injectJavaScript`; estado e erros voltam por `postMessage`.
+  - Na web, o mesmo HTML roda num `iframe` com `srcdoc` (`YouTubeEmbed.web.tsx`).
+- Se o embed for recusado, o card oferece **"Assistir aqui"**, que abre `app/watch.tsx`: a página móvel do próprio YouTube num WebView. Só o erro 100 (vídeo removido ou privado) pula o card.
+
 ## Estado (`src/store/`)
 | Store | Chave | Conteúdo |
 |---|---|---|

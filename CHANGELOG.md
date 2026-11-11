@@ -2,6 +2,23 @@
 
 Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [0.7.0] — 2026-11-11
+### Corrigido
+- **Vídeos tocam dentro do app.** O player agora é próprio: a página do player tem a origem do app, como o YouTube exige desde 2025 (antes os vídeos davam erro de configuração e eram pulados).
+  - Se o YouTube ainda recusar um vídeo, aparece **"Assistir aqui"**, que abre o vídeo numa tela do próprio app.
+  - Só vídeos removidos ou privados são pulados.
+- As abas do feed não ficam mais por cima da meta diária: a meta virou um anel compacto e as abas se ajustam em telas estreitas e com texto grande.
+- Versão web: corrigido um loop de renderização ao voltar de outra tela para o feed.
+### Adicionado
+- **Mais que o dobro de Shorts:** de 141 para mais de 300, de todas as matérias.
+- Tela de vídeo dentro do app, também usada no "Aula completa".
+### Alterado
+- **Telas mais simples à primeira vista, sem perder nenhuma função:**
+  - **Biblioteca:** sequência, desafio e resumo da semana ficam em "Sua semana"; "Adicionar vídeo" abre com um toque.
+  - **Ajustes:** tema, meta, lembrete e série no topo; o resto em seções que abrem com um toque.
+  - **Explorar:** modos, quiz relâmpago e foco numa linha de atalhos; cada matéria abre com um toque.
+  - **Card do feed:** um chip só (formato e canal); revisão e nota viram ícones.
+
 ## [0.6.0] — 2026-11-11
 ### Corrigido
 - A barra de abas parava de responder no Android (contêiner sem altura) e podia ficar escondida depois de um gesto interrompido.

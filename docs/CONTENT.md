@@ -32,10 +32,11 @@ Os cards da página "Macetes de prova" ficam em `src/data/macetes.ts` (`pageId: 
 ## Vídeos
 ```bash
 YTDLP=/caminho/yt-dlp npm run curate-videos -- --only genetica,funcoes
+YTDLP=/caminho/yt-dlp npm run curate-videos -- --more   # mantém a lista e só completa as contas abaixo da cota
 npm run curate-videos -- --refilter      # reaplica os filtros sem buscar
 ```
 O script:
-- busca Shorts e aulas curtas por conta;
+- busca Shorts e aulas curtas por conta (até 8 Shorts e 3 aulas);
 - confirma pelo oEmbed que o vídeo pode ser incorporado e se é vertical;
 - filtra conteúdo infantil, outros idiomas e propaganda.
 
