@@ -5,8 +5,8 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ItemTile } from "@/components/ItemTile";
 import { Grid } from "@/components/Screen";
-import { AppText, Bouncy, GradientButton, Icon, type IconName } from "@/components/ui";
-import { getPage } from "@/data/pages";
+import { AppText, Bouncy, GradientButton, Icon, PageAvatar, type IconName } from "@/components/ui";
+import { childrenOf, familyOf, getPage } from "@/data/pages";
 import { CONTENT } from "@/feed/sources/library";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import { examAvailability, MIN_EXAM_QUESTIONS } from "@/feed/exam";
@@ -27,10 +27,13 @@ export default function PageScreen() {
   const toggleFollow = useLibrary((s) => s.toggleFollow);
   const openViewer = useViewer((s) => s.open);
 
-  const items = useMemo(
-    () => [...CURATED_VIDEOS, ...customVideos, ...customItems, ...CONTENT].filter((i) => i.pageId === page.id),
-    [page.id, customVideos, customItems],
-  );
+  const subs = useMemo(() => childrenOf(page.id), [page.id]);
+  const parent = page.parent ? getPage(page.parent) : null;
+  const items = useMemo(() => {
+    const family = new Set(familyOf(page.id));
+    return [...CURATED_VIDEOS, ...customVideos, ...customItems, ...CONTENT].filter((i) => family.has(i.pageId));
+  }, [page.id, customVideos, customItems]);
+  const videos = items.filter((i) => i.kind === "video").length;
 
   const watch = (start = 0) => {
     openViewer(items, start, page.name);
@@ -46,9 +49,18 @@ export default function PageScreen() {
         </View>
         <AppText variant="display" style={{ color: "#fff", marginTop: 14 }}>{page.name}</AppText>
         <AppText variant="label" style={{ color: "rgba(255,255,255,0.8)" }}>{page.handle}</AppText>
+        {parent && (
+          <Bouncy onPress={() => router.push(`/page/${parent.id}`)} style={styles.parent} accessibilityLabel={`Ver ${parent.name}`}>
+            <Icon name={parent.icon as IconName} size={14} color="#fff" />
+            <AppText variant="caption" style={{ color: "#fff" }}>Conta de {parent.name}</AppText>
+            <Icon name="chevron-right" size={14} color="#fff" />
+          </Bouncy>
+        )}
         <AppText style={{ color: "rgba(255,255,255,0.9)", textAlign: "center", marginTop: 8, maxWidth: 320 }}>{page.description}</AppText>
         <View style={styles.stats}>
-          <AppText variant="caption" style={styles.stat}>{items.length} matérias</AppText>
+          <AppText variant="caption" style={styles.stat}>{items.length} cards</AppText>
+          {videos > 0 && <AppText variant="caption" style={styles.stat}>• {videos} vídeos</AppText>}
+          {subs.length > 0 && <AppText variant="caption" style={styles.stat}>• {subs.length} contas</AppText>}
           <AppText variant="caption" style={styles.stat}>•</AppText>
           <AppText variant="caption" style={styles.stat}>{likes} curtidas suas</AppText>
         </View>
@@ -71,6 +83,21 @@ export default function PageScreen() {
           </Bouncy>
         )}
       </View>
+
+      {subs.length > 0 && (
+        <View style={{ marginBottom: 14 }}>
+          <AppText variant="headline" style={{ paddingHorizontal: 16, marginBottom: 10 }}>Contas de {page.name}</AppText>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 12 }}>
+            {subs.map((s) => (
+              <Bouncy key={s.id} onPress={() => router.push(`/page/${s.id}`)} style={[styles.sub, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={s.name} testID={`sub-${s.id}`}>
+                <PageAvatar pageId={s.id} size={52} />
+                <AppText variant="label" numberOfLines={2} style={{ textAlign: "center", marginTop: 8 }}>{s.name}</AppText>
+                <AppText variant="caption" dim numberOfLines={1}>{s.handle}</AppText>
+              </Bouncy>
+            ))}
+          </ScrollView>
+        </View>
+      )}
 
       <View style={{ paddingHorizontal: 16 }}>
         {items.length === 0 ? (
@@ -95,5 +122,7 @@ const styles = StyleSheet.create({
   actions: { flexDirection: "row", gap: 10, marginTop: 18 },
   followBtn: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 20, paddingVertical: 13, borderRadius: radius.pill },
   examBtn: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 12, paddingHorizontal: 16, paddingVertical: 9, borderRadius: radius.pill, backgroundColor: "rgba(0,0,0,0.3)" },
+  parent: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8, paddingHorizontal: 12, paddingVertical: 5, borderRadius: radius.pill, backgroundColor: "rgba(0,0,0,0.28)" },
+  sub: { width: 118, alignItems: "center", padding: 12, borderRadius: radius.lg, borderWidth: 1 },
   back: { position: "absolute", left: 8, width: 44, height: 44, alignItems: "center", justifyContent: "center" },
 });

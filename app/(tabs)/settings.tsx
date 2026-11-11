@@ -6,7 +6,7 @@ import { Screen, SectionTitle } from "@/components/Screen";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, Icon, Segmented, type IconName } from "@/components/ui";
 import { ensurePermission, formatTime, remindersSupported, scheduleReminder } from "@/lib/notifications";
-import { PAGES } from "@/data/pages";
+import { ROOT_PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
@@ -194,18 +194,24 @@ export default function Settings() {
       </Card>
 
       <SectionTitle>Sua série</SectionTitle>
-      <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>O feed e os modos de prova usam o conteúdo da sua série do ensino médio.</AppText>
+      <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>O feed usa o conteúdo da sua série, ou os assuntos que você marcar.</AppText>
       <Segmented<string>
         fill
         value={String(s.serie ?? 0)}
         onChange={(v) => s.set({ serie: v === "0" ? null : (Number(v) as 1 | 2 | 3) })}
         options={[{ value: "1", label: "1º ano" }, { value: "2", label: "2º ano" }, { value: "3", label: "3º ano" }, { value: "0", label: "Todas" }]}
       />
+      <Bouncy scaleTo={0.98} onPress={() => router.push("/my-topics")} style={[styles.redo, { borderColor: c.border, alignSelf: "stretch" }]} accessibilityLabel="Marcar assuntos da minha escola" testID="my-topics-link">
+        <Icon name="school-outline" size={18} color={c.text} />
+        <AppText variant="label" style={{ flex: 1 }}>Assuntos da minha escola</AppText>
+        <AppText variant="caption" dim>{s.myTopics ? `${s.myTopics.length} marcados` : "padrão"}</AppText>
+        <Icon name="chevron-right" size={18} color={c.textDim} />
+      </Bouncy>
 
       <SectionTitle>Interesses</SectionTitle>
       <AppText variant="caption" dim style={{ marginTop: -6, marginBottom: 10 }}>Temas marcados aparecem com mais frequência no feed.</AppText>
       <View style={styles.chips}>
-        {PAGES.map((p) => <Chip key={p.id} label={p.name} active={s.interests.includes(p.id)} onPress={() => s.toggleInterest(p.id)} />)}
+        {ROOT_PAGES.map((p) => <Chip key={p.id} label={p.name} active={s.interests.includes(p.id)} onPress={() => s.toggleInterest(p.id)} />)}
       </View>
       <Bouncy scaleTo={0.98} onPress={() => router.push("/onboarding")} style={[styles.redo, { borderColor: c.border }]} accessibilityLabel="Refazer onboarding">
         <Icon name="restart" size={18} color={c.text} />

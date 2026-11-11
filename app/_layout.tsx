@@ -86,6 +86,7 @@ export default function RootLayout() {
           <Stack.Screen name="modes" />
           <Stack.Screen name="mode" />
           <Stack.Screen name="achievements" />
+          <Stack.Screen name="my-topics" />
         </Stack>
         <OfflineBadge />
         <SheetsHost />

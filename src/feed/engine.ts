@@ -1,4 +1,4 @@
-import { PAGES } from "@/data/pages";
+import { PAGES, rootOf } from "@/data/pages";
 import { GENERATED_PAGES, generateFor, type Rng } from "@/feed/sources/generators";
 import type { ItemKind, PageId, StudyItem } from "@/feed/types";
 
@@ -29,14 +29,18 @@ export interface NextOptions {
 
 const RECENT_LIMIT = 40;
 
-/** How much a page should be favoured: following and "quero mais" likes boost it, quick skips lower it. */
+/**
+ * How much a page should be favoured: following and "quero mais" likes boost it, quick skips lower it.
+ * Following or picking a subject as an interest also boosts every account under it.
+ */
 export function pageWeight(pageId: PageId, s: Signals): number {
+  const root = rootOf(pageId);
   const likes = Math.min(s.pageLikes[pageId] ?? 0, 6);
   const skips = Math.min(s.pageSkips[pageId] ?? 0, 6);
   const w =
     1 +
-    (s.followed.has(pageId) ? 2 : 0) +
-    (s.interests.has(pageId) ? 1.2 : 0) +
+    (s.followed.has(pageId) ? 2 : s.followed.has(root) ? 1.5 : 0) +
+    (s.interests.has(pageId) || s.interests.has(root) ? 1.2 : 0) +
     likes * 0.55 -
     skips * 0.25;
   return Math.max(0.15, w);
@@ -83,7 +87,12 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
     // A page whose cards were all seen recently and that has no generator yields its turn to the others.
     const usable = pageIds.filter((id) => freshFor(id).length > 0 || GENERATED_PAGES.includes(id));
     const choices = usable.length > 0 ? usable : pageIds;
-    const pageId = weightedPick(rng, choices.map((id) => [id, pageWeight(id, signals)] as [PageId, number]));
+    // Pick a subject first, then one of its accounts, so subjects with many accounts don't crowd the feed.
+    const families = new Map<PageId, PageId[]>();
+    for (const id of choices) families.set(rootOf(id), [...(families.get(rootOf(id)) ?? []), id]);
+    const familyWeight = (ids: PageId[]) => Math.max(...ids.map((id) => pageWeight(id, signals))) * (ids.length > 1 ? 1.35 : 1);
+    const family = weightedPick(rng, [...families.values()].map((ids) => [ids, familyWeight(ids)] as [PageId[], number]));
+    const pageId = weightedPick(rng, family.map((id) => [id, pageWeight(id, signals)] as [PageId, number]));
     const fresh = freshFor(pageId);
     const lastTwo = state.kinds.slice(-2);
     const repeatsKind = (i: StudyItem) => lastTwo.length === 2 && lastTwo.every((k) => k === i.kind);

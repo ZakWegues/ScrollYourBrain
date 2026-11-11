@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Sheet } from "@/components/Sheet";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, GradientButton, Icon, PageAvatar } from "@/components/ui";
-import { PAGES, getPage } from "@/data/pages";
+import { ROOT_PAGES, getPage, rootOf } from "@/data/pages";
 import { examAvailability, MIN_EXAM_QUESTIONS } from "@/feed/exam";
 import { CONTENT } from "@/feed/sources/library";
 import { haptic } from "@/lib/haptics";
@@ -77,7 +77,7 @@ function ExamCard({ exam, index, onEdit }: { exam: PlannedExam; index: number; o
   const c = useColors();
   const custom = useLibrary((s) => s.customItems);
   const days = daysUntil(exam.date);
-  const material = [...CONTENT, ...custom].filter((i) => exam.pageIds.includes(i.pageId)).length;
+  const material = [...CONTENT, ...custom].filter((i) => exam.pageIds.includes(rootOf(i.pageId)) || exam.pageIds.includes(i.pageId)).length;
   const daily = suggestedDaily(material, days);
   const first = exam.pageIds[0];
   const canExam = exam.pageIds.some((p) => examAvailability(p) >= MIN_EXAM_QUESTIONS);
@@ -174,7 +174,7 @@ function ExamForm({ exam, onDone }: { exam: PlannedExam | null; onDone: () => vo
       </View>
       <AppText variant="caption" dim style={styles.formLabel}>Temas da prova</AppText>
       <View style={styles.chips}>
-        {PAGES.filter((p) => p.id !== "curiosidades").map((p) => (
+        {ROOT_PAGES.filter((p) => p.id !== "curiosidades").map((p) => (
           <Chip key={p.id} label={p.name} active={pages.includes(p.id)} onPress={() => setPages((ps) => (ps.includes(p.id) ? ps.filter((x) => x !== p.id) : [...ps, p.id]))} />
         ))}
       </View>

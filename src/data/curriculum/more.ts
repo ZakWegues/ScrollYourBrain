@@ -10,7 +10,7 @@ export function more(cur: SubjectCurriculum, serie: Serie, bimestre: Bimestre, l
   if (!topic) throw new Error(`No topic for ${serie}/${bimestre}`);
   list.forEach(([question, options, answer, explanation], i) => {
     const item: QuizItem = {
-      id: `${topic.id}-x${i + 1}`, pageId: topic.subject, kind: "quiz", title: topic.name,
+      id: `${topic.id}-x${i + 1}`, pageId: topic.page, kind: "quiz", title: topic.name,
       tags: [topic.name.toLowerCase(), `${topic.serie}º ano`], topicId: topic.id, question, options, answer, explanation,
     };
     cur.items.push(item);

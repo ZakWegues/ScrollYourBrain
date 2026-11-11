@@ -1,13 +1,14 @@
 import { describe, expect, it } from "@jest/globals";
 import { buildExam, examAvailability, examPages, examScore, MIN_EXAM_QUESTIONS } from "@/feed/exam";
 import { createRng } from "@/feed/sources/generators";
+import { rootOf } from "@/data/pages";
 
 describe("buildExam", () => {
   it("returns the requested number of distinct quizzes for a generated page", () => {
     const exam = buildExam({ pageId: "matematica", count: 20, rng: createRng(1) });
     expect(exam).toHaveLength(20);
     expect(new Set(exam.map((q) => q.id)).size).toBe(20);
-    expect(exam.every((q) => q.kind === "quiz" && q.pageId === "matematica")).toBe(true);
+    expect(exam.every((q) => q.kind === "quiz" && rootOf(q.pageId) === "matematica")).toBe(true);
   });
 
   it("mixes pages when no page is given", () => {

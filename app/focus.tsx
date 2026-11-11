@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feed } from "@/components/Feed";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
-import { PAGES, getPage } from "@/data/pages";
+import { ROOT_PAGES, getPage } from "@/data/pages";
 import type { FeedSource } from "@/feed/useFeed";
 import { haptic } from "@/lib/haptics";
 import { awardXp } from "@/store/xp";
@@ -119,7 +119,7 @@ export default function Focus() {
           <AppText variant="headline" style={styles.label}>Tema</AppText>
           <View style={styles.chips}>
             <Chip label="Para você" icon="shuffle-variant" active={pageId === null} onPress={() => setPageId(null)} />
-            {PAGES.map((p) => <Chip key={p.id} label={p.name} active={pageId === p.id} onPress={() => setPageId(p.id)} />)}
+            {ROOT_PAGES.map((p) => <Chip key={p.id} label={p.name} active={pageId === p.id} onPress={() => setPageId(p.id)} />)}
           </View>
         </ScrollView>
         <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg, backgroundColor: c.bg }]}>

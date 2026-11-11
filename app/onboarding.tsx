@@ -6,7 +6,7 @@ import Animated, { FadeInDown, FadeInRight, FadeOutLeft, ZoomIn } from "react-na
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoMark } from "@/components/Logo";
 import { AppText, Bouncy, GradientButton, Icon, Segmented, type IconName } from "@/components/ui";
-import { PAGES } from "@/data/pages";
+import { ROOT_PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { useSettings } from "@/store/settings";
@@ -63,7 +63,7 @@ export default function Onboarding() {
               Escolha pelo menos {MIN_TOPICS} temas. Eles abrem seu feed e você segue as páginas.
             </AppText>
             <View style={styles.grid}>
-              {PAGES.map((p, i) => {
+              {ROOT_PAGES.map((p, i) => {
                 const on = picked.includes(p.id);
                 return (
                   <Animated.View key={p.id} entering={FadeInDown.delay(80 + i * 35).springify().damping(26).stiffness(280).mass(1)} style={styles.cell}>

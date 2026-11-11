@@ -134,7 +134,13 @@ function Setup({ settings, onChange, onStart, scope, seconds, recordKey }: { set
   const c = useColors();
   const insets = useSafeAreaInsets();
   const best = useProgress((s) => s.examBest);
-  const pages = useMemo(() => examPages(), []);
+  // Subjects, plus the account the exam was opened from (e.g. "Funções").
+  const [opened] = useState(settings.pageId);
+  const pages = useMemo(() => {
+    const list = examPages();
+    if (opened !== ALL_PAGES && !list.some((p) => p.page.id === opened)) list.unshift({ page: getPage(opened), available: examAvailability(opened) });
+    return list;
+  }, [opened]);
   const available = scope ? scope.quizzes.length : examAvailability(settings.pageId === ALL_PAGES ? undefined : settings.pageId);
   const counts = scope
     ? [...new Set([Math.min(scope.count, available), Math.min(Math.ceil(scope.count / 2), available)])].sort((a, b) => a - b)

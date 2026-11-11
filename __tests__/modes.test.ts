@@ -1,6 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { TOPIC_BY_ID } from "@/data/curriculum";
 import { isComplete, MODE_ORDER, modeItems, modeKey, modeTitle, modeTopics, type ModeConfig } from "@/lib/modes";
+import { rootOf } from "@/data/pages";
 
 describe("exam modes", () => {
   it("bimestral returns only that subject, série and bimestre", () => {
@@ -8,7 +9,7 @@ describe("exam modes", () => {
     const topics = modeTopics(c);
     expect(topics.length).toBeGreaterThan(0);
     expect(topics.every((t) => t.subject === "biologia" && t.serie === 1 && t.bimestre === 2)).toBe(true);
-    expect(modeItems(c).every((i) => i.pageId === "biologia")).toBe(true);
+    expect(modeItems(c).every((i) => rootOf(i.pageId) === "biologia")).toBe(true);
   });
 
   it("mensal maps the month to its bimestre", () => {

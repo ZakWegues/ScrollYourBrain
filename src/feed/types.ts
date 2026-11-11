@@ -7,6 +7,8 @@ export interface StudyPage {
   description: string;
   icon: string; // MaterialCommunityIcons name
   colors: readonly [string, string];
+  /** Subject this account belongs to (sub-subject accounts such as "Funções" → "matematica"). */
+  parent?: PageId;
 }
 
 interface BaseItem {

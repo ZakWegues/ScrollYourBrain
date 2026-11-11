@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { nextItems, type EngineState, type Signals } from "@/feed/engine";
+import { withFamilies } from "@/data/pages";
 import { createRng } from "@/feed/sources/generators";
-import { contentForSerie } from "@/feed/sources/library";
+import { contentForStudent } from "@/feed/sources/library";
 import { fetchWikiBatch } from "@/feed/sources/wiki";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
@@ -46,6 +47,11 @@ function currentSignals(): Signals {
   };
 }
 
+const studentContent = () => {
+  const { serie, myTopics } = useSettings.getState();
+  return contentForStudent(serie, myTopics);
+};
+
 export function useFeed(source: FeedSource) {
   const followedKey = useLibrary((s) => Object.keys(s.followed).sort().join(","));
   // The Mix draws from the accounts whose cards you liked.
@@ -55,9 +61,10 @@ export function useFeed(source: FeedSource) {
   const dataSaver = useSettings((s) => s.dataSaver);
 
   const pages = useMemo<PageId[] | undefined>(() => {
-    if (source.type === "following") return followedKey ? followedKey.split(",") : [];
+    // Following a subject follows all of its accounts too.
+    if (source.type === "following") return followedKey ? withFamilies(followedKey.split(",")) : [];
     if (source.type === "mix") return likedPagesKey ? likedPagesKey.split(",") : [];
-    if (source.type === "page") return [source.pageId];
+    if (source.type === "page") return withFamilies([source.pageId]);
     return undefined;
   }, [source, followedKey, likedPagesKey]);
 
@@ -78,8 +85,8 @@ export function useFeed(source: FeedSource) {
       // Offline, only content that works without internet goes in (no videos, no new articles).
       const online = useNetwork.getState().online;
       const pool = online
-        ? [...contentForSerie(useSettings.getState().serie), ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))]
-        : [...contentForSerie(useSettings.getState().serie), ...customItems];
+        ? [...studentContent(), ...CURATED_VIDEOS, ...customVideos, ...customItems, ...wikiCache.filter((w) => !usedWiki.has(w.id))]
+        : [...studentContent(), ...customItems];
       const items = nextItems(count, {
         pool,
         signals: currentSignals(),

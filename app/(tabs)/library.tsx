@@ -9,7 +9,7 @@ import { StreakCard } from "@/components/StreakCard";
 import { WeeklyChallenge } from "@/components/WeeklyChallenge";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, PageAvatar, Segmented, type IconName } from "@/components/ui";
-import { PAGES, getPage } from "@/data/pages";
+import { ROOT_PAGES, getPage } from "@/data/pages";
 import { parseYouTubeId } from "@/feed/sources/youtube";
 import type { StudyItem } from "@/feed/types";
 import { useViewer } from "@/feed/viewer";
@@ -235,7 +235,7 @@ function AddVideo() {
   const c = useColors();
   const customVideos = useLibrary((s) => s.customVideos);
   const [link, setLink] = useState("");
-  const [linkPage, setLinkPage] = useState(PAGES[0].id);
+  const [linkPage, setLinkPage] = useState(ROOT_PAGES[0].id);
   const addLink = () => {
     const id = parseYouTubeId(link);
     if (!id) {
@@ -269,7 +269,7 @@ function AddVideo() {
         </View>
         <AppText variant="caption" dim style={{ marginTop: space.md, marginBottom: space.sm }}>Página</AppText>
         <View style={styles.chips}>
-          {PAGES.filter((p) => p.id !== "curiosidades").map((p) => <Chip key={p.id} label={p.name} active={p.id === linkPage} onPress={() => setLinkPage(p.id)} />)}
+          {ROOT_PAGES.filter((p) => p.id !== "curiosidades").map((p) => <Chip key={p.id} label={p.name} active={p.id === linkPage} onPress={() => setLinkPage(p.id)} />)}
         </View>
         <GradientButton label="Adicionar ao feed" icon="plus" onPress={addLink} style={{ marginTop: space.md }} />
         {customVideos.length > 0 && (

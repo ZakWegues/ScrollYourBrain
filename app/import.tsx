@@ -7,7 +7,7 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, GradientButton, Icon } from "@/components/ui";
-import { PAGES } from "@/data/pages";
+import { ROOT_PAGES } from "@/data/pages";
 import type { FlashItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
 import { parseCards } from "@/lib/importer";
@@ -28,7 +28,7 @@ export default function ImportScreen() {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState("");
   const [name, setName] = useState("");
-  const [pageId, setPageId] = useState(PAGES[0].id);
+  const [pageId, setPageId] = useState(ROOT_PAGES[0].id);
   const [toReview, setToReview] = useState(true);
   const { cards, skipped } = useMemo(() => parseCards(text), [text]);
 
@@ -133,7 +133,7 @@ export default function ImportScreen() {
 
         <AppText variant="headline" style={styles.label}>Tema</AppText>
         <View style={styles.chips}>
-          {PAGES.filter((p) => p.id !== "curiosidades").map((p) => <Chip key={p.id} label={p.name} active={p.id === pageId} onPress={() => setPageId(p.id)} />)}
+          {ROOT_PAGES.filter((p) => p.id !== "curiosidades").map((p) => <Chip key={p.id} label={p.name} active={p.id === pageId} onPress={() => setPageId(p.id)} />)}
         </View>
 
         <View style={[styles.switchRow, { backgroundColor: c.surface, borderColor: c.border }]}>

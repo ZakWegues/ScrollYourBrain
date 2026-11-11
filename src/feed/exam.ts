@@ -1,16 +1,23 @@
-import { PAGES } from "@/data/pages";
+import { ROOT_PAGES, SUB_PAGES, familyOf } from "@/data/pages";
 import { createRng, generateFor, type Rng } from "@/feed/sources/generators";
 import { CONTENT } from "@/feed/sources/library";
 import type { PageId, QuizItem } from "@/feed/types";
 
 /** Pages whose generator produces quizzes, so their exams can be as long as needed. */
-const QUIZ_GENERATORS: readonly PageId[] = ["matematica", "geografia", "quimica", "programacao"];
+const QUIZ_GENERATORS: readonly PageId[] = [
+  "matematica", "geografia", "quimica", "programacao",
+  "funcoes", "trigonometria", "estatistica", "financeira", "geometria", "cinematica", "eletricidade", "estequiometria", "energia",
+];
+/** Generators that serve a page: its own and its accounts'. */
+const generatorsFor = (pageId?: PageId) => (pageId ? QUIZ_GENERATORS.filter((g) => familyOf(pageId).includes(g)) : [...QUIZ_GENERATORS]);
 
 export const MIN_EXAM_QUESTIONS = 5;
 export const ALL_PAGES = "all";
 
-const seedQuizzes = (pageId?: PageId) =>
-  CONTENT.filter((i): i is QuizItem => i.kind === "quiz" && (!pageId || i.pageId === pageId));
+const seedQuizzes = (pageId?: PageId) => {
+  const family = pageId ? new Set(familyOf(pageId)) : null;
+  return CONTENT.filter((i): i is QuizItem => i.kind === "quiz" && (!family || family.has(i.pageId)));
+};
 
 const availabilityCache = new Map<string, number>();
 
@@ -20,7 +27,7 @@ export function examAvailability(pageId?: PageId): number {
   const cached = availabilityCache.get(key);
   if (cached !== undefined) return cached;
   const ids = new Set(seedQuizzes(pageId).map((q) => q.id));
-  const generators = pageId ? (QUIZ_GENERATORS.includes(pageId) ? [pageId] : []) : [...QUIZ_GENERATORS];
+  const generators = generatorsFor(pageId);
   const rng = createRng(42);
   for (let i = 0; i < 600 && generators.length > 0; i++) {
     const item = generateFor(generators[i % generators.length], rng);
@@ -30,9 +37,9 @@ export function examAvailability(pageId?: PageId): number {
   return ids.size;
 }
 
-/** Pages that can host an exam, with how many questions each has. */
-export const examPages = () =>
-  PAGES.map((p) => ({ page: p, available: examAvailability(p.id) })).filter((p) => p.available >= MIN_EXAM_QUESTIONS);
+/** Subjects (or, with `accounts`, sub-subject accounts) that can host an exam, with how many questions each has. */
+export const examPages = (accounts = false) =>
+  (accounts ? SUB_PAGES : ROOT_PAGES).map((p) => ({ page: p, available: examAvailability(p.id) })).filter((p) => p.available >= MIN_EXAM_QUESTIONS);
 
 function shuffle<T>(list: T[], rng: Rng): T[] {
   const out = [...list];
@@ -58,7 +65,7 @@ export function buildExam({ pageId, count, rng, pool }: { pageId?: PageId; count
     if (picked.size >= count) break;
     picked.set(q.id, q);
   }
-  const generators = pageId ? (QUIZ_GENERATORS.includes(pageId) ? [pageId] : []) : [...QUIZ_GENERATORS];
+  const generators = generatorsFor(pageId);
   for (let tries = 0; picked.size < count && generators.length > 0 && tries < count * 20; tries++) {
     const item = generateFor(generators[tries % generators.length], rng);
     if (item.kind === "quiz" && !picked.has(item.id)) picked.set(item.id, item);

@@ -1,4 +1,5 @@
 import type { FlashItem, PageId, QuizItem, StudyItem } from "@/feed/types";
+import { ACCOUNT_GENERATORS } from "./generators-accounts";
 
 export type Rng = () => number;
 
@@ -130,6 +131,7 @@ const GENERATORS: Partial<Record<PageId, ((rng: Rng) => StudyItem)[]>> = {
   quimica: [chem],
   ingles: [english],
   programacao: [binary],
+  ...ACCOUNT_GENERATORS,
 };
 
 export const GENERATED_PAGES = Object.keys(GENERATORS);

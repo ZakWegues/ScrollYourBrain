@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { ItemTile } from "@/components/ItemTile";
 import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { AppText, Bouncy, Chip, Glass, Icon, PageAvatar, type IconName } from "@/components/ui";
-import { PAGES } from "@/data/pages";
+import { PAGES, ROOT_PAGES } from "@/data/pages";
 import { normalize, searchItems } from "@/feed/engine";
 import { CONTENT } from "@/feed/sources/library";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
@@ -75,7 +75,7 @@ export default function Explore() {
           </View>
           <SectionTitle>Páginas</SectionTitle>
           <Grid>
-            {PAGES.map((p) => {
+            {ROOT_PAGES.map((p) => {
               const on = !!followed[p.id];
               return (
                 <Bouncy key={p.id} onPress={() => router.push(`/page/${p.id}`)} scaleTo={0.96} style={[styles.pageCard, { borderColor: c.border }]}>
