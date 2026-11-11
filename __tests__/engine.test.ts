@@ -2,7 +2,8 @@ import { describe, expect, it } from "@jest/globals";
 import { nextItems, pageWeight, searchItems, type EngineState, type Signals } from "@/feed/engine";
 import { createRng, generateFor, GENERATED_PAGES } from "@/feed/sources/generators";
 import { SEED } from "@/feed/sources/seed";
-import { parseYouTubeId } from "@/feed/sources/youtube";
+import { CONTENT } from "@/feed/sources/library";
+import { CURATED_VIDEOS, parseYouTubeId } from "@/feed/sources/youtube";
 import type { QuizItem } from "@/feed/types";
 
 const noSignals: Signals = { followed: new Set(), interests: new Set(), pageLikes: {}, pageSkips: {} };
@@ -108,4 +109,18 @@ describe("parseYouTubeId", () => {
     ["aircAruvnKk", "aircAruvnKk"],
     ["not a link", null],
   ])("%s", (input, id) => expect(parseYouTubeId(input)).toBe(id));
+});
+
+describe("video frequency", () => {
+  it("serves a video at least every N cards when videos are available", () => {
+    if (CURATED_VIDEOS.length === 0) return;
+    const state: EngineState = { recent: [], kinds: [] };
+    const signals: Signals = { followed: new Set(), interests: new Set(), pageLikes: {}, pageSkips: {} };
+    const items = nextItems(30, { pool: [...CONTENT, ...CURATED_VIDEOS], signals, rng: createRng(5), state, videoEvery: 3 });
+    let gap = 0;
+    for (const i of items) {
+      gap = i.kind === "video" ? 0 : gap + 1;
+      expect(gap).toBeLessThan(3);
+    }
+  });
 });

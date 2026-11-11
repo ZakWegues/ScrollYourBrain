@@ -5,7 +5,6 @@ import type { WikiItem } from "@/feed/types";
 import { AppText, Bouncy, Glass, Icon } from "@/components/ui";
 import { useSettings } from "@/store/settings";
 import { radius, useColors } from "@/theme";
-import { Backdrop } from "./Backdrop";
 import type { CardProps } from "./types";
 
 export function WikiCard({ item, active }: CardProps<WikiItem>) {
@@ -14,13 +13,11 @@ export function WikiCard({ item, active }: CardProps<WikiItem>) {
   const showImage = !!item.imageUrl && !dataSaver;
   return (
     <View style={StyleSheet.absoluteFill}>
-      {showImage ? (
+      {showImage && (
         <>
           <Image source={item.imageUrl} style={StyleSheet.absoluteFill} contentFit="cover" transition={250} />
           <LinearGradient colors={["rgba(0,0,0,0.25)", "rgba(0,0,0,0.35)", c.bg]} locations={[0, 0.4, 0.85]} style={StyleSheet.absoluteFill} />
         </>
-      ) : (
-        <Backdrop pageId={item.pageId} active={active} />
       )}
       <View style={styles.wrap}>
         <View style={styles.badge}>

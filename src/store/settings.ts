@@ -31,6 +31,8 @@ export interface SettingsState {
   hintsShown: number;
   /** Saving a quiz or flashcard also adds it to spaced review. */
   saveToReview: boolean;
+  /** How often videos show up in the feed. */
+  videoFrequency: VideoFrequency;
   set: (patch: Partial<Omit<SettingsState, "set" | "toggleInterest" | "reset">>) => void;
   toggleInterest: (id: PageId) => void;
   reset: () => void;
@@ -54,7 +56,12 @@ const defaults = {
   myTopics: null as string[] | null,
   hintsShown: 0,
   saveToReview: true,
+  videoFrequency: "balanced" as VideoFrequency,
 };
+
+export type VideoFrequency = "more" | "balanced" | "less";
+/** A video at least every N cards. */
+export const VIDEO_EVERY: Record<VideoFrequency, number> = { more: 2, balanced: 3, less: 6 };
 
 export const useSettings = create<SettingsState>()(
   persist(

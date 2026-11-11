@@ -9,7 +9,7 @@ import { JellyTabBar, pathIcon } from "react-native-jelly-tabs";
 import { haptic } from "@/lib/haptics";
 import { useChrome } from "@/store/chrome";
 import { useSettings } from "@/store/settings";
-import { fonts, useColors } from "@/theme";
+import { fonts, useColors, useTheme } from "@/theme";
 
 const FeedIcon = pathIcon(mdiPlayBoxMultiple, { inactivePath: mdiPlayBoxMultipleOutline });
 const ExploreIcon = pathIcon(mdiCompass, { inactivePath: mdiCompassOutline });
@@ -35,6 +35,7 @@ function AutoHide({ children }: { children: React.ReactNode }) {
 
 export default function TabLayout() {
   const c = useColors();
+  const light = useTheme().light;
   const onboarded = useSettings((s) => s.onboarded);
   if (!onboarded) return <Redirect href="/onboarding" />;
   return (
@@ -49,7 +50,7 @@ export default function TabLayout() {
           maxWidth={420}
           colors={{ surface: c.tab, selectedSurface: c.accent, activeContent: c.onAccent, inactiveContent: c.textDim }}
           opacity={{ surface: Platform.OS === "android" ? 0.96 : 0.78 }}
-          backdrop={Platform.OS !== "android" ? <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> : undefined}
+          backdrop={Platform.OS !== "android" ? <BlurView intensity={50} tint={light ? "light" : "dark"} style={StyleSheet.absoluteFill} /> : undefined}
           touchFeedbackColor={c.accent2}
           config={{ layout: { iconSize: 24, itemHeight: 52, trackHeight: 62 } }}
         />

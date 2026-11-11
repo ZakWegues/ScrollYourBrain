@@ -14,6 +14,8 @@ export interface EngineState {
   recent: string[];
   /** Kinds shown most recently, newest last. */
   kinds: ItemKind[];
+  /** Cards served since the last video. */
+  sinceVideo?: number;
 }
 
 export interface NextOptions {
@@ -25,6 +27,8 @@ export interface NextOptions {
   pages?: readonly PageId[];
   /** Item ids that must never be served (e.g. videos that failed to load). */
   blocked?: ReadonlySet<string>;
+  /** Guarantee a video at least every N cards when the pool has fresh ones. */
+  videoEvery?: number;
 }
 
 const RECENT_LIMIT = 40;
@@ -61,6 +65,7 @@ function remember(state: EngineState, item: StudyItem) {
   if (state.recent.length > RECENT_LIMIT) state.recent.shift();
   state.kinds.push(item.kind);
   if (state.kinds.length > 4) state.kinds.shift();
+  state.sinceVideo = item.kind === "video" ? 0 : (state.sinceVideo ?? 0) + 1;
 }
 
 /**
@@ -83,6 +88,16 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
 
   while (out.length < count) {
     const recent = new Set(state.recent.slice(-window));
+    // Videos come regularly: every `videoEvery` cards, pick one from the allowed pages.
+    if (opts.videoEvery && (state.sinceVideo ?? 0) >= opts.videoEvery - 1) {
+      const videos = pageIds.flatMap((id) => (byPage.get(id) ?? []).filter((i) => i.kind === "video" && !recent.has(i.id)));
+      if (videos.length > 0) {
+        const video = weightedPick(rng, videos.map((v) => [v, pageWeight(v.pageId, signals)] as [StudyItem, number]));
+        remember(state, video);
+        out.push(video);
+        continue;
+      }
+    }
     const freshFor = (id: PageId) => (byPage.get(id) ?? []).filter((i) => !recent.has(i.id));
     // A page whose cards were all seen recently and that has no generator yields its turn to the others.
     const usable = pageIds.filter((id) => freshFor(id).length > 0 || GENERATED_PAGES.includes(id));

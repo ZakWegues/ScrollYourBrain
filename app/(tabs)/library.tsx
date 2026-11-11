@@ -22,6 +22,7 @@ import { usePlanner } from "@/store/planner";
 import { countdownLabel, daysUntil } from "@/lib/planner";
 import { ACHIEVEMENTS } from "@/lib/achievements";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
+import { LevelCard } from "@/components/LevelCard";
 
 type Tab = "saved" | "liked" | "notebooks" | "notes";
 
@@ -52,6 +53,7 @@ export default function Library() {
         </Bouncy>
       }
     >
+      <LevelCard />
       <NextExam />
       <ReviewCard />
       <View style={{ height: space.md }} />

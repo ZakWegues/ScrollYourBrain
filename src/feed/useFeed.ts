@@ -9,7 +9,7 @@ import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
 import { useLibrary } from "@/store/library";
 import { useNetwork } from "@/store/network";
 import { dueCards, useReview } from "@/store/review";
-import { useSettings } from "@/store/settings";
+import { useSettings, VIDEO_EVERY } from "@/store/settings";
 
 export type FeedSource =
   | { type: "forYou" }
@@ -94,6 +94,7 @@ export function useFeed(source: FeedSource) {
         state: memory.engine,
         pages,
         blocked: blockedItems,
+        videoEvery: online && !useSettings.getState().dataSaver ? VIDEO_EVERY[useSettings.getState().videoFrequency] : undefined,
       });
       // One review card that is due today goes near the top of each batch.
       const recent = new Set(memory.engine.recent);

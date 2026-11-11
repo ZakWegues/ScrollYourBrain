@@ -22,7 +22,7 @@ import { scheduleReminder } from "@/lib/notifications";
 import { useToday } from "@/store/progress";
 import { useWidgetSync } from "@/widget/sync";
 import { useSettings } from "@/store/settings";
-import { useColors } from "@/theme";
+import { useColors, useTheme } from "@/theme";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 SplashScreen.setOptions({ fade: true, duration: 150 });
@@ -47,6 +47,7 @@ export default function RootLayout() {
     if (hydrated && reminder !== null) scheduleReminder(reminder, streak, goal).catch(() => {});
   }, [hydrated, reminder, streak, goal]);
   const c = useColors();
+  const light = useTheme().light;
   const reduceMotion = useSettings((s) => s.reduceMotion);
   const [splashDone, setSplashDone] = useState(false);
   const ready = (fontsLoaded || !!fontError) && hydrated;
@@ -70,7 +71,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: c.bg }}>
       <ThemeProvider value={navTheme}>
-        <StatusBar style="light" />
+        <StatusBar style={light ? "dark" : "light"} />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: "slide_from_right" }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="page/[id]" />
@@ -87,6 +88,8 @@ export default function RootLayout() {
           <Stack.Screen name="mode" />
           <Stack.Screen name="achievements" />
           <Stack.Screen name="my-topics" />
+          <Stack.Screen name="profile" />
+          <Stack.Screen name="blitz" options={{ animation: "slide_from_bottom" }} />
         </Stack>
         <OfflineBadge />
         <SheetsHost />

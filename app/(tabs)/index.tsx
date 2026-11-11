@@ -1,4 +1,5 @@
-import { router } from "expo-router";
+import { router, useIsFocused } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
@@ -9,7 +10,7 @@ import { AppText, Bouncy, GradientButton, Icon } from "@/components/ui";
 import type { FeedSource } from "@/feed/useFeed";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
-import { useColors } from "@/theme";
+import { useColors, useTheme } from "@/theme";
 
 type Mode = "forYou" | "following" | "mix";
 const MODES: { value: Mode; label: string }[] = [
@@ -63,6 +64,8 @@ function FeedTabs({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
 
 export default function FeedScreen() {
   const c = useColors();
+  const light = useTheme().light;
+  const focused = useIsFocused();
   const insets = useSafeAreaInsets();
   const [mode, setMode] = useState<Mode>("forYou");
   const source = useMemo<FeedSource>(() => ({ type: mode }), [mode]);
@@ -73,6 +76,8 @@ export default function FeedScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
+      {/* The feed is always dark, so the status bar stays light here. */}
+      {focused && light && <StatusBar style="light" />}
       <Feed
         key={feedKey}
         source={source}

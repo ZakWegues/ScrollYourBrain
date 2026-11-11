@@ -1,4 +1,5 @@
 import Constants from "expo-constants";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import type { ReactNode } from "react";
 import { Alert, Linking, Platform, StyleSheet, Switch, View } from "react-native";
@@ -14,8 +15,10 @@ import { useProgress, useToday } from "@/store/progress";
 import { useReview } from "@/store/review";
 import { usePlanner } from "@/store/planner";
 import { exportBackup, pickBackup, restoreBackup } from "@/store/backup";
-import { useSettings } from "@/store/settings";
-import { getColors, radius, space, useColors, type ThemeMode } from "@/theme";
+import { useSettings, type VideoFrequency } from "@/store/settings";
+import { getColors, radius, space, THEME_ORDER, THEMES, useColors, type ThemeMode } from "@/theme";
+import { levelInfo, themeLevel } from "@/lib/xp";
+import { useXp } from "@/store/xp";
 
 const REPO = "https://github.com/ZakWegues/ScrollYourBrain";
 
@@ -54,34 +57,53 @@ function Row({ icon, title, subtitle, value, onChange, last, testID }: { icon: I
   );
 }
 
-function ThemeOption({ mode, label, desc }: { mode: ThemeMode; label: string; desc: string }) {
+function ThemeOption({ mode }: { mode: ThemeMode }) {
   const c = useColors();
-  const current = useSettings((s) => s.theme);
-  const set = useSettings((s) => s.set);
+  const current = useSettings((st) => st.theme);
+  const set = useSettings((st) => st.set);
+  const level = useXp((st) => levelInfo(st.xp).level);
+  const def = THEMES[mode];
   const p = getColors(mode);
+  const need = themeLevel(mode);
+  const locked = level < need;
   const on = current === mode;
   return (
     <Bouncy
-      onPress={() => { set({ theme: mode }); haptic.select(); }}
+      onPress={() => {
+        if (locked) {
+          haptic.error();
+          toast({ message: `${def.name} libera no nível ${need}. Você está no ${level}.`, icon: "lock-outline" });
+          return;
+        }
+        set({ theme: mode });
+        haptic.select();
+      }}
       scaleTo={0.97}
       style={[styles.themeOpt, { borderColor: on ? c.accent : c.border, backgroundColor: c.surface }]}
       accessibilityRole="radio"
-      accessibilityState={{ selected: on }}
-      accessibilityLabel={`Tema ${label}`}
+      accessibilityState={{ selected: on, disabled: locked }}
+      accessibilityLabel={`Tema ${def.name}${locked ? `, bloqueado até o nível ${need}` : ""}`}
       testID={`theme-${mode}`}
     >
       <View style={[styles.preview, { backgroundColor: p.bg, borderColor: p.border }]}>
+        <LinearGradient colors={[`${def.ambient[0]}55`, "transparent", `${def.ambient[2]}44`]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
         <View style={[styles.previewBar, { backgroundColor: p.surface2 }]} />
         <View style={[styles.previewBar, { backgroundColor: p.surface2, width: "60%" }]} />
         <View style={[styles.previewTab, { backgroundColor: p.tab }]}>
-          <View style={[styles.previewPill, { backgroundColor: c.accent }]} />
+          <View style={[styles.previewPill, { backgroundColor: p.accent }]} />
         </View>
+        {locked && (
+          <View style={styles.lock}>
+            <Icon name="lock" size={18} color="#fff" />
+            <AppText variant="caption" style={{ color: "#fff" }}>Nível {need}</AppText>
+          </View>
+        )}
       </View>
       <View style={styles.themeLabel}>
         <Icon name={on ? "radiobox-marked" : "radiobox-blank"} size={18} color={on ? c.accent : c.textDim} />
-        <AppText variant="label">{label}</AppText>
+        <AppText variant="label" numberOfLines={1} style={{ flex: 1 }}>{def.name}</AppText>
       </View>
-      <AppText variant="caption" dim style={{ marginTop: 2 }}>{desc}</AppText>
+      <AppText variant="caption" dim numberOfLines={2} style={{ marginTop: 2 }}>{def.description}</AppText>
     </Bouncy>
   );
 }
@@ -151,8 +173,7 @@ export default function Settings() {
     <Screen title="Ajustes" subtitle="Deixe o app do seu jeito">
       <SectionTitle>Aparência</SectionTitle>
       <View style={styles.themeRow}>
-        <ThemeOption mode="amoled" label="Preto AMOLED" desc="Preto puro. Economiza bateria em telas OLED." />
-        <ThemeOption mode="default" label="Padrão" desc="Escuro suave, com mais profundidade." />
+        {THEME_ORDER.map((m) => <ThemeOption key={m} mode={m} />)}
       </View>
 
       <SectionTitle>Texto confortável</SectionTitle>
@@ -185,12 +206,20 @@ export default function Settings() {
         <Row icon="volume-off" title="Começar sem som" value={s.startMuted} onChange={(v) => s.set({ startMuted: v })} />
         <Row icon="wifi-strength-1" title="Economia de dados" subtitle="Sem autoplay, sem imagens e sem Wikipédia" value={s.dataSaver} onChange={(v) => s.set({ dataSaver: v })} last />
       </Card>
+      <AppText variant="caption" dim style={{ marginTop: 14, marginBottom: 8 }}>Frequência de vídeos no feed (Shorts e aulas)</AppText>
+      <Segmented<VideoFrequency>
+        fill
+        value={s.videoFrequency}
+        onChange={(v) => s.set({ videoFrequency: v })}
+        options={[{ value: "more", label: "Mais vídeos" }, { value: "balanced", label: "Equilibrado" }, { value: "less", label: "Menos" }]}
+      />
 
       <SectionTitle>Interação</SectionTitle>
       <Card>
         <Row icon="vibrate" title="Vibração (haptics)" value={s.haptics} onChange={(v) => s.set({ haptics: v })} />
         <Row icon="motion-pause-outline" title="Reduzir movimento" subtitle="Menos animações e transições" value={s.reduceMotion} onChange={(v) => s.set({ reduceMotion: v })} />
-        <Row icon="account-voice" title="Ler cards em voz alta" subtitle="Lê cada card quando ele aparece no feed" value={s.autoSpeak} onChange={(v) => s.set({ autoSpeak: v })} last />
+        <Row icon="account-voice" title="Ler cards em voz alta" subtitle="Lê cada card quando ele aparece no feed" value={s.autoSpeak} onChange={(v) => s.set({ autoSpeak: v })} />
+        <Row icon="bookmark-plus-outline" title="Salvar vira revisão" subtitle="Quizzes e flashcards salvos entram na revisão espaçada" value={s.saveToReview} onChange={(v) => s.set({ saveToReview: v })} last />
       </Card>
 
       <SectionTitle>Sua série</SectionTitle>
@@ -273,8 +302,9 @@ const styles = StyleSheet.create({
   card: { borderRadius: radius.lg, borderWidth: StyleSheet.hairlineWidth, overflow: "hidden" },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, paddingVertical: 12, minHeight: 58 },
   rowIcon: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center" },
-  themeRow: { flexDirection: "row", gap: 10 },
-  themeOpt: { flex: 1, padding: 10, borderRadius: radius.lg, borderWidth: 1.5 },
+  themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  themeOpt: { width: "48%", flexGrow: 1, padding: 10, borderRadius: radius.lg, borderWidth: 1.5 },
+  lock: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 2, backgroundColor: "rgba(0,0,0,0.45)" },
   preview: { height: 110, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, padding: 10, gap: 6, overflow: "hidden" },
   previewBar: { height: 10, borderRadius: 5, width: "80%" },
   previewTab: { position: "absolute", bottom: 8, left: 10, right: 10, height: 20, borderRadius: 10, justifyContent: "center", paddingHorizontal: 3 },

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { levelInfo, rewardsBetween, themeLevel, titleFor, xpForLevel } from "@/lib/xp";
+import { levelInfo, mastery, rewardsBetween, themeLevel, titleFor, xpForLevel } from "@/lib/xp";
 
 describe("xp", () => {
   it("uses a gentle curve", () => {
@@ -16,5 +16,14 @@ describe("xp", () => {
     expect(rewardsBetween(2, 5).map((r) => r.id)).toEqual(["aurora", "estudante", "espaco"]);
     expect(titleFor(1)).toBe("Calouro");
     expect(titleFor(7)).toBe("Dedicado");
+  });
+});
+
+describe("mastery", () => {
+  it("grows with accuracy backed by volume and caps at 100", () => {
+    expect(mastery({ studied: 0, answered: 0, correct: 0 })).toBe(0);
+    expect(mastery({ studied: 40, answered: 15, correct: 15 })).toBe(100);
+    expect(mastery({ studied: 10, answered: 2, correct: 2 })).toBeLessThan(mastery({ studied: 10, answered: 15, correct: 12 }));
+    expect(mastery({ studied: 400, answered: 300, correct: 300 })).toBe(100);
   });
 });

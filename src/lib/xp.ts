@@ -57,3 +57,14 @@ export const titleFor = (level: number) => [...TITLES].reverse().find((t) => lev
 export const themeLevel = (themeId: string) => REWARDS.find((r) => r.kind === "theme" && r.id === themeId)?.level ?? 1;
 
 export const rewardsBetween = (fromLevel: number, toLevel: number) => REWARDS.filter((r) => r.level > fromLevel && r.level <= toLevel);
+
+/**
+ * Mastery of an account from 0 to 100: mostly accuracy (weighted by how many questions back it up),
+ * plus a little for volume of cards studied.
+ */
+export function mastery(t: { studied: number; answered: number; correct: number }): number {
+  const accuracy = t.answered ? t.correct / t.answered : 0;
+  const confidence = Math.min(1, t.answered / 15);
+  const volume = Math.min(1, t.studied / 40);
+  return Math.round(100 * (0.75 * accuracy * confidence + 0.25 * volume));
+}

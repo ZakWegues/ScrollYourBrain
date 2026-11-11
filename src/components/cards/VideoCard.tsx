@@ -13,7 +13,7 @@ import { radius, useColors } from "@/theme";
 import type { CardProps } from "./types";
 
 /** Embedded YouTube video. Only the active card mounts a player, keeping memory and CPU low. */
-export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoItem>) {
+export function VideoCard({ item, active, tapNonce, onFail, height, fast }: CardProps<VideoItem>) {
   const c = useColors();
   const { width } = useWindowDimensions();
   const autoplay = useSettings((s) => s.autoplay && !s.dataSaver);
@@ -24,8 +24,11 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
   const [ready, setReady] = useState(false);
   const [stalled, setStalled] = useState(false);
   const [attempt, setAttempt] = useState(0);
-  const playerW = Math.min(width, 720);
-  const playerH = Math.round((playerW * 9) / 16);
+  // Shorts fill the whole card (cropping the sides a little, like reels); lessons keep 16:9.
+  const vertical = !!item.vertical;
+  const cover = Math.max(width / 9, height / 16);
+  const playerW = vertical ? Math.round(9 * cover) : Math.min(width, 720);
+  const playerH = vertical ? Math.round(16 * cover) : Math.round((playerW * 9) / 16);
   const mounted = online && active && (autoplay || requested);
 
   // React to visibility and taps while rendering (no effect round-trip).
@@ -60,7 +63,7 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
     <View style={[StyleSheet.absoluteFill, { backgroundColor: c.bg }]}>
       <Image source={youtubeThumb(item.youtubeId)} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={40} transition={200} />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.55)" }]} />
-      <View style={styles.center}>
+      <View style={vertical ? styles.full : styles.center}>
         <View style={[styles.frame, { width: playerW, height: playerH }]}>
           <Image source={youtubeThumb(item.youtubeId)} style={StyleSheet.absoluteFill} contentFit="cover" transition={200} />
           {mounted && (
@@ -72,6 +75,7 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
                 videoId={item.youtubeId}
                 play={playing}
                 mute={muted}
+                playbackRate={fast ? 2 : 1}
                 forceAndroidAutoplay
                 initialPlayerParams={{ controls: false, modestbranding: true, rel: false, loop: true, preventFullScreen: true, start: item.start }}
                 webViewProps={{ allowsInlineMediaPlayback: true, mediaPlaybackRequiresUserAction: false, androidLayerType: "hardware" }}
@@ -112,11 +116,23 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
             </Animated.View>
           )}
         </View>
-        <Glass style={styles.caption}>
-          <Icon name="youtube" size={18} color="#FF0033" />
-          <AppText dim numberOfLines={2} style={{ flex: 1 }}>{item.caption}</AppText>
-        </Glass>
+        {!vertical && (
+          <View style={styles.lessonBar}>
+            <Glass style={styles.caption}>
+              <Icon name="youtube" size={18} color="#FF0033" />
+              <AppText dim numberOfLines={2} style={{ flex: 1 }}>{item.caption}</AppText>
+            </Glass>
+            <Bouncy onPress={() => Linking.openURL(`https://youtu.be/${item.youtubeId}`)} accessibilityLabel="Ver aula completa no YouTube">
+              <Glass style={styles.pill}><Icon name="open-in-new" size={16} color="#fff" /><AppText variant="caption">Ver no YouTube</AppText></Glass>
+            </Bouncy>
+          </View>
+        )}
       </View>
+      {fast && active && (
+        <Animated.View entering={FadeIn.duration(120)} exiting={FadeOut.duration(120)} style={styles.fast} pointerEvents="none">
+          <Glass style={styles.pill}><Icon name="fast-forward" size={16} color="#fff" /><AppText variant="label">2×</AppText></Glass>
+        </Animated.View>
+      )}
       {active && (
         <Bouncy onPress={() => setMuted(!muted)} style={styles.mute} accessibilityLabel={muted ? "Ativar som" : "Silenciar"}>
           <Glass style={styles.muteInner}><Icon name={muted ? "volume-off" : "volume-high"} size={20} color="#fff" /></Glass>
@@ -128,10 +144,13 @@ export function VideoCard({ item, active, tapNonce, onFail }: CardProps<VideoIte
 
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 140 },
+  full: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", overflow: "hidden" },
+  lessonBar: { alignSelf: "stretch", marginTop: 16, marginHorizontal: 16, marginRight: 84, gap: 10, alignItems: "flex-start" },
+  fast: { position: "absolute", top: 112, alignSelf: "center" },
   frame: { overflow: "hidden", backgroundColor: "#000" },
   overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   play: { width: 72, height: 72, borderRadius: 36, backgroundColor: "rgba(0,0,0,0.45)", alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "rgba(255,255,255,0.25)" },
-  caption: { flexDirection: "row", gap: 10, alignItems: "center", marginTop: 16, marginHorizontal: 16, marginRight: 84, padding: 12, borderRadius: radius.md },
+  caption: { flexDirection: "row", gap: 10, alignItems: "center", alignSelf: "stretch", padding: 12, borderRadius: radius.md },
   stalled: { backgroundColor: "rgba(0,0,0,0.6)", gap: 12 },
   stalledActions: { flexDirection: "row", gap: 8 },
   pill: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill },

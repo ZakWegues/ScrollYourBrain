@@ -11,6 +11,7 @@ import { usePlanner } from "./planner";
 import { useProgress } from "./progress";
 import { useReview } from "./review";
 import { useSettings } from "./settings";
+import { useSearch } from "./search";
 
 const STORES: Record<BackupStore, { getState: () => object; setState: (s: object) => void }> = {
   "syb-settings": useSettings,
@@ -21,6 +22,7 @@ const STORES: Record<BackupStore, { getState: () => object; setState: (s: object
   "syb-planner": usePlanner,
   "syb-modes": useModes,
   "syb-xp": useXp,
+  "syb-search": useSearch,
 };
 
 /** Saves a backup file and opens the share sheet (or downloads it on the web). */

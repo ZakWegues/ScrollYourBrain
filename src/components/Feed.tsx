@@ -7,7 +7,8 @@ import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
 import { useChrome } from "@/store/chrome";
 import { countStudy, trackTime } from "@/store/progress";
-import { useColors } from "@/theme";
+import { ForceDark } from "@/theme";
+import { AmbientBackdrop } from "./AmbientBackdrop";
 import { FeedItem } from "./FeedItem";
 
 const QUICK_SKIP_MS = 1500;
@@ -25,8 +26,16 @@ interface Props {
   bottomInset?: number;
 }
 
-export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset }: Props) {
-  const c = useColors();
+export function Feed(props: Props) {
+  // The feed always uses a dark palette, even under the light theme.
+  return (
+    <ForceDark.Provider value>
+      <FeedInner {...props} />
+    </ForceDark.Provider>
+  );
+}
+
+function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }: Props) {
   const focused = useIsFocused();
   const { entries, loadMore, drop, needsFollow } = useFeed(source);
   const [height, setHeight] = useState(0);
@@ -94,7 +103,8 @@ export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset
   }, [playing, activeKey, activePage, onStudied]);
 
   return (
-    <View style={[styles.fill, { backgroundColor: c.bg }]} onLayout={(e) => setHeight(Math.round(e.nativeEvent.layout.height))}>
+    <View style={styles.fill} onLayout={(e) => setHeight(Math.round(e.nativeEvent.layout.height))}>
+      <AmbientBackdrop pageId={activePage} />
       {needsFollow && emptyState}
       {!needsFollow && height > 0 && (
         <FlashList

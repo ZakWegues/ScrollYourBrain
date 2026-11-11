@@ -7,6 +7,8 @@ import { persistStorage } from "./storage";
 
 interface XpState {
   xp: number;
+  /** Best lightning-quiz score (correct answers in 60 s). */
+  blitzBest: number;
   counts: Partial<Record<XpEvent, number>>;
   reset: () => void;
 }
@@ -15,8 +17,9 @@ export const useXp = create<XpState>()(
   persist(
     (set) => ({
       xp: 0,
+      blitzBest: 0,
       counts: {},
-      reset: () => set({ xp: 0, counts: {} }),
+      reset: () => set({ xp: 0, counts: {}, blitzBest: 0 }),
     }),
     { name: "syb-xp", storage: persistStorage, version: 1 },
   ),

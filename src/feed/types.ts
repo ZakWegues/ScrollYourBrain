@@ -47,6 +47,11 @@ export interface VideoItem extends BaseItem {
   youtubeId: string;
   caption: string;
   start?: number;
+  /** Vertical (Shorts) videos play full screen. */
+  vertical?: boolean;
+  channel?: string;
+  /** Length in seconds. */
+  duration?: number;
 }
 
 export interface WikiItem extends BaseItem {

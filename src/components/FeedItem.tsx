@@ -98,6 +98,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
   const autoSpeak = useSettings((s) => s.autoSpeak);
   const { toggleLike, toggleSave, toggleFollow } = useLibrary.getState();
   const [tapNonce, setTapNonce] = useState(0);
+  const [fast, setFast] = useState(false);
   const [burst, setBurst] = useState<{ x: number; y: number; id: number; tilt: number } | null>(null);
   const [hint] = useState(() => (useSettings.getState().hintsShown < MAX_HINTS ? HINTS[item.kind] : undefined));
   const [hintDone, setHintDone] = useState(false);
@@ -165,8 +166,12 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
     const double = Gesture.Tap().runOnJS(true).numberOfTaps(2).maxDelay(260).onEnd((e, ok) => {
       if (ok) doubleTapLike(e.x, e.y);
     });
-    return Gesture.Exclusive(double, single);
-  }, [doubleTapLike]);
+    // Holding a video plays it at 2× until released.
+    const hold = Gesture.LongPress().runOnJS(true).minDuration(350).maxDistance(30)
+      .onStart(() => { if (item.kind === "video") { setFast(true); haptic.select(); } })
+      .onFinalize(() => setFast(false));
+    return Gesture.Race(hold, Gesture.Exclusive(double, single));
+  }, [doubleTapLike, item.kind]);
 
   const openPage = () => router.push(`/page/${page.id}`);
 
@@ -174,7 +179,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
     <View style={[{ height, overflow: "hidden" }, webSnap]} testID="feed-item">
       <GestureDetector gesture={gesture}>
         <View style={StyleSheet.absoluteFill} collapsable={false}>
-          <Card item={item} active={active} height={height} tapNonce={tapNonce} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
+          <Card item={item} active={active} height={height} tapNonce={tapNonce} fast={fast} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
           {/* Scrims keep the header and the bottom text readable over any background or video. */}
           <LinearGradient pointerEvents="none" colors={["rgba(0,0,0,0.55)", "transparent"]} style={styles.topScrim} />
           <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.78)"]} style={[styles.bottomScrim, { height: bottomInset + 170 }]} />
@@ -219,8 +224,14 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
           <View style={styles.chips}>
             <View style={styles.chip}>
               <Icon name={KIND_LABEL[item.kind].icon} size={13} color="#fff" />
-              <AppText variant="caption" style={styles.white}>{KIND_LABEL[item.kind].label}</AppText>
+              <AppText variant="caption" style={styles.white}>{item.kind === "video" ? (item.vertical ? "Short" : "Aula") : KIND_LABEL[item.kind].label}</AppText>
             </View>
+            {item.kind === "video" && item.channel && (
+              <View style={styles.chip}>
+                <Icon name="account-school-outline" size={13} color="#fff" />
+                <AppText variant="caption" style={styles.white} numberOfLines={1}>{item.channel}</AppText>
+              </View>
+            )}
             {inReview && (
               <View style={[styles.chip, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.18)" }]}>
                 <Icon name="history" size={13} color={c.save} />

@@ -5,7 +5,6 @@ import type { ConceptItem } from "@/feed/types";
 import { AppText, Glass, Icon } from "@/components/ui";
 import { useSettings } from "@/store/settings";
 import { useColors } from "@/theme";
-import { Backdrop } from "./Backdrop";
 import type { CardProps } from "./types";
 
 const BEAT_MS = 2800;
@@ -55,7 +54,6 @@ export function ConceptCard({ item, active, tapNonce, onStudied }: CardProps<Con
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <Backdrop pageId={item.pageId} active={active} />
       <View style={styles.bars}>
         {Array.from({ length: steps }, (_, i) => (
           <View key={i} style={[styles.track, { backgroundColor: "rgba(255,255,255,0.18)" }]}>

@@ -95,3 +95,24 @@ describe("my topics", () => {
     }
   });
 });
+
+describe("lightning quiz", () => {
+  it("returns distinct quick questions, topped up by generators", () => {
+    const { blitzQuestions } = jest.requireActual<typeof import("@/feed/blitz")>("@/feed/blitz");
+    const qs = blitzQuestions(40, createRng(9), CONTENT);
+    expect(qs).toHaveLength(40);
+    expect(new Set(qs.map((q) => q.id)).size).toBe(40);
+    expect(qs.every((q) => q.question.length <= 110)).toBe(true);
+    expect(blitzQuestions(20, createRng(1), [])).toHaveLength(20);
+  });
+});
+
+describe("curated videos", () => {
+  it("gives every account at least five Portuguese study videos, with unique ids", () => {
+    const { CURATED_VIDEOS } = jest.requireActual<typeof import("@/feed/sources/youtube")>("@/feed/sources/youtube");
+    const ids = CURATED_VIDEOS.map((v) => v.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const p of SUB_PAGES) expect([p.id, CURATED_VIDEOS.filter((v) => v.pageId === p.id).length >= 5]).toEqual([p.id, true]);
+    expect(CURATED_VIDEOS.every((v) => PAGE_BY_ID[v.pageId])).toBe(true);
+  });
+});

@@ -10,7 +10,6 @@ import { useReview } from "@/store/review";
 import { haptic } from "@/lib/haptics";
 import { useSettings } from "@/store/settings";
 import { radius, useColors } from "@/theme";
-import { Backdrop } from "./Backdrop";
 import type { CardProps } from "./types";
 
 /** Tap anywhere to flip. */
@@ -49,7 +48,6 @@ export function FlashCard({ item, active, tapNonce, onStudied }: CardProps<Flash
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <Backdrop pageId={item.pageId} active={active} />
       <View style={styles.wrap}>
         <View style={styles.cardBox}>
           <Animated.View style={[styles.face, { backgroundColor: c.surface, borderColor: c.border }, front]}>
