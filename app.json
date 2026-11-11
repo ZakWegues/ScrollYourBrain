@@ -63,6 +63,25 @@
             }
           ]
         }
+      ],
+      [
+        "expo-quick-actions",
+        {
+          "androidIcons": {
+            "shortcut_review": {
+              "foregroundImage": "./assets/shortcuts/review.png",
+              "backgroundColor": "#8B5CF6"
+            },
+            "shortcut_blitz": {
+              "foregroundImage": "./assets/shortcuts/blitz.png",
+              "backgroundColor": "#F97316"
+            },
+            "shortcut_focus": {
+              "foregroundImage": "./assets/shortcuts/focus.png",
+              "backgroundColor": "#EC4899"
+            }
+          }
+        }
       ]
     ],
     "experiments": {

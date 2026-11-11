@@ -2,6 +2,8 @@ import { mdiBookmarkMultiple, mdiBookmarkMultipleOutline, mdiCog, mdiCogOutline,
 import { BlurView } from "expo-blur";
 import { Redirect } from "expo-router";
 import { Tabs } from "expo-router/js-tabs";
+import * as QuickActions from "expo-quick-actions";
+import { useQuickActionRouting, type RouterAction } from "expo-quick-actions/router";
 import { useEffect } from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, Easing } from "react-native-reanimated";
@@ -33,7 +35,18 @@ function AutoHide({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Long-press shortcuts on the app icon (Android). */
+const SHORTCUTS: RouterAction[] = [
+  { id: "review", title: "Revisar", subtitle: "Cards que vencem hoje", icon: "shortcut_review", params: { href: "/review" } },
+  { id: "blitz", title: "Quiz relâmpago", subtitle: "60 segundos", icon: "shortcut_blitz", params: { href: "/blitz" } },
+  { id: "focus", title: "Modo foco", subtitle: "Ciclos sem distração", icon: "shortcut_focus", params: { href: "/focus" } },
+];
+
 export default function TabLayout() {
+  useQuickActionRouting();
+  useEffect(() => {
+    if (Platform.OS === "android") QuickActions.setItems(SHORTCUTS).catch(() => {});
+  }, []);
   const c = useColors();
   const light = useTheme().light;
   const onboarded = useSettings((s) => s.onboarded);

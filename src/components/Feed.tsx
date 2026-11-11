@@ -6,6 +6,7 @@ import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
 import { useChrome } from "@/store/chrome";
+import { useResume } from "@/store/resume";
 import { countStudy, trackTime } from "@/store/progress";
 import { ForceDark } from "@/theme";
 import { AmbientBackdrop } from "./AmbientBackdrop";
@@ -87,6 +88,12 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
     },
     [studied, entries],
   );
+
+  // Remember where "Para você" is, so it reopens on the same card.
+  useEffect(() => {
+    if (source.type !== "forYou" || entries.length === 0) return;
+    useResume.getState().setForYou(entries.slice(active, active + 4).map((e) => e.item.id));
+  }, [source.type, active, entries]);
 
   const activeEntry = entries[active];
   const activeKey = activeEntry?.key;

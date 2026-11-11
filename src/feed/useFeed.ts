@@ -9,6 +9,7 @@ import type { FeedEntry, PageId, StudyItem, WikiItem } from "@/feed/types";
 import { useLibrary } from "@/store/library";
 import { useNetwork } from "@/store/network";
 import { dueCards, useReview } from "@/store/review";
+import { useResume } from "@/store/resume";
 import { useSettings, VIDEO_EVERY } from "@/store/settings";
 
 export type FeedSource =
@@ -114,7 +115,16 @@ export function useFeed(source: FeedSource) {
   );
 
   // First page is built once; callers remount (via `key`) to switch sources.
-  const [entries, setEntries] = useState<FeedEntry[]>(() => (source.type === "list" ? toEntries(source.items) : build(BATCH)));
+  // "Para você" reopens on the card you were on, followed by fresh ones.
+  const [entries, setEntries] = useState<FeedEntry[]>(() => {
+    if (source.type === "list") return toEntries(source.items);
+    if (source.type !== "forYou") return build(BATCH);
+    const ids = useResume.getState().forYou;
+    const known = new Map([...studentContent(), ...CURATED_VIDEOS, ...customVideos, ...customItems].map((i) => [i.id, i]));
+    const resumed = ids.map((id) => known.get(id)).filter((i): i is StudyItem => !!i && !blockedItems.has(i.id));
+    memory.engine.recent.push(...resumed.map((i) => i.id));
+    return [...toEntries(resumed), ...build(BATCH)];
+  });
 
   const online = useNetwork((s) => s.online);
   useEffect(() => {
