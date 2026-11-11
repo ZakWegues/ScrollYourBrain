@@ -26,7 +26,7 @@ export function levelInfo(xp: number) {
 
 export interface Reward {
   level: number;
-  kind: "theme" | "title";
+  kind: "theme" | "title" | "icon";
   id: string;
   label: string;
 }
@@ -36,10 +36,14 @@ export const REWARDS: Reward[] = [
   { level: 2, kind: "title", id: "curioso", label: "Título: Curioso" },
   { level: 3, kind: "theme", id: "aurora", label: "Tema Aurora" },
   { level: 4, kind: "title", id: "estudante", label: "Título: Estudante" },
+  { level: 4, kind: "icon", id: "neon", label: "Ícone Néon" },
   { level: 5, kind: "theme", id: "espaco", label: "Tema Espaço" },
   { level: 6, kind: "title", id: "dedicado", label: "Título: Dedicado" },
+  { level: 6, kind: "icon", id: "aurora", label: "Ícone Aurora" },
   { level: 7, kind: "theme", id: "oceano", label: "Tema Oceano" },
+  { level: 8, kind: "icon", id: "espaco", label: "Ícone Espaço" },
   { level: 9, kind: "title", id: "mestre", label: "Título: Mestre" },
+  { level: 10, kind: "icon", id: "ouro", label: "Ícone Ouro" },
   { level: 12, kind: "title", id: "lenda", label: "Título: Lenda" },
 ];
 
@@ -56,6 +60,8 @@ export const titleFor = (level: number) => [...TITLES].reverse().find((t) => lev
 
 /** Level needed to use a theme (1 = always free). */
 export const themeLevel = (themeId: string) => REWARDS.find((r) => r.kind === "theme" && r.id === themeId)?.level ?? 1;
+
+export const iconLevel = (iconId: string) => REWARDS.find((r) => r.kind === "icon" && r.id === iconId)?.level ?? 1;
 
 export const rewardsBetween = (fromLevel: number, toLevel: number) => REWARDS.filter((r) => r.level > fromLevel && r.level <= toLevel);
 

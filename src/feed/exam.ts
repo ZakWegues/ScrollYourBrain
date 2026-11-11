@@ -7,6 +7,7 @@ import type { PageId, QuizItem } from "@/feed/types";
 const QUIZ_GENERATORS: readonly PageId[] = [
   "matematica", "geografia", "quimica", "programacao",
   "funcoes", "trigonometria", "estatistica", "financeira", "geometria", "cinematica", "eletricidade", "estequiometria", "energia",
+  "genetica", "organica", "fisico-quimica", "termologia", "dinamica", "ondas", "optica", "solucoes", "algebra", "grammar",
 ];
 /** Generators that serve a page: its own and its accounts'. */
 const generatorsFor = (pageId?: PageId) => (pageId ? QUIZ_GENERATORS.filter((g) => familyOf(pageId).includes(g)) : [...QUIZ_GENERATORS]);

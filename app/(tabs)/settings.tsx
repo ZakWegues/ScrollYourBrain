@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Alert, Linking, Platform, StyleSheet, Switch, View } from "react-native";
 import { Screen, SectionTitle } from "@/components/Screen";
 import { toast } from "@/components/Toast";
@@ -17,7 +17,9 @@ import { usePlanner } from "@/store/planner";
 import { exportBackup, pickBackup, restoreBackup } from "@/store/backup";
 import { useSettings, type VideoFrequency } from "@/store/settings";
 import { getColors, radius, space, THEME_ORDER, THEMES, useColors, type ThemeMode } from "@/theme";
-import { levelInfo, themeLevel } from "@/lib/xp";
+import { iconLevel, levelInfo, themeLevel } from "@/lib/xp";
+import * as AppIcon from "expo-quick-actions/icon";
+import { Image } from "expo-image";
 import { useXp } from "@/store/xp";
 
 const REPO = "https://github.com/ZakWegues/ScrollYourBrain";
@@ -105,6 +107,64 @@ function ThemeOption({ mode }: { mode: ThemeMode }) {
       </View>
       <AppText variant="caption" dim numberOfLines={2} style={{ marginTop: 2 }}>{def.description}</AppText>
     </Bouncy>
+  );
+}
+
+const APP_ICONS: { id: string | null; name: string; image: number }[] = [
+  { id: null, name: "Padrão", image: require("../../assets/icon.png") },
+  { id: "neon", name: "Néon", image: require("../../assets/app-icons/neon.png") },
+  { id: "aurora", name: "Aurora", image: require("../../assets/app-icons/aurora.png") },
+  { id: "espaco", name: "Espaço", image: require("../../assets/app-icons/espaco.png") },
+  { id: "ouro", name: "Ouro", image: require("../../assets/app-icons/ouro.png") },
+];
+
+/** Alternate launcher icons unlocked by level (Android). Changing it closes the app, as Android requires. */
+function AppIconPicker() {
+  const c = useColors();
+  const level = useXp((x) => levelInfo(x.xp).level);
+  const [current, setCurrent] = useState<string | null | undefined>(undefined);
+  useEffect(() => {
+    AppIcon.getIcon?.().then((name) => setCurrent(!name || name === "Default" ? null : name)).catch(() => setCurrent(null));
+  }, []);
+  if (Platform.OS !== "android" || !AppIcon.isSupported) return null;
+
+  const choose = (id: string | null, need: number) => {
+    if (level < need) {
+      haptic.error();
+      toast({ message: `Esse ícone libera no nível ${need}. Você está no ${level}.`, icon: "lock-outline" });
+      return;
+    }
+    if (id === current) return;
+    Alert.alert("Trocar o ícone?", "O Android fecha o app para aplicar o novo ícone. É só abrir de novo.", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Trocar", onPress: () => { setCurrent(id); AppIcon.setIcon?.(id); } },
+    ]);
+  };
+
+  return (
+    <>
+      <SectionTitle>Ícone do app</SectionTitle>
+      <View style={styles.iconRow}>
+        {APP_ICONS.map((ic) => {
+          const need = ic.id ? iconLevel(ic.id) : 1;
+          const locked = level < need;
+          const on = (current ?? null) === ic.id;
+          return (
+            <Bouncy key={ic.name} onPress={() => choose(ic.id, need)} style={styles.iconOpt} accessibilityLabel={`Ícone ${ic.name}${locked ? `, nível ${need}` : ""}`} accessibilityState={{ selected: on }}>
+              <View style={[styles.iconFrame, { borderColor: on ? c.accent : "transparent" }]}>
+                <Image source={ic.image} style={styles.iconImg} />
+                {locked && (
+                  <View style={styles.iconLock}>
+                    <Icon name="lock" size={16} color="#fff" />
+                  </View>
+                )}
+              </View>
+              <AppText variant="caption" dim={!on}>{locked ? `Nv. ${need}` : ic.name}</AppText>
+            </Bouncy>
+          );
+        })}
+      </View>
+    </>
   );
 }
 
@@ -208,6 +268,7 @@ export default function Settings() {
         {THEME_ORDER.map((m) => <ThemeOption key={m} mode={m} />)}
       </View>
       <AutoTheme />
+      <AppIconPicker />
 
       <SectionTitle>Texto confortável</SectionTitle>
       <Segmented<string>
@@ -336,6 +397,11 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, paddingVertical: 12, minHeight: 58 },
   rowIcon: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  iconRow: { flexDirection: "row", justifyContent: "space-between" },
+  iconOpt: { alignItems: "center", gap: 4 },
+  iconFrame: { borderWidth: 2, borderRadius: 18, padding: 2 },
+  iconImg: { width: 52, height: 52, borderRadius: 14 },
+  iconLock: { ...StyleSheet.absoluteFill, margin: 2, borderRadius: 14, backgroundColor: "rgba(0,0,0,0.5)", alignItems: "center", justifyContent: "center" },
   autoBox: { marginTop: space.sm, padding: space.md, borderRadius: radius.lg, borderWidth: 1, gap: space.sm },
   themeOpt: { width: "48%", flexGrow: 1, padding: 10, borderRadius: radius.lg, borderWidth: 1.5 },
   lock: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 2, backgroundColor: "rgba(0,0,0,0.45)" },

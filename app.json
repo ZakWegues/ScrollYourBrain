@@ -19,7 +19,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "monochromeImage": "./assets/adaptive-icon-mono.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "output": "single",
@@ -80,6 +85,23 @@
               "foregroundImage": "./assets/shortcuts/focus.png",
               "backgroundColor": "#EC4899"
             }
+          }
+        }
+      ],
+      [
+        "expo-quick-actions/icon/plugin",
+        {
+          "neon": {
+            "image": "./assets/app-icons/neon.png"
+          },
+          "aurora": {
+            "image": "./assets/app-icons/aurora.png"
+          },
+          "espaco": {
+            "image": "./assets/app-icons/espaco.png"
+          },
+          "ouro": {
+            "image": "./assets/app-icons/ouro.png"
           }
         }
       ]

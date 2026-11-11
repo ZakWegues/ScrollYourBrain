@@ -267,7 +267,143 @@ const estequiometria: Gen[] = [
   },
 ];
 
+// ── Genética ─────────────────────────────────────────────────────────────────
+const CROSSES: [string, string, string, string][] = [
+  // [pai, mãe, proporção de fenótipo dominante, explicação]
+  ["AA", "aa", "100%", "AA × aa → todos Aa: 100% com o fenótipo dominante."],
+  ["Aa", "Aa", "75%", "Aa × Aa → AA, Aa, Aa, aa: 3 de 4 (75%) com o dominante."],
+  ["Aa", "aa", "50%", "Aa × aa → Aa, Aa, aa, aa: metade (50%) com o dominante."],
+  ["aa", "aa", "0%", "aa × aa → todos aa: nenhum com o dominante."],
+  ["AA", "Aa", "100%", "AA × Aa → AA, AA, Aa, Aa: todos têm ao menos um A."],
+];
+const BLOOD: [string, string, string[]][] = [
+  ["IᴬIᴬ", "A", ["B", "AB", "O"]], ["Iᴬi", "A", ["O", "AB", "B"]], ["IᴮIᴮ", "B", ["A", "AB", "O"]],
+  ["Iᴮi", "B", ["O", "A", "AB"]], ["IᴬIᴮ", "AB", ["A", "B", "O"]], ["ii", "O", ["A", "B", "AB"]],
+];
+const genetica: Gen[] = [
+  (rng) => {
+    const [p1, p2, dom, why] = pick(rng, CROSSES);
+    return q(rng, { id: `gen-gen-cross-${p1}-${p2}`, pageId: "genetica", title: "Quadro de Punnett", tags: ["mendel", "punnett"], question: `No cruzamento ${p1} × ${p2} (A domina a), qual a proporção de filhos com o fenótipo dominante?`, explanation: why }, dom, ["100%", "75%", "50%", "25%", "0%"].filter((x) => x !== dom));
+  },
+  (rng) => {
+    const [geno, type, wrong] = pick(rng, BLOOD);
+    return q(rng, { id: `gen-gen-blood-${geno}`, pageId: "genetica", title: "Grupos sanguíneos", tags: ["sistema ABO"], question: `Uma pessoa com genótipo ${geno} tem sangue do tipo:`, explanation: `Iᴬ e Iᴮ são codominantes e dominam i. ${geno} → tipo ${type}.` }, type, wrong);
+  },
+];
+
+// ── Química orgânica ─────────────────────────────────────────────────────────
+const PREFIX = ["met", "et", "prop", "but", "pent", "hex", "hept", "oct", "non", "dec"];
+const GROUPS: [string, string][] = [["–OH (em carbono saturado)", "Álcool"], ["–COOH", "Ácido carboxílico"], ["–CHO (C=O na ponta)", "Aldeído"], ["C=O entre carbonos", "Cetona"], ["–COO– (entre carbonos)", "Éster"], ["–NH₂", "Amina"], ["–O– (entre carbonos)", "Éter"]];
+const organica: Gen[] = [
+  (rng) => {
+    const n = int(rng, 1, 10);
+    const ans = `${n} carbono${n > 1 ? "s" : ""}`;
+    return q(rng, { id: `gen-org-prefix-${n}`, pageId: "organica", title: "Prefixos", tags: ["nomenclatura"], question: `Quantos carbonos indica o prefixo "${PREFIX[n - 1]}-"?`, explanation: `met 1, et 2, prop 3, but 4, pent 5, hex 6, hept 7, oct 8, non 9, dec 10. Logo, ${PREFIX[n - 1]} = ${n}.` }, ans, near(rng, n, 2).filter((v) => v >= 1 && v <= 10).map((v) => `${v} carbono${v > 1 ? "s" : ""}`));
+  },
+  (rng) => {
+    const [group, fn] = pick(rng, GROUPS);
+    return q(rng, { id: `gen-org-func-${fn}`, pageId: "organica", title: "Funções orgânicas", tags: ["grupo funcional"], question: `O grupo funcional ${group} caracteriza qual função?`, explanation: `${group} → ${fn}.` }, fn, GROUPS.filter(([, f]) => f !== fn).sort(() => rng() - 0.5).map(([, f]) => f));
+  },
+];
+
+// ── Físico-química (pH) ──────────────────────────────────────────────────────
+const fisicoQuimica: Gen[] = [
+  (rng) => {
+    const n = int(rng, 1, 13);
+    const kind = n < 7 ? "ácida" : n === 7 ? "neutra" : "básica";
+    return q(rng, { id: `gen-fq-ph-${n}`, pageId: "fisico-quimica", title: "pH", tags: ["pH"], question: `Uma solução tem [H⁺] = 10⁻${n} mol/L (25 °C). Qual o pH e como ela é?`, explanation: `pH = −log[H⁺] = ${n}. Abaixo de 7 é ácida, 7 é neutra, acima de 7 é básica: ${kind}.` }, `pH ${n}, ${kind}`, [`pH ${14 - n === n ? n + 1 : 14 - n}, ${kind === "ácida" ? "básica" : "ácida"}`, `pH ${n}, ${kind === "neutra" ? "ácida" : "neutra"}`, `pH ${n + 2}, ${kind}`]);
+  },
+  (rng) => {
+    const a = int(rng, 1, 6), b = a + int(rng, 1, 3);
+    const times = 10 ** (b - a);
+    return q(rng, { id: `gen-fq-ph-x-${a}-${b}`, pageId: "fisico-quimica", title: "Escala de pH", tags: ["pH", "logaritmo"], question: `Uma solução de pH ${a} é quantas vezes mais ácida que uma de pH ${b}?`, explanation: `Cada unidade de pH é um fator 10 em [H⁺]: 10^(${b} − ${a}) = ${fmt(times)} vezes.` }, `${fmt(times)} vezes`, [`${b - a} vezes`, `${fmt(times * 10)} vezes`, `${2 * (b - a)} vezes`]);
+  },
+];
+
+// ── Termologia ───────────────────────────────────────────────────────────────
+const termologia: Gen[] = [
+  (rng) => {
+    const m = pick(rng, [100, 200, 250, 500, 1000]), dt = pick(rng, [10, 20, 30, 40, 50]);
+    const Q = m * dt;
+    return q(rng, { id: `gen-ter-q-${m}-${dt}`, pageId: "termologia", title: "Calorimetria", tags: ["Q = mcΔT"], question: `Quantas calorias aquecem ${m} g de água em ${dt} °C? (c = 1 cal/g°C)`, explanation: `Q = m·c·ΔT = ${m}·1·${dt} = ${fmt(Q)} cal.` }, `${fmt(Q)} cal`, [Q / 10, Q * 2, m + dt].map((x) => `${fmt(x)} cal`));
+  },
+  (rng) => {
+    const c = pick(rng, [-40, -10, 0, 10, 20, 25, 30, 37, 50, 100]);
+    const toK = rng() < 0.5;
+    return toK
+      ? q(rng, { id: `gen-ter-k-${c}`, pageId: "termologia", title: "Escalas termométricas", tags: ["kelvin"], question: `${c} °C equivalem a quantos kelvin?`, explanation: `T(K) = T(°C) + 273 = ${c} + 273 = ${c + 273} K.` }, `${c + 273} K`, [`${c - 273} K`, `${c + 32} K`, `${c} K`])
+      : q(rng, { id: `gen-ter-f-${c}`, pageId: "termologia", title: "Escalas termométricas", tags: ["fahrenheit"], question: `${c} °C equivalem a quantos °F?`, explanation: `F = 1,8·C + 32 = 1,8·${c} + 32 = ${fmt(1.8 * c + 32)} °F.` }, `${fmt(1.8 * c + 32)} °F`, [`${fmt(c + 32)} °F`, `${fmt(1.8 * c)} °F`, `${fmt((c - 32) / 1.8)} °F`]);
+  },
+];
+
+// ── Dinâmica ─────────────────────────────────────────────────────────────────
+const dinamica: Gen[] = [
+  (rng) => {
+    const m = pick(rng, [2, 3, 4, 5, 10, 20, 50]), a = pick(rng, [0.5, 1, 2, 3, 4, 5]);
+    const F = m * a;
+    return q(rng, { id: `gen-din-f-${m}-${a}`, pageId: "dinamica", title: "2ª lei de Newton", tags: ["F = m·a"], question: `Qual a força resultante que acelera ${m} kg a ${fmt(a)} m/s²?`, explanation: `F = m·a = ${m}·${fmt(a)} = ${fmt(F)} N.` }, `${fmt(F)} N`, [m + a, m / a, F * 10].map((x) => `${fmt(x)} N`));
+  },
+  (rng) => {
+    const m = pick(rng, [5, 10, 20, 45, 60, 70, 80]);
+    return q(rng, { id: `gen-din-p-${m}`, pageId: "dinamica", title: "Peso", tags: ["peso"], question: `Qual o peso de um corpo de ${m} kg na Terra (g = 10 m/s²)?`, explanation: `P = m·g = ${m}·10 = ${m * 10} N. Massa (kg) não muda; o peso (N) depende da gravidade.` }, `${m * 10} N`, [`${m} N`, `${m} kg`, `${m * 100} N`]);
+  },
+];
+
+// ── Ondas e óptica ───────────────────────────────────────────────────────────
+const ondas: Gen[] = [
+  (rng) => {
+    const lambda = pick(rng, [0.5, 1, 2, 3.4, 5, 10]), f = pick(rng, [2, 10, 20, 50, 100]);
+    const v = lambda * f;
+    return q(rng, { id: `gen-ond-v-${lambda}-${f}`, pageId: "ondas", title: "Equação da onda", tags: ["v = λf"], question: `Uma onda tem comprimento ${fmt(lambda)} m e frequência ${f} Hz. Qual sua velocidade?`, explanation: `v = λ·f = ${fmt(lambda)}·${f} = ${fmt(v)} m/s.` }, `${fmt(v)} m/s`, [lambda / f, f / lambda, lambda + f].map((x) => `${fmt(x)} m/s`));
+  },
+];
+const optica: Gen[] = [
+  (rng) => {
+    const f = pick(rng, [0.1, 0.2, 0.25, 0.5, 1, 2]);
+    const V = 1 / f;
+    return q(rng, { id: `gen-opt-v-${f}`, pageId: "optica", title: "Vergência", tags: ["dioptria"], question: `Qual a vergência de uma lente convergente com distância focal de ${fmt(f)} m?`, explanation: `V = 1/f = 1/${fmt(f)} = ${fmt(V)} di ("graus"). Convergente: positiva.` }, `${fmt(V)} di`, [`${fmt(f)} di`, `${fmt(-V)} di`, `${fmt(V * 2)} di`]);
+  },
+];
+
+// ── Soluções ─────────────────────────────────────────────────────────────────
+const solucoes: Gen[] = [
+  (rng) => {
+    const m = pick(rng, [5, 10, 20, 30, 40, 50]), V = pick(rng, [0.25, 0.5, 1, 2]);
+    const C = m / V;
+    return q(rng, { id: `gen-sol-c-${m}-${V}`, pageId: "solucoes", title: "Concentração comum", tags: ["C = m/V"], question: `${m} g de soluto em ${fmt(V * 1000)} mL de solução. Qual a concentração em g/L?`, explanation: `C = m/V = ${m} g / ${fmt(V)} L = ${fmt(C)} g/L.` }, `${fmt(C)} g/L`, [m * V, m / (V * 1000), C * 2].map((x) => `${fmt(x)} g/L`));
+  },
+  (rng) => {
+    const c1 = pick(rng, [1, 2, 3, 4, 6]), v1 = pick(rng, [50, 100, 200]), k = pick(rng, [2, 4, 5]);
+    const v2 = v1 * k, c2 = c1 / k;
+    return q(rng, { id: `gen-sol-dil-${c1}-${v1}-${k}`, pageId: "solucoes", title: "Diluição", tags: ["C₁V₁ = C₂V₂"], question: `${v1} mL de solução ${c1} mol/L são diluídos até ${v2} mL. Nova concentração?`, explanation: `C₁V₁ = C₂V₂ → ${c1}·${v1} = C₂·${v2} → C₂ = ${fmt(c2)} mol/L.` }, `${fmt(c2)} mol/L`, [c1 * k, c1, c1 / (k * 2)].map((x) => `${fmt(x)} mol/L`));
+  },
+];
+
+// ── Álgebra (PA e PG) ────────────────────────────────────────────────────────
+const algebra: Gen[] = [
+  (rng) => {
+    const a1 = int(rng, -5, 12), r = pick(rng, [-3, -2, 2, 3, 4, 5, 7]), n = int(rng, 6, 20);
+    const an = a1 + (n - 1) * r;
+    return q(rng, { id: `gen-alg-pa-${a1}-${r}-${n}`, pageId: "algebra", title: "Progressão aritmética", tags: ["PA"], question: `Na PA (${a1}, ${a1 + r}, ${a1 + 2 * r}, …), qual é o ${n}º termo?`, explanation: `aₙ = a₁ + (n − 1)·r = ${a1} + ${n - 1}·(${r}) = ${an}.` }, String(an), [an + r, an - r, a1 + n * r].map(String));
+  },
+  (rng) => {
+    const a1 = pick(rng, [1, 2, 3, 5]), qq = pick(rng, [2, 3]), n = int(rng, 4, qq === 2 ? 9 : 6);
+    const an = a1 * qq ** (n - 1);
+    return q(rng, { id: `gen-alg-pg-${a1}-${qq}-${n}`, pageId: "algebra", title: "Progressão geométrica", tags: ["PG"], question: `Na PG (${a1}, ${a1 * qq}, ${a1 * qq * qq}, …), qual é o ${n}º termo?`, explanation: `aₙ = a₁·qⁿ⁻¹ = ${a1}·${qq}^${n - 1} = ${fmt(an)}.` }, fmt(an), [an * qq, an / qq, a1 * qq * n].map(fmt));
+  },
+];
+
+// ── English grammar ──────────────────────────────────────────────────────────
+const IRREGULAR: [string, string][] = [["go", "went"], ["see", "saw"], ["buy", "bought"], ["think", "thought"], ["take", "took"], ["write", "wrote"], ["eat", "ate"], ["come", "came"], ["make", "made"], ["teach", "taught"], ["bring", "brought"], ["begin", "began"], ["speak", "spoke"], ["drink", "drank"]];
+const grammar: Gen[] = [
+  (rng) => {
+    const [base, past] = pick(rng, IRREGULAR);
+    return q(rng, { id: `gen-eng-past-${base}`, pageId: "grammar", title: "Irregular verbs", tags: ["simple past"], question: `Simple past of "${base}":`, explanation: `${base} → ${past} (irregular: não ganha -ed).` }, past, [`${base}ed`, IRREGULAR.filter(([b]) => b !== base)[int(rng, 0, IRREGULAR.length - 2)][1], `${base}s`]);
+  },
+];
+
 /** Procedural generators for sub-subject accounts, so these accounts never run dry. */
 export const ACCOUNT_GENERATORS: Record<string, Gen[]> = {
   funcoes, trigonometria, estatistica, financeira, geometria, cinematica, eletricidade, energia, estequiometria,
+  genetica, organica, "fisico-quimica": fisicoQuimica, termologia, dinamica, ondas, optica, solucoes, algebra, grammar,
 };

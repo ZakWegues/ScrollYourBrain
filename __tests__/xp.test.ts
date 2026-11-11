@@ -13,7 +13,7 @@ describe("xp", () => {
   it("unlocks themes and titles by level", () => {
     expect(themeLevel("aurora")).toBe(3);
     expect(themeLevel("amoled")).toBe(1);
-    expect(rewardsBetween(2, 5).map((r) => r.id)).toEqual(["aurora", "estudante", "espaco"]);
+    expect(rewardsBetween(2, 5).map((r) => r.id)).toEqual(["aurora", "estudante", "neon", "espaco"]);
     expect(titleFor(1)).toBe("Calouro");
     expect(titleFor(7)).toBe("Dedicado");
   });

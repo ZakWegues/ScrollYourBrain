@@ -102,7 +102,7 @@ export default function Profile() {
             const got = level >= r.level;
             return (
               <View key={`${r.kind}-${r.id}`} style={[styles.reward, { borderColor: c.border, opacity: got ? 1 : 0.6 }]}>
-                <Icon name={got ? (r.kind === "theme" ? "palette" : "medal") : "lock-outline"} size={22} color={got ? c.save : c.textMute} />
+                <Icon name={got ? (r.kind === "theme" ? "palette" : r.kind === "icon" ? "cellphone" : "medal") : "lock-outline"} size={22} color={got ? c.save : c.textMute} />
                 <AppText style={{ flex: 1 }}>{r.label}</AppText>
                 <AppText variant="caption" dim>nível {r.level}</AppText>
               </View>
