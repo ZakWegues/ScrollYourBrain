@@ -1,7 +1,7 @@
 import { router, useIsFocused } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feed } from "@/components/Feed";
@@ -10,6 +10,7 @@ import { AppText, Bouncy, GradientButton, Icon } from "@/components/ui";
 import type { FeedSource } from "@/feed/useFeed";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
+import { useSettings } from "@/store/settings";
 import { useColors, useTheme } from "@/theme";
 
 type Mode = "forYou" | "following" | "mix";
@@ -21,6 +22,11 @@ const MODES: { value: Mode; label: string }[] = [
 
 /** Text tabs over the video, with a sliding underline (reels style). */
 function FeedTabs({ value, onChange }: { value: Mode; onChange: (m: Mode) => void }) {
+  // Tabs share the row with the goal ring and search: cap the comfortable-text boost and shrink on narrow
+  // screens so the three labels always fit (about 175dp of text at normal size, 156dp taken by the sides).
+  const scale = useSettings((s) => s.textScale);
+  const { width } = useWindowDimensions();
+  const fit = Math.min(scale, 1.1, (width - 156) / 175) / scale;
   const [boxes, setBoxes] = useState<Partial<Record<Mode, { x: number; w: number }>>>({});
   const x = useSharedValue(0);
   const w = useSharedValue(0);
@@ -53,7 +59,7 @@ function FeedTabs({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
             accessibilityState={{ selected: on }}
             testID={`feed-tab-${m.value}`}
           >
-            <AppText variant="label" style={[styles.tabText, { opacity: on ? 1 : 0.62, fontSize: on ? 15.5 : 14.5 }]}>{m.label}</AppText>
+            <AppText variant="label" numberOfLines={1} maxFontSizeMultiplier={1.1} style={[styles.tabText, { opacity: on ? 1 : 0.62, fontSize: (on ? 15.5 : 14.5) * fit }]}>{m.label}</AppText>
           </Pressable>
         );
       })}
@@ -116,9 +122,9 @@ export default function FeedScreen() {
 
 const styles = StyleSheet.create({
   top: { position: "absolute", top: 0, left: 0, right: 0, paddingHorizontal: 12, flexDirection: "row", alignItems: "center" },
-  side: { width: 92 },
-  tabs: { flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 12, paddingBottom: 6 },
-  tab: { paddingVertical: 6 },
+  side: { width: 48, justifyContent: "center" },
+  tabs: { flex: 1, minWidth: 0, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 14, paddingBottom: 6, marginHorizontal: 4 },
+  tab: { paddingVertical: 6, flexShrink: 1 },
   tabText: { color: "#fff", textShadowColor: "rgba(0,0,0,0.55)", textShadowRadius: 6, textShadowOffset: { width: 0, height: 1 } },
   underline: { position: "absolute", left: 0, bottom: 2, height: 3, borderRadius: 2, backgroundColor: "#fff" },
   search: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
