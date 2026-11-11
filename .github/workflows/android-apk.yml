@@ -88,12 +88,12 @@ jobs:
             -Pandroid.injected.signing.key.password="$KEY_PASS"
       - name: Rename APK
         run: cp android/app/build/outputs/apk/release/app-release.apk ScrollYourBrain.apk
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ScrollYourBrain-apk
           path: ScrollYourBrain.apk
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: steps.keystore.outputs.signed == 'true'
         with:
           name: ScrollYourBrain-aab
