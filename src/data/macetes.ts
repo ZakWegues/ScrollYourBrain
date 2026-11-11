@@ -90,4 +90,88 @@ export const MACETES: StudyItem[] = [
     front: "No paralelogramo e no triângulo, qual medida entra como \"altura\" na conta da área?",
     back: "A distância perpendicular (reta, a 90°) até a base — não o lado inclinado. Trace a linha reta e use ela.",
   },
+  // ── 2º dia do ENEM: ordem de prova (reel @guidoenem) ──
+  {
+    id: "mac-ordem-2-dia", pageId: "macetes", kind: "concept", title: "Ordem de prova no 2º dia", tags: ["enem", "2º dia", "tri", "estratégia"],
+    beats: [
+      "O 2º dia vence pelo tempo e pelo cansaço: a ordem importa.",
+      "Comece por Matemática, com a cabeça descansada: é onde o cansaço mais causa erro bobo.",
+      "Na 1ª passada, pule logaritmo, análise combinatória, probabilidade e geometria analítica.",
+      "Depois Natureza: Biologia primeiro, depois Química e por fim Física.",
+      "Travou ou não entendeu o texto? Pule e volte no fim.",
+    ],
+    takeaway: "O que sobrar sem tempo deve ser só o que é difícil de verdade, e na TRI isso pesa menos.",
+  },
+  {
+    id: "mac-natureza-ordem", pageId: "macetes", kind: "quiz", title: "Por onde começar Natureza", tags: ["enem", "2º dia", "tri"],
+    question: "Pela estratégia do 2º dia, em Ciências da Natureza você começa por:", options: ["Física", "Química", "Biologia", "Tanto faz"], answer: 2,
+    explanation: "Biologia costuma ter as questões mais acessíveis: acertar as fáceis primeiro dá mais pontos na TRI. Depois Química e, por fim, Física.",
+  },
+  {
+    id: "mac-pular-mat", pageId: "macetes", kind: "flash", title: "Matemática: deixe para depois", tags: ["enem", "2º dia", "matemática"],
+    front: "Quais assuntos de Matemática deixar para a 2ª passada no ENEM?",
+    back: "Logaritmo, análise combinatória, probabilidade e geometria analítica. Costumam ser as mais trabalhosas; faça antes as que você resolve rápido.",
+  },
+  // ── 2º dia do ENEM: macetes de exatas (reel @belabeludaeduca) ──
+  {
+    id: "mac-pergunta-antes", pageId: "macetes", kind: "flash", title: "Leia a pergunta primeiro", tags: ["enem", "interpretação", "estratégia"],
+    front: "Enunciado gigante de exatas: por onde começar a ler?",
+    back: "Pela pergunta (a última linha). O texto é longo, mas a conta costuma ser uma só; sabendo o que é pedido, você lê o resto procurando só os dados.",
+  },
+  {
+    id: "mac-regra-de-tres", pageId: "macetes", kind: "concept", title: "Regra de três: direta ou inversa", tags: ["enem", "matemática", "proporção"],
+    beats: [
+      "Um aumenta e o outro também? Direta: multiplique cruzado.",
+      "Um aumenta e o outro diminui (mais trabalhadores, menos dias)? Inversa.",
+      "Na inversa, multiplique \"reto\" (na mesma linha).",
+      "Estequiometria também é regra de três depois de balancear.",
+    ],
+    takeaway: "Antes da conta, pergunte: quando um dobra, o outro dobra ou cai pela metade?",
+  },
+  {
+    id: "mac-escala-zeros", pageId: "macetes", kind: "quiz", title: "Escala sem sofrimento", tags: ["enem", "matemática", "escala"],
+    question: "Num mapa de escala 1:100.000, 1 cm representa:", options: ["100 m", "1 km", "10 km", "100 km"], answer: 1,
+    explanation: "1 cm × 100.000 = 100.000 cm. De cm para km, corte 5 zeros: 1 km.",
+  },
+  {
+    id: "mac-volumes", pageId: "macetes", kind: "flash", title: "Volumes em uma linha", tags: ["enem", "matemática", "geometria"],
+    front: "Volume de caixa, cilindro, cone e pirâmide: qual a regra geral?",
+    back: "Caixa e cilindro: área da base × altura. Cone e pirâmide: 1/3 disso. E 1 dm³ = 1 litro.",
+  },
+  {
+    id: "mac-chuveiro", pageId: "macetes", kind: "quiz", title: "Chuveiro no inverno", tags: ["enem", "física", "eletricidade"],
+    question: "Na posição \"inverno\", a resistência do chuveiro é:", options: ["Maior, para esquentar mais", "Menor: passa mais corrente e a potência aumenta", "A mesma; muda só a vazão", "Desligada"], answer: 1,
+    explanation: "Com a mesma tensão, P = U²/R: menos resistência → mais corrente → mais potência → água mais quente.",
+  },
+  {
+    id: "mac-velocidade-onda", pageId: "macetes", kind: "flash", title: "3,6 e ondas", tags: ["enem", "física"],
+    front: "Como passar de km/h para m/s? E a fórmula das ondas?",
+    back: "km/h ÷ 3,6 = m/s (m/s × 3,6 = km/h). Ondas: v = λ·f. O som precisa de meio; no vácuo, só a luz (onda eletromagnética) passa.",
+  },
+  {
+    id: "mac-ph-10x", pageId: "macetes", kind: "quiz", title: "Cada ponto de pH vale 10×", tags: ["enem", "química", "ph"],
+    question: "Uma solução de pH 3, comparada a uma de pH 4, é:", options: ["1 vez mais ácida", "10 vezes mais ácida", "10 vezes mais básica", "3 vezes mais ácida"], answer: 1,
+    explanation: "A escala de pH é logarítmica: cada ponto a menos é 10 vezes mais ácido. pH < 7 é ácido; > 7 é básico.",
+  },
+  {
+    id: "mac-separacao", pageId: "macetes", kind: "flash", title: "Separação de misturas relâmpago", tags: ["enem", "química", "misturas"],
+    front: "Areia na água, sal dissolvido e água com óleo: como separar cada um?",
+    back: "Areia + água: filtração (ou decantação). Sal dissolvido: evaporação ou destilação. Água + óleo: decantação (funil de separação).",
+  },
+  {
+    id: "mac-organica-grupos", pageId: "macetes", kind: "flash", title: "Orgânica é reconhecer o grupo", tags: ["enem", "química", "orgânica"],
+    front: "Química orgânica no ENEM: qual o atalho?",
+    back: "Reconhecer o grupo funcional. –OH em carbono saturado: álcool. –COOH: ácido carboxílico (o do vinagre).",
+  },
+  {
+    id: "mac-biologia-campea", pageId: "macetes", kind: "concept", title: "Biologia que mais cai", tags: ["enem", "biologia", "ecologia"],
+    beats: [
+      "Ecologia é a campeã: o ENEM adora desequilíbrios.",
+      "Espécie invasora, desmatamento, esgoto no rio…",
+      "Poluente que não se degrada se acumula no topo da cadeia.",
+      "Antibiótico mata bactéria, não vírus; contra vírus, vacina prepara o corpo antes.",
+      "Planta faz fotossíntese e também respira, o tempo todo.",
+    ],
+    takeaway: "Pergunte sempre: o que acontece com o resto do ecossistema?",
+  },
 ];
