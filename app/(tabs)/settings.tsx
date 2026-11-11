@@ -21,6 +21,11 @@ import { iconLevel, levelInfo, themeLevel } from "@/lib/xp";
 import * as AppIcon from "expo-quick-actions/icon";
 import { Image } from "expo-image";
 import { useXp } from "@/store/xp";
+import { useModes } from "@/store/modes";
+import { useMistakes } from "@/store/mistakes";
+import { useDaily } from "@/store/daily";
+import { useSearch } from "@/store/search";
+import { useResume } from "@/store/resume";
 
 const REPO = "https://github.com/ZakWegues/ScrollYourBrain";
 
@@ -366,7 +371,7 @@ export default function Settings() {
           <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="refresh" size={18} color={c.text} /></View>
           <AppText variant="label" style={{ flex: 1 }}>Limpar histórico do feed</AppText>
         </Bouncy>
-        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, sequência, recordes e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); usePlanner.getState().reset(); s.reset(); haptic.success(); })}>
+        <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, erros, sequência, XP, recordes, modos salvos e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); usePlanner.getState().reset(); useXp.getState().reset(); useModes.getState().reset(); useMistakes.getState().reset(); useDaily.getState().reset(); useSearch.getState().clear(); useResume.getState().setForYou([]); s.reset(); haptic.success(); })}>
           <View style={[styles.rowIcon, { backgroundColor: "rgba(244,63,94,0.15)" }]}><Icon name="trash-can-outline" size={18} color={c.danger} /></View>
           <AppText variant="label" style={{ flex: 1, color: c.danger }}>Apagar todos os dados</AppText>
         </Bouncy>
@@ -385,7 +390,7 @@ export default function Settings() {
         <View style={styles.row}>
           <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="information-outline" size={18} color={c.text} /></View>
           <AppText variant="label" style={{ flex: 1 }}>Versão</AppText>
-          <AppText variant="caption" dim>{Constants.expoConfig?.version ?? "0.1.0"}</AppText>
+          <AppText variant="caption" dim>{Constants.expoConfig?.version ?? "0.6.0"} · build {String(Constants.expoConfig?.extra?.buildNumber ?? "dev")}</AppText>
         </View>
       </Card>
     </Screen>

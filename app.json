@@ -2,7 +2,7 @@
   "expo": {
     "name": "ScrollYourBrain",
     "slug": "scrollyourbrain",
-    "version": "0.3.0",
+    "version": "0.6.0",
     "scheme": "scrollyourbrain",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -108,6 +108,8 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "description": "Estude no ritmo do scroll: feed vertical de estudos para ENEM, vestibular e ensino médio.",
+    "githubUrl": "https://github.com/ZakWegues/ScrollYourBrain"
   }
 }

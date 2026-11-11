@@ -1,100 +1,171 @@
 <div align="center">
   <img src="assets/icon.png" width="112" alt="ScrollYourBrain" />
   <h1>ScrollYourBrain</h1>
-  <p><b>Estude no ritmo do scroll.</b> Um feed vertical, no estilo Reels/TikTok/Shorts, feito só de conteúdo educacional.</p>
-  <p>Android · iOS · Web · Código aberto (MIT)</p>
+  <p><b>Estude no ritmo do scroll.</b> Um feed vertical, no estilo Reels/Shorts, feito só de conteúdo do ensino médio, ENEM e vestibular.</p>
+
+  <a href="https://github.com/ZakWegues/ScrollYourBrain/releases/latest/download/ScrollYourBrain.apk"><img alt="Baixar APK" src="https://img.shields.io/badge/Android-baixar%20APK-8B5CF6?logo=android&logoColor=white" /></a>
+  <a href="https://github.com/ZakWegues/ScrollYourBrain/actions/workflows/android-apk.yml"><img alt="Build" src="https://github.com/ZakWegues/ScrollYourBrain/actions/workflows/android-apk.yml/badge.svg" /></a>
+  <a href="LICENSE"><img alt="Licença MIT" src="https://img.shields.io/badge/licen%C3%A7a-MIT-22D3EE" /></a>
+  <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo-SDK%2057-000020?logo=expo" />
 </div>
 
-## O que tem
+<p align="center">
+  <img src="docs/screenshots/feed-quiz.jpg" width="200" alt="Feed com quiz" />
+  <img src="docs/screenshots/feed-aurora.jpg" width="200" alt="Feed no tema Aurora" />
+  <img src="docs/screenshots/explore.jpg" width="200" alt="Explorar" />
+  <img src="docs/screenshots/library.jpg" width="200" alt="Biblioteca" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/modes.jpg" width="200" alt="Modos de prova" />
+  <img src="docs/screenshots/lesson.jpg" width="200" alt="Aula guiada" />
+  <img src="docs/screenshots/profile.jpg" width="200" alt="Perfil e domínio por conta" />
+  <img src="docs/screenshots/settings.jpg" width="200" alt="Temas" />
+</p>
 
-**Estudar**
-- **Feed infinito** em tela cheia, com snap card a card e cinco formatos:
-  - conceitos animados (um "vídeo" feito por código);
+## Sumário
+- [O que o app faz](#o-que-o-app-faz)
+- [Instalar](#instalar)
+- [Rodar e desenvolver](#rodar-e-desenvolver)
+- [Como funciona por dentro](#como-funciona-por-dentro)
+- [Conteúdo](#conteúdo)
+- [Privacidade](#privacidade)
+- [Contribuir](#contribuir)
+- [Créditos e licença](#créditos-e-licença)
+
+## O que o app faz
+
+### Estudar no feed
+- **Feed infinito em tela cheia**, card a card. Os formatos são:
+  - conceitos animados;
   - quizzes;
   - flashcards;
-  - vídeos do YouTube;
-  - verbetes da Wikipédia.
-- **O feed nunca fica vazio:** conteúdo embutido, geradores procedurais e fontes online. Funciona **offline**: sem internet aparece um aviso e o feed segue com o que roda sem rede.
-- **O feed aprende com você:** curtir e seguir aumentam um tema; pular rápido diminui.
-- **Revisão espaçada:** erros de quiz e flashcards marcados entram numa fila no estilo SM-2. A revisão diária mostra quando cada card volta.
-- **Modos de prova:**
-  - ENEM (por área), Vestibular;
-  - prova anual, bimestral e mensal, e atividade, por matéria e série do ensino médio.
-  - Cada modo junta o feed do conteúdo, a revisão, um simulado com tempo, o checklist de assuntos e a data no calendário.
-- **Currículo do ensino médio:** 10 matérias × 3 séries × 4 bimestres, com mais de 450 cards e 350 questões.
-- **Macetes de prova:** chute inteligente, gestão de tempo, revisão e pegadinhas.
-- **Modo foco:** Pomodoro (15/25/50 min) com um feed só do tema escolhido.
-- **Ouvir cards:** leitura em voz alta, sob demanda ou automática.
+  - **vídeos reais em português** (Shorts em tela cheia e trechos de aula);
+  - curiosidades da Wikipédia.
+- **Para você · Seguindo · Mix:** o Mix junta as contas que você mais curtiu.
+- **56 páginas**: 14 matérias e **42 contas de submatéria** (Funções, Cinemática, Genética, Redação…). Seguir uma matéria segue todas as contas dela.
+- **O feed aprende com você:**
+  - curtir e seguir aumentam um tema; pular rápido diminui;
+  - a cada ~3 cards entra um vídeo (frequência ajustável);
+  - **continua de onde você parou**.
+- **Funciona offline** com o conteúdo embutido; vídeos e Wikipédia voltam quando a internet volta.
 
-**Organizar**
-- **Cadernos** para juntar cards por prova ou matéria.
-- **Anotações** em qualquer card, que também aparecem na revisão.
-- **Importar matéria:** colar texto ou abrir .txt/.csv (planilha, Anki) para gerar flashcards.
-- **Calendário de provas:** contagem regressiva e meta sugerida de cards por dia.
-- **Biblioteca:** salvos, curtidos, cadernos e notas.
+### Ensino médio e provas
+- **Currículo** de 10 matérias × 3 séries × 4 bimestres, com **mais de 1.300 cards**. Há geradores de questões em 19 contas para o conteúdo nunca acabar.
+- **Assuntos da minha escola:** você marca o que sua escola dá e o feed segue as marcas.
+- **Modos de prova:** ENEM (por área), vestibular, prova anual, bimestral e mensal, e atividade.
+  - Cada modo pode ser **personalizado** com várias matérias e os assuntos exatos.
+  - Os modos personalizados podem ser salvos com nome.
+- **Aula guiada** por assunto ou conta: conceito → flashcards → questões → vídeo.
+- **Simulado dos pontos fracos**, montado com as contas em que você mais erra.
+- **Caderno de erros:** toda questão errada fica guardada até você acertar.
+- **Quiz relâmpago:** 60 segundos, com recorde.
+- **Calendário de provas** e **reta final**, um plano de 7 dias para a próxima prova.
+- **Macetes de prova**, a partir de reels de professores: ordem de prova pela TRI, chute por eliminação, gestão de tempo e macetes de exatas.
 
-**Motivação**
-- **Sequência e meta diária**, com a pílula 🔥 no feed e uma comemoração ao bater a meta.
-- **Desafio semanal** com três missões.
-- **18 conquistas**.
-- **Estatísticas:** tempo por dia e por tema, precisão e heatmap de 4 meses.
-- **Lembrete diário** por notificação.
-- **Widget Android** com a sequência e a meta do dia na tela inicial.
+### Organizar e revisar
+- **Revisão espaçada** (estilo SM-2) e **salvar vira revisão**.
+- Cadernos, anotações em qualquer card e importação de matéria (texto, .txt ou .csv).
+- Compartilhar um card como imagem.
 
-**Conforto**
-- Tema **Preto AMOLED** ou **Padrão**.
-- Texto Normal/Grande/Enorme e alto contraste.
-- Reduzir movimento, vibração e economia de dados.
-- **Backup** em arquivo para trocar de celular sem perder nada.
-- **Onboarding** com escolha de temas e meta na primeira abertura.
+### Motivação
+- **XP, níveis e títulos.** Temas e ícones do app são desbloqueados por nível.
+- Sequência e meta diária, **pergunta do dia**, desafio semanal e 18 conquistas.
+- Estatísticas com resumo da semana e **domínio por conta**.
 
-A barra de navegação é a [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma barra flutuante do [Nuvio](https://nuvio.tv). No Android ela é renderizada nativamente.
+### Conforto
+- **6 temas:** Preto AMOLED, Padrão, Claro, Aurora, Espaço e Oceano.
+  - **Tema automático:** claro de dia, escuro à noite.
+- Texto confortável (tamanhos e alto contraste), ouvir cards em voz alta e modo foco (Pomodoro).
+- Widget de sequência e **atalhos no ícone** (Revisar, Quiz relâmpago, Modo foco) no Android.
+- Lembrete diário e backup em arquivo.
 
-## Instalar no celular (Android)
+## Instalar
 
-1. No celular, abra este link: **https://github.com/ZakWegues/ScrollYourBrain/releases/latest/download/ScrollYourBrain.apk**
-2. O download do `ScrollYourBrain.apk` começa sozinho. Toque em **Abrir** quando terminar.
-3. Se o Android pedir, permita **instalar apps desta fonte** (o navegador) e toque em **Instalar**.
-4. Para atualizar depois, é só abrir o mesmo link: a versão nova instala por cima e mantém seus dados.
+**Android:** abra no celular o link abaixo e instale o APK. Ele sempre aponta para a versão mais nova.
 
-O APK é para aparelhos arm64, o padrão dos celulares atuais. Cada build também fica em **Releases** no GitHub.
+> https://github.com/ZakWegues/ScrollYourBrain/releases/latest/download/ScrollYourBrain.apk
 
-## Rodar localmente
+- Na primeira vez, o Android pede para permitir instalar apps "de fontes desconhecidas" pelo navegador.
+- As próximas versões instalam por cima, sem perder seus dados.
 
-Requisitos: Node 22. Para Android, também Android Studio e JDK 17.
+O APK é gerado automaticamente pelo GitHub Actions a cada atualização (veja [docs/RELEASE.md](docs/RELEASE.md)).
+
+## Rodar e desenvolver
+
+Requisitos: **Node 22**, **JDK 17** e Android SDK, para builds nativos.
 
 ```bash
-npm install
-npm run web        # navegador
-npm run android    # build de desenvolvimento no Android (emulador ou aparelho)
-npm run ios        # macOS + Xcode
+npm ci
+npm start            # Metro + Expo (use um development build; o Expo Go não tem todos os módulos)
+npm run android      # build nativo de desenvolvimento num celular/emulador
+npm run web          # versão web (útil para testar layout)
 ```
 
-> A barra jelly tem código nativo no Android, por isso o app usa um *development build* (`expo run:android`) e não o Expo Go.
+| Script | O que faz |
+|---|---|
+| `npm run typecheck` | TypeScript estrito |
+| `npm run lint` | ESLint (regras do Expo + React Compiler) |
+| `npm test` | testes (Jest): motor do feed, currículo, contas, geradores, modos, XP, extras… |
+| `npm run export:web` | gera a versão web em `dist/` |
+| `npm run curate-videos` | atualiza a lista de vídeos (precisa do [yt-dlp](https://github.com/yt-dlp/yt-dlp)) |
+| `npm run assets` | regenera ícones e splash a partir das fontes |
 
-## Scripts
+### Gerar o APK localmente
 
-| Comando | O que faz |
-| --- | --- |
-| `npm run typecheck` | Checagem de tipos (TypeScript) |
-| `npm run lint` | ESLint |
-| `npm test` | Testes do feed, geradores, sequência, provas, revisão, importação, estatísticas, desafios, calendário e backup |
-| `npm run assets` | Regera ícone, splash e favicon a partir do SVG em `scripts/gen-assets.mjs` |
-
-## Estrutura
-
-```
-app/                 rotas (expo-router): abas, página de tema e visualizador
-src/feed/            motor de recomendação, fontes de conteúdo e hook do feed
-src/components/      cards, item do feed, barra de ações e UI base
-src/store/           estado persistido (zustand + AsyncStorage)
-src/theme/           tokens de cor e tipografia (AMOLED e Padrão)
+```bash
+npx expo prebuild --platform android
+cd android && ./gradlew assembleRelease
+# APK em android/app/build/outputs/apk/release/app-release.apk
 ```
 
-## Contribuindo
+Para assinar com sua própria chave e gerar o AAB da Play Store, veja [docs/RELEASE.md](docs/RELEASE.md).
 
-Para adicionar conteúdo, edite `src/feed/sources/seed.ts` (cards escritos à mão), `src/feed/sources/youtube.ts` (vídeos curados) ou crie um gerador em `src/feed/sources/generators.ts`. Rode `npm test` antes do PR.
+## Como funciona por dentro
 
-## Licença
+**Stack:**
+- Expo SDK 57, React Native 0.86 (nova arquitetura), expo-router e TypeScript;
+- Reanimated 4, Gesture Handler e FlashList 2;
+- zustand (com persistência local);
+- [react-native-jelly-tabs](https://github.com/felipe-software/react-native-jelly-tabs) na barra de navegação.
 
-MIT. Veja [LICENSE](LICENSE).
+```
+app/                 telas (expo-router): abas, página de conta, modos, simulado, aula, revisão…
+src/components/      feed, cards, folhas, fundo animado, componentes de UI
+src/feed/            motor do feed, fontes (conteúdo, vídeos, Wikipédia, geradores), simulados
+src/data/            páginas/contas, currículo do ensino médio, macetes
+src/lib/             lógica pura e testada: XP, SRS, estatísticas, modos, pontos fracos, reta final…
+src/store/           estado persistido (zustand)
+src/theme/           temas, cores, tipografia
+src/widget/          widget de sequência (Android)
+scripts/             curadoria de vídeos e geração de assets
+__tests__/           testes
+```
+
+Mais detalhes em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Conteúdo
+
+- **Cards:** escritos à mão em `src/data/curriculum/` (uma DSL pequena e legível) e revisados quanto à precisão.
+- **Questões geradas:** os geradores de `src/feed/sources/` criam questões com números novos, com resposta e explicação calculadas. Todos têm testes.
+- **Vídeos:** canais brasileiros de professores, achados e filtrados por `scripts/curate-videos.mjs`.
+  - Só entram vídeos em português que o YouTube permite incorporar; os que falham são pulados no app.
+  - Os vídeos continuam pertencendo aos seus autores e são exibidos pelo player oficial do YouTube.
+
+Como adicionar conteúdo: [docs/CONTENT.md](docs/CONTENT.md).
+
+## Privacidade
+
+Sem conta, sem anúncios e sem rastreamento. Tudo o que você faz fica **no seu aparelho**. Detalhes em [PRIVACY.md](PRIVACY.md).
+
+## Contribuir
+
+Ideias, correções de conteúdo e código são bem-vindos. Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e o [código de conduta](CODE_OF_CONDUCT.md). Para falhas de segurança, veja o [SECURITY.md](SECURITY.md). O histórico de versões está no [CHANGELOG.md](CHANGELOG.md).
+
+## Créditos e licença
+
+- Barra de navegação: [**react-native-jelly-tabs**](https://github.com/felipe-software/react-native-jelly-tabs) (MIT), a mesma do Nuvio.
+- Ícones: Material Design Icons. Fontes: Inter e Space Grotesk (OFL).
+- Curiosidades: **Wikipédia** em português (CC BY-SA), com link para o verbete.
+- Vídeos: **YouTube**, exibidos pelo player oficial; os direitos são dos canais.
+
+Código sob a licença **MIT**. Veja [LICENSE](LICENSE).

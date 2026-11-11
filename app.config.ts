@@ -5,4 +5,5 @@ export default ({ config }: ConfigContext): ExpoConfig =>
   ({
     ...config,
     android: { ...config.android, versionCode: Number(process.env.BUILD_NUMBER) || 1 },
+    extra: { ...config.extra, buildNumber: process.env.BUILD_NUMBER ?? "dev" },
   }) as ExpoConfig;

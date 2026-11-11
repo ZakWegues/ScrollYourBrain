@@ -1,0 +1,34 @@
+name: Bug
+description: Algo não funciona como deveria
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: O que aconteceu?
+      description: E o que você esperava que acontecesse.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passo a passo para reproduzir
+      placeholder: |
+        1. Abra a aba…
+        2. Toque em…
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Aparelho e versão do Android
+      placeholder: Ex.: Galaxy A15, Android 14
+  - type: input
+    id: build
+    attributes:
+      label: Versão do app (número do build)
+      description: Aparece no fim de Ajustes.
+  - type: textarea
+    id: media
+    attributes:
+      label: Prints ou vídeo

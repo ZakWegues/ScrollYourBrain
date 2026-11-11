@@ -1,0 +1,7 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  # Expo pins compatible native versions; update npm packages with `npx expo install --check` instead of Dependabot PRs.

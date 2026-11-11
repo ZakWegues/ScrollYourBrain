@@ -1,9 +1,30 @@
 {
   "name": "scrollyourbrain",
-  "version": "0.3.0",
-  "main": "index.ts",
-  "private": true,
+  "version": "0.6.0",
+  "description": "Estude no ritmo do scroll: feed vertical de estudos (ENEM, vestibular e ensino médio) feito com Expo.",
   "license": "MIT",
+  "private": true,
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZakWegues/ScrollYourBrain.git"
+  },
+  "homepage": "https://github.com/ZakWegues/ScrollYourBrain#readme",
+  "bugs": {
+    "url": "https://github.com/ZakWegues/ScrollYourBrain/issues"
+  },
+  "keywords": [
+    "expo",
+    "react-native",
+    "educação",
+    "enem",
+    "vestibular",
+    "flashcards",
+    "estudos"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -12,7 +33,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
     "test": "jest",
-    "assets": "node scripts/gen-assets.mjs"
+    "assets": "node scripts/gen-assets.mjs",
+    "export:web": "expo export -p web",
+    "curate-videos": "node scripts/curate-videos.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
