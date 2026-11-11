@@ -64,7 +64,8 @@ export function useFeed(source: FeedSource) {
   const pages = useMemo<PageId[] | undefined>(() => {
     // Following a subject follows all of its accounts too.
     if (source.type === "following") return followedKey ? withFamilies(followedKey.split(",")) : [];
-    if (source.type === "mix") return likedPagesKey ? likedPagesKey.split(",") : [];
+    // Likes saved before cards moved into sub-subject accounts point at the subject: include its accounts.
+    if (source.type === "mix") return likedPagesKey ? withFamilies(likedPagesKey.split(",")) : [];
     if (source.type === "page") return withFamilies([source.pageId]);
     return undefined;
   }, [source, followedKey, likedPagesKey]);
@@ -120,7 +121,9 @@ export function useFeed(source: FeedSource) {
     if (source.type === "list") return toEntries(source.items);
     if (source.type !== "forYou") return build(BATCH);
     const ids = useResume.getState().forYou;
-    const known = new Map([...studentContent(), ...CURATED_VIDEOS, ...customVideos, ...customItems].map((i) => [i.id, i]));
+    // Videos only come back when they can actually play (online, data saver off).
+    const canPlay = useNetwork.getState().online && !useSettings.getState().dataSaver;
+    const known = new Map([...studentContent(), ...customItems, ...(canPlay ? [...CURATED_VIDEOS, ...customVideos] : [])].map((i) => [i.id, i]));
     const resumed = ids.map((id) => known.get(id)).filter((i): i is StudyItem => !!i && !blockedItems.has(i.id));
     memory.engine.recent.push(...resumed.map((i) => i.id));
     return [...toEntries(resumed), ...build(BATCH)];

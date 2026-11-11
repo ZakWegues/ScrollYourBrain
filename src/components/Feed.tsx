@@ -1,6 +1,6 @@
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
+import { AppState, Platform, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useIsFocused } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { FeedEntry } from "@/feed/types";
@@ -128,11 +128,25 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
     [studied, entries],
   );
 
-  // Remember where "Para você" is, so it reopens on the same card.
+  // Remember where "Para você" is, so it reopens on the same card. Kept in memory while scrolling and
+  // written to storage only when the feed is left or the app goes to the background.
+  const resumeIds = useRef<string[]>([]);
   useEffect(() => {
-    if (source.type !== "forYou" || entries.length === 0) return;
-    useResume.getState().setForYou(entries.slice(active, active + 4).map((e) => e.item.id));
+    if (source.type === "forYou" && entries.length > 0) resumeIds.current = entries.slice(active, active + 4).map((e) => e.item.id);
   }, [source.type, active, entries]);
+  useEffect(() => {
+    if (source.type !== "forYou") return;
+    const save = () => {
+      if (resumeIds.current.length) useResume.getState().setForYou(resumeIds.current);
+    };
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state !== "active") save();
+    });
+    return () => {
+      sub.remove();
+      save();
+    };
+  }, [source.type, focused]);
 
   const activeEntry = entries[active];
   const activeKey = activeEntry?.key;

@@ -42,18 +42,6 @@ export default function Blitz() {
 
   const correct = answers.filter((a) => a.picked === a.q.answer).length;
 
-  const start = () => {
-    setQuestions(newRound());
-    setIndex(0);
-    setAnswers([]);
-    setFlash(null);
-    setLeft(BLITZ_SECONDS);
-    setNewBest(false);
-    setPhase("play");
-    haptic.medium();
-    bar.set(1);
-    bar.set(withTiming(0, { duration: BLITZ_SECONDS * 1000, easing: Easing.linear }));
-  };
 
   // One tick per second; the round ends at zero.
   useEffect(() => {
@@ -63,6 +51,19 @@ export default function Blitz() {
   }, [phase]);
 
   const [endedAt, setEndedAt] = useState(-1);
+  const start = () => {
+    setQuestions(newRound());
+    setIndex(0);
+    setAnswers([]);
+    setFlash(null);
+    setLeft(BLITZ_SECONDS);
+    setNewBest(false);
+    setEndedAt(-1);
+    setPhase("play");
+    haptic.medium();
+    bar.set(1);
+    bar.set(withTiming(0, { duration: BLITZ_SECONDS * 1000, easing: Easing.linear }));
+  };
   if (phase === "play" && left === 0 && endedAt !== answers.length) {
     // Adjust during render: finish the round once, when the clock hits zero.
     setEndedAt(answers.length);

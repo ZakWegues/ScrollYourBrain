@@ -1,21 +1,13 @@
 import type { QuizItem, StudyItem } from "@/feed/types";
+import { fmt, int, pick, quizOf, type Rng } from "./gen-utils";
 
-type Rng = () => number;
 type Gen = (rng: Rng) => StudyItem;
 
-const int = (rng: Rng, min: number, max: number) => min + Math.floor(rng() * (max - min + 1));
-const pick = <T,>(rng: Rng, list: readonly T[]): T => list[Math.floor(rng() * list.length)];
-const fmt = (n: number) => n.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
 const signed = (n: number) => (n >= 0 ? `+ ${fmt(n)}` : `− ${fmt(Math.abs(n))}`);
 
-/** 4-option quiz with the right answer in a random slot; wrong options are de-duplicated. */
-function q(rng: Rng, base: { id: string; pageId: string; title: string; tags: string[]; question: string; explanation: string }, correct: string, wrong: string[]): QuizItem {
-  const unique = [...new Set(wrong.filter((w) => w !== correct))].slice(0, 3);
-  const answer = int(rng, 0, unique.length);
-  const options = [...unique];
-  options.splice(answer, 0, correct);
-  return { ...base, kind: "quiz", options, answer };
-}
+/** 4-option quiz; see `quizOf`. */
+const q = (rng: Rng, base: { id: string; pageId: string; title: string; tags: string[]; question: string; explanation: string }, correct: string, wrong: string[]): QuizItem =>
+  quizOf(rng, base, correct, wrong);
 
 /** Three distinct wrong numbers near `value` (never equal to it). */
 function near(rng: Rng, value: number, spread: number, step = 1): number[] {

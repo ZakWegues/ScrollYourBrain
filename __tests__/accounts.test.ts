@@ -55,7 +55,7 @@ describe("account generators", () => {
         if (item.kind !== "quiz") continue;
         const text = [item.question, ...item.options, item.explanation].join(" ");
         expect(text).not.toMatch(/NaN|undefined|Infinity/);
-        expect(item.options.length).toBeGreaterThanOrEqual(3);
+        expect([item.id, item.options.length]).toEqual([item.id, 4]);
         expect(new Set(item.options).size).toBe(item.options.length);
         expect(item.answer).toBeGreaterThanOrEqual(0);
         expect(item.answer).toBeLessThan(item.options.length);
@@ -114,5 +114,18 @@ describe("curated videos", () => {
     expect(new Set(ids).size).toBe(ids.length);
     for (const p of SUB_PAGES) expect([p.id, CURATED_VIDEOS.filter((v) => v.pageId === p.id).length >= 5]).toEqual([p.id, true]);
     expect(CURATED_VIDEOS.every((v) => PAGE_BY_ID[v.pageId])).toBe(true);
+  });
+});
+
+describe("generated quizzes everywhere", () => {
+  it("always have four distinct options", () => {
+    const rng = createRng(21);
+    for (const page of ["matematica", "geografia", "quimica", "programacao", ...Object.keys(ACCOUNT_GENERATORS)]) {
+      for (let n = 0; n < 150; n++) {
+        const item = generateFor(page, rng);
+        if (item.kind !== "quiz") continue;
+        expect([item.id, new Set(item.options).size]).toEqual([item.id, 4]);
+      }
+    }
   });
 });

@@ -9,6 +9,8 @@ interface XpState {
   xp: number;
   /** Best lightning-quiz score (correct answers in 60 s). */
   blitzBest: number;
+  /** "event:itemId" already rewarded, so toggling like/save on and off does not farm XP. */
+  once: Record<string, 1>;
   counts: Partial<Record<XpEvent, number>>;
   reset: () => void;
 }
@@ -18,12 +20,21 @@ export const useXp = create<XpState>()(
     (set) => ({
       xp: 0,
       blitzBest: 0,
+      once: {},
       counts: {},
-      reset: () => set({ xp: 0, counts: {}, blitzBest: 0 }),
+      reset: () => set({ xp: 0, counts: {}, blitzBest: 0, once: {} }),
     }),
     { name: "syb-xp", storage: persistStorage, version: 1 },
   ),
 );
+
+/** Awards an event only the first time for a given item (likes and saves). */
+export function awardXpOnce(event: XpEvent, itemId: string) {
+  const key = `${event}:${itemId}`;
+  if (useXp.getState().once[key]) return;
+  useXp.setState((s) => ({ once: { ...s.once, [key]: 1 } }));
+  awardXp(event);
+}
 
 /** Adds XP for an event and celebrates level-ups and their rewards. */
 export function awardXp(event: XpEvent, times = 1) {

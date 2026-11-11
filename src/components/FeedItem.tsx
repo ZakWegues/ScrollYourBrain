@@ -12,7 +12,7 @@ import { isDue } from "@/lib/srs";
 import { speak, speechText, stopSpeaking } from "@/lib/speech";
 import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
-import { awardXp } from "@/store/xp";
+import { awardXpOnce } from "@/store/xp";
 import { useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
@@ -125,7 +125,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
     const now = toggleLike(item);
     if (now) {
       haptic.medium();
-      awardXp("like");
+      awardXpOnce("like", item.id);
     } else haptic.light();
   }, [item, toggleLike]);
 
@@ -134,7 +134,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
       setBurst((b) => ({ x, y, id: (b?.id ?? 0) + 1, tilt: (Math.random() - 0.5) * 30 }));
       if (!useLibrary.getState().liked[item.id]) {
         toggleLike(item);
-        awardXp("like");
+        awardXpOnce("like", item.id);
       }
       haptic.medium();
     },
@@ -148,7 +148,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
       toast({ message: "Removido dos salvos", icon: "bookmark-remove-outline", action: { label: "Desfazer", onPress: () => toggleSave(item) } });
       return;
     }
-    awardXp("save");
+    awardXpOnce("save", item.id);
     // Saving a question or flashcard also schedules it for spaced review.
     const toReview = useSettings.getState().saveToReview && useReview.getState().add(item);
     toast({

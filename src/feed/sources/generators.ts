@@ -1,7 +1,8 @@
-import type { FlashItem, PageId, QuizItem, StudyItem } from "@/feed/types";
+import type { FlashItem, PageId, StudyItem } from "@/feed/types";
 import { ACCOUNT_GENERATORS } from "./generators-accounts";
+import { int, pick, quizOf, type Rng } from "./gen-utils";
 
-export type Rng = () => number;
+export type { Rng } from "./gen-utils";
 
 /** Small deterministic PRNG (mulberry32), so generated cards are reproducible in tests. */
 export function createRng(seed: number): Rng {
@@ -15,22 +16,8 @@ export function createRng(seed: number): Rng {
   };
 }
 
-const int = (rng: Rng, min: number, max: number) => min + Math.floor(rng() * (max - min + 1));
-const pick = <T,>(rng: Rng, list: readonly T[]): T => list[Math.floor(rng() * list.length)];
 
-/** Builds a 4-option quiz with the right answer in a random slot. */
-function quiz(
-  rng: Rng,
-  base: Omit<QuizItem, "kind" | "options" | "answer">,
-  correct: string,
-  wrong: string[],
-): QuizItem {
-  const unique = Array.from(new Set(wrong.filter((w) => w !== correct))).slice(0, 3);
-  const answer = int(rng, 0, unique.length);
-  const options = [...unique];
-  options.splice(answer, 0, correct);
-  return { ...base, kind: "quiz", options, answer };
-}
+const quiz = quizOf;
 
 const fmt = (n: number) => n.toLocaleString("pt-BR");
 

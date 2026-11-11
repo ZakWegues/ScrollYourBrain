@@ -90,7 +90,11 @@ export function countStudy(pageId?: string) {
   const progress = useProgress.getState();
   const reached = progress.recordStudy(pageId);
   awardXp("study");
-  if (reached) awardXp("goal");
+  if (reached) {
+    awardXp("goal");
+    // Keeping a streak alive (2+ days in a row) is worth a bonus on top of the goal.
+    if (currentStreak(useProgress.getState().days, useSettings.getState().dailyGoal) >= 2) awardXp("streak");
+  }
   if (reached && progress.celebratedOn !== dayKey()) {
     progress.markCelebrated();
     useCelebration.setState({ visible: true });
