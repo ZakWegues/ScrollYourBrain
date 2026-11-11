@@ -1,11 +1,13 @@
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Linking, StyleSheet, View, useWindowDimensions } from "react-native";
+import { router } from "expo-router";
+import { ActivityIndicator, StyleSheet, View, useWindowDimensions } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import YoutubePlayer, { PLAYER_STATES } from "react-native-youtube-iframe";
 import type { VideoItem } from "@/feed/types";
 import { youtubeThumb } from "@/feed/sources/youtube";
 import { AppText, Bouncy, Glass, Icon } from "@/components/ui";
+import { YouTubeEmbed } from "@/components/video/YouTubeEmbed";
+import { isGoneError } from "@/lib/ytEmbed";
 import { useNetwork } from "@/store/network";
 import { usePlayback } from "@/store/playback";
 import { useSettings } from "@/store/settings";
@@ -23,6 +25,8 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
   const [requested, setRequested] = useState(false);
   const [ready, setReady] = useState(false);
   const [stalled, setStalled] = useState(false);
+  // The embed was refused or failed: offer the in-app watch screen instead of skipping the card.
+  const [blocked, setBlocked] = useState(false);
   const [attempt, setAttempt] = useState(0);
   // Shorts fill the whole card (cropping the sides a little, like reels); lessons keep 16:9.
   const vertical = !!item.vertical;
@@ -41,6 +45,7 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
         setRequested(false);
         setReady(false);
         setStalled(false);
+        setBlocked(false);
       }
     } else if (active) {
       if (!mounted) {
@@ -54,10 +59,21 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
 
   // Slow or blocked network: offer a retry instead of an endless spinner.
   useEffect(() => {
-    if (!mounted || ready) return;
+    if (!mounted || ready || blocked) return;
     const id = setTimeout(() => setStalled(true), 12_000);
     return () => clearTimeout(id);
-  }, [mounted, ready, attempt]);
+  }, [mounted, ready, blocked, attempt]);
+
+  const watch = () => {
+    setPlaying(false);
+    router.push({ pathname: "/watch", params: { id: item.youtubeId, vertical: vertical ? "1" : "0", title: item.title } });
+  };
+  const retry = () => {
+    setStalled(false);
+    setBlocked(false);
+    setReady(false);
+    setAttempt((a) => a + 1);
+  };
 
   return (
     <View style={[StyleSheet.absoluteFill, { backgroundColor: c.bg }]}>
@@ -66,24 +82,23 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
       <View style={vertical ? styles.full : styles.center}>
         <View style={[styles.frame, { width: playerW, height: playerH }]}>
           <Image source={youtubeThumb(item.youtubeId)} style={StyleSheet.absoluteFill} contentFit="cover" transition={200} />
-          {mounted && (
+          {mounted && !blocked && (
             <View style={StyleSheet.absoluteFill} pointerEvents="none">
-              <YoutubePlayer
+              <YouTubeEmbed
                 key={attempt}
-                height={playerH}
+                id={item.youtubeId}
+                start={item.start}
                 width={playerW}
-                videoId={item.youtubeId}
+                height={playerH}
                 play={playing}
-                mute={muted}
-                playbackRate={fast ? 2 : 1}
-                forceAndroidAutoplay
-                initialPlayerParams={{ controls: false, modestbranding: true, rel: false, loop: true, preventFullScreen: true, start: item.start }}
-                webViewProps={{ allowsInlineMediaPlayback: true, mediaPlaybackRequiresUserAction: false, androidLayerType: "hardware" }}
+                muted={muted}
+                rate={fast ? 2 : 1}
                 onReady={() => setReady(true)}
-                onError={() => onFail?.()}
-                onChangeState={(s: string) => {
-                  if (s === PLAYER_STATES.ENDED) setPlaying(false);
+                onState={(st) => {
+                  if (st === 0 && !vertical) setPlaying(false);
                 }}
+                onError={(code) => (isGoneError(code) ? onFail?.() : setBlocked(true))}
+                onAutoMuted={() => setMuted(true)}
               />
             </View>
           )}
@@ -97,15 +112,15 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
           {mounted && !ready && !stalled && (
             <View style={styles.overlay}><ActivityIndicator color="#fff" /></View>
           )}
-          {mounted && !ready && stalled && (
+          {mounted && (blocked || (!ready && stalled)) && (
             <View style={[styles.overlay, styles.stalled]}>
-              <AppText variant="label">Vídeo demorando para carregar</AppText>
+              <AppText variant="label">{blocked ? "Não deu para tocar aqui" : "Vídeo demorando para carregar"}</AppText>
               <View style={styles.stalledActions}>
-                <Bouncy onPress={() => { setStalled(false); setAttempt((a) => a + 1); }} accessibilityLabel="Tentar de novo">
-                  <Glass style={styles.pill}><Icon name="refresh" size={16} color="#fff" /><AppText variant="caption">Tentar de novo</AppText></Glass>
+                <Bouncy onPress={watch} accessibilityLabel="Assistir no player do YouTube dentro do app">
+                  <Glass style={styles.pill}><Icon name="play-circle-outline" size={16} color="#fff" /><AppText variant="caption">Assistir aqui</AppText></Glass>
                 </Bouncy>
-                <Bouncy onPress={() => Linking.openURL(`https://youtu.be/${item.youtubeId}`)} accessibilityLabel="Abrir no YouTube">
-                  <Glass style={styles.pill}><Icon name="youtube" size={16} color="#fff" /><AppText variant="caption">Abrir no YouTube</AppText></Glass>
+                <Bouncy onPress={retry} accessibilityLabel="Tentar de novo">
+                  <Glass style={styles.pill}><Icon name="refresh" size={16} color="#fff" /><AppText variant="caption">Tentar de novo</AppText></Glass>
                 </Bouncy>
               </View>
             </View>
@@ -115,9 +130,9 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
               <View style={styles.play}><Icon name="play" size={36} color="#fff" /></View>
             </Animated.View>
           )}
-          {/* Lessons are clips of longer classes: a small corner link opens the whole video. The title and channel are in the card caption below. */}
+          {/* Lessons are clips of longer classes: a small corner link opens the whole video in the app. The title and channel are in the card caption below. */}
           {!vertical && (
-            <Bouncy onPress={() => Linking.openURL(`https://youtu.be/${item.youtubeId}`)} style={styles.fullLink} accessibilityLabel="Ver aula completa no YouTube">
+            <Bouncy onPress={watch} style={styles.fullLink} accessibilityLabel="Ver aula completa">
               <Glass style={styles.pill}><Icon name="youtube" size={16} color="#FF0033" /><AppText variant="caption">Aula completa</AppText></Glass>
             </Bouncy>
           )}

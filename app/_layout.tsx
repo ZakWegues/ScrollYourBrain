@@ -112,6 +112,7 @@ export default function RootLayout() {
           <Stack.Screen name="lesson" options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="mistakes" />
           <Stack.Screen name="final" />
+          <Stack.Screen name="watch" options={{ animation: "slide_from_bottom" }} />
         </Stack>
         <OfflineBadge />
         <SheetsHost />
