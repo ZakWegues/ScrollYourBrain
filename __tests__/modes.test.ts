@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { TOPIC_BY_ID } from "@/data/curriculum";
+import { TOPIC_BY_ID, TOPICS } from "@/data/curriculum";
 import { isComplete, MODE_ORDER, modeItems, modeKey, modeTitle, modeTopics, type ModeConfig } from "@/lib/modes";
 import { rootOf } from "@/data/pages";
 
@@ -42,5 +42,21 @@ describe("exam modes", () => {
     expect(modeTitle({ kind: "bimestral", subject: "historia", serie: 2, bimestre: 1 })).toEqual({ title: "Prova bimestral · História", subtitle: "2º ano · 1º bimestre" });
     expect(modeKey({ kind: "mensal", subject: "fisica", serie: 2, month: 9 })).toBe("mensal:fisica:2:9");
     expect(MODE_ORDER).toHaveLength(6);
+  });
+});
+
+describe("custom modes", () => {
+  it("unions topics from several subjects and titles them", () => {
+    const bio = TOPICS.filter((t) => t.subject === "biologia" && t.serie === 2).map((t) => t.id);
+    const fis = TOPICS.filter((t) => t.subject === "fisica" && t.serie === 2 && t.bimestre === 1).map((t) => t.id);
+    const c = { kind: "anual" as const, topicIds: [...bio, ...fis], name: "Prova de sexta" };
+    expect(isComplete(c)).toBe(true);
+    expect(modeTopics(c)).toHaveLength(bio.length + fis.length);
+    expect(modeItems(c).every((i) => ["biologia", "fisica"].includes(rootOf(i.pageId)))).toBe(true);
+    expect(modeTitle(c).title).toBe("Prova anual · Prova de sexta");
+    expect(modeTitle(c).subtitle).toContain("2 matérias");
+    expect(modeKey(c)).toBe(modeKey({ ...c, topicIds: [...c.topicIds].reverse() }));
+    expect(modeKey(c)).not.toBe(modeKey({ ...c, topicIds: bio }));
+    expect(isComplete({ kind: "anual", topicIds: [] })).toBe(false);
   });
 });

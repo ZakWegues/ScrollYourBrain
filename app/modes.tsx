@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppText, Bouncy, Icon, type IconName } from "@/components/ui";
-import { MODE_INFO, MODE_ORDER, modeTitle, type ModeConfig } from "@/lib/modes";
+import { MODE_INFO, MODE_ORDER, modeKey, modeTitle, type ModeConfig } from "@/lib/modes";
 import { useModes } from "@/store/modes";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
@@ -15,6 +15,7 @@ export default function Modes() {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const recent = useModes((s) => s.recent);
+  const saved = useModes((s) => s.saved);
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
@@ -45,10 +46,19 @@ export default function Modes() {
           })}
         </View>
 
-        {recent.length > 0 && (
-          <>
-            <AppText variant="headline" style={{ marginTop: space.xl, marginBottom: space.md }}>Continuar</AppText>
-            {recent.map((cfg) => {
+        <Bouncy onPress={() => router.push({ pathname: "/mode", params: { c: JSON.stringify({ kind: "anual", topicIds: [] }) } })} scaleTo={0.98} style={[styles.customize, { borderColor: c.accent, backgroundColor: c.surface }]} accessibilityLabel="Criar prova personalizada" testID="mode-custom-new">
+          <Icon name="playlist-edit" size={24} color={c.accent} />
+          <View style={{ flex: 1 }}>
+            <AppText variant="label">Prova personalizada</AppText>
+            <AppText variant="caption" dim>Várias matérias e os assuntos exatos que vão cair</AppText>
+          </View>
+          <Icon name="chevron-right" size={22} color={c.textDim} />
+        </Bouncy>
+
+        {[{ heading: "Seus modos", list: saved }, { heading: "Continuar", list: recent.filter((r) => !saved.some((x) => modeKey(x) === modeKey(r))) }].filter((g) => g.list.length > 0).map((g) => (
+          <View key={g.heading}>
+            <AppText variant="headline" style={{ marginTop: space.xl, marginBottom: space.md }}>{g.heading}</AppText>
+            {g.list.map((cfg) => {
               const { title, subtitle } = modeTitle(cfg);
               const info = MODE_INFO[cfg.kind];
               return (
@@ -64,8 +74,8 @@ export default function Modes() {
                 </Bouncy>
               );
             })}
-          </>
-        )}
+          </View>
+        ))}
 
         <Bouncy onPress={() => router.push("/exam")} scaleTo={0.98} style={[styles.free, { borderColor: c.border }]} accessibilityLabel="Simulado livre">
           <Icon name="timer-outline" size={20} color={c.text} />
@@ -85,5 +95,6 @@ const styles = StyleSheet.create({
   card: { height: 150, padding: space.lg, borderRadius: radius.lg, overflow: "hidden" },
   recent: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, marginBottom: space.sm },
   recentIcon: { width: 40, height: 40, borderRadius: 12, alignItems: "center", justifyContent: "center" },
+  customize: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.lg, borderRadius: radius.lg, borderWidth: 1.5, marginTop: space.md },
   free: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.md, borderWidth: 1, borderStyle: "dashed", marginTop: space.xl },
 });

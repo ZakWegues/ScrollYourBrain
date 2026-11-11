@@ -14,7 +14,13 @@ export interface ModeConfig {
   topicId?: string;
   /** ENEM area filter ("linguagens", "humanas", …); undefined = all areas. */
   area?: string;
+  /** Custom mode: exactly these curriculum topics, from any subjects and séries. */
+  topicIds?: string[];
+  /** Optional name for a saved custom mode ("Prova de sexta"). */
+  name?: string;
 }
+
+export const isCustom = (c: ModeConfig) => Array.isArray(c.topicIds);
 
 export interface ModeInfo {
   title: string;
@@ -41,6 +47,7 @@ export const MODE_ORDER: ModeKind[] = ["enem", "vestibular", "anual", "bimestral
 
 /** Whether the config has everything the mode needs to start. */
 export function isComplete(c: ModeConfig): boolean {
+  if (isCustom(c)) return c.topicIds!.length > 0;
   if (!MODE_INFO[c.kind].perSubject) return true;
   if (!c.subject || !c.serie) return false;
   if (c.kind === "bimestral") return !!c.bimestre;
@@ -50,6 +57,7 @@ export function isComplete(c: ModeConfig): boolean {
 }
 
 export function modeTopics(c: ModeConfig): CurriculumTopic[] {
+  if (isCustom(c)) return c.topicIds!.map((id) => TOPIC_BY_ID[id]).filter(Boolean);
   switch (c.kind) {
     case "enem": {
       const area = ENEM_AREAS.find((a) => a.id === c.area);
@@ -76,6 +84,12 @@ export function modeItems(c: ModeConfig, extra: readonly StudyItem[] = []): Stud
 
 export function modeTitle(c: ModeConfig): { title: string; subtitle: string } {
   const info = MODE_INFO[c.kind];
+  if (isCustom(c)) {
+    const topics = modeTopics(c);
+    const subjects = [...new Set(topics.map((t) => t.subject))];
+    const what = subjects.length === 1 ? getPage(subjects[0]).name : `${subjects.length} matérias`;
+    return { title: `${info.title} · ${c.name?.trim() || "Personalizada"}`, subtitle: `${what} · ${topics.length} ${topics.length === 1 ? "assunto" : "assuntos"}` };
+  }
   if (!info.perSubject) {
     const area = ENEM_AREAS.find((a) => a.id === c.area);
     return { title: info.title, subtitle: area ? area.name : c.kind === "enem" ? "Todas as áreas" : "Todas as matérias" };
@@ -91,4 +105,14 @@ export function modeTitle(c: ModeConfig): { title: string; subtitle: string } {
 }
 
 /** Stable key for records and recents. */
-export const modeKey = (c: ModeConfig) => [c.kind, c.area, c.subject, c.serie, c.bimestre, c.month, c.topicId].filter((x) => x !== undefined).join(":");
+export const modeKey = (c: ModeConfig) =>
+  isCustom(c)
+    ? `${c.kind}:custom:${hash([...c.topicIds!].sort().join(","))}`
+    : [c.kind, c.area, c.subject, c.serie, c.bimestre, c.month, c.topicId].filter((x) => x !== undefined).join(":");
+
+/** Small stable string hash (djb2), so keys stay short. */
+function hash(text: string): string {
+  let h = 5381;
+  for (let i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+}

@@ -8,7 +8,11 @@ interface ModesState {
   recent: ModeConfig[];
   /** Curriculum topics the user marked as mastered. */
   mastered: Record<string, number>;
+  /** Custom modes the user saved with a name. */
+  saved: ModeConfig[];
   remember: (config: ModeConfig) => void;
+  save: (config: ModeConfig) => void;
+  unsave: (config: ModeConfig) => void;
   toggleMastered: (topicId: string) => boolean;
   reset: () => void;
 }
@@ -18,6 +22,15 @@ export const useModes = create<ModesState>()(
     (set, get) => ({
       recent: [],
       mastered: {},
+      saved: [],
+      save: (config) => {
+        const key = modeKey(config);
+        set((s) => ({ saved: [config, ...s.saved.filter((c) => modeKey(c) !== key)].slice(0, 20) }));
+      },
+      unsave: (config) => {
+        const key = modeKey(config);
+        set((s) => ({ saved: s.saved.filter((c) => modeKey(c) !== key) }));
+      },
       remember: (config) => {
         const key = modeKey(config);
         set((s) => ({ recent: [config, ...s.recent.filter((c) => modeKey(c) !== key)].slice(0, 6) }));
@@ -32,7 +45,7 @@ export const useModes = create<ModesState>()(
         });
         return now;
       },
-      reset: () => set({ recent: [], mastered: {} }),
+      reset: () => set({ recent: [], mastered: {}, saved: [] }),
     }),
     { name: "syb-modes", storage: persistStorage, version: 1 },
   ),

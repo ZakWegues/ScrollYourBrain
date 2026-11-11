@@ -70,4 +70,24 @@ export const MACETES: StudyItem[] = [
     beats: ["Faça uma primeira passada só com as que você sabe.", "Marque as difíceis e volte depois.", "Não gaste mais de 4 minutos travado numa questão.", "Reserve 30 minutos no fim para o gabarito."],
     takeaway: "Questão difícil vale o mesmo que fácil na prova da escola: pegue as fáceis primeiro.",
   },
+  {
+    id: "mac-area-uma-formula", pageId: "macetes", kind: "concept", title: "Área: uma fórmula só", tags: ["área", "geometria", "enem", "obmep"],
+    beats: [
+      "Retângulo: lado menor × lado maior (base × altura).",
+      "Quadrado e paralelogramo também: base × altura (o paralelogramo é um retângulo \"tombado\").",
+      "Triângulo é metade de um retângulo: base × altura ÷ 2.",
+      "Trapézio: junte com uma cópia de cabeça para baixo. Vira paralelogramo de base (B + b): (B + b) × altura ÷ 2.",
+    ],
+    takeaway: "Não decore dez fórmulas: tudo vem de base × altura. A altura é sempre perpendicular à base.",
+  },
+  {
+    id: "mac-area-trapezio", pageId: "macetes", kind: "quiz", title: "Área do trapézio sem decorar", tags: ["área", "geometria", "enem"],
+    question: "Um trapézio tem bases 10 cm e 6 cm e altura 4 cm. Qual é a área?", options: ["24 cm²", "32 cm²", "64 cm²", "40 cm²"], answer: 1,
+    explanation: "Duas cópias formam um paralelogramo de base 10 + 6 = 16 e altura 4: 64 cm². Uma cópia é metade: 32 cm².",
+  },
+  {
+    id: "mac-area-altura", pageId: "macetes", kind: "flash", title: "Pegadinha da altura", tags: ["área", "geometria", "pegadinha"],
+    front: "No paralelogramo e no triângulo, qual medida entra como \"altura\" na conta da área?",
+    back: "A distância perpendicular (reta, a 90°) até a base — não o lado inclinado. Trace a linha reta e use ela.",
+  },
 ];
