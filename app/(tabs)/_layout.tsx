@@ -19,7 +19,11 @@ const LibraryIcon = pathIcon(mdiBookmarkMultiple, { inactivePath: mdiBookmarkMul
 const SettingsIcon = pathIcon(mdiCog, { inactivePath: mdiCogOutline });
 // pathIcon components are drawn natively by the jelly bar on Android; their colour prop is a plain string.
 
-/** Slides the floating bar out of the way while the feed is being scrolled. */
+/**
+ * Floating container for the tab bar. It is the absolutely positioned element itself (the bar inside is
+ * laid out normally), so it has a real height: Android drops touches that land outside a parent's bounds.
+ * It also slides the bar out of the way while the feed is being scrolled.
+ */
 function AutoHide({ children }: { children: React.ReactNode }) {
   const hidden = useChrome((s) => s.tabBarHidden);
   const reduce = useSettings((s) => s.reduceMotion);
@@ -59,7 +63,6 @@ export default function TabLayout() {
         <AutoHide>
         <JellyTabBar
           {...props}
-          floating
           maxWidth={420}
           colors={{ surface: c.tab, selectedSurface: c.accent, activeContent: c.onAccent, inactiveContent: c.textDim }}
           opacity={{ surface: Platform.OS === "android" ? 0.96 : 0.78 }}
@@ -79,5 +82,5 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  bar: { position: "absolute", left: 0, right: 0, bottom: 0 },
+  bar: { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 1 },
 });

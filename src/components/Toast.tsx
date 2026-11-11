@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { create } from "zustand";
-import { radius, space, TAB_BAR_SPACE, useColors } from "@/theme";
+import { radius, space, useColors } from "@/theme";
 import { AppText, Bouncy, Glass, Icon, type IconName } from "./ui";
 
 interface ToastData {
@@ -16,7 +16,10 @@ interface ToastData {
 
 const useToastStore = create<{ current: ToastData | null; next: number }>()(() => ({ current: null, next: 1 }));
 
-/** Shows a short message above the tab bar, optionally with an action such as "Desfazer". */
+/**
+ * Shows a short message near the top of the screen, optionally with an action such as "Desfazer".
+ * (At the bottom it covered the feed buttons and the tab bar.)
+ */
 export function toast(data: Omit<ToastData, "id">) {
   const id = useToastStore.getState().next;
   useToastStore.setState({ current: { ...data, id }, next: id + 1 });
@@ -38,8 +41,8 @@ export function ToastHost() {
   if (!current) return null;
   const tint = current.tone === "success" ? c.success : current.tone === "error" ? c.danger : c.text;
   return (
-    <View style={[styles.wrap, { bottom: TAB_BAR_SPACE + insets.bottom + space.sm }]} pointerEvents="box-none">
-      <Animated.View key={current.id} entering={FadeInDown.springify().damping(26).stiffness(280).mass(1)} exiting={FadeOutDown.duration(160)}>
+    <View style={[styles.wrap, { top: insets.top + 54 }]} pointerEvents="box-none">
+      <Animated.View key={current.id} entering={FadeInUp.springify().damping(26).stiffness(280).mass(1)} exiting={FadeOutUp.duration(160)}>
         <Glass style={[styles.toast, { borderColor: c.border }]} intensity={60}>
           {current.icon && <Icon name={current.icon} size={20} color={tint} />}
           <AppText variant="label" style={{ flex: 1 }} numberOfLines={2} accessibilityLiveRegion="polite">{current.message}</AppText>

@@ -149,7 +149,9 @@ function ExamForm({ exam, onDone }: { exam: PlannedExam | null; onDone: () => vo
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" style={{ maxHeight: 520 }} showsVerticalScrollIndicator={false}>
+    // The form scrolls; the save button stays pinned below it so it is never cut off by the sheet.
+    <View style={{ flexShrink: 1 }}>
+    <ScrollView keyboardShouldPersistTaps="handled" style={{ flexShrink: 1 }} showsVerticalScrollIndicator={false}>
       <TextInput
         value={title}
         onChangeText={setTitle}
@@ -178,6 +180,7 @@ function ExamForm({ exam, onDone }: { exam: PlannedExam | null; onDone: () => vo
           <Chip key={p.id} label={p.name} active={pages.includes(p.id)} onPress={() => setPages((ps) => (ps.includes(p.id) ? ps.filter((x) => x !== p.id) : [...ps, p.id]))} />
         ))}
       </View>
+    </ScrollView>
       <GradientButton label={valid ? "Salvar prova" : "Dê um nome e escolha temas"} icon="check" onPress={save} style={{ marginTop: space.lg, opacity: valid ? 1 : 0.45 }} />
       {exam && (
         <Bouncy
@@ -192,7 +195,7 @@ function ExamForm({ exam, onDone }: { exam: PlannedExam | null; onDone: () => vo
           <AppText variant="label" style={{ color: c.danger }}>Remover prova</AppText>
         </Bouncy>
       )}
-    </ScrollView>
+    </View>
   );
 }
 

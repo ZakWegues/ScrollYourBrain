@@ -1,15 +1,17 @@
 import type { ReactNode } from "react";
-import { ScrollView, StyleSheet, View, type ScrollViewProps } from "react-native";
+import { StyleSheet, View, type ScrollViewProps } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
 import { AppText } from "./ui";
 
-/** Scrollable tab screen with a large title, theme background and room for the floating tab bar. */
+/** Scrollable tab screen with a large title, theme background and room for the floating tab bar. A focused input scrolls into view above the keyboard. */
 export function Screen({ title, subtitle, right, children, ...rest }: ScrollViewProps & { title: string; subtitle?: string; right?: ReactNode; children: ReactNode }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      bottomOffset={TAB_BAR_SPACE}
       {...rest}
       style={{ flex: 1, backgroundColor: c.bg }}
       contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: TAB_BAR_SPACE + insets.bottom + 16, paddingHorizontal: 16 }}
@@ -24,7 +26,7 @@ export function Screen({ title, subtitle, right, children, ...rest }: ScrollView
         {right}
       </View>
       {children}
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

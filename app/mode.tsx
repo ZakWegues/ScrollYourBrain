@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, GradientButton, Icon, PageAvatar, Segmented, type IconName } from "@/components/ui";
@@ -93,7 +94,7 @@ function Setup({ config, onChange, onDone }: { config: ModeConfig; onChange: (c:
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ paddingTop: insets.top + 64, paddingHorizontal: space.lg, paddingBottom: insets.bottom + 120 }} showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView bottomOffset={96} contentContainerStyle={{ paddingTop: insets.top + 64, paddingHorizontal: space.lg, paddingBottom: insets.bottom + 120 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <View style={styles.setupHead}>
           <LinearGradient colors={info.colors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.setupIcon}>
             <Icon name={info.icon as IconName} size={30} color="#fff" />
@@ -178,7 +179,7 @@ function Setup({ config, onChange, onDone }: { config: ModeConfig; onChange: (c:
         <AppText variant="caption" dim style={{ marginTop: space.lg }}>
           A ordem dos conteúdos segue a sequência mais comum das escolas; a sua pode variar um pouco.
         </AppText>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg, backgroundColor: c.bg }]}>
         <GradientButton label={ready ? "Montar meu plano" : "Complete as escolhas"} icon="arrow-right" onPress={() => (ready ? onDone() : haptic.error())} style={{ opacity: ready ? 1 : 0.45 }} />
       </View>

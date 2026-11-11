@@ -2,17 +2,21 @@ import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useIsFocused } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
-import { useChrome } from "@/store/chrome";
+import { hideTabBar, showTabBar } from "@/store/chrome";
 import { useResume } from "@/store/resume";
 import { countStudy, trackTime } from "@/store/progress";
-import { ForceDark } from "@/theme";
+import { ForceDark, TAB_BAR_SPACE } from "@/theme";
 import { AmbientBackdrop } from "./AmbientBackdrop";
 import { FeedItem } from "./FeedItem";
 
 const QUICK_SKIP_MS = 1500;
+
+/** A measured feed height is worth using when it is real (not 0/tiny) and actually different. */
+export const isUsableHeight = (prev: number, next: number) => next >= 100 && Math.abs(next - prev) >= 2;
 /** Staying this long on a card counts it as studied. */
 const DWELL_MS = 3000;
 
@@ -39,7 +43,11 @@ export function Feed(props: Props) {
 function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }: Props) {
   const focused = useIsFocused();
   const { entries, loadMore, drop, needsFollow } = useFeed(source);
+  const insets = useSafeAreaInsets();
+  const inset = bottomInset ?? TAB_BAR_SPACE + insets.bottom;
   const [height, setHeight] = useState(0);
+  // Card the list (re)starts on. It changes when the list is rebuilt after a real size change.
+  const [startIndex, setStartIndex] = useState(initialIndex);
   const [active, setActive] = useState(initialIndex);
   const list = useRef<FlashListRef<FeedEntry>>(null);
   const shownAt = useRef(0);
@@ -78,6 +86,37 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
 
   const playing = focused && !paused;
 
+  // The tab bar never stays hidden once the feed is left (other tab, other screen, unmount).
+  useEffect(() => {
+    if (!focused) showTabBar();
+    return () => showTabBar();
+  }, [focused]);
+
+  /**
+   * Coming back from the background (or a font/inset change) can report a new height. Small jitters and 0
+   * are ignored; a real change rebuilds the list on the current card so every card is measured again.
+   */
+  const heightRef = useRef(0);
+  const onLayout = useCallback((h: number) => {
+    const next = Math.round(h);
+    if (!isUsableHeight(heightRef.current, next)) return;
+    if (heightRef.current > 0) setStartIndex(activeRef.current);
+    heightRef.current = next;
+    setHeight(next);
+  }, []);
+
+  // After a fling, make sure the list rests exactly on a card.
+  const onMomentumEnd = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      showTabBar(350);
+      if (!height) return;
+      const y = e.nativeEvent.contentOffset.y;
+      const index = Math.round(y / height);
+      if (Math.abs(y - index * height) > 2) list.current?.scrollToOffset({ offset: index * height, animated: true });
+    },
+    [height],
+  );
+
   // Each entry counts toward the daily goal at most once.
   const [studied] = useState(() => new Set<string>());
   const onStudied = useCallback(
@@ -110,16 +149,17 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
   }, [playing, activeKey, activePage, onStudied]);
 
   return (
-    <View style={styles.fill} onLayout={(e) => setHeight(Math.round(e.nativeEvent.layout.height))}>
+    <View style={styles.fill} onLayout={(e) => onLayout(e.nativeEvent.layout.height)}>
       <AmbientBackdrop pageId={activePage} />
       {needsFollow && emptyState}
       {!needsFollow && height > 0 && (
         <FlashList
+          key={height}
           ref={list}
           data={entries}
           keyExtractor={(e) => e.key}
-          renderItem={({ item, index }) => <FeedItem key={item.key} entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={bottomInset} />}
-          extraData={`${active}-${playing}-${height}-${bottomInset}`}
+          renderItem={({ item, index }) => <FeedItem key={item.key} entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={inset} />}
+          extraData={`${active}-${playing}-${height}-${inset}`}
           pagingEnabled
           snapToInterval={Platform.OS === "web" ? undefined : height}
           snapToAlignment="start"
@@ -128,12 +168,12 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
           showsVerticalScrollIndicator={false}
           onScroll={onScroll}
           scrollEventThrottle={16}
-          onScrollBeginDrag={() => useChrome.getState().setTabBarHidden(true)}
-          onMomentumScrollEnd={() => setTimeout(() => useChrome.getState().setTabBarHidden(false), 450)}
-          onScrollEndDrag={() => setTimeout(() => useChrome.getState().setTabBarHidden(false), 1200)}
+          onScrollBeginDrag={hideTabBar}
+          onMomentumScrollEnd={onMomentumEnd}
+          onScrollEndDrag={() => showTabBar(1200)}
           onEndReached={loadMore}
           onEndReachedThreshold={2}
-          initialScrollIndex={initialIndex > 0 ? initialIndex : undefined}
+          initialScrollIndex={startIndex > 0 ? startIndex : undefined}
           drawDistance={height}
           getItemType={(e) => e.item.kind}
           testID="feed-list"

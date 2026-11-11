@@ -280,9 +280,10 @@ const styles = StyleSheet.create({
   topScrim: { position: "absolute", top: 0, left: 0, right: 0, height: 150 },
   bottomScrim: { position: "absolute", bottom: 0, left: 0, right: 0 },
   rail: { position: "absolute", right: 6, alignItems: "center", gap: 14, width: 72 },
-  avatarWrap: { alignItems: "center", marginBottom: 6 },
+  // The follow badge hangs below the avatar; padding keeps it inside the wrapper so Android delivers its taps.
+  avatarWrap: { alignItems: "center", paddingBottom: 10, marginBottom: -4 },
   avatarRing: { borderWidth: 2, borderRadius: 26, padding: 1 },
-  follow: { position: "absolute", bottom: -10, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
+  follow: { position: "absolute", bottom: 0, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
   railBtn: { alignItems: "center", minWidth: 64, minHeight: 52 },
   railLabel: { marginTop: 3, color: "#fff", textShadowColor: "rgba(0,0,0,0.7)", textShadowRadius: 4 },
   shadow: { textShadowColor: "rgba(0,0,0,0.45)", textShadowRadius: 6 } as object,

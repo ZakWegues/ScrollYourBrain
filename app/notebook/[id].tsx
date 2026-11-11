@@ -85,7 +85,7 @@ export default function NotebookScreen() {
             <View style={[styles.empty, { borderColor: c.border }]}>
               <Icon name="bookmark-plus-outline" size={36} color={c.textDim} />
               <AppText dim style={{ textAlign: "center", marginTop: space.sm }}>
-                No feed, toque em Salvar e depois em “Caderno” para adicionar cards aqui. Ou importe sua matéria.
+                No feed, toque em “Mais” → “Caderno” em qualquer card para guardar aqui. Ou importe sua matéria.
               </AppText>
               <GradientButton label="Importar matéria" icon="tray-arrow-down" onPress={() => router.push("/import")} style={{ marginTop: space.lg }} />
             </View>

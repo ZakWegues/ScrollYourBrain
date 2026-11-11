@@ -2,8 +2,9 @@ import * as DocumentPicker from "expo-document-picker";
 import { File } from "expo-file-system";
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import { Platform, ScrollView, StyleSheet, Switch, TextInput, View } from "react-native";
+import { Platform, StyleSheet, Switch, TextInput, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, GradientButton, Icon } from "@/components/ui";
@@ -78,7 +79,7 @@ export default function ImportScreen() {
         <AppText variant="label">Importar matéria</AppText>
         <View style={styles.iconBtn} />
       </View>
-      <ScrollView contentContainerStyle={{ padding: space.lg, paddingBottom: insets.bottom + 120 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView bottomOffset={96} contentContainerStyle={{ padding: space.lg, paddingBottom: insets.bottom + 120 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <AppText dim>
           Cole sua matéria com uma pergunta e resposta por linha, separadas por <AppText variant="label">;</AppText>, tab ou <AppText variant="label">-</AppText>. Também funciona com blocos <AppText variant="label">P:</AppText> e <AppText variant="label">R:</AppText>, ou com um arquivo .txt/.csv (planilha, Anki).
         </AppText>
@@ -144,7 +145,7 @@ export default function ImportScreen() {
           </View>
           <Switch value={toReview} onValueChange={setToReview} trackColor={{ false: c.surface2, true: c.accent }} thumbColor="#fff" {...({ activeThumbColor: "#fff" } as object)} />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg, backgroundColor: c.bg }]}>
         <GradientButton
           label={cards.length ? `Importar ${cards.length} ${cards.length === 1 ? "card" : "cards"}` : "Cole ou escolha um arquivo"}

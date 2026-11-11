@@ -7,8 +7,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as SystemUI from "expo-system-ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
+import { AppState, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
 import { ShareCardHost } from "@/components/ShareCard";
@@ -23,6 +24,7 @@ import { useToday } from "@/store/progress";
 import { useWidgetSync } from "@/widget/sync";
 import { useSettings } from "@/store/settings";
 import { useColors, useTheme } from "@/theme";
+import { showTabBar } from "@/store/chrome";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 SplashScreen.setOptions({ fade: true, duration: 150 });
@@ -46,6 +48,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (hydrated && reminder !== null) scheduleReminder(reminder, streak, goal).catch(() => {});
   }, [hydrated, reminder, streak, goal]);
+  // Leaving or returning to the app cancels any half-finished swipe, so the tab bar must come back.
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", () => showTabBar());
+    return () => sub.remove();
+  }, []);
   const c = useColors();
   const light = useTheme().light;
   const reduceMotion = useSettings((s) => s.reduceMotion);
@@ -70,6 +77,7 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: c.bg }}>
+      <KeyboardProvider>
       <ThemeProvider value={navTheme}>
         <StatusBar style={light ? "dark" : "light"} />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: "slide_from_right" }}>
@@ -98,6 +106,7 @@ export default function RootLayout() {
         <GoalCelebration />
         {!splashDone && <AnimatedSplash bg={c.bg} onDone={finishSplash} reduceMotion={reduceMotion} />}
       </ThemeProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   );
 }

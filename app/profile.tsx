@@ -131,7 +131,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   hero: { alignItems: "center", paddingHorizontal: space.xl, paddingBottom: space.xl },
   levelRing: { width: 108, height: 108, borderRadius: 54, borderWidth: 3, borderColor: "rgba(255,255,255,0.7)", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.18)" },
-  ringLabel: { color: "rgba(255,255,255,0.85)", letterSpacing: 1.5, marginBottom: -6 },
+  ringLabel: { color: "rgba(255,255,255,0.85)", letterSpacing: 1.5, fontSize: 10, lineHeight: 12 },
   heroTrack: { alignSelf: "stretch", height: 8, borderRadius: 4, backgroundColor: "rgba(0,0,0,0.25)", marginTop: space.md, overflow: "hidden" },
   heroFill: { height: "100%", borderRadius: 4, backgroundColor: "#fff" },
   statsRow: { flexDirection: "row", alignSelf: "stretch", justifyContent: "space-between", marginTop: space.lg },

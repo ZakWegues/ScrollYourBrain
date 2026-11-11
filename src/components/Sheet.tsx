@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, View } from "react-native";
+import { Modal, Pressable, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { radius, space, useColors } from "@/theme";
 import { AppText } from "./ui";
 
-/** Bottom sheet with a dimmed backdrop. Tapping outside or the back button closes it. */
+/** Bottom sheet with a dimmed backdrop. It rises above the keyboard; tapping outside or the back button closes it. */
 export function Sheet({ visible, onClose, title, children }: { visible: boolean; onClose: () => void; title?: string; children: ReactNode }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
@@ -33,7 +34,7 @@ export function Sheet({ visible, onClose, title, children }: { visible: boolean;
   if (!mounted) return null;
   return (
     <Modal transparent visible statusBarTranslucent navigationBarTranslucent animationType="none" onRequestClose={onClose}>
-      <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <KeyboardAvoidingView style={styles.root} behavior="padding">
         <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, backdrop]}>
           <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Fechar" />
         </Animated.View>

@@ -115,18 +115,13 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
               <View style={styles.play}><Icon name="play" size={36} color="#fff" /></View>
             </Animated.View>
           )}
-        </View>
-        {!vertical && (
-          <View style={styles.lessonBar}>
-            <Glass style={styles.caption}>
-              <Icon name="youtube" size={18} color="#FF0033" />
-              <AppText dim numberOfLines={2} style={{ flex: 1 }}>{item.caption}</AppText>
-            </Glass>
-            <Bouncy onPress={() => Linking.openURL(`https://youtu.be/${item.youtubeId}`)} accessibilityLabel="Ver aula completa no YouTube">
-              <Glass style={styles.pill}><Icon name="open-in-new" size={16} color="#fff" /><AppText variant="caption">Ver no YouTube</AppText></Glass>
+          {/* Lessons are clips of longer classes: a small corner link opens the whole video. The title and channel are in the card caption below. */}
+          {!vertical && (
+            <Bouncy onPress={() => Linking.openURL(`https://youtu.be/${item.youtubeId}`)} style={styles.fullLink} accessibilityLabel="Ver aula completa no YouTube">
+              <Glass style={styles.pill}><Icon name="youtube" size={16} color="#FF0033" /><AppText variant="caption">Aula completa</AppText></Glass>
             </Bouncy>
-          </View>
-        )}
+          )}
+        </View>
       </View>
       {fast && active && (
         <Animated.View entering={FadeIn.duration(120)} exiting={FadeOut.duration(120)} style={styles.fast} pointerEvents="none">
@@ -145,12 +140,11 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 140 },
   full: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", overflow: "hidden" },
-  lessonBar: { alignSelf: "stretch", marginTop: 16, marginHorizontal: 16, marginRight: 84, gap: 10, alignItems: "flex-start" },
+  fullLink: { position: "absolute", right: 8, bottom: 8 },
   fast: { position: "absolute", top: 112, alignSelf: "center" },
   frame: { overflow: "hidden", backgroundColor: "#000" },
   overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   play: { width: 72, height: 72, borderRadius: 36, backgroundColor: "rgba(0,0,0,0.45)", alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "rgba(255,255,255,0.25)" },
-  caption: { flexDirection: "row", gap: 10, alignItems: "center", alignSelf: "stretch", padding: 12, borderRadius: radius.md },
   stalled: { backgroundColor: "rgba(0,0,0,0.6)", gap: 12 },
   stalledActions: { flexDirection: "row", gap: 8 },
   pill: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radius.pill },

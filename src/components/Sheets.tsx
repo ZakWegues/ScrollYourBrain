@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Platform, ScrollView, Share, StyleSheet, TextInput, View } from "react-native";
 import { create } from "zustand";
 import type { StudyItem } from "@/feed/types";
@@ -22,6 +22,11 @@ export const openNote = (item: StudyItem) => useSheets.setState({ open: { kind: 
 export const openNotebookPicker = (item: StudyItem) => useSheets.setState({ open: { kind: "notebooks", item } });
 export const openMore = (item: StudyItem) => useSheets.setState({ open: { kind: "more", item } });
 const close = () => useSheets.setState({ open: null });
+/** Opens another sheet only after the current one has slid away, so two dialogs never overlap (Android loses the keyboard otherwise). */
+const switchTo = (open: () => void) => {
+  close();
+  setTimeout(open, 280);
+};
 
 /** Renders whichever app-wide sheet is open (note editor, notebook picker). */
 export function SheetsHost() {
@@ -45,6 +50,13 @@ function NoteEditor({ item }: { item: StudyItem }) {
   const c = useColors();
   const existing = useNotebooks((s) => s.notes[item.id]?.text ?? "");
   const [text, setText] = useState(existing);
+  const input = useRef<TextInput>(null);
+  // Focus once the sheet has finished opening; focusing during the animation can leave Android without a keyboard.
+  useEffect(() => {
+    if (Platform.OS === "web") return;
+    const id = setTimeout(() => input.current?.focus(), 380);
+    return () => clearTimeout(id);
+  }, []);
   const save = () => {
     useNotebooks.getState().setNote(item, text);
     haptic.success();
@@ -55,12 +67,12 @@ function NoteEditor({ item }: { item: StudyItem }) {
     <View>
       <AppText variant="caption" dim numberOfLines={1} style={{ marginBottom: space.sm }}>{item.title}</AppText>
       <TextInput
+        ref={input}
         value={text}
         onChangeText={setText}
         placeholder="O que você quer lembrar sobre isso?"
         placeholderTextColor={c.textMute}
         multiline
-        autoFocus={Platform.OS !== "web"}
         textAlignVertical="top"
         style={[styles.note, { color: c.text, backgroundColor: c.surface2, borderColor: c.border, fontFamily: fonts.body }]}
         testID="note-input"
@@ -77,14 +89,14 @@ function MoreActions({ item }: { item: StudyItem }) {
   const inReview = useReview((s) => !!s.cards[item.id]);
   const page = getPage(item.pageId);
   const actions: { icon: IconName; label: string; onPress: () => void; hidden?: boolean; tone?: string }[] = [
-    { icon: hasNote ? "note-text" : "note-edit-outline", label: hasNote ? "Editar nota" : "Nota", onPress: () => openNote(item) },
-    { icon: "notebook-plus-outline", label: "Caderno", onPress: () => openNotebookPicker(item) },
+    { icon: hasNote ? "note-text" : "note-edit-outline", label: hasNote ? "Editar nota" : "Nota", onPress: () => switchTo(() => openNote(item)) },
+    { icon: "notebook-plus-outline", label: "Caderno", onPress: () => switchTo(() => openNotebookPicker(item)) },
     { icon: "account-voice", label: "Ouvir", onPress: () => { speak(speechText(item)); close(); } },
     {
       icon: "history", label: inReview ? "Na revisão" : "Revisar depois", hidden: !reviewable(item),
       onPress: () => { if (useReview.getState().add(item)) toast({ message: "Vai voltar na sua revisão", icon: "history" }); close(); },
     },
-    { icon: "image-outline", label: "Imagem", onPress: () => { close(); openShareCard(item); } },
+    { icon: "image-outline", label: "Imagem", onPress: () => switchTo(() => openShareCard(item)) },
     { icon: "share-variant", label: "Texto", onPress: () => { Share.share({ message: shareText(item) }).catch(() => {}); close(); } },
     {
       icon: "eye-off-outline", label: "Menos disso", tone: c.danger,
