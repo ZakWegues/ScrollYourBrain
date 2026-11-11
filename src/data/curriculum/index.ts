@@ -1,4 +1,5 @@
 import type { StudyItem } from "@/feed/types";
+import { shuffleAnswers } from "@/lib/shuffle";
 import type { Bimestre, CurriculumTopic, Serie } from "./build";
 import { FISICA, MATEMATICA, QUIMICA } from "./exatas";
 import { FILOSOFIA, INGLES, PORTUGUES, SOCIOLOGIA } from "./linguagens";
@@ -49,7 +50,7 @@ const DEFAULT_ACCOUNT: Record<string, string> = { ingles: "grammar" };
 export const TOPICS: CurriculumTopic[] = ALL.flatMap((s) => s.topics);
 for (const t of TOPICS) if (t.page === t.subject) t.page = ACCOUNT_OF[t.name] ?? DEFAULT_ACCOUNT[t.subject] ?? t.subject;
 export const TOPIC_BY_ID: Record<string, CurriculumTopic> = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
-export const CURRICULUM_ITEMS: StudyItem[] = ALL.flatMap((s) => s.items);
+export const CURRICULUM_ITEMS: StudyItem[] = shuffleAnswers(ALL.flatMap((s) => s.items));
 for (const item of CURRICULUM_ITEMS) if (item.topicId) item.pageId = TOPIC_BY_ID[item.topicId].page;
 
 /** Subjects that have a high-school curriculum (per-subject modes). */

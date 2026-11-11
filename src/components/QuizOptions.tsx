@@ -1,6 +1,8 @@
+import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeInDown, ZoomIn } from "react-native-reanimated";
 import type { QuizItem } from "@/feed/types";
+import { optionOrder } from "@/lib/shuffle";
 import { radius, useColors } from "@/theme";
 import { AppText, Bouncy, Glass, Icon } from "./ui";
 
@@ -16,24 +18,32 @@ interface Props {
   onPick: (index: number) => void;
 }
 
-/** The answer buttons, right/wrong feedback and explanation shared by feed quizzes and exams. */
+/**
+ * The answer buttons, right/wrong feedback and explanation shared by feed quizzes and exams.
+ * The options show in a new random order every time a question appears; `picked` and `onPick` keep
+ * using the item's own option indexes, so callers never see the shuffle.
+ */
 export function QuizOptions({ item, picked, onPick }: Props) {
   const c = useColors();
+  const [salt] = useState(() => Math.floor(Math.random() * 2 ** 31));
+  const order = useMemo(() => optionOrder(item.options.length, `${item.id}:${salt}`), [item.id, item.options.length, salt]);
   const answered = picked !== null;
   const right = picked === item.answer;
-  const headline = right ? "Mandou bem!" : picked === TIMED_OUT ? `Tempo esgotado! Resposta certa: ${LETTERS[item.answer]}` : `Quase! Resposta certa: ${LETTERS[item.answer]}`;
+  const answerLetter = LETTERS[order.indexOf(item.answer)];
+  const headline = right ? "Mandou bem!" : picked === TIMED_OUT ? `Tempo esgotado! Resposta certa: ${answerLetter}` : `Quase! Resposta certa: ${answerLetter}`;
 
   return (
     <View>
-      {item.options.map((opt, i) => {
-        const isAnswer = i === item.answer;
-        const isPicked = i === picked;
+      {order.map((o, i) => {
+        const opt = item.options[o];
+        const isAnswer = o === item.answer;
+        const isPicked = o === picked;
         const border = answered && isAnswer ? c.success : answered && isPicked ? c.danger : c.border;
         const bg = answered && isAnswer ? "rgba(52,211,153,0.16)" : answered && isPicked ? "rgba(244,63,94,0.16)" : c.glass;
         return (
           <Bouncy
-            key={i}
-            onPress={() => onPick(i)}
+            key={o}
+            onPress={() => onPick(o)}
             scaleTo={0.97}
             disabled={answered}
             accessibilityRole="button"

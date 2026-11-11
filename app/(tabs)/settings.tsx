@@ -378,7 +378,7 @@ export default function Settings() {
         </Card>
       </Collapsible>
 
-      <Collapsible id="settings-about" icon="information-outline" title="Sobre" summary={`Versão ${Constants.expoConfig?.version ?? "0.7.0"} · código aberto`}>
+      <Collapsible id="settings-about" icon="information-outline" title="Sobre" summary={`Versão ${Constants.expoConfig?.version ?? "0.7.1"} · código aberto`}>
         <Card>
           <Bouncy scaleTo={0.98} style={[styles.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: c.border }]} onPress={() => Linking.openURL(REPO)}>
             <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="github" size={18} color={c.text} /></View>
@@ -391,7 +391,7 @@ export default function Settings() {
           <View style={styles.row}>
             <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="information-outline" size={18} color={c.text} /></View>
             <AppText variant="label" style={{ flex: 1 }}>Versão</AppText>
-            <AppText variant="caption" dim>{Constants.expoConfig?.version ?? "0.7.0"} · build {String(Constants.expoConfig?.extra?.buildNumber ?? "dev")}</AppText>
+            <AppText variant="caption" dim>{Constants.expoConfig?.version ?? "0.7.1"} · build {String(Constants.expoConfig?.extra?.buildNumber ?? "dev")}</AppText>
           </View>
         </Card>
       </Collapsible>

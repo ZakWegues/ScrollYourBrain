@@ -10,7 +10,6 @@ import { useMistakes, type Mistake } from "@/store/mistakes";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
 type Tab = "pending" | "fixed";
-const LETTERS = "ABCD";
 
 /** Every question you got wrong, until you get it right. */
 export default function Mistakes() {
@@ -86,7 +85,7 @@ export default function Mistakes() {
                   </View>
                   {expanded && (
                     <View style={{ marginTop: space.sm }}>
-                      <AppText variant="label" style={{ color: c.success }}>{LETTERS[m.item.answer]}) {m.item.options[m.item.answer]}</AppText>
+                      <AppText variant="label" style={{ color: c.success }}>✓ {m.item.options[m.item.answer]}</AppText>
                       <AppText variant="caption" dim style={{ marginTop: 4 }}>{m.item.explanation}</AppText>
                       <Bouncy onPress={() => { useMistakes.getState().remove(m.item.id); haptic.select(); }} style={styles.remove} accessibilityLabel="Tirar do caderno de erros">
                         <Icon name="close" size={14} color={c.textDim} />

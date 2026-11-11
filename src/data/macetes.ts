@@ -1,10 +1,11 @@
+import { shuffleAnswers } from "@/lib/shuffle";
 import type { StudyItem } from "@/feed/types";
 
 /**
  * Exam strategy cards for the "Macetes de prova" page. Most come from reels the user
  * shared (transcribed); they apply to ENEM, vestibulares and school exams alike.
  */
-export const MACETES: StudyItem[] = [
+export const MACETES: StudyItem[] = shuffleAnswers([
   {
     id: "mac-porcentagem-fator", pageId: "macetes", kind: "concept", title: "Porcentagem pelo fator", tags: ["porcentagem", "matemática", "enem"],
     beats: ["Esqueça a regra de três para aumento e desconto.", "Aumento de 20%: multiplique por 1,2.", "Desconto de 15%: multiplique por 0,85.", "Vários aumentos? Multiplique os fatores em sequência."],
@@ -174,4 +175,4 @@ export const MACETES: StudyItem[] = [
     ],
     takeaway: "Pergunte sempre: o que acontece com o resto do ecossistema?",
   },
-];
+]);

@@ -2,6 +2,13 @@
 
 Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [0.7.1] — 2026-11-11
+### Corrigido
+- **A resposta certa caía na B em 72% das questões escritas à mão.**
+  - Agora as alternativas aparecem numa ordem aleatória a cada vez que a questão aparece (feed, simulados, revisão, aula e pergunta do dia).
+  - A ordem de base também foi equilibrada: A 27%, B 23%, C 25% e D 25%.
+  - Um teste impede que o viés volte.
+
 ## [0.7.0] — 2026-11-11
 ### Corrigido
 - **Vídeos tocam dentro do app.** O player agora é próprio: a página do player tem a origem do app, como o YouTube exige desde 2025 (antes os vídeos davam erro de configuração e eram pulados).

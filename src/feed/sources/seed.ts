@@ -1,7 +1,8 @@
+import { shuffleAnswers } from "@/lib/shuffle";
 import type { StudyItem } from "@/feed/types";
 
 /** Hand-written study cards bundled with the app, so the feed works offline from the first launch. */
-export const SEED: StudyItem[] = [
+export const SEED: StudyItem[] = shuffleAnswers([
   // Matemática
   {
     id: "mat-pitagoras", pageId: "matematica", kind: "concept", title: "Teorema de Pitágoras", tags: ["geometria", "triângulo"],
@@ -175,4 +176,4 @@ export const SEED: StudyItem[] = [
     id: "ast-flash-ano-luz", pageId: "astronomia", kind: "flash", title: "Ano-luz", tags: ["distâncias"],
     front: "Ano-luz mede tempo ou distância?", back: "Distância: o quanto a luz percorre em um ano, cerca de 9,46 trilhões de km.",
   },
-];
+]);
