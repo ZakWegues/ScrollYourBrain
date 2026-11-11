@@ -229,7 +229,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
             {item.kind === "video" && item.channel && (
               <View style={styles.chip}>
                 <Icon name="account-school-outline" size={13} color="#fff" />
-                <AppText variant="caption" style={styles.white} numberOfLines={1}>{item.channel}</AppText>
+                <AppText variant="caption" style={[styles.white, { flexShrink: 1 }]} numberOfLines={1}>{item.channel}</AppText>
               </View>
             )}
             {inReview && (
@@ -290,7 +290,8 @@ const styles = StyleSheet.create({
   meta: { position: "absolute", left: 16, right: 90, gap: 6 },
   pageRow: { flexDirection: "row", alignItems: "baseline", gap: 8, alignSelf: "flex-start" },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-  chip: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 9, paddingVertical: 4, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.25)", backgroundColor: "rgba(0,0,0,0.35)" },
+  // maxWidth + shrinking text keep long channel names inside the caption column (never under the rail).
+  chip: { maxWidth: "100%", flexShrink: 1, flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 9, paddingVertical: 4, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.25)", backgroundColor: "rgba(0,0,0,0.35)" },
   white: { color: "#fff" },
   soft: { color: "rgba(255,255,255,0.75)" },
   shadowText: { textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6 },
