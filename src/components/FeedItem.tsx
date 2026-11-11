@@ -1,4 +1,4 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { router } from "expo-router";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
@@ -222,26 +222,21 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
           </Bouncy>
           <AppText variant="headline" style={[styles.white, styles.shadowText]} numberOfLines={2}>{item.title}</AppText>
           <View style={styles.chips}>
+            {/* One chip: the format, plus the channel credit for videos. Review and note are icon-only. */}
             <View style={styles.chip}>
               <Icon name={KIND_LABEL[item.kind].icon} size={13} color="#fff" />
-              <AppText variant="caption" style={styles.white}>{item.kind === "video" ? (item.vertical ? "Short" : "Aula") : KIND_LABEL[item.kind].label}</AppText>
+              <AppText variant="caption" style={[styles.white, { flexShrink: 1 }]} numberOfLines={1}>
+                {item.kind === "video" ? `${item.vertical ? "Short" : "Aula"}${item.channel ? ` · ${item.channel}` : ""}` : KIND_LABEL[item.kind].label}
+              </AppText>
             </View>
-            {item.kind === "video" && item.channel && (
-              <View style={styles.chip}>
-                <Icon name="account-school-outline" size={13} color="#fff" />
-                <AppText variant="caption" style={[styles.white, { flexShrink: 1 }]} numberOfLines={1}>{item.channel}</AppText>
-              </View>
-            )}
             {inReview && (
-              <View style={[styles.chip, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.18)" }]}>
-                <Icon name="history" size={13} color={c.save} />
-                <AppText variant="caption" style={{ color: c.save }}>Revisão</AppText>
+              <View style={[styles.chip, styles.iconChip, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.18)" }]} accessible accessibilityLabel="Na sua revisão">
+                <Icon name="history" size={14} color={c.save} />
               </View>
             )}
             {hasNote && (
-              <View style={styles.chip}>
-                <Icon name="note-text" size={13} color={c.accent2} />
-                <AppText variant="caption" style={styles.white}>Sua nota</AppText>
+              <View style={[styles.chip, styles.iconChip]} accessible accessibilityLabel="Tem anotação sua">
+                <Icon name="note-text" size={14} color={c.accent2} />
               </View>
             )}
           </View>
@@ -291,6 +286,7 @@ const styles = StyleSheet.create({
   pageRow: { flexDirection: "row", alignItems: "baseline", gap: 8, alignSelf: "flex-start" },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   // maxWidth + shrinking text keep long channel names inside the caption column (never under the rail).
+  iconChip: { paddingHorizontal: 6 },
   chip: { maxWidth: "100%", flexShrink: 1, flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 9, paddingVertical: 4, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.25)", backgroundColor: "rgba(0,0,0,0.35)" },
   white: { color: "#fff" },
   soft: { color: "rgba(255,255,255,0.75)" },

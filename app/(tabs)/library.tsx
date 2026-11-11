@@ -1,9 +1,9 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { ItemTile, preview } from "@/components/ItemTile";
-import { Grid, Screen, SectionTitle } from "@/components/Screen";
+import { Grid, Screen } from "@/components/Screen";
 import { openNote } from "@/components/Sheets";
 import { StreakCard } from "@/components/StreakCard";
 import { WeeklyChallenge } from "@/components/WeeklyChallenge";
@@ -17,7 +17,9 @@ import { haptic } from "@/lib/haptics";
 import { useLibrary, type Snapshot } from "@/store/library";
 import { NOTEBOOK_COLORS, useNotebooks } from "@/store/notebooks";
 import { useDueCount, useReview } from "@/store/review";
-import { useProgress } from "@/store/progress";
+import { useProgress, useToday } from "@/store/progress";
+import { weekKey } from "@/lib/challenges";
+import { Collapsible } from "@/components/Collapsible";
 import { usePlanner } from "@/store/planner";
 import { countdownLabel, daysUntil } from "@/lib/planner";
 import { ACHIEVEMENTS } from "@/lib/achievements";
@@ -58,14 +60,10 @@ export default function Library() {
     >
       <LevelCard />
       <NextExam />
-      <DailyQuestion />
       <ReviewCard />
+      <DailyQuestion />
       <QuickLinks />
-      {/* The week's summary shows up when the week turns (Sunday and Monday); it always lives in Estatísticas. */}
-      {[0, 1].includes(new Date().getDay()) && <WeeklySummary />}
-      <StreakCard />
-      <View style={{ height: space.md }} />
-      <WeeklyChallenge />
+      <YourWeek />
 
       <View style={{ marginTop: space.xl, marginBottom: space.md }}>
         <Segmented<Tab>
@@ -94,8 +92,28 @@ export default function Library() {
       {tab === "notebooks" && <Notebooks />}
       {tab === "notes" && <Notes onOpen={open} />}
 
-      <AddVideo />
+      <View style={{ marginTop: space.lg }}>
+        <Collapsible id="add-video" icon="youtube" iconColor="#FF0033" title="Adicionar vídeo do YouTube" summary="Cole um link e ele entra no seu feed">
+          <AddVideo />
+        </Collapsible>
+      </View>
     </Screen>
+  );
+}
+
+/** Streak, weekly challenge and the week's summary, folded into one line until opened. */
+function YourWeek() {
+  const c = useColors();
+  const { streak } = useToday();
+  const week = weekKey();
+  const done = useProgress((s) => s.challenges[week]?.filter((id) => id !== "all").length ?? 0);
+  return (
+    <Collapsible id="your-week" icon="fire" iconColor={streak > 0 ? "#FB923C" : c.textMute} title="Sua semana" summary={`${streak} ${streak === 1 ? "dia" : "dias"} seguidos · desafio ${Math.min(done, 3)}/3`}>
+      <StreakCard />
+      <View style={{ height: space.md }} />
+      <WeeklyChallenge />
+      <WeeklySummary />
+    </Collapsible>
   );
 }
 
@@ -105,15 +123,15 @@ function QuickLinks() {
   const examCount = usePlanner((s) => Object.values(s.exams).filter((e) => daysUntil(e.date) >= 0).length);
   const mistakes = useMistakes((s) => Object.values(s.items).filter((m) => !m.fixed).length);
   const links: { icon: IconName; color: string; title: string; sub: string; to: "/stats" | "/achievements" | "/planner" | "/mistakes"; id: string }[] = [
-    { icon: "chart-box-outline", color: c.accent2, title: "Ritmo", sub: "estatísticas", to: "/stats", id: "stats-link" },
-    { icon: "trophy-outline", color: c.save, title: "Conquistas", sub: `${unlocked}/${ACHIEVEMENTS.length}`, to: "/achievements", id: "achievements-link" },
-    { icon: "calendar-star", color: c.like, title: "Provas", sub: examCount ? `${examCount} marcada${examCount > 1 ? "s" : ""}` : "calendário", to: "/planner", id: "planner-link" },
-    { icon: "alert-circle-outline", color: c.danger, title: "Erros", sub: mistakes ? `${mistakes} pendente${mistakes > 1 ? "s" : ""}` : "nenhum", to: "/mistakes", id: "mistakes-link" },
+    { icon: "chart-box-outline", color: c.accent2, title: "Ritmo", sub: "gráficos", to: "/stats", id: "stats-link" },
+    { icon: "trophy-outline", color: c.save, title: "Troféus", sub: `${unlocked}/${ACHIEVEMENTS.length}`, to: "/achievements", id: "achievements-link" },
+    { icon: "calendar-star", color: c.like, title: "Provas", sub: examCount ? `${examCount} na agenda` : "agenda", to: "/planner", id: "planner-link" },
+    { icon: "alert-circle-outline", color: c.danger, title: "Erros", sub: mistakes ? `${mistakes} para refazer` : "nenhum", to: "/mistakes", id: "mistakes-link" },
   ];
   return (
     <View style={[styles.links, { marginTop: space.md, marginBottom: space.md }]}>
       {links.map((l) => (
-        <Bouncy key={l.id} onPress={() => router.push(l.to)} scaleTo={0.96} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={`${l.title}: ${l.sub}`} testID={l.id}>
+        <Bouncy key={l.id} onPress={() => router.push(l.to)} scaleTo={0.96} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={`${l.id === "achievements-link" ? "Conquistas" : l.title}: ${l.sub}`} testID={l.id}>
           <Icon name={l.icon} size={22} color={l.color} />
           <AppText variant="label" numberOfLines={1}>{l.title}</AppText>
           <AppText variant="caption" dim numberOfLines={1}>{l.sub}</AppText>
@@ -154,13 +172,13 @@ function ReviewCard() {
     <Bouncy onPress={() => router.push("/review")} scaleTo={0.98} style={styles.review} accessibilityLabel={`Revisão de hoje: ${due} cards`} testID="review-card">
       <LinearGradient colors={due > 0 ? ["#F59E0B", "#F97316"] : [c.surface, c.surface]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
       <View style={[styles.reviewIcon, { backgroundColor: due > 0 ? "rgba(0,0,0,0.18)" : c.surface2 }]}>
-        <Icon name={due > 0 ? "history" : "check-decagram"} size={26} color={due > 0 ? "#fff" : c.success} />
+        <Icon name={due > 0 ? "history" : "check-decagram"} size={22} color={due > 0 ? "#fff" : c.success} />
       </View>
       <View style={{ flex: 1 }}>
         <AppText variant="headline" style={{ color: due > 0 ? "#fff" : c.text }}>
           {due > 0 ? `${due} ${due === 1 ? "card para revisar" : "cards para revisar"}` : "Revisão em dia"}
         </AppText>
-        <AppText variant="caption" style={{ color: due > 0 ? "rgba(255,255,255,0.85)" : c.textDim }}>
+        <AppText variant="caption" numberOfLines={1} style={{ color: due > 0 ? "rgba(255,255,255,0.85)" : c.textDim }}>
           {total > 0 ? `${total} na sua fila de repetição espaçada` : "Erros de quiz e flashcards difíceis entram aqui"}
         </AppText>
       </View>
@@ -262,7 +280,6 @@ function AddVideo() {
   };
   return (
     <>
-      <SectionTitle>Adicionar vídeo do YouTube</SectionTitle>
       <Glass style={{ padding: space.md }}>
         <View style={[styles.inputRow, { backgroundColor: c.surface2, borderColor: c.border, marginBottom: 0 }]}>
           <Icon name="link-variant" size={18} color={c.textDim} />
@@ -314,8 +331,8 @@ function EmptyState({ icon, title, text }: { icon: IconName; title: string; text
 
 const styles = StyleSheet.create({
   headerBtn: { width: TOUCH, height: TOUCH, borderRadius: TOUCH / 2, alignItems: "center", justifyContent: "center", borderWidth: StyleSheet.hairlineWidth },
-  review: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.lg, borderRadius: radius.lg, overflow: "hidden" },
-  reviewIcon: { width: 48, height: 48, borderRadius: 24, alignItems: "center", justifyContent: "center" },
+  review: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.lg, overflow: "hidden", marginBottom: space.md },
+  reviewIcon: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center" },
   links: { flexDirection: "row", gap: space.sm },
   link: { flex: 1, alignItems: "center", gap: 4, paddingVertical: space.md, paddingHorizontal: space.sm, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth },
   nextExam: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.lg, borderWidth: 1, marginBottom: space.md },

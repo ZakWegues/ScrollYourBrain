@@ -1,8 +1,9 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { ItemTile } from "@/components/ItemTile";
+import { Collapsible } from "@/components/Collapsible";
 import { Grid, Screen, SectionTitle } from "@/components/Screen";
 import { AppText, Bouncy, Chip, Glass, Icon, PageAvatar, type IconName } from "@/components/ui";
 import { childrenOf, getPage, PAGES, ROOT_PAGES, rootOf } from "@/data/pages";
@@ -132,47 +133,40 @@ export default function Explore() {
             </View>
           )}
           <View style={styles.chips}>
-            {recent.map((t) => <Chip key={`r-${t}`} label={t} icon="history" onPress={() => search(t)} />)}
-            {TRENDING.filter((t) => !recent.some((r) => r.toLowerCase() === t.toLowerCase())).slice(0, recent.length ? 4 : 8).map((t) => <Chip key={t} label={t} icon="fire" onPress={() => search(t)} />)}
+            {recent.slice(0, 5).map((t) => <Chip key={`r-${t}`} label={t} icon="history" onPress={() => search(t)} />)}
+            {TRENDING.filter((t) => !recent.some((r) => r.toLowerCase() === t.toLowerCase())).slice(0, recent.length ? 3 : 4).map((t) => <Chip key={t} label={t} icon="fire" onPress={() => search(t)} />)}
           </View>
 
           <View style={styles.modes}>
             {[
               { to: "/modes" as const, icon: "school" as const, title: "Modos de prova", sub: "ENEM, bimestral e mais", colors: ["#8B5CF6", "#22D3EE"] as const, id: "exam-banner" },
+              { to: "/blitz" as const, icon: "lightning-bolt" as const, title: "Quiz relâmpago", sub: "60 segundos", colors: ["#F59E0B", "#EF4444"] as const, id: "blitz-banner" },
               { to: "/focus" as const, icon: "bullseye-arrow" as const, title: "Modo foco", sub: "Ciclos sem distração", colors: ["#6366F1", "#EC4899"] as const, id: "focus-banner" },
             ].map((m) => (
-              <Bouncy key={m.id} onPress={() => router.push(m.to)} scaleTo={0.96} style={styles.mode} accessibilityLabel={`Abrir ${m.title}`} testID={m.id}>
+              <Bouncy key={m.id} onPress={() => router.push(m.to)} scaleTo={0.96} style={styles.mode} accessibilityLabel={`Abrir ${m.title}: ${m.sub}`} testID={m.id}>
                 <LinearGradient colors={m.colors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-                <Icon name={m.icon} size={30} color="#fff" />
+                <Icon name={m.icon} size={26} color="#fff" />
                 <View style={{ flex: 1 }} />
-                <AppText variant="headline" style={{ color: "#fff" }}>{m.title}</AppText>
-                <AppText variant="caption" style={{ color: "rgba(255,255,255,0.85)" }} numberOfLines={1}>{m.sub}</AppText>
+                <AppText variant="label" numberOfLines={2} style={{ color: "#fff" }}>{m.title}</AppText>
               </Bouncy>
             ))}
           </View>
-          <Bouncy onPress={() => router.push("/blitz")} scaleTo={0.97} style={styles.blitz} accessibilityLabel="Quiz relâmpago" testID="blitz-banner">
-            <LinearGradient colors={["#F59E0B", "#EF4444"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-            <Icon name="lightning-bolt" size={30} color="#fff" />
-            <View style={{ flex: 1 }}>
-              <AppText variant="headline" style={{ color: "#fff" }}>Quiz relâmpago</AppText>
-              <AppText variant="caption" style={{ color: "rgba(255,255,255,0.9)" }}>60 segundos. Quantas você acerta?</AppText>
-            </View>
-            <Icon name="chevron-right" size={24} color="#fff" />
-          </Bouncy>
 
           <SectionTitle>Em alta pra você</SectionTitle>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.bleed} contentContainerStyle={styles.row}>
             {forYou.map((id) => <AccountCard key={id} id={id} count={counts[id]} />)}
           </ScrollView>
 
+          <SectionTitle>Matérias</SectionTitle>
           {subjects.map((s) => {
             const on = !!followed[s.id];
+            const kids = childrenOf(s.id);
             return (
-              <View key={s.id}>
+              <Collapsible key={s.id} id={`subject-${s.id}`} icon={s.icon as IconName} iconColor={s.colors[0]} title={s.name} summary={`${on ? "Seguindo · " : ""}${kids.map((k) => k.name).join(", ")}`}>
                 <View style={styles.subjectHead}>
                   <Bouncy onPress={() => router.push(`/page/${s.id}`)} scaleTo={0.97} style={styles.subjectTitle} accessibilityLabel={`Abrir ${s.name}`}>
                     <PageAvatar pageId={s.id} size={28} />
-                    <AppText variant="headline">{s.name}</AppText>
+                    <AppText variant="label">Ver página</AppText>
                     <Icon name="chevron-right" size={20} color={c.textDim} />
                   </Bouncy>
                   <Bouncy
@@ -187,25 +181,28 @@ export default function Explore() {
                   </Bouncy>
                 </View>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.bleed} contentContainerStyle={styles.row}>
-                  {childrenOf(s.id).map((p) => <AccountCard key={p.id} id={p.id} count={counts[p.id]} />)}
+                  {kids.map((p) => <AccountCard key={p.id} id={p.id} count={counts[p.id]} />)}
                 </ScrollView>
-              </View>
+              </Collapsible>
             );
           })}
 
-          <SectionTitle>Mais páginas</SectionTitle>
-          <Grid>
-            {others.map((p) => (
-              <Bouncy key={p.id} onPress={() => router.push(`/page/${p.id}`)} scaleTo={0.96} style={[styles.pageCard, { borderColor: c.border }]}>
-                <LinearGradient colors={[p.colors[0], p.colors[1]]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-                <View style={styles.pageShade} />
-                <Icon name={p.icon as IconName} size={28} color="#fff" />
-                <View style={{ flex: 1 }} />
-                <AppText variant="headline" style={{ color: "#fff" }}>{p.name}</AppText>
-                <AppText variant="caption" numberOfLines={2} style={{ color: "rgba(255,255,255,0.8)", marginTop: 2 }}>{p.description}</AppText>
-              </Bouncy>
-            ))}
-          </Grid>
+          <View style={{ marginTop: space.md }}>
+            <Collapsible id="more-pages" icon="dots-grid" title="Mais páginas" summary={others.map((p) => p.name).join(", ")}>
+              <Grid>
+                {others.map((p) => (
+                  <Bouncy key={p.id} onPress={() => router.push(`/page/${p.id}`)} scaleTo={0.96} style={[styles.pageCard, { borderColor: c.border }]}>
+                    <LinearGradient colors={[p.colors[0], p.colors[1]]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+                    <View style={styles.pageShade} />
+                    <Icon name={p.icon as IconName} size={28} color="#fff" />
+                    <View style={{ flex: 1 }} />
+                    <AppText variant="headline" style={{ color: "#fff" }}>{p.name}</AppText>
+                    <AppText variant="caption" numberOfLines={2} style={{ color: "rgba(255,255,255,0.8)", marginTop: 2 }}>{p.description}</AppText>
+                  </Bouncy>
+                ))}
+              </Grid>
+            </Collapsible>
+          </View>
         </>
       )}
 
@@ -253,14 +250,13 @@ const styles = StyleSheet.create({
   input: { flex: 1, fontSize: 16, height: "100%", outlineStyle: "none" } as object,
   recentHead: { flexDirection: "row", justifyContent: "space-between", marginTop: 14 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 10 },
-  modes: { flexDirection: "row", gap: 10, marginTop: 16 },
-  mode: { flex: 1, height: 124, padding: 16, borderRadius: radius.lg, overflow: "hidden" },
-  blitz: { flexDirection: "row", alignItems: "center", gap: 14, marginTop: 10, padding: 16, borderRadius: radius.lg, overflow: "hidden" },
+  modes: { flexDirection: "row", gap: 8, marginTop: 16 },
+  mode: { flex: 1, minWidth: 0, height: 92, padding: 12, borderRadius: radius.lg, overflow: "hidden" },
   bleed: { marginHorizontal: -space.lg },
   row: { paddingHorizontal: space.lg, gap: 10 },
   account: { width: 128, padding: 12, borderRadius: radius.lg, borderWidth: 1, alignItems: "center", overflow: "hidden" },
   accountName: { textAlign: "center", marginTop: 8, minHeight: 36 },
-  subjectHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: space.xl, marginBottom: space.md },
+  subjectHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: space.md },
   subjectTitle: { flexDirection: "row", alignItems: "center", gap: 8 },
   pageCard: { aspectRatio: 1.1, borderRadius: radius.lg, padding: 14, overflow: "hidden", borderWidth: StyleSheet.hairlineWidth },
   pageShade: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(0,0,0,0.18)" },
