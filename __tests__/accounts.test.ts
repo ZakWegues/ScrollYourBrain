@@ -115,6 +115,13 @@ describe("curated videos", () => {
     for (const p of SUB_PAGES) expect([p.id, CURATED_VIDEOS.filter((v) => v.pageId === p.id).length >= 5]).toEqual([p.id, true]);
     expect(CURATED_VIDEOS.every((v) => PAGE_BY_ID[v.pageId])).toBe(true);
   });
+
+  it("has plenty of Shorts in every account", () => {
+    const { CURATED_VIDEOS } = jest.requireActual<typeof import("@/feed/sources/youtube")>("@/feed/sources/youtube");
+    const shorts = CURATED_VIDEOS.filter((v) => v.vertical);
+    expect(shorts.length).toBeGreaterThanOrEqual(300);
+    for (const p of SUB_PAGES) expect([p.id, shorts.filter((v) => v.pageId === p.id).length >= 4]).toEqual([p.id, true]);
+  });
 });
 
 describe("generated quizzes everywhere", () => {

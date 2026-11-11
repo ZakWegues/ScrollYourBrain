@@ -63,6 +63,42 @@
   "vertical": true
  },
  {
+  "id": "jIHHlQ9kgAw",
+  "pageId": "algebra",
+  "kind": "short",
+  "title": "Paródia: Progressão Aritmética (PA)",
+  "channel": "MAICON ROBERTO PROFF",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "L_37HX6z6yk",
+  "pageId": "algebra",
+  "kind": "short",
+  "title": "REGRA DE 3 COMPOSTA SEM CÁLCULO!",
+  "channel": "Desafios Mentais",
+  "duration": 22,
+  "vertical": true
+ },
+ {
+  "id": "0-1iJNLhlX0",
+  "pageId": "algebra",
+  "kind": "short",
+  "title": "Regra de Três",
+  "channel": "Zoológicas",
+  "duration": 63,
+  "vertical": true
+ },
+ {
+  "id": "6Y0U0qmn1t4",
+  "pageId": "algebra",
+  "kind": "short",
+  "title": "Macete de Equação do 2° Grau",
+  "channel": "Prof André Junger",
+  "duration": 59,
+  "vertical": true
+ },
+ {
   "id": "oinwEWjjxJo",
   "pageId": "antiguidade",
   "kind": "lesson",
@@ -78,6 +114,15 @@
   "title": "\"O Julgamento de Osíris\" Egito Antigo",
   "channel": "Gromagics",
   "duration": 161,
+  "vertical": false
+ },
+ {
+  "id": "QZWjECKtzDk",
+  "pageId": "antiguidade",
+  "kind": "lesson",
+  "title": "AGRICULTURA NO EGITO ANTIGO",
+  "channel": "Iuri Farias",
+  "duration": 231,
   "vertical": false
  },
  {
@@ -105,6 +150,33 @@
   "title": "Criatividade e história: Máscaras Gregas na 1ª Série do Ensino Médio",
   "channel": "TV Progressão",
   "duration": 66,
+  "vertical": true
+ },
+ {
+  "id": "1_8Aqc5ZU0I",
+  "pageId": "antiguidade",
+  "kind": "short",
+  "title": "MISTÉRIOS DA GRÉCIA ANTIGA! 🏛️📜 | PASSADO DA HORA - HISTÓRIA UNIVERSAL (EP. 01) [PARTE 1/10]",
+  "channel": "ANIMAFLIX",
+  "duration": 67,
+  "vertical": true
+ },
+ {
+  "id": "9jmJhXEllXk",
+  "pageId": "antiguidade",
+  "kind": "short",
+  "title": "Origens do Egito Antigo!",
+  "channel": "Diego Campos",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "nnL1PxQSfcc",
+  "pageId": "antiguidade",
+  "kind": "short",
+  "title": "\"Mesopotâmia: O Berço da Civilização e Seus Segredos Milenares!\"",
+  "channel": "HISTORIAS DE UM CAIPIRA ",
+  "duration": 58,
   "vertical": true
  },
  {
@@ -171,6 +243,24 @@
   "vertical": true
  },
  {
+  "id": "-vaB2DFoA9w",
+  "pageId": "astronomia",
+  "kind": "short",
+  "title": "PARÓDIA SISTEMA SOLAR - Nego do Borel - Me Solta. Crédito Laiza Dutra.",
+  "channel": "Prof Sonia Ferrarez",
+  "duration": 49,
+  "vertical": true
+ },
+ {
+  "id": "yDXTszc1pGE",
+  "pageId": "astronomia",
+  "kind": "short",
+  "title": "Física: Sérgio Sacani (Space Today) fala o que é um horizonte de eventos do buraco negro?🧐",
+  "channel": "Gênios da Física",
+  "duration": 12,
+  "vertical": true
+ },
+ {
   "id": "IEFHP8pbXH4",
   "pageId": "atomistica",
   "kind": "lesson",
@@ -234,6 +324,42 @@
   "vertical": true
  },
  {
+  "id": "mkwwK5TRo90",
+  "pageId": "atomistica",
+  "kind": "short",
+  "title": "Tabela Periódica em 3D.",
+  "channel": "Lorena  e efraim ",
+  "duration": 16,
+  "vertical": true
+ },
+ {
+  "id": "X-9pVUu7N3o",
+  "pageId": "atomistica",
+  "kind": "short",
+  "title": "ICI 601 MISTURAS E SEPARAÇÃO",
+  "channel": "PROF MONTEL",
+  "duration": 42,
+  "vertical": true
+ },
+ {
+  "id": "0gnISfOb9iM",
+  "pageId": "atomistica",
+  "kind": "short",
+  "title": "Método de separação de misturas|QUÍMICA",
+  "channel": "Poliana Vitória",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "mrjx31EHLks",
+  "pageId": "atomistica",
+  "kind": "short",
+  "title": "Separação Magnética",
+  "channel": "Felipe Solonynska Bonamigo",
+  "duration": 26,
+  "vertical": true
+ },
+ {
   "id": "ocjJ8bKEQ3Q",
   "pageId": "brasil-colonia",
   "kind": "lesson",
@@ -285,6 +411,51 @@
   "title": "O CICLO DO OURO NO BRASIL",
   "channel": "Entrando na História",
   "duration": 47,
+  "vertical": true
+ },
+ {
+  "id": "T555zkxslWA",
+  "pageId": "brasil-colonia",
+  "kind": "short",
+  "title": "O Ciclo do Ouro em Minas Gerais: Riquezas e Desigualdade no Brasil Colonial!",
+  "channel": "GUARDIÃO DO TEMPO I Prof. Schuab",
+  "duration": 23,
+  "vertical": true
+ },
+ {
+  "id": "wdvzFT3c4NY",
+  "pageId": "brasil-colonia",
+  "kind": "short",
+  "title": "A Febre do Ouro no Brasil do Século XVIII - O Ciclo do Ouro.",
+  "channel": "Mistérios da História",
+  "duration": 77,
+  "vertical": true
+ },
+ {
+  "id": "3drZe4LVqBU",
+  "pageId": "brasil-colonia",
+  "kind": "short",
+  "title": "COMO FOI O CICLO DO OURO EM MINAS GERAIS???",
+  "channel": "+15min | Márcio Alex",
+  "duration": 62,
+  "vertical": true
+ },
+ {
+  "id": "xked55v4F64",
+  "pageId": "brasil-colonia",
+  "kind": "short",
+  "title": "🛘A montanha que guiou o ciclo do ouro",
+  "channel": "Vozes da Estrada real",
+  "duration": 36,
+  "vertical": true
+ },
+ {
+  "id": "9rlYvbztzlA",
+  "pageId": "brasil-colonia",
+  "kind": "short",
+  "title": "Ciclo do Ouro Brasil",
+  "channel": "Daily Educação",
+  "duration": 40,
   "vertical": true
  },
  {
@@ -351,6 +522,33 @@
   "vertical": true
  },
  {
+  "id": "RAjdcpGwMc4",
+  "pageId": "brasil-republica",
+  "kind": "short",
+  "title": "A Censura na Era Vargas",
+  "channel": "Izabelle Valladares, História, Crimes e Viagens ",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "EHa4oAQiA3I",
+  "pageId": "brasil-republica",
+  "kind": "short",
+  "title": "História Política do Brasil (Parte 02) - Era Vargas, Ditadura e Redemocratização",
+  "channel": "Democracia na Rede",
+  "duration": 57,
+  "vertical": true
+ },
+ {
+  "id": "eQM5juPrxHs",
+  "pageId": "brasil-republica",
+  "kind": "short",
+  "title": "História : Era Vargas",
+  "channel": "Elizabeth Gomes",
+  "duration": 15,
+  "vertical": true
+ },
+ {
   "id": "5egAC4v3Jc0",
   "pageId": "cartografia",
   "kind": "lesson",
@@ -393,6 +591,60 @@
   "title": "Biomas Brasileiros de uma maneira divertida",
   "channel": "Jose Carlos Bernabé Neto",
   "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "uyy6LmSHmws",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "Vamos relembrar cada um dos seis biomas brasileiros",
+  "channel": "Educa agro Ead",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "1vZ7VGff-KI",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "PRESERVAÇÃO ATUAL DOS BIOMAS BRASILEIROS",
+  "channel": "Neco Curiosidades",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "QorKEXM7fJE",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "Climas do Brasil de uma maneira engraçada",
+  "channel": "Jose Carlos Bernabé Neto",
+  "duration": 42,
+  "vertical": true
+ },
+ {
+  "id": "kcsXqhim774",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "Nome do jogo: Jogo de Trilha – Biomas do Brasil - Jogo dos Biomas Brasil - Renato Oliveira - URCA",
+  "channel": "PROFº RENATO OLIVEIRA",
+  "duration": 23,
+  "vertical": true
+ },
+ {
+  "id": "DQ6Ro8VYsFY",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "COORDENADAS GEOGRÁFICAS COM BATALHA NAVAL",
+  "channel": "ROBERTO ZANDONA GUTIERREZ",
+  "duration": 15,
+  "vertical": true
+ },
+ {
+  "id": "68Vu3Xr9s2I",
+  "pageId": "cartografia",
+  "kind": "short",
+  "title": "COORDENADAS GEOGRÁFICAS - PARALELOS/MERIDIANOS",
+  "channel": "Jakes Paulo Felix",
+  "duration": 34,
   "vertical": true
  },
  {
@@ -450,6 +702,42 @@
   "vertical": true
  },
  {
+  "id": "PD34WBSeZd0",
+  "pageId": "cinematica",
+  "kind": "short",
+  "title": "Experimento de Queda Livre (FIS-16 Profª Sônia)",
+  "channel": "Aécio Cardoso",
+  "duration": 19,
+  "vertical": true
+ },
+ {
+  "id": "WI2amXOl6Qc",
+  "pageId": "cinematica",
+  "kind": "short",
+  "title": "Experimento de Queda Livre",
+  "channel": "EEEP Gerardo José Dias de Loiola - Forquilha - CE",
+  "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "evaKzV1Cxxc",
+  "pageId": "cinematica",
+  "kind": "short",
+  "title": "Fórmula: Velocidade Média",
+  "channel": "Física, Universo e Relações em Cadeia",
+  "duration": 19,
+  "vertical": true
+ },
+ {
+  "id": "Xw12KivUjwI",
+  "pageId": "cinematica",
+  "kind": "short",
+  "title": "Explicação Teórica - Velocidade Média",
+  "channel": "Residência pedagógica - Física Experimental",
+  "duration": 60,
+  "vertical": true
+ },
+ {
   "id": "teq-ktf7I_Q",
   "pageId": "citologia",
   "kind": "lesson",
@@ -492,6 +780,51 @@
   "title": "Observação de mitose nos ápices da raiz da cebola - 11º Ano BG",
   "channel": "Susana Gato",
   "duration": 32,
+  "vertical": true
+ },
+ {
+  "id": "rjUuKbI8uRg",
+  "pageId": "citologia",
+  "kind": "short",
+  "title": "Você sabe o é Meiose ?",
+  "channel": "Biólogo Paulo Leme",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "1FL0v4sTj9s",
+  "pageId": "citologia",
+  "kind": "short",
+  "title": "Transporte ativo na membrana plasmática - explicação simples",
+  "channel": "Professora Amanda Macchion",
+  "duration": 14,
+  "vertical": true
+ },
+ {
+  "id": "B1fdqP54dlM",
+  "pageId": "citologia",
+  "kind": "short",
+  "title": "Membrana Plasmática - Transporte Passivo - Difusão Simples",
+  "channel": "Flash_Educacional",
+  "duration": 30,
+  "vertical": true
+ },
+ {
+  "id": "xRqlk6CgA14",
+  "pageId": "citologia",
+  "kind": "short",
+  "title": "Membrana Plasmática - Transporte Passivo - Difusão Simples - Modelo 3D - Realidade Aumentada",
+  "channel": "Flash_Educacional",
+  "duration": 31,
+  "vertical": true
+ },
+ {
+  "id": "DWpOIDtj7ok",
+  "pageId": "citologia",
+  "kind": "short",
+  "title": "Membrana Plasmática - Transporte Passivo - Difusão Facilitada - Modelo 3D - Realidade Aumentada",
+  "channel": "Flash_Educacional",
+  "duration": 30,
   "vertical": true
  },
  {
@@ -540,6 +873,60 @@
   "vertical": true
  },
  {
+  "id": "30OFXibhr0U",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "FORÇA DE ATRITO",
+  "channel": "ISSO É FÍSICA COM MÁRCIO MARTINS.",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "8qBq6l35XL0",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "FORÇA DE ATRITO ❕",
+  "channel": "Física Master",
+  "duration": 34,
+  "vertical": true
+ },
+ {
+  "id": "fmFnL86Vql0",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "Demonstração força de atrito - Mais info nos comentários",
+  "channel": "Nerds do Espaço 👨‍🚀",
+  "duration": 24,
+  "vertical": true
+ },
+ {
+  "id": "B-yGymduBY4",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "Professor demonstra na prática a força de atrito",
+  "channel": "Nerds do Espaço 👨‍🚀",
+  "duration": 27,
+  "vertical": true
+ },
+ {
+  "id": "7Exw9sh0VFg",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "força de atrito",
+  "channel": "João Justo Pires",
+  "duration": 33,
+  "vertical": true
+ },
+ {
+  "id": "NOXf_0ac8gw",
+  "pageId": "dinamica",
+  "kind": "short",
+  "title": "Força de ATRITO em DIFERENTES SUPERFÍCIES",
+  "channel": "Netfisics",
+  "duration": 59,
+  "vertical": true
+ },
+ {
   "id": "xrnpi3vVfgk",
   "pageId": "ecologia",
   "kind": "lesson",
@@ -555,6 +942,15 @@
   "title": "Desequilíbrios ambientais decorrentes de interferências na cadeia alimentar.",
   "channel": "Play Ciências - Prof. Leandro Batista",
   "duration": 133,
+  "vertical": false
+ },
+ {
+  "id": "XE0xvlmm4rU",
+  "pageId": "ecologia",
+  "kind": "lesson",
+  "title": "Ciências - Cadeia Alimentar",
+  "channel": "Ciências Marilsa",
+  "duration": 194,
   "vertical": false
  },
  {
@@ -585,6 +981,33 @@
   "vertical": true
  },
  {
+  "id": "nqHNcYGfgG4",
+  "pageId": "ecologia",
+  "kind": "short",
+  "title": "Ciclos Biogeoquímicos",
+  "channel": "Marla Buriticá Pérez",
+  "duration": 45,
+  "vertical": true
+ },
+ {
+  "id": "ojzspz91_WY",
+  "pageId": "ecologia",
+  "kind": "short",
+  "title": "Biologia Relações Ecológicas Harmônicas",
+  "channel": "Gerusa Rodrigues",
+  "duration": 16,
+  "vertical": true
+ },
+ {
+  "id": "xKtnVxsGtj8",
+  "pageId": "ecologia",
+  "kind": "short",
+  "title": "Relações ecológicas Mutualismo facultativo ou protocooperação",
+  "channel": "Sara Nállia",
+  "duration": 34,
+  "vertical": true
+ },
+ {
   "id": "bdgYTLW4ec4",
   "pageId": "economia-geo",
   "kind": "lesson",
@@ -603,6 +1026,15 @@
   "vertical": false
  },
  {
+  "id": "KVjR3oQe0Ls",
+  "pageId": "economia-geo",
+  "kind": "lesson",
+  "title": "O Futuro da Energia: Mais de 80% da matriz energética brasileira vem de fontes renováveis",
+  "channel": "TV Brasil",
+  "duration": 192,
+  "vertical": false
+ },
+ {
   "id": "HQO4Z9lUYV0",
   "pageId": "economia-geo",
   "kind": "short",
@@ -612,21 +1044,48 @@
   "vertical": true
  },
  {
-  "id": "4BQMw35M-8I",
-  "pageId": "economia-geo",
-  "kind": "short",
-  "title": "Oque é Reforma Agrária? Descubra agora!",
-  "channel": "Explicando com a História",
-  "duration": 49,
-  "vertical": true
- },
- {
   "id": "pq5wG2Kp_bg",
   "pageId": "economia-geo",
   "kind": "short",
   "title": "Questão Agrária - Povos Indígenas e Conflitos Territoriais",
   "channel": "GUARDIÃO DO TEMPO I Prof. Schuab",
   "duration": 48,
+  "vertical": true
+ },
+ {
+  "id": "4emA1qfjKSc",
+  "pageId": "economia-geo",
+  "kind": "short",
+  "title": "Diferença entre o sul e o Norte Brasileiro Parte 1",
+  "channel": "Educa agro Ead",
+  "duration": 58,
+  "vertical": true
+ },
+ {
+  "id": "V9kz6F32hhk",
+  "pageId": "economia-geo",
+  "kind": "short",
+  "title": "Explicando industrialização no Enem em ~menos de~ 1 minuto",
+  "channel": "Gama Pré-vestibular",
+  "duration": 41,
+  "vertical": true
+ },
+ {
+  "id": "UT8-GQlCpdQ",
+  "pageId": "economia-geo",
+  "kind": "short",
+  "title": "Agronegócio Brasil",
+  "channel": "Benvinda SÁ",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "6zBBt3EHqx8",
+  "pageId": "economia-geo",
+  "kind": "short",
+  "title": "Matrizes Energéticas: Fontes de Energia e Sustentabilidade",
+  "channel": "Geodesafiando ",
+  "duration": 58,
   "vertical": true
  },
  {
@@ -684,6 +1143,42 @@
   "vertical": true
  },
  {
+  "id": "-L31bye5bO8",
+  "pageId": "eletricidade",
+  "kind": "short",
+  "title": "Harry Potter e a Lei de Ohm.mp4",
+  "channel": "Ensina Física",
+  "duration": 24,
+  "vertical": true
+ },
+ {
+  "id": "3ByQrS40GSM",
+  "pageId": "eletricidade",
+  "kind": "short",
+  "title": "EXPERIÊNCIA ELETROMAGNETISMO LEI DE COULOMB (com copo)",
+  "channel": "Lucas Schiochet Martins",
+  "duration": 26,
+  "vertical": true
+ },
+ {
+  "id": "reh29e2T-sg",
+  "pageId": "eletricidade",
+  "kind": "short",
+  "title": "Eletromagnetismo imã e eletroimãs parte 8",
+  "channel": "Nanda Tavares",
+  "duration": 48,
+  "vertical": true
+ },
+ {
+  "id": "ajUnInwYTmY",
+  "pageId": "eletricidade",
+  "kind": "short",
+  "title": "ENEM. Tensão. 110v para 220v. O que acontece com a RESISTÊNCIA?",
+  "channel": "Fabiano TdB",
+  "duration": 47,
+  "vertical": true
+ },
+ {
   "id": "ZlvoIej7oC8",
   "pageId": "energia",
   "kind": "lesson",
@@ -726,6 +1221,60 @@
   "title": "Skate - Energia Potencial e Cinética!",
   "channel": "Coleção Física Elementar",
   "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "Cn1gANEVRwE",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "montanha russa: conservação energia mecânica.",
+  "channel": "Prof. Carlos Lima",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "8p4MbbLxLJY",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "Transformação de energia Potencial e cinética",
+  "channel": "Física com professor Reinaldo Bezerra",
+  "duration": 17,
+  "vertical": true
+ },
+ {
+  "id": "xynCbzen9Qc",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "Bola de Tênis Em Queda Livre - FEI",
+  "channel": "Guto Proença",
+  "duration": 15,
+  "vertical": true
+ },
+ {
+  "id": "8QotI3dpDxU",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "Oficina de Física: Conversão de Energia Eólica",
+  "channel": "Ciências Na Veia ",
+  "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "ZnU3eVfRrzQ",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "Dica de Física imperdível para o Enem!",
+  "channel": "Colégio das Neves TV",
+  "duration": 73,
+  "vertical": true
+ },
+ {
+  "id": "G_l7vu2nXG8",
+  "pageId": "energia",
+  "kind": "short",
+  "title": "Roda de Bicicleta: Conservação do Momento Angular",
+  "channel": "Cris Marin",
+  "duration": 32,
   "vertical": true
  },
  {
@@ -783,6 +1332,33 @@
   "vertical": true
  },
  {
+  "id": "KbgHSDP8Unk",
+  "pageId": "estatistica",
+  "kind": "short",
+  "title": "ANAGRAMAS l Análise Combinatória l",
+  "channel": "Matemática com Letícia",
+  "duration": 40,
+  "vertical": true
+ },
+ {
+  "id": "2Qhgqg34eoM",
+  "pageId": "estatistica",
+  "kind": "short",
+  "title": "Você Sabe, quantas combinações são possíveis?",
+  "channel": "Fórmulas",
+  "duration": 39,
+  "vertical": true
+ },
+ {
+  "id": "oK8VBZg2Z8w",
+  "pageId": "estatistica",
+  "kind": "short",
+  "title": "Matemática: Trabalha Princípios de contagem.",
+  "channel": "Rita Perecin",
+  "duration": 45,
+  "vertical": true
+ },
+ {
   "id": "bgTguAnx4gk",
   "pageId": "estequiometria",
   "kind": "lesson",
@@ -837,6 +1413,15 @@
   "vertical": true
  },
  {
+  "id": "YnyE6UfHBgg",
+  "pageId": "estequiometria",
+  "kind": "short",
+  "title": "Dicas Rápidas - Cálculos Estequiométricos - Rendimento",
+  "channel": "Química em Contexto com o Prof Zampinha",
+  "duration": 61,
+  "vertical": true
+ },
+ {
   "id": "wx_uZD7mSbU",
   "pageId": "evolucao",
   "kind": "lesson",
@@ -852,6 +1437,15 @@
   "title": "Teorias Evolutiva de Darwin e Lamarck",
   "channel": "cassio moreira santos",
   "duration": 124,
+  "vertical": false
+ },
+ {
+  "id": "2fH9FC8GWUs",
+  "pageId": "evolucao",
+  "kind": "lesson",
+  "title": "AS TEORIAS DE DARWIN",
+  "channel": "Elesapiens",
+  "duration": 197,
   "vertical": false
  },
  {
@@ -879,6 +1473,33 @@
   "title": "Aprenda sobre seleção natural!",
   "channel": "Natureza em Transformação ",
   "duration": 37,
+  "vertical": true
+ },
+ {
+  "id": "W1YuDM1Jo7Q",
+  "pageId": "evolucao",
+  "kind": "short",
+  "title": "Pokémon e Convergência Adaptativa",
+  "channel": "Ciência com Chris",
+  "duration": 55,
+  "vertical": true
+ },
+ {
+  "id": "mw40F6aZSp0",
+  "pageId": "evolucao",
+  "kind": "short",
+  "title": "A evolução humana não é linear!",
+  "channel": "Maria Alice Schida",
+  "duration": 33,
+  "vertical": true
+ },
+ {
+  "id": "Tx6tKemSYlo",
+  "pageId": "evolucao",
+  "kind": "short",
+  "title": "Dica de BIOLOGIA - JUAN TAVARES",
+  "channel": "Blue School - Recife",
+  "duration": 35,
   "vertical": true
  },
  {
@@ -945,6 +1566,42 @@
   "vertical": true
  },
  {
+  "id": "2dyYxZgChfg",
+  "pageId": "filosofia",
+  "kind": "short",
+  "title": "O mito da Caverna parte 3",
+  "channel": "Habbemus",
+  "duration": 48,
+  "vertical": true
+ },
+ {
+  "id": "xeqO_aGI9G8",
+  "pageId": "filosofia",
+  "kind": "short",
+  "title": "O mito da Caverna parte 4",
+  "channel": "Habbemus",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "ED_gZEZaYFY",
+  "pageId": "filosofia",
+  "kind": "short",
+  "title": "Mito da caverna",
+  "channel": "Labios da Sabedoria",
+  "duration": 67,
+  "vertical": true
+ },
+ {
+  "id": "oJIHWyMlNqo",
+  "pageId": "filosofia",
+  "kind": "short",
+  "title": "Felicidade para Platão",
+  "channel": "sarah oliveira",
+  "duration": 33,
+  "vertical": true
+ },
+ {
   "id": "k8TGrpGUj3Q",
   "pageId": "financeira",
   "kind": "lesson",
@@ -996,6 +1653,51 @@
   "title": "Matemática Financeira",
   "channel": "Maravilhoso mundo da Família Vieira Ventura Silva",
   "duration": 16,
+  "vertical": true
+ },
+ {
+  "id": "rphmLTvhByE",
+  "pageId": "financeira",
+  "kind": "short",
+  "title": "Como calcular porcentagem (5%) - Macete!",
+  "channel": "Zeta Matemática - Profª Marcela Cabral",
+  "duration": 24,
+  "vertical": true
+ },
+ {
+  "id": "30F0vmP0cAI",
+  "pageId": "financeira",
+  "kind": "short",
+  "title": "Desconto na prática 💰🧠Você acertou ou errou essas?",
+  "channel": "O Pequeno Professor ",
+  "duration": 42,
+  "vertical": true
+ },
+ {
+  "id": "FhYwhWWBhXU",
+  "pageId": "financeira",
+  "kind": "short",
+  "title": "o que o professor me ensinou sobre juros compostos",
+  "channel": "Clube do Dinheirinho",
+  "duration": 80,
+  "vertical": true
+ },
+ {
+  "id": "7p3yArSv1kQ",
+  "pageId": "financeira",
+  "kind": "short",
+  "title": "Assuntos que mais caem no Enem (matemática)",
+  "channel": "MATEMÁTICA FÁCIL",
+  "duration": 13,
+  "vertical": true
+ },
+ {
+  "id": "hpRDxNFBvHk",
+  "pageId": "financeira",
+  "kind": "short",
+  "title": "Macete de Porcentagem: 28% de 25? Inverta! 🤯",
+  "channel": "Zap do saber",
+  "duration": 69,
   "vertical": true
  },
  {
@@ -1053,6 +1755,51 @@
   "vertical": true
  },
  {
+  "id": "NpMpFtu-8HE",
+  "pageId": "fisica-moderna",
+  "kind": "short",
+  "title": "Explicando a teoria da relatividade em 1 minuto!",
+  "channel": "Mentes Filosóficas",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "M9ndK3NZxPY",
+  "pageId": "fisica-moderna",
+  "kind": "short",
+  "title": "\"O Segredo da Relatividade em Apenas 1 Minuto! 🧠✨\"",
+  "channel": "Luizlima",
+  "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "e2ecp4EHdh4",
+  "pageId": "fisica-moderna",
+  "kind": "short",
+  "title": "Tipos de Radiação que MAIS CAI EM PROVAS!",
+  "channel": "Dicas Rápidas de Química",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "I4U0WTC6M3s",
+  "pageId": "fisica-moderna",
+  "kind": "short",
+  "title": "Qual a Diferença entre Radiaçã0 Alfa, Beta e Gama?",
+  "channel": "SimpliFísica",
+  "duration": 35,
+  "vertical": true
+ },
+ {
+  "id": "V88ascgCjgg",
+  "pageId": "fisica-moderna",
+  "kind": "short",
+  "title": "Por que a radiação é verde?",
+  "channel": "Como é bom ser nerd - Pura Física",
+  "duration": 60,
+  "vertical": true
+ },
+ {
   "id": "S37QQTPpHxs",
   "pageId": "fisico-quimica",
   "kind": "lesson",
@@ -1107,6 +1854,51 @@
   "vertical": true
  },
  {
+  "id": "l3QIJmu5FK0",
+  "pageId": "fisico-quimica",
+  "kind": "short",
+  "title": "Eletroquímica- Pilha com moedas de cobre",
+  "channel": "Kauany Delgado",
+  "duration": 33,
+  "vertical": true
+ },
+ {
+  "id": "LuaUQ4LeVH4",
+  "pageId": "fisico-quimica",
+  "kind": "short",
+  "title": "Pilha ou bateria? Qual a diferença? Vc sabe?",
+  "channel": "Space Chaves Ltda.",
+  "duration": 58,
+  "vertical": true
+ },
+ {
+  "id": "cEtnRFJ5_LY",
+  "pageId": "fisico-quimica",
+  "kind": "short",
+  "title": "Aula de Eletroquímica Escola Maria Luiza -3 Ano.(3)",
+  "channel": "J. Nazareno Rosas",
+  "duration": 29,
+  "vertical": true
+ },
+ {
+  "id": "P39TvUeByaM",
+  "pageId": "fisico-quimica",
+  "kind": "short",
+  "title": "Experimento Químico: Criando uma Pilha de Daniel em Casa!",
+  "channel": "Fernando Rafael",
+  "duration": 30,
+  "vertical": true
+ },
+ {
+  "id": "8q4fk_zmcGA",
+  "pageId": "fisico-quimica",
+  "kind": "short",
+  "title": "Como o Separador Impede a Bateria de Explodir",
+  "channel": "Massude Afonso",
+  "duration": 80,
+  "vertical": true
+ },
+ {
   "id": "CHbqlAOe8Kk",
   "pageId": "fisiologia",
   "kind": "lesson",
@@ -1134,15 +1926,6 @@
   "vertical": false
  },
  {
-  "id": "QF2gWS7Fa7c",
-  "pageId": "fisiologia",
-  "kind": "short",
-  "title": "Sinais de Libras: Sistema imunológico",
-  "channel": "YTAGirardi ",
-  "duration": 21,
-  "vertical": true
- },
- {
   "id": "UZzfGZvy0ok",
   "pageId": "fisiologia",
   "kind": "short",
@@ -1158,6 +1941,51 @@
   "title": "Como Funciona O Sistema Imunológico Do Olho?",
   "channel": "Conheça Arnold",
   "duration": 53,
+  "vertical": true
+ },
+ {
+  "id": "o2OzCh82ZCA",
+  "pageId": "fisiologia",
+  "kind": "short",
+  "title": "QUIZ SOBRE SISTEMA IMUNOLÓGICO",
+  "channel": "Biolução / Biolucao",
+  "duration": 90,
+  "vertical": true
+ },
+ {
+  "id": "4btGEotYB00",
+  "pageId": "fisiologia",
+  "kind": "short",
+  "title": "Confira as células do nosso sistema imunológico em ação!",
+  "channel": "Microscopia e Ciência",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "7OGDG4Tvas8",
+  "pageId": "fisiologia",
+  "kind": "short",
+  "title": "Como funciona o sistema imunológico do corpo humano?",
+  "channel": "Urânia Planetário",
+  "duration": 45,
+  "vertical": true
+ },
+ {
+  "id": "GWE4XX0-s1w",
+  "pageId": "fisiologia",
+  "kind": "short",
+  "title": "Como funciona o sistema imunológico?",
+  "channel": "Ciênciei",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "hX9jMUAqTyc",
+  "pageId": "fisiologia",
+  "kind": "short",
+  "title": "O sistema imune na doença auto-imune",
+  "channel": "Nunca vi 1 cientista",
+  "duration": 59,
   "vertical": true
  },
  {
@@ -1224,6 +2052,42 @@
   "vertical": true
  },
  {
+  "id": "9i28J45NAxA",
+  "pageId": "funcoes",
+  "kind": "short",
+  "title": "Gráfico de uma função afim",
+  "channel": "Glauber Cruz",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "IjvXGZZwcs8",
+  "pageId": "funcoes",
+  "kind": "short",
+  "title": "Gráfico de uma função afim (inclinação)",
+  "channel": "Glauber Cruz",
+  "duration": 73,
+  "vertical": true
+ },
+ {
+  "id": "Sy3CjdsyU8s",
+  "pageId": "funcoes",
+  "kind": "short",
+  "title": "Função Quadrática",
+  "channel": "NEXO | Física e Matemática",
+  "duration": 70,
+  "vertical": true
+ },
+ {
+  "id": "5a-KZ2C89Ic",
+  "pageId": "funcoes",
+  "kind": "short",
+  "title": "Comentários e Dicas ENEM 2023. - Função Quadrática",
+  "channel": "Professor Heraldo - Matemática",
+  "duration": 61,
+  "vertical": true
+ },
+ {
   "id": "Omkfyd0Rl7o",
   "pageId": "genetica",
   "kind": "lesson",
@@ -1266,6 +2130,33 @@
   "title": "Apresentação da segunda lei de Mendel",
   "channel": "Milena Mendonça Dutra",
   "duration": 20,
+  "vertical": true
+ },
+ {
+  "id": "McMy4gaZxqE",
+  "pageId": "genetica",
+  "kind": "short",
+  "title": "2ª LEI DE MENDEL",
+  "channel": "TRYGØN ",
+  "duration": 43,
+  "vertical": true
+ },
+ {
+  "id": "ljTigeR9NqQ",
+  "pageId": "genetica",
+  "kind": "short",
+  "title": "Dogma da genética básica X câncer",
+  "channel": "Professor Rodolfo Fernandes",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "7_b3mjE7_Dw",
+  "pageId": "genetica",
+  "kind": "short",
+  "title": "🧬 Daltonismo em Homens",
+  "channel": "CUURIOSOS.A.",
+  "duration": 31,
   "vertical": true
  },
  {
@@ -1332,6 +2223,42 @@
   "vertical": true
  },
  {
+  "id": "TTUEqsxE2Sk",
+  "pageId": "geometria",
+  "kind": "short",
+  "title": "Áreas de figuras planas.",
+  "channel": "Matemática com Professor Francivaldo",
+  "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "a-ycgmr5YGY",
+  "pageId": "geometria",
+  "kind": "short",
+  "title": "ÁREAS DE FIGURAS PLANAS",
+  "channel": "Triunfo Aulas Particulares",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "juwZV8sV5do",
+  "pageId": "geometria",
+  "kind": "short",
+  "title": "Correção sobre área de figuras planas- parte 2",
+  "channel": "Adriano Garcia",
+  "duration": 47,
+  "vertical": true
+ },
+ {
+  "id": "MA_xA2o8MrY",
+  "pageId": "geometria",
+  "kind": "short",
+  "title": "Teorema de Pitágoras.",
+  "channel": "Matemática com o Professor ",
+  "duration": 61,
+  "vertical": true
+ },
+ {
   "id": "ADlViffo8dc",
   "pageId": "geopolitica",
   "kind": "lesson",
@@ -1386,6 +2313,24 @@
   "vertical": true
  },
  {
+  "id": "G4qD67U-8hw",
+  "pageId": "geopolitica",
+  "kind": "short",
+  "title": "O que é o BRICS?",
+  "channel": "Plano Piloto",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "51sYecC6X4w",
+  "pageId": "geopolitica",
+  "kind": "short",
+  "title": "O que falta pra China ser a MAIOR potência?",
+  "channel": "Plano Piloto",
+  "duration": 68,
+  "vertical": true
+ },
+ {
   "id": "w1XHT1aPkJI",
   "pageId": "gramatica",
   "kind": "lesson",
@@ -1431,6 +2376,51 @@
   "vertical": true
  },
  {
+  "id": "oCC3rOERXOE",
+  "pageId": "gramatica",
+  "kind": "short",
+  "title": "Complemento oblíquo",
+  "channel": "Marta Rodrigues",
+  "duration": 27,
+  "vertical": true
+ },
+ {
+  "id": "Lj5Lrh2XIrU",
+  "pageId": "gramatica",
+  "kind": "short",
+  "title": "Você acerta essa da FGV ?",
+  "channel": "EstudoDiano",
+  "duration": 24,
+  "vertical": true
+ },
+ {
+  "id": "lbUXV_cGKC4",
+  "pageId": "gramatica",
+  "kind": "short",
+  "title": "Sabe o que é concordância verbal?",
+  "channel": "Márcia Doro - Português Fácil",
+  "duration": 62,
+  "vertical": true
+ },
+ {
+  "id": "flk_kn0C6eo",
+  "pageId": "gramatica",
+  "kind": "short",
+  "title": "VAMOS APRENDER EM 1 MINUTO? VOCÊ SABE O QUE É CONCORDÂNCIA TAL QUAL?",
+  "channel": "Curso Preparatório Passei",
+  "duration": 39,
+  "vertical": true
+ },
+ {
+  "id": "Tp3eHtVPS-A",
+  "pageId": "gramatica",
+  "kind": "short",
+  "title": "Concordância Verbal Aprenda em 1 Minutos 🔥",
+  "channel": "Estude com o Benjas",
+  "duration": 44,
+  "vertical": true
+ },
+ {
   "id": "ybN8qatE-nM",
   "pageId": "grammar",
   "kind": "lesson",
@@ -1473,6 +2463,60 @@
   "title": "Como Dominar o Presente no Inglês. Simple present vs. Present progressive. Inglês.",
   "channel": "Resumos para estudar",
   "duration": 75,
+  "vertical": true
+ },
+ {
+  "id": "gYdM1doHK6k",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Aprenda os macetes para identificar os verbos irregulares em Inglês!",
+  "channel": "Valdemar Nascimento",
+  "duration": 16,
+  "vertical": true
+ },
+ {
+  "id": "FCUyUXVHWOI",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Ingles em 1 minuto - Pronúncia do \"ED\" no \"Simple Past\" de verbos regulares - 03",
+  "channel": "FM Inglês",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "eRlz5O450MU",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Ingles em 1 minuto - Pronúncia do \"ED\" no \"Simple Past\" de verbos regulares - 05",
+  "channel": "FM Inglês",
+  "duration": 55,
+  "vertical": true
+ },
+ {
+  "id": "lRGgybFhn64",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Ingles em 1 minuto - Pronúncia do \"ED\" no \"Simple Past\" - 01",
+  "channel": "FM Inglês",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "KXkgR21iCFY",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Ingles em 1 minuto - Pronúncia do \"ED\" no \"Simple Past\" de verbos regulares - 04",
+  "channel": "FM Inglês",
+  "duration": 58,
+  "vertical": true
+ },
+ {
+  "id": "rV8igkF0rOw",
+  "pageId": "grammar",
+  "kind": "short",
+  "title": "Ingles em 1 minuto - \"Past Simple\" do verbo \"to be\" - interrogativa e negativa",
+  "channel": "FM Inglês",
+  "duration": 55,
   "vertical": true
  },
  {
@@ -1530,6 +2574,51 @@
   "vertical": true
  },
  {
+  "id": "xdFsqAZzaQA",
+  "pageId": "guerras",
+  "kind": "short",
+  "title": "Estopim para a primeira guerra mundial",
+  "channel": "1 minuto curioso ",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "tuANkRQOlmM",
+  "pageId": "guerras",
+  "kind": "short",
+  "title": "Uma das maiores tragédias da história do Brasil 💔",
+  "channel": "História com Prof. Vítor Soares",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "Rvj9Cg9JzVE",
+  "pageId": "guerras",
+  "kind": "short",
+  "title": "Holocausto | A Ascensão do Terror Nazista na Europa",
+  "channel": "Daniel Biologia",
+  "duration": 32,
+  "vertical": true
+ },
+ {
+  "id": "1uteW39qOck",
+  "pageId": "guerras",
+  "kind": "short",
+  "title": "O Holocausto em 50 Segundos: Uma História que o Mundo Nunca Deve Esquecer 🕯️",
+  "channel": "Mapa do Poder",
+  "duration": 51,
+  "vertical": true
+ },
+ {
+  "id": "92lsWeeVh5U",
+  "pageId": "guerras",
+  "kind": "short",
+  "title": "Holocausto: A Trágica Perseguição Nazista",
+  "channel": "Overflowing - Transbordantes",
+  "duration": 36,
+  "vertical": true
+ },
+ {
   "id": "u-c8Dij1V38",
   "pageId": "interpretacao",
   "kind": "lesson",
@@ -1581,6 +2670,51 @@
   "title": "Funções da Linguagem - Função Emotiva",
   "channel": "Professor Daniel Marques - Inglês e Português",
   "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "aX6_iEKAQxE",
+  "pageId": "interpretacao",
+  "kind": "short",
+  "title": "Literatura no Enem 2026: sua revisão começa pela leitura e interpretação!",
+  "channel": "Colégio Pró-Mundo",
+  "duration": 76,
+  "vertical": true
+ },
+ {
+  "id": "7poxhotC4lQ",
+  "pageId": "interpretacao",
+  "kind": "short",
+  "title": "Função Metalinguística",
+  "channel": "ESCOLA ABÍLIO NEVES",
+  "duration": 48,
+  "vertical": true
+ },
+ {
+  "id": "03wJzhNlxeg",
+  "pageId": "interpretacao",
+  "kind": "short",
+  "title": "DICAS DE LINGUAGENS - FUNÇÕES DA LINGUAGEM 2 - ENEM",
+  "channel": "Professor Daniel Marques - Inglês e Português",
+  "duration": 58,
+  "vertical": true
+ },
+ {
+  "id": "1PVZAy1Rqrg",
+  "pageId": "interpretacao",
+  "kind": "short",
+  "title": "Função Fática",
+  "channel": "maria eduarda camillo",
+  "duration": 45,
+  "vertical": true
+ },
+ {
+  "id": "kjiLtz2jJuM",
+  "pageId": "interpretacao",
+  "kind": "short",
+  "title": "FIGURAS DE LINGUAGEM - ESSENCIAL ENEM",
+  "channel": "Slides Geniais",
+  "duration": 51,
   "vertical": true
  },
  {
@@ -1638,6 +2772,33 @@
   "vertical": true
  },
  {
+  "id": "5OffNwuI7Dw",
+  "pageId": "ligacoes",
+  "kind": "short",
+  "title": "🔗 Ligações Químicas – A Força Invisível da Matéria! ⚛️",
+  "channel": "Minuto da Química",
+  "duration": 75,
+  "vertical": true
+ },
+ {
+  "id": "5r0S6ttHnoE",
+  "pageId": "ligacoes",
+  "kind": "short",
+  "title": "Ligações Químicas - Prof. Sabrina",
+  "channel": "Olavo TV",
+  "duration": 47,
+  "vertical": true
+ },
+ {
+  "id": "iE-5ZrhIkqw",
+  "pageId": "ligacoes",
+  "kind": "short",
+  "title": "cubo químico 10 cubo em braile com ligação iônica, metálica, covalente, acido base orgânica",
+  "channel": "Ronaldo Lima Carneiro",
+  "duration": 27,
+  "vertical": true
+ },
+ {
   "id": "DXpqG71BEpQ",
   "pageId": "literatura",
   "kind": "lesson",
@@ -1692,6 +2853,42 @@
   "vertical": true
  },
  {
+  "id": "Kipf3eKkI-8",
+  "pageId": "literatura",
+  "kind": "short",
+  "title": "Conheça Anita Malfatti e a Semana de Arte de 22",
+  "channel": "WebTeatro",
+  "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "M_tepeTGfdY",
+  "pageId": "literatura",
+  "kind": "short",
+  "title": "Bruna Martiolli falando do dilema de Capitu - em Dom Casmurro",
+  "channel": "CARLOS ANDRÉ - ESCRITOR ",
+  "duration": 53,
+  "vertical": true
+ },
+ {
+  "id": "R5ZkdoE3i78",
+  "pageId": "literatura",
+  "kind": "short",
+  "title": "À CAROLINA - Machado de Assis",
+  "channel": "CARLOS ANDRÉ - ESCRITOR ",
+  "duration": 49,
+  "vertical": true
+ },
+ {
+  "id": "nRDdggMXVIY",
+  "pageId": "literatura",
+  "kind": "short",
+  "title": "ANGLO-BRASILEIRO | Aula especial sobre Machado de Assis",
+  "channel": "Colégio Anglo-Brasileiro",
+  "duration": 57,
+  "vertical": true
+ },
+ {
   "id": "Zrqz52ApOQc",
   "pageId": "macetes",
   "kind": "lesson",
@@ -1734,6 +2931,42 @@
   "title": "Melhor Técnica de Estudo que Conheço!",
   "channel": "Holleben Medic",
   "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "RTY-Q5Ypc0Y",
+  "pageId": "macetes",
+  "kind": "short",
+  "title": "TÉCNICA DE CHUTE PARA O ENEM",
+  "channel": "PEDRAK",
+  "duration": 29,
+  "vertical": true
+ },
+ {
+  "id": "Hc78c9T47aA",
+  "pageId": "macetes",
+  "kind": "short",
+  "title": "Dicas redação nota 1000 Enem",
+  "channel": "Colégio Divino Salvador Jundiaí",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "hPDEHQKj2sU",
+  "pageId": "macetes",
+  "kind": "short",
+  "title": "DICAS PARA O ENEM 2020 - EEMTI ADAHIL BARRETO",
+  "channel": "EEMTI Adahil Barreto",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "_RR0kXjqGk0",
+  "pageId": "macetes",
+  "kind": "short",
+  "title": "🧬 Biologia no Enem 2026: o que os artrópodes têm a ver com saúde e meio ambiente?",
+  "channel": "Colégio Pró-Mundo",
+  "duration": 86,
   "vertical": true
  },
  {
@@ -1800,6 +3033,33 @@
   "vertical": true
  },
  {
+  "id": "WAUfeIKTqmc",
+  "pageId": "medieval-moderna",
+  "kind": "short",
+  "title": "Revolução Francesa",
+  "channel": "Arquivo Curto",
+  "duration": 81,
+  "vertical": true
+ },
+ {
+  "id": "zn5pnfD3Hdw",
+  "pageId": "medieval-moderna",
+  "kind": "short",
+  "title": "A Revolução Industrial: O Poder da Máquina a Vapor!",
+  "channel": "Criação Evolução",
+  "duration": 38,
+  "vertical": true
+ },
+ {
+  "id": "i6N0bZQwHew",
+  "pageId": "medieval-moderna",
+  "kind": "short",
+  "title": "A Revolução Industrial: Como a Inovação Transformou o Mundo",
+  "channel": "Ciêntização",
+  "duration": 56,
+  "vertical": true
+ },
+ {
   "id": "OEV5zWPhfR8",
   "pageId": "mundo-atual",
   "kind": "lesson",
@@ -1851,6 +3111,42 @@
   "title": "Terceira fase da Globalização (versão2)",
   "channel": "Professor Victor Cassemiro Paixão",
   "duration": 87,
+  "vertical": true
+ },
+ {
+  "id": "Ee3yvOXkEFc",
+  "pageId": "mundo-atual",
+  "kind": "short",
+  "title": "curiosidades da guerra fria",
+  "channel": "Páginas esquecidas",
+  "duration": 23,
+  "vertical": true
+ },
+ {
+  "id": "yjqEo_ew8yU",
+  "pageId": "mundo-atual",
+  "kind": "short",
+  "title": "Vantagens e desvantagens da globalização",
+  "channel": "Luma Guedes",
+  "duration": 56,
+  "vertical": true
+ },
+ {
+  "id": "XJVCBY563Yw",
+  "pageId": "mundo-atual",
+  "kind": "short",
+  "title": "Globalização e capitalismo",
+  "channel": "ramensilva10",
+  "duration": 51,
+  "vertical": true
+ },
+ {
+  "id": "rbc4t3dPIpw",
+  "pageId": "mundo-atual",
+  "kind": "short",
+  "title": "Alemanha Oriental e Ocidental na Guerra Frial.",
+  "channel": "O Dia de Hoje na História",
+  "duration": 58,
   "vertical": true
  },
  {
@@ -1917,6 +3213,33 @@
   "vertical": true
  },
  {
+  "id": "1RSz-Eu9NAQ",
+  "pageId": "ondas",
+  "kind": "short",
+  "title": "Descubra o Impacto do Efeito Doppler no Som e Luz",
+  "channel": "curiosonatural",
+  "duration": 75,
+  "vertical": true
+ },
+ {
+  "id": "9aCIiN3SuFY",
+  "pageId": "ondas",
+  "kind": "short",
+  "title": "O incrível efeito Doppler Galáxias vermelhas",
+  "channel": "Ushorts24",
+  "duration": 31,
+  "vertical": true
+ },
+ {
+  "id": "zTKeKeGOKno",
+  "pageId": "ondas",
+  "kind": "short",
+  "title": "experimento da minhoquinha acústica",
+  "channel": "🦉corujão 🦉",
+  "duration": 61,
+  "vertical": true
+ },
+ {
   "id": "-JbkfgcMppQ",
   "pageId": "optica",
   "kind": "lesson",
@@ -1980,6 +3303,24 @@
   "vertical": true
  },
  {
+  "id": "e8p7yorZuXI",
+  "pageId": "optica",
+  "kind": "short",
+  "title": "EXPERIMENTO LUZ DE LAZER-OPTICA.",
+  "channel": "Daniel Gonzalez",
+  "duration": 37,
+  "vertical": true
+ },
+ {
+  "id": "IVaiEGLfyWY",
+  "pageId": "optica",
+  "kind": "short",
+  "title": "Refração da luz",
+  "channel": "Rute Oliveira",
+  "duration": 24,
+  "vertical": true
+ },
+ {
   "id": "bTIbVVgT9Fg",
   "pageId": "organica",
   "kind": "lesson",
@@ -2022,6 +3363,60 @@
   "title": "Como eu posso não confundir a isomeria de compensação para isomeria de posição?",
   "channel": "Ana Exatas",
   "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "nwpK5t2OS-w",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "Classificação das cadeias carbônicas",
+  "channel": "Matemática com o Professor ",
+  "duration": 37,
+  "vertical": true
+ },
+ {
+  "id": "KTrCsXLotLI",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "CLASSIFICAÇÃO DO CARBONO - QUÍMICA ORGÂNICA DICA 03",
+  "channel": "Aprendendo Ciências",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "1akznCVXcKY",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "A descoberta do nylon",
+  "channel": "Profelton",
+  "duration": 38,
+  "vertical": true
+ },
+ {
+  "id": "TQ8nBVMCJow",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "Nomenclatura de Química Orgânica | Hidrocarbonetos",
+  "channel": "Dicas Rápidas de Química",
+  "duration": 57,
+  "vertical": true
+ },
+ {
+  "id": "GOEMAy71yT8",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "Nomenclatura de hidrocarbonetos",
+  "channel": "Dose de Química com Prof. Vinício",
+  "duration": 37,
+  "vertical": true
+ },
+ {
+  "id": "rsA3bH5iIYc",
+  "pageId": "organica",
+  "kind": "short",
+  "title": "CLASSIFICAÇÃO DAS CADEIAS CARBÔNICAS",
+  "channel": "LIGADO NA QUÍMICA - Prof. Fabiano",
+  "duration": 56,
   "vertical": true
  },
  {
@@ -2070,6 +3465,33 @@
   "vertical": true
  },
  {
+  "id": "b8gMsW8yXFU",
+  "pageId": "populacao",
+  "kind": "short",
+  "title": "Questão de História do ENEM resolvida",
+  "channel": "Novo Caderno Enem",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "HWp9Ji60NYg",
+  "pageId": "populacao",
+  "kind": "short",
+  "title": "| Imigração, migração e emigração",
+  "channel": "paraleloo",
+  "duration": 58,
+  "vertical": true
+ },
+ {
+  "id": "xvsMCTl38tQ",
+  "pageId": "populacao",
+  "kind": "short",
+  "title": "Aula de geografia!! Construção de pirâmides etárias.",
+  "channel": "Jucenara Engroff",
+  "duration": 31,
+  "vertical": true
+ },
+ {
   "id": "fPjjyBmbquU",
   "pageId": "programacao",
   "kind": "lesson",
@@ -2085,6 +3507,15 @@
   "title": "Curso - Lógica de Programação: Algoritmos | 💻 Aula 6.5",
   "channel": "Malogro",
   "duration": 223,
+  "vertical": false
+ },
+ {
+  "id": "0hN7_TTuR2M",
+  "pageId": "programacao",
+  "kind": "lesson",
+  "title": "Lógica de programação 01 - Introdução",
+  "channel": "Cataline",
+  "duration": 145,
   "vertical": false
  },
  {
@@ -2112,6 +3543,33 @@
   "title": "Descubra a habilidade de Abstração no Pensamento Computacional! 🧠✨",
   "channel": "Bebras Brasil",
   "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "1HprrKEp1Ec",
+  "pageId": "programacao",
+  "kind": "short",
+  "title": "Descubra a habilidade de Decomposição no Pensamento Computacional! 🧠✨",
+  "channel": "Bebras Brasil",
+  "duration": 50,
+  "vertical": true
+ },
+ {
+  "id": "0JfjdIog8_k",
+  "pageId": "programacao",
+  "kind": "short",
+  "title": "Como Aprender Lógica de Programação do Zero Dicas e Métodos Eficazes",
+  "channel": "devWorldNt",
+  "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "fRwhtLI1y6c",
+  "pageId": "programacao",
+  "kind": "short",
+  "title": "Algoritmo da divisão",
+  "channel": "Matemática Básica ",
+  "duration": 61,
   "vertical": true
  },
  {
@@ -2169,6 +3627,24 @@
   "vertical": true
  },
  {
+  "id": "OQxkwjeSbJQ",
+  "pageId": "reading",
+  "kind": "short",
+  "title": "Jogo dos falsos cognatos (Heterossemânticos). https://linktr.ee/lilianespindola",
+  "channel": "Lilian Espindola",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "YmsrTFpB1Wc",
+  "pageId": "reading",
+  "kind": "short",
+  "title": "Palavras homônimas (que tem o mesmo som), quais são?",
+  "channel": "Teacher Carolina Leão",
+  "duration": 44,
+  "vertical": true
+ },
+ {
   "id": "IBEZDPoWRwo",
   "pageId": "redacao",
   "kind": "lesson",
@@ -2223,6 +3699,24 @@
   "vertical": true
  },
  {
+  "id": "ncdZqOF48BQ",
+  "pageId": "redacao",
+  "kind": "short",
+  "title": "5 Competências Redação Enem",
+  "channel": "Professora Ionara miranda",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "oFS7lVchdqQ",
+  "pageId": "redacao",
+  "kind": "short",
+  "title": "Dica 8 para o ENEM",
+  "channel": "CEI Andradina",
+  "duration": 48,
+  "vertical": true
+ },
+ {
   "id": "1I13vhMWL5Q",
   "pageId": "seres-vivos",
   "kind": "lesson",
@@ -2238,6 +3732,15 @@
   "title": "VÍRUS, BACTÉRIAS E PROTOZOÁRIOS",
   "channel": "Prof. Ana Paula Apaso",
   "duration": 222,
+  "vertical": false
+ },
+ {
+  "id": "VH7X7kOmmeA",
+  "pageId": "seres-vivos",
+  "kind": "lesson",
+  "title": "Qual a diferença entre vírus e bactérias?",
+  "channel": "Einstein Hospital Israelita",
+  "duration": 121,
   "vertical": false
  },
  {
@@ -2277,6 +3780,42 @@
   "vertical": true
  },
  {
+  "id": "wlfmfpVi7Ys",
+  "pageId": "seres-vivos",
+  "kind": "short",
+  "title": "Qual é a DIFERENÇA entre VÍRUS e BACTÉRIA?",
+  "channel": "Banheira de conhecimento",
+  "duration": 61,
+  "vertical": true
+ },
+ {
+  "id": "lPX4nb0qdjc",
+  "pageId": "seres-vivos",
+  "kind": "short",
+  "title": "QUAL DOENÇA É CAUSADA POR BACTÉRIA?",
+  "channel": "Com Ciência",
+  "duration": 38,
+  "vertical": true
+ },
+ {
+  "id": "PiE0v_LBsAw",
+  "pageId": "seres-vivos",
+  "kind": "short",
+  "title": "O que são as superbactérias?",
+  "channel": "Minuto da Terra",
+  "duration": 39,
+  "vertical": true
+ },
+ {
+  "id": "tObDB3lmpZQ",
+  "pageId": "seres-vivos",
+  "kind": "short",
+  "title": "DIFERENÇAS DE BACTÉRIA, VÍRUS, FUNGOS E OUTROS - Dr. Bactéria",
+  "channel": "Dr. Adriano Leonardi",
+  "duration": 59,
+  "vertical": true
+ },
+ {
   "id": "Tw5c1q1XEIM",
   "pageId": "sociologia",
   "kind": "lesson",
@@ -2292,6 +3831,15 @@
   "title": "Sociologia Clássica Autores - Augusto Comte, Durkheim, Karl Marx e Max Weber - Resumo",
   "channel": "Enciclopédia de Resumos",
   "duration": 120,
+  "vertical": false
+ },
+ {
+  "id": "d6H7Ck3laEM",
+  "pageId": "sociologia",
+  "kind": "lesson",
+  "title": "sociologia clássicos durkheim weber e marx",
+  "channel": "Anderson Clayton",
+  "duration": 210,
   "vertical": false
  },
  {
@@ -2328,6 +3876,24 @@
   "title": "PRÁT. INTEGRADORAS - PARTE 1: estudantes refletem sobre Indústria Cultural e a Alienação Midiática.",
   "channel": "COLÉGIO ESTADUAL MONSENHOR TURÍBIO VILANOVA",
   "duration": 33,
+  "vertical": true
+ },
+ {
+  "id": "tZIB8CIcb5I",
+  "pageId": "sociologia",
+  "kind": "short",
+  "title": "Quando os Movimentos Sociais Viram Ferramentas Políticas",
+  "channel": "Tu Já Sabia Dessa?",
+  "duration": 86,
+  "vertical": true
+ },
+ {
+  "id": "xSrCiWiE0N4",
+  "pageId": "sociologia",
+  "kind": "short",
+  "title": "Existencialismo no ENEM",
+  "channel": "Bailarina da Filosofia",
+  "duration": 34,
   "vertical": true
  },
  {
@@ -2373,6 +3939,51 @@
   "title": "Crioscopia: propriedade na qual solutos não voláteis diminuem o ponto de fusão do gelo.",
   "channel": "Daniela Santana Lima",
   "duration": 13,
+  "vertical": true
+ },
+ {
+  "id": "Q3SWE1moEm0",
+  "pageId": "solucoes",
+  "kind": "short",
+  "title": "experimento ebulioscopia - química",
+  "channel": "manuella costa",
+  "duration": 29,
+  "vertical": true
+ },
+ {
+  "id": "5UAyTNcDKZk",
+  "pageId": "solucoes",
+  "kind": "short",
+  "title": "Experimento - Solubilidade e Temperatura - Grupo do Victor Emanuel (IFMA - campus Bacabal)",
+  "channel": "Um Barril de Química",
+  "duration": 67,
+  "vertical": true
+ },
+ {
+  "id": "1EyB3sRs5rA",
+  "pageId": "solucoes",
+  "kind": "short",
+  "title": "Teste de solubilidade",
+  "channel": "Gabriela Rosa",
+  "duration": 41,
+  "vertical": true
+ },
+ {
+  "id": "wfhrOaW-Z-4",
+  "pageId": "solucoes",
+  "kind": "short",
+  "title": "Química das soluções: crescimento de cristais e curva de solubilidade",
+  "channel": "SIMONE PEREIRA DIAS",
+  "duration": 43,
+  "vertical": true
+ },
+ {
+  "id": "nLkZnhHgzf8",
+  "pageId": "solucoes",
+  "kind": "short",
+  "title": "experimento da solubilidade! por que o óleo nao mistura na água? cientista - Guilherme",
+  "channel": "Você não sabia?",
+  "duration": 39,
   "vertical": true
  },
  {
@@ -2430,6 +4041,42 @@
   "vertical": true
  },
  {
+  "id": "aWGO6SFpjJY",
+  "pageId": "termologia",
+  "kind": "short",
+  "title": "EXPERIMENTO GASES E TERMODINÂMICA",
+  "channel": "JOANDERSON OLIVEIRA",
+  "duration": 13,
+  "vertical": true
+ },
+ {
+  "id": "SLhY1HBLric",
+  "pageId": "termologia",
+  "kind": "short",
+  "title": "Aula sobre quantidade de calor - latente - curva de aquecimento - capacidade térmica.",
+  "channel": "Professor Cristiano Monteiro",
+  "duration": 31,
+  "vertical": true
+ },
+ {
+  "id": "Oa3QVizeA8c",
+  "pageId": "termologia",
+  "kind": "short",
+  "title": "Dilatação Térmica - GARFADA e RABISCADA com CAVANHA",
+  "channel": "Je Suis Física",
+  "duration": 59,
+  "vertical": true
+ },
+ {
+  "id": "maZIF8aj-DM",
+  "pageId": "termologia",
+  "kind": "short",
+  "title": "Física Clássica Termodinâmica",
+  "channel": "CARLOS AUGUSTO ANSELMO",
+  "duration": 50,
+  "vertical": true
+ },
+ {
   "id": "EbQA0iJd1y4",
   "pageId": "trigonometria",
   "kind": "lesson",
@@ -2472,6 +4119,60 @@
   "title": "converter graus em Pi radianos Cassio fx-991 CW.",
   "channel": "danilo costa",
   "duration": 49,
+  "vertical": true
+ },
+ {
+  "id": "rlDQtkQBgZE",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Seno, cosseno e tangente em 1 min!",
+  "channel": "Foca Cursos Online",
+  "duration": 76,
+  "vertical": true
+ },
+ {
+  "id": "s9uz7VuOLSE",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Seno, cosseno e tangente em 1 minuto",
+  "channel": "StudartWEB",
+  "duration": 40,
+  "vertical": true
+ },
+ {
+  "id": "bWl7zlWCct8",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Relações trigonométricas no triângulo retângulo-Ângulos notáveis",
+  "channel": "Professor Pedro Henrique",
+  "duration": 60,
+  "vertical": true
+ },
+ {
+  "id": "qkEaFfnsuMQ",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Relação fundamental da trigonometria cos²x + sen²x =1",
+  "channel": "Matemática | Prof Emerson Alves",
+  "duration": 54,
+  "vertical": true
+ },
+ {
+  "id": "5eMjT7WpT2o",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Passando de grau para radianos. Vem comigo!",
+  "channel": "Matematicando com Thaís",
+  "duration": 53,
+  "vertical": true
+ },
+ {
+  "id": "-wABBi8FPug",
+  "pageId": "trigonometria",
+  "kind": "short",
+  "title": "Perímetro do semi-círculo",
+  "channel": "Professor Marcelo Silvério Matemática",
+  "duration": 19,
   "vertical": true
  }
 ]
