@@ -1,4 +1,4 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";

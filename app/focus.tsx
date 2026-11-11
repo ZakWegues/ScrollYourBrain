@@ -1,4 +1,4 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, Platform, ScrollView, StyleSheet, View } from "react-native";

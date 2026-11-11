@@ -2,6 +2,7 @@ import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, Platform, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useIsFocused } from "expo-router";
+import { Freeze } from "react-freeze";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
@@ -86,6 +87,16 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
 
   const playing = focused && !paused;
 
+  // Web only: a screen pushed over the feed hides it with display:none, and a card that re-renders while
+  // hidden makes FlashList re-measure zero sizes in a loop. Once the feed is out of view, freeze the list.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    const id = setTimeout(() => setSettled(!focused), focused ? 0 : 450);
+    return () => clearTimeout(id);
+  }, [focused]);
+  const frozen = Platform.OS === "web" && !focused && settled;
+
   // The tab bar never stays hidden once the feed is left (other tab, other screen, unmount).
   useEffect(() => {
     if (!focused) showTabBar();
@@ -167,6 +178,7 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
       <AmbientBackdrop pageId={activePage} />
       {needsFollow && emptyState}
       {!needsFollow && height > 0 && (
+        <Freeze freeze={frozen}>
         <FlashList
           key={height}
           ref={list}
@@ -192,6 +204,7 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
           getItemType={(e) => e.item.kind}
           testID="feed-list"
         />
+        </Freeze>
       )}
     </View>
   );

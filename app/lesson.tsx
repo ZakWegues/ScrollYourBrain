@@ -1,4 +1,4 @@
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";

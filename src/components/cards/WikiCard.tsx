@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { Linking, StyleSheet, View } from "react-native";
 import type { WikiItem } from "@/feed/types";
 import { AppText, Bouncy, Glass, Icon } from "@/components/ui";

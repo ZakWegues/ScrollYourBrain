@@ -1,5 +1,5 @@
 import * as Sharing from "expo-sharing";
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "@/components/LinearGradient";
 import { useRef, useState } from "react";
 import { Platform, Share, StyleSheet, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
