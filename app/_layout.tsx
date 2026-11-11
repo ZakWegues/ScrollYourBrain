@@ -7,7 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as SystemUI from "expo-system-ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AppState, View } from "react-native";
+import { AppState, Platform, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
@@ -55,6 +55,8 @@ export default function RootLayout() {
       showTabBar();
       tickClock();
     });
+    // Web only: decorative glows of the tab bar must not make the whole page scroll sideways.
+    if (Platform.OS === "web" && typeof document !== "undefined") document.documentElement.style.overflowX = "hidden";
     // The automatic theme follows the clock.
     const id = setInterval(tickClock, 60_000);
     return () => {
