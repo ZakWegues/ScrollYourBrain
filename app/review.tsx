@@ -9,6 +9,7 @@ import { AppText, Bouncy, Glass, GradientButton, Icon, PageAvatar } from "@/comp
 import { getPage } from "@/data/pages";
 import type { StudyItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
+import { awardXp } from "@/store/xp";
 import { GRADES, nextLabel, type Grade } from "@/lib/srs";
 import { useNotebooks } from "@/store/notebooks";
 import { countStudy, trackAnswer, trackTime, useProgress } from "@/store/progress";
@@ -57,6 +58,7 @@ export default function Review() {
     useReview.getState().grade(card.item.id, grade);
     countStudy(card.item.pageId);
     useProgress.getState().logEvent(card.item.pageId, { reviews: 1 });
+    awardXp("review");
     trackTime(card.item.pageId, lap(shownAt));
     haptic[grade === "again" ? "error" : "select"]();
     setStats((s) => ({ done: s.done + 1, right: s.right + (grade === "again" ? 0 : 1) }));

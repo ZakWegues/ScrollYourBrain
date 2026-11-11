@@ -1,19 +1,22 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Platform, Share, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming, ZoomIn } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut, useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming, ZoomIn } from "react-native-reanimated";
 import { getPage } from "@/data/pages";
-import type { FeedEntry, ItemKind, StudyItem } from "@/feed/types";
+import type { FeedEntry, ItemKind } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
-import { useLibrary } from "@/store/library";
-import { useNotebooks } from "@/store/notebooks";
-import { useReview } from "@/store/review";
 import { isDue } from "@/lib/srs";
 import { speak, speechText, stopSpeaking } from "@/lib/speech";
+import { useLibrary } from "@/store/library";
+import { useNotebooks } from "@/store/notebooks";
+import { awardXp } from "@/store/xp";
+import { useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 import { TAB_BAR_SPACE, useColors } from "@/theme";
-import { openNote, openNotebookPicker } from "./Sheets";
+import { openMore, openNotebookPicker } from "./Sheets";
 import { toast } from "./Toast";
 import { AppText, Bouncy, Icon, PageAvatar, type IconName } from "./ui";
 import { ConceptCard } from "./cards/ConceptCard";
@@ -30,6 +33,14 @@ const KIND_LABEL: Record<ItemKind, { label: string; icon: IconName }> = {
   video: { label: "Vídeo", icon: "play-circle-outline" },
   wiki: { label: "Wikipédia", icon: "wikipedia" },
 };
+
+const HINTS: Partial<Record<ItemKind, string>> = {
+  concept: "Toque para pausar · dois toques curte",
+  flash: "Dois toques curte · arraste para o próximo",
+  quiz: "Responda e arraste para o próximo",
+  video: "Toque para pausar o vídeo",
+};
+const MAX_HINTS = 4;
 
 function Card(props: CardProps) {
   const { item } = props;
@@ -48,7 +59,7 @@ function RailButton({ icon, label, color, onPress, active, testID }: { icon: Ico
   return (
     <Bouncy
       onPress={() => {
-        pop.set(withSequence(withSpring(1.28, { mass: 1, damping: 8, stiffness: 500 }), withSpring(1, { mass: 1, damping: 10, stiffness: 300 })));
+        pop.set(withSequence(withSpring(1.25, { mass: 1, damping: 9, stiffness: 500 }), withSpring(1, { mass: 1, damping: 14, stiffness: 300 })));
         onPress();
       }}
       style={styles.railBtn}
@@ -57,23 +68,12 @@ function RailButton({ icon, label, color, onPress, active, testID }: { icon: Ico
       accessibilityState={{ selected: !!active }}
       testID={testID}
     >
-      <Animated.View style={[styles.railIcon, style]}>
-        <Icon name={icon} size={28} color={color} />
+      <Animated.View style={style}>
+        <Icon name={icon} size={30} color={color} style={styles.shadow} />
       </Animated.View>
-      <AppText variant="caption" style={styles.railLabel}>{label}</AppText>
+      <AppText variant="caption" style={styles.railLabel} numberOfLines={1}>{label}</AppText>
     </Bouncy>
   );
-}
-
-function shareText(item: StudyItem): string {
-  const page = getPage(item.pageId).name;
-  switch (item.kind) {
-    case "video": return `${item.title} — https://youtu.be/${item.youtubeId}`;
-    case "wiki": return `${item.title}: ${item.url}`;
-    case "quiz": return `Quiz de ${page}: ${item.question}`;
-    case "flash": return `${item.front}\n${item.back}`;
-    case "concept": return `${item.title}: ${item.takeaway}`;
-  }
 }
 
 interface Props {
@@ -95,39 +95,37 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
   const following = useLibrary((s) => !!s.followed[item.pageId]);
   const hasNote = useNotebooks((s) => !!s.notes[item.id]);
   const inReview = useReview((s) => (s.cards[item.id] ? isDue(s.cards[item.id].srs) : false));
+  const autoSpeak = useSettings((s) => s.autoSpeak);
   const { toggleLike, toggleSave, toggleFollow } = useLibrary.getState();
   const [tapNonce, setTapNonce] = useState(0);
-  const [speaking, setSpeaking] = useState(false);
-  const autoSpeak = useSettings((s) => s.autoSpeak);
+  const [burst, setBurst] = useState<{ x: number; y: number; id: number; tilt: number } | null>(null);
+  const [hint] = useState(() => (useSettings.getState().hintsShown < MAX_HINTS ? HINTS[item.kind] : undefined));
+  const [hintDone, setHintDone] = useState(false);
+  const insets = useSafeAreaInsets();
+
+  // Gesture hints only for the first few cards ever, and only for a few seconds.
+  useEffect(() => {
+    if (!active || !hint) return;
+    useSettings.setState((s) => ({ hintsShown: s.hintsShown + 1 }));
+    const t = setTimeout(() => setHintDone(true), 4200);
+    return () => clearTimeout(t);
+  }, [active, hint]);
 
   // Read the card aloud when it becomes active (if enabled); always stop when it leaves the screen.
   useEffect(() => {
     if (!active) return;
-    if (autoSpeak && item.kind !== "video") {
-      speak(speechText(item), { onStart: () => setSpeaking(true), onDone: () => setSpeaking(false) });
-    }
+    if (autoSpeak && item.kind !== "video") speak(speechText(item));
     return () => {
       stopSpeaking();
-      setSpeaking(false);
     };
   }, [active, autoSpeak, item]);
 
-  const toggleSpeech = () => {
-    if (speaking) {
-      stopSpeaking();
-      setSpeaking(false);
-    } else {
-      setSpeaking(true);
-      speak(speechText(item), { onDone: () => setSpeaking(false) });
-    }
-    haptic.light();
-  };
-  const [burst, setBurst] = useState<{ x: number; y: number; id: number; tilt: number } | null>(null);
-
   const like = useCallback(() => {
     const now = toggleLike(item);
-    if (now) haptic.medium();
-    else haptic.light();
+    if (now) {
+      haptic.medium();
+      awardXp("like");
+    } else haptic.light();
   }, [item, toggleLike]);
 
   const doubleTapLike = useCallback(
@@ -135,11 +133,30 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
       setBurst((b) => ({ x, y, id: (b?.id ?? 0) + 1, tilt: (Math.random() - 0.5) * 30 }));
       if (!useLibrary.getState().liked[item.id]) {
         toggleLike(item);
+        awardXp("like");
       }
       haptic.medium();
     },
     [item, toggleLike],
   );
+
+  const save = () => {
+    const now = toggleSave(item);
+    haptic.light();
+    if (!now) {
+      toast({ message: "Removido dos salvos", icon: "bookmark-remove-outline", action: { label: "Desfazer", onPress: () => toggleSave(item) } });
+      return;
+    }
+    awardXp("save");
+    // Saving a question or flashcard also schedules it for spaced review.
+    const toReview = useSettings.getState().saveToReview && useReview.getState().add(item);
+    toast({
+      message: toReview ? "Salvo + na sua revisão" : "Salvo na Biblioteca",
+      icon: "bookmark-check",
+      tone: "success",
+      action: { label: "Caderno", onPress: () => openNotebookPicker(item) },
+    });
+  };
 
   const gesture = useMemo(() => {
     const single = Gesture.Tap().runOnJS(true).maxDuration(250).onEnd((_e, ok) => {
@@ -151,82 +168,80 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
     return Gesture.Exclusive(double, single);
   }, [doubleTapLike]);
 
+  const openPage = () => router.push(`/page/${page.id}`);
+
   return (
     <View style={[{ height, overflow: "hidden" }, webSnap]} testID="feed-item">
       <GestureDetector gesture={gesture}>
         <View style={StyleSheet.absoluteFill} collapsable={false}>
           <Card item={item} active={active} height={height} tapNonce={tapNonce} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
+          {/* Scrims keep the header and the bottom text readable over any background or video. */}
+          <LinearGradient pointerEvents="none" colors={["rgba(0,0,0,0.55)", "transparent"]} style={styles.topScrim} />
+          <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.78)"]} style={[styles.bottomScrim, { height: bottomInset + 170 }]} />
           {burst && <HeartBurst key={burst.id} x={burst.x} y={burst.y} tilt={burst.tilt} />}
         </View>
       </GestureDetector>
 
-      {item.kind !== "video" && (
-        <Bouncy onPress={toggleSpeech} style={styles.listen} accessibilityLabel={speaking ? "Parar leitura" : "Ouvir este card"} testID="listen-button">
-          <View style={[styles.listenInner, { backgroundColor: speaking ? c.accent : "rgba(0,0,0,0.4)", borderColor: c.border }]}>
-            <Icon name={speaking ? "stop" : "account-voice"} size={20} color="#fff" />
-          </View>
-        </Bouncy>
-      )}
-
-      <View style={[styles.rail, { bottom: bottomInset + 8 }]} pointerEvents="box-none">
-        <Bouncy onPress={() => router.push(`/page/${page.id}`)} style={styles.avatarWrap} accessibilityLabel={`Abrir página ${page.name}`}>
-          <PageAvatar pageId={page.id} size={48} />
+      <View style={[styles.rail, { bottom: bottomInset + 12 }]} pointerEvents="box-none">
+        <View style={styles.avatarWrap}>
+          <Bouncy onPress={openPage} accessibilityLabel={`Abrir ${page.name}`}>
+            <View style={[styles.avatarRing, { borderColor: "#fff" }]}>
+              <PageAvatar pageId={page.id} size={46} />
+            </View>
+          </Bouncy>
           <Bouncy
             onPress={() => {
               const now = toggleFollow(page.id);
               haptic.select();
               toast({ message: now ? `Seguindo ${page.name}` : `Você deixou de seguir ${page.name}`, icon: now ? "account-check" : "account-remove-outline" });
             }}
-            style={[styles.follow, { backgroundColor: following ? c.text : c.like }]}
+            style={[styles.follow, { backgroundColor: following ? "#fff" : c.like }]}
             accessibilityLabel={following ? `Deixar de seguir ${page.name}` : `Seguir ${page.name}`}
             testID="follow-button"
           >
             <Animated.View key={String(following)} entering={ZoomIn.springify().damping(18).stiffness(320).mass(1)}>
-              <Icon name={following ? "check" : "plus"} size={14} color={following ? c.bg : "#fff"} />
+              <Icon name={following ? "check" : "plus"} size={14} color={following ? "#000" : "#fff"} />
             </Animated.View>
           </Bouncy>
-        </Bouncy>
+        </View>
         <RailButton icon={liked ? "heart" : "heart-outline"} color={liked ? c.like : "#fff"} label={liked ? "Quero mais" : "Curtir"} onPress={like} active={liked} testID="like-button" />
-        <RailButton
-          icon={saved ? "bookmark" : "bookmark-outline"}
-          color={saved ? c.save : "#fff"}
-          label={saved ? "Salvo" : "Salvar"}
-          onPress={() => {
-            const now = toggleSave(item);
-            haptic.light();
-            toast({
-              message: now ? "Salvo na Biblioteca" : "Removido dos salvos",
-              icon: now ? "bookmark-check" : "bookmark-remove-outline",
-              action: now ? { label: "Caderno", onPress: () => openNotebookPicker(item) } : { label: "Desfazer", onPress: () => toggleSave(item) },
-            });
-          }}
-          active={saved}
-          testID="save-button"
-        />
-        <RailButton icon={hasNote ? "note-text" : "note-edit-outline"} color={hasNote ? c.accent2 : "#fff"} label="Nota" onPress={() => openNote(item)} active={hasNote} testID="note-button" />
-        <RailButton icon="share-variant" color="#fff" label="Enviar" onPress={() => Share.share({ message: shareText(item) }).catch(() => {})} />
+        <RailButton icon={saved ? "bookmark" : "bookmark-outline"} color={saved ? c.save : "#fff"} label={saved ? "Salvo" : "Salvar"} onPress={save} active={saved} testID="save-button" />
+        <RailButton icon={hasNote ? "dots-horizontal-circle" : "dots-horizontal"} color="#fff" label="Mais" onPress={() => openMore(item)} testID="more-button" />
       </View>
 
       {item.kind !== "quiz" && (
-      <View style={[styles.meta, { bottom: bottomInset + 10 }]} pointerEvents="box-none">
-        <Bouncy onPress={() => router.push(`/page/${page.id}`)} style={styles.pageRow} scaleTo={0.97}>
-          <AppText variant="label">{page.name}</AppText>
-          <AppText variant="caption" dim>{page.handle}</AppText>
-        </Bouncy>
-        <View style={styles.kindRow}>
-          <View style={[styles.kind, { borderColor: c.border, backgroundColor: "rgba(0,0,0,0.35)" }]}>
-            <Icon name={KIND_LABEL[item.kind].icon} size={13} color={c.text} />
-            <AppText variant="caption">{KIND_LABEL[item.kind].label}</AppText>
-          </View>
-          {inReview && (
-            <View style={[styles.kind, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.16)" }]}>
-              <Icon name="history" size={13} color={c.save} />
-              <AppText variant="caption" style={{ color: c.save }}>Revisão</AppText>
+        <View style={[styles.meta, { bottom: bottomInset + 14 }]} pointerEvents="box-none">
+          <Bouncy onPress={openPage} style={styles.pageRow} scaleTo={0.97} accessibilityLabel={`Abrir ${page.name}`}>
+            <AppText variant="label" style={styles.white}>{page.name}</AppText>
+            <AppText variant="caption" style={styles.soft}>{page.handle}</AppText>
+          </Bouncy>
+          <AppText variant="headline" style={[styles.white, styles.shadowText]} numberOfLines={2}>{item.title}</AppText>
+          <View style={styles.chips}>
+            <View style={styles.chip}>
+              <Icon name={KIND_LABEL[item.kind].icon} size={13} color="#fff" />
+              <AppText variant="caption" style={styles.white}>{KIND_LABEL[item.kind].label}</AppText>
             </View>
-          )}
-          <AppText variant="label" numberOfLines={1} style={{ flex: 1 }}>{item.title}</AppText>
+            {inReview && (
+              <View style={[styles.chip, { borderColor: c.save, backgroundColor: "rgba(251,191,36,0.18)" }]}>
+                <Icon name="history" size={13} color={c.save} />
+                <AppText variant="caption" style={{ color: c.save }}>Revisão</AppText>
+              </View>
+            )}
+            {hasNote && (
+              <View style={styles.chip}>
+                <Icon name="note-text" size={13} color={c.accent2} />
+                <AppText variant="caption" style={styles.white}>Sua nota</AppText>
+              </View>
+            )}
+          </View>
         </View>
-      </View>
+      )}
+
+      {active && hint && !hintDone && (
+        <Animated.View entering={FadeIn.delay(600)} exiting={FadeOut} pointerEvents="none" style={[styles.hint, { top: insets.top + 62 }]}>
+          <Icon name="gesture-tap" size={16} color="#fff" />
+          <AppText variant="caption" style={styles.white}>{hint}</AppText>
+        </Animated.View>
       )}
     </View>
   );
@@ -251,16 +266,21 @@ function HeartBurst({ x, y, tilt }: { x: number; y: number; tilt: number }) {
 const webSnap = Platform.OS === "web" ? ({ scrollSnapAlign: "start", scrollSnapStop: "always" } as object) : null;
 
 const styles = StyleSheet.create({
-  listen: { position: "absolute", top: 128, right: 12 },
-  listenInner: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", borderWidth: StyleSheet.hairlineWidth },
-  rail: { position: "absolute", right: 8, alignItems: "center", gap: 10 },
-  avatarWrap: { marginBottom: 8, alignItems: "center" },
-  follow: { position: "absolute", bottom: -9, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
-  railBtn: { alignItems: "center", minWidth: 60 },
-  railIcon: {},
-  railLabel: { marginTop: 2, color: "#fff", textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 4 },
-  meta: { position: "absolute", left: 16, right: 92 },
-  pageRow: { flexDirection: "row", alignItems: "baseline", gap: 8, marginBottom: 6, alignSelf: "flex-start" },
-  kindRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  kind: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth },
+  topScrim: { position: "absolute", top: 0, left: 0, right: 0, height: 150 },
+  bottomScrim: { position: "absolute", bottom: 0, left: 0, right: 0 },
+  rail: { position: "absolute", right: 6, alignItems: "center", gap: 14, width: 72 },
+  avatarWrap: { alignItems: "center", marginBottom: 6 },
+  avatarRing: { borderWidth: 2, borderRadius: 26, padding: 1 },
+  follow: { position: "absolute", bottom: -10, alignSelf: "center", width: 22, height: 22, borderRadius: 11, alignItems: "center", justifyContent: "center" },
+  railBtn: { alignItems: "center", minWidth: 64, minHeight: 52 },
+  railLabel: { marginTop: 3, color: "#fff", textShadowColor: "rgba(0,0,0,0.7)", textShadowRadius: 4 },
+  shadow: { textShadowColor: "rgba(0,0,0,0.45)", textShadowRadius: 6 } as object,
+  meta: { position: "absolute", left: 16, right: 90, gap: 6 },
+  pageRow: { flexDirection: "row", alignItems: "baseline", gap: 8, alignSelf: "flex-start" },
+  chips: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  chip: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 9, paddingVertical: 4, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.25)", backgroundColor: "rgba(0,0,0,0.35)" },
+  white: { color: "#fff" },
+  soft: { color: "rgba(255,255,255,0.75)" },
+  shadowText: { textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6 },
+  hint: { position: "absolute", alignSelf: "center", flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 999, backgroundColor: "rgba(0,0,0,0.55)" },
 });

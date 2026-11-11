@@ -13,6 +13,7 @@ import { useSettings } from "@/store/settings";
 export type FeedSource =
   | { type: "forYou" }
   | { type: "following" }
+  | { type: "mix" }
   | { type: "page"; pageId: PageId }
   | { type: "list"; items: StudyItem[] };
 
@@ -47,15 +48,18 @@ function currentSignals(): Signals {
 
 export function useFeed(source: FeedSource) {
   const followedKey = useLibrary((s) => Object.keys(s.followed).sort().join(","));
+  // The Mix draws from the accounts whose cards you liked.
+  const likedPagesKey = useLibrary((s) => [...new Set(Object.values(s.liked).map((l) => l.item.pageId))].sort().join(","));
   const customVideos = useLibrary((s) => s.customVideos);
   const customItems = useLibrary((s) => s.customItems);
   const dataSaver = useSettings((s) => s.dataSaver);
 
   const pages = useMemo<PageId[] | undefined>(() => {
     if (source.type === "following") return followedKey ? followedKey.split(",") : [];
+    if (source.type === "mix") return likedPagesKey ? likedPagesKey.split(",") : [];
     if (source.type === "page") return [source.pageId];
     return undefined;
-  }, [source, followedKey]);
+  }, [source, followedKey, likedPagesKey]);
 
   const [rng] = useState(() => createRng(Date.now() & 0xffffffff));
   // Engine memory lives for the lifetime of this feed instance; it is mutated, never rendered.
@@ -125,5 +129,5 @@ export function useFeed(source: FeedSource) {
     [build, source.type],
   );
 
-  return { entries, loadMore, drop, needsFollow: source.type === "following" && pages?.length === 0 };
+  return { entries, loadMore, drop, needsFollow: (source.type === "following" || source.type === "mix") && pages?.length === 0 };
 }

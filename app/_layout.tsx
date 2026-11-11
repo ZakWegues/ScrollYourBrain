@@ -11,6 +11,7 @@ import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
+import { ShareCardHost } from "@/components/ShareCard";
 import { SheetsHost } from "@/components/Sheets";
 import { OfflineBadge } from "@/components/OfflineBadge";
 import { ToastHost } from "@/components/Toast";
@@ -88,6 +89,7 @@ export default function RootLayout() {
         </Stack>
         <OfflineBadge />
         <SheetsHost />
+        <ShareCardHost />
         <ToastHost />
         <GoalCelebration />
         {!splashDone && <AnimatedSplash bg={c.bg} onDone={finishSplash} reduceMotion={reduceMotion} />}

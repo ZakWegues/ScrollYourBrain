@@ -12,6 +12,7 @@ import { useExamScope, type ExamScope } from "@/feed/examPool";
 import { createRng } from "@/feed/sources/generators";
 import type { QuizItem } from "@/feed/types";
 import { haptic } from "@/lib/haptics";
+import { awardXp } from "@/store/xp";
 import { useReview } from "@/store/review";
 import { countStudy, trackAnswer, trackTime, useProgress } from "@/store/progress";
 import { radius, useColors } from "@/theme";
@@ -86,6 +87,7 @@ export default function Exam() {
     setElapsed(Date.now() - startedAt);
     setNewBest(useProgress.getState().recordExam(recordKey, score));
     useProgress.getState().logEvent(undefined, { exams: 1 });
+    awardXp("exam");
     setDone(true);
   };
 

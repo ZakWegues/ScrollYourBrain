@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { BACKUP_STORES, backupFileName, buildBackup, parseBackup, type BackupStore } from "@/lib/backup";
 import { useLibrary } from "./library";
 import { useModes } from "./modes";
+import { useXp } from "./xp";
 import { useNotebooks } from "./notebooks";
 import { usePlanner } from "./planner";
 import { useProgress } from "./progress";
@@ -19,6 +20,7 @@ const STORES: Record<BackupStore, { getState: () => object; setState: (s: object
   "syb-notebooks": useNotebooks,
   "syb-planner": usePlanner,
   "syb-modes": useModes,
+  "syb-xp": useXp,
 };
 
 /** Saves a backup file and opens the share sheet (or downloads it on the web). */

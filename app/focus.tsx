@@ -10,6 +10,7 @@ import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@
 import { PAGES, getPage } from "@/data/pages";
 import type { FeedSource } from "@/feed/useFeed";
 import { haptic } from "@/lib/haptics";
+import { awardXp } from "@/store/xp";
 import { useProgress } from "@/store/progress";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
@@ -61,6 +62,7 @@ export default function Focus() {
       if (t < cur.endsAt) return;
       if (cur.phase === "focus") {
         useProgress.getState().logEvent(cur.pageId ?? undefined, { focus: 1 });
+        awardXp("focus");
         haptic.success();
         toast({ message: `Ciclo ${cur.cycles + 1} concluído! Pausa de ${cur.rest} min`, icon: "coffee-outline", tone: "success" });
         setCycles(cur.cycles + 1);

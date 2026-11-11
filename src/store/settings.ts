@@ -25,6 +25,10 @@ export interface SettingsState {
   reminder: number | null;
   /** Ensino médio série (1, 2 or 3); null shows content from every série. */
   serie: 1 | 2 | 3 | null;
+  /** How many gesture hints were shown (they stop after a few). */
+  hintsShown: number;
+  /** Saving a quiz or flashcard also adds it to spaced review. */
+  saveToReview: boolean;
   set: (patch: Partial<Omit<SettingsState, "set" | "toggleInterest" | "reset">>) => void;
   toggleInterest: (id: PageId) => void;
   reset: () => void;
@@ -45,6 +49,8 @@ const defaults = {
   autoSpeak: false,
   reminder: null as number | null,
   serie: null as 1 | 2 | 3 | null,
+  hintsShown: 0,
+  saveToReview: true,
 };
 
 export const useSettings = create<SettingsState>()(

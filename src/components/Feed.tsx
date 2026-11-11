@@ -5,6 +5,7 @@ import { useIsFocused } from "expo-router";
 import type { FeedEntry } from "@/feed/types";
 import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
+import { useChrome } from "@/store/chrome";
 import { countStudy, trackTime } from "@/store/progress";
 import { useColors } from "@/theme";
 import { FeedItem } from "./FeedItem";
@@ -100,7 +101,7 @@ export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset
           ref={list}
           data={entries}
           keyExtractor={(e) => e.key}
-          renderItem={({ item, index }) => <FeedItem entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={bottomInset} />}
+          renderItem={({ item, index }) => <FeedItem key={item.key} entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={bottomInset} />}
           extraData={`${active}-${playing}-${height}-${bottomInset}`}
           pagingEnabled
           snapToInterval={Platform.OS === "web" ? undefined : height}
@@ -110,6 +111,9 @@ export function Feed({ source, initialIndex = 0, emptyState, paused, bottomInset
           showsVerticalScrollIndicator={false}
           onScroll={onScroll}
           scrollEventThrottle={16}
+          onScrollBeginDrag={() => useChrome.getState().setTabBarHidden(true)}
+          onMomentumScrollEnd={() => setTimeout(() => useChrome.getState().setTabBarHidden(false), 450)}
+          onScrollEndDrag={() => setTimeout(() => useChrome.getState().setTabBarHidden(false), 1200)}
           onEndReached={loadMore}
           onEndReachedThreshold={2}
           initialScrollIndex={initialIndex > 0 ? initialIndex : undefined}

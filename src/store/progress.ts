@@ -4,6 +4,7 @@ import type { StudyItem } from "@/feed/types";
 import { bump, type ActivityLog, type Counter } from "@/lib/stats";
 import { currentStreak, dayKey } from "@/lib/streak";
 import { useLibrary } from "./library";
+import { awardXp } from "./xp";
 import { persistStorage } from "./storage";
 import { useSettings } from "./settings";
 
@@ -88,6 +89,8 @@ export const useCelebration = create<{ visible: boolean; hide: () => void }>()((
 export function countStudy(pageId?: string) {
   const progress = useProgress.getState();
   const reached = progress.recordStudy(pageId);
+  awardXp("study");
+  if (reached) awardXp("goal");
   if (reached && progress.celebratedOn !== dayKey()) {
     progress.markCelebrated();
     useCelebration.setState({ visible: true });
@@ -97,6 +100,7 @@ export function countStudy(pageId?: string) {
 /** Records a quiz answer everywhere it matters: overall quiz stats and the per-topic log. */
 export function trackAnswer(item: StudyItem, correct: boolean) {
   useLibrary.getState().recordAnswer(correct);
+  if (correct) awardXp("correct");
   useProgress.getState().logEvent(item.pageId, { answered: 1, correct: correct ? 1 : 0 });
 }
 
