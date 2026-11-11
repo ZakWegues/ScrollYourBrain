@@ -14,8 +14,11 @@ import { useSettings } from "@/store/settings";
 import { radius, useColors } from "@/theme";
 import type { CardProps } from "./types";
 
-/** Embedded YouTube video. Only the active card mounts a player, keeping memory and CPU low. */
-export function VideoCard({ item, active, tapNonce, onFail, height, fast }: CardProps<VideoItem>) {
+/**
+ * Embedded YouTube video. Only the active card and the next video (preloaded, paused) mount a player,
+ * so at most two players exist at a time.
+ */
+export function VideoCard({ item, active, preload, tapNonce, onFail, height, fast }: CardProps<VideoItem>) {
   const c = useColors();
   const { width } = useWindowDimensions();
   const autoplay = useSettings((s) => s.autoplay && !s.dataSaver);
@@ -33,7 +36,7 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
   const cover = Math.max(width / 9, height / 16);
   const playerW = vertical ? Math.round(9 * cover) : Math.min(width, 720);
   const playerH = vertical ? Math.round(16 * cover) : Math.round((playerW * 9) / 16);
-  const mounted = online && active && (autoplay || requested);
+  const mounted = online && ((active && (autoplay || requested)) || (!!preload && autoplay));
 
   // React to visibility and taps while rendering (no effect round-trip).
   const [seen, setSeen] = useState({ active, autoplay, tapNonce });
@@ -87,6 +90,7 @@ export function VideoCard({ item, active, tapNonce, onFail, height, fast }: Card
               <YouTubeEmbed
                 key={attempt}
                 id={item.youtubeId}
+                mode={attempt > 0 ? "api" : "direct"}
                 start={item.start}
                 width={playerW}
                 height={playerH}

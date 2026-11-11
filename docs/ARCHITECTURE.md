@@ -56,6 +56,10 @@ src/
 - **`src/components/video/YouTubeEmbed.tsx`** carrega essa página num WebView com `baseUrl` igual à origem. O YouTube exige que o embed identifique o app pelo Referer; sem isso o vídeo falha com erro de configuração (152/153).
   - Comandos (tocar, pausar, som, 2×) entram por `injectJavaScript`; estado e erros voltam por `postMessage`.
   - Na web, o mesmo HTML roda num `iframe` com `srcdoc` (`YouTubeEmbed.web.tsx`).
+- **Velocidade:**
+  - **Embed direto:** a página cria o `iframe` do embed na hora e conversa com ele pelo protocolo `postMessage` do próprio embed (`listening`, `command`, `infoDelivery`). Sem resposta em 6 s, ela usa a IFrame API.
+  - **Pré-carga:** o Feed pré-carrega, pausado, o próximo vídeo até 2 cards à frente (`src/feed/preload.ts`, prop `preload`). São no máximo 2 players.
+  - **Aquecimento:** `YouTubeWarmup` monta um player invisível ao abrir o app, para aquecer DNS, TLS e o cache.
 - Se o embed for recusado, o card oferece **"Assistir aqui"**, que abre `app/watch.tsx`: a página móvel do próprio YouTube num WebView. Só o erro 100 (vídeo removido ou privado) pula o card.
 
 ## Estado (`src/store/`)

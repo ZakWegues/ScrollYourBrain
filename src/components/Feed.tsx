@@ -13,6 +13,11 @@ import { countStudy, trackTime } from "@/store/progress";
 import { ForceDark, TAB_BAR_SPACE } from "@/theme";
 import { AmbientBackdrop } from "./AmbientBackdrop";
 import { FeedItem } from "./FeedItem";
+import { Image } from "expo-image";
+import { PRELOAD_AHEAD, preloadIndex, upcomingThumbs } from "@/feed/preload";
+import { youtubeThumb } from "@/feed/sources/youtube";
+import { useNetwork } from "@/store/network";
+import { useSettings } from "@/store/settings";
 
 const QUICK_SKIP_MS = 1500;
 
@@ -159,6 +164,16 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
     };
   }, [source.type, focused]);
 
+  // The next video (up to two cards ahead) loads paused, so it starts right away when it shows up.
+  const autoplayOn = useSettings((s) => s.autoplay && !s.dataSaver);
+  const online = useNetwork((s) => s.online);
+  const preload = playing && autoplayOn && online ? preloadIndex(entries, active) : -1;
+  const thumbs = upcomingThumbs(entries, active, 3, youtubeThumb).join("|");
+  useEffect(() => {
+    if (!thumbs || !online) return;
+    Image.prefetch(thumbs.split("|")).catch(() => {});
+  }, [thumbs, online]);
+
   const activeEntry = entries[active];
   const activeKey = activeEntry?.key;
   const activePage = activeEntry?.item.pageId;
@@ -184,8 +199,8 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
           ref={list}
           data={entries}
           keyExtractor={(e) => e.key}
-          renderItem={({ item, index }) => <FeedItem key={item.key} entry={item} active={playing && index === active} height={height} onFail={onFail} onStudied={onStudied} bottomInset={inset} />}
-          extraData={`${active}-${playing}-${height}-${inset}`}
+          renderItem={({ item, index }) => <FeedItem key={item.key} entry={item} active={playing && index === active} preload={index === preload} height={height} onFail={onFail} onStudied={onStudied} bottomInset={inset} />}
+          extraData={`${active}-${playing}-${height}-${inset}-${preload}`}
           pagingEnabled
           snapToInterval={Platform.OS === "web" ? undefined : height}
           snapToAlignment="start"
@@ -200,7 +215,7 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
           onEndReached={loadMore}
           onEndReachedThreshold={2}
           initialScrollIndex={startIndex > 0 ? startIndex : undefined}
-          drawDistance={height}
+          drawDistance={height * PRELOAD_AHEAD}
           getItemType={(e) => e.item.kind}
           testID="feed-list"
         />

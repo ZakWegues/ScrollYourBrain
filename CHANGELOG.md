@@ -2,6 +2,14 @@
 
 Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [0.7.2] — 2026-11-11
+### Melhorado
+- **Shorts carregam bem mais rápido:**
+  - **O próximo vídeo carrega antes:** quando faltam até 2 cards, ele fica pronto e pausado, e começa na hora em que aparece. Ficam no máximo 2 players ao mesmo tempo, e isso não acontece com a economia de dados ligada.
+  - **Player mais direto:** o vídeo começa a carregar de primeira, sem baixar antes os scripts da API do YouTube. Isso o deixa pronto 25 a 35% mais rápido. Se o YouTube não responder em 6 s, o app volta sozinho para o jeito antigo.
+  - **Conexão aquecida ao abrir o app:** um player invisível deixa o YouTube pronto antes do primeiro vídeo.
+  - **Capas dos próximos vídeos baixadas antes.**
+
 ## [0.7.1] — 2026-11-11
 ### Corrigido
 - **A resposta certa caía na B em 72% das questões escritas à mão.**

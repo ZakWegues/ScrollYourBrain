@@ -16,6 +16,7 @@ import { ShareCardHost } from "@/components/ShareCard";
 import { SheetsHost } from "@/components/Sheets";
 import { OfflineBadge } from "@/components/OfflineBadge";
 import { ToastHost } from "@/components/Toast";
+import { YouTubeWarmup } from "@/components/video/YouTubeWarmup";
 import { useNetworkWatcher } from "@/store/network";
 import { useAchievementWatcher } from "@/store/achievementWatcher";
 import { useStoresHydrated } from "@/store/hydration";
@@ -114,6 +115,7 @@ export default function RootLayout() {
           <Stack.Screen name="final" />
           <Stack.Screen name="watch" options={{ animation: "slide_from_bottom" }} />
         </Stack>
+        <YouTubeWarmup />
         <OfflineBadge />
         <SheetsHost />
         <ShareCardHost />

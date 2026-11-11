@@ -79,6 +79,8 @@ function RailButton({ icon, label, color, onPress, active, testID }: { icon: Ico
 interface Props {
   entry: FeedEntry;
   active: boolean;
+  /** The next video: load it paused so it starts at once. */
+  preload?: boolean;
   height: number;
   onFail: (key: string) => void;
   onStudied: (key: string) => void;
@@ -86,7 +88,7 @@ interface Props {
   bottomInset?: number;
 }
 
-export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, onStudied, bottomInset = TAB_BAR_SPACE }: Props) {
+export const FeedItem = memo(function FeedItem({ entry, active, preload, height, onFail, onStudied, bottomInset = TAB_BAR_SPACE }: Props) {
   const { item } = entry;
   const c = useColors();
   const page = getPage(item.pageId);
@@ -179,7 +181,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, height, onFail, 
     <View style={[{ height, overflow: "hidden" }, webSnap]} testID="feed-item">
       <GestureDetector gesture={gesture}>
         <View style={StyleSheet.absoluteFill} collapsable={false}>
-          <Card item={item} active={active} height={height} tapNonce={tapNonce} fast={fast} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
+          <Card item={item} active={active} preload={preload} height={height} tapNonce={tapNonce} fast={fast} onFail={() => onFail(entry.key)} onStudied={() => onStudied(entry.key)} />
           {/* Scrims keep the header and the bottom text readable over any background or video. */}
           <LinearGradient pointerEvents="none" colors={["rgba(0,0,0,0.55)", "transparent"]} style={styles.topScrim} />
           <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.78)"]} style={[styles.bottomScrim, { height: bottomInset + 170 }]} />

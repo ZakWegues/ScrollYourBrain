@@ -7,6 +7,8 @@ export interface YouTubeEmbedProps {
   rate?: number;
   loop?: boolean;
   controls?: boolean;
+  /** "direct" (default, faster) or "api" (the IFrame API, used when retrying). */
+  mode?: "direct" | "api";
   width: number;
   height: number;
   onReady?: () => void;
