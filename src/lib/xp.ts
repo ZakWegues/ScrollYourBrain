@@ -1,4 +1,4 @@
-export type XpEvent = "study" | "correct" | "review" | "like" | "save" | "goal" | "exam" | "focus" | "streak";
+export type XpEvent = "study" | "correct" | "review" | "like" | "save" | "goal" | "exam" | "focus" | "streak" | "daily";
 
 export const XP_FOR: Record<XpEvent, number> = {
   study: 5,
@@ -10,6 +10,7 @@ export const XP_FOR: Record<XpEvent, number> = {
   exam: 30,
   focus: 40,
   streak: 20,
+  daily: 15,
 };
 
 /** Total XP needed to reach a level: 0, 100, 300, 600, 1000, … (gentle quadratic curve). */

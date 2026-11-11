@@ -9,6 +9,7 @@ import { summarize } from "@/lib/stats";
 import { levelInfo, mastery, REWARDS, TITLES, titleFor, XP_FOR, type XpEvent } from "@/lib/xp";
 import { useProgress, useToday } from "@/store/progress";
 import { useXp } from "@/store/xp";
+import { startWeakExam } from "@/feed/practice";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
 const EVENT_LABEL: Record<XpEvent, { label: string; icon: IconName }> = {
@@ -21,6 +22,7 @@ const EVENT_LABEL: Record<XpEvent, { label: string; icon: IconName }> = {
   exam: { label: "Simulados", icon: "timer-outline" },
   focus: { label: "Sessões de foco", icon: "meditation" },
   streak: { label: "Sequências", icon: "fire" },
+  daily: { label: "Perguntas do dia", icon: "help-circle-outline" },
 };
 
 /** Level, title, rewards and how well you know each account. */
@@ -68,7 +70,13 @@ export default function Profile() {
         </LinearGradient>
 
         <View style={{ paddingHorizontal: space.lg }}>
-          <AppText variant="headline" style={styles.section}>Domínio por conta</AppText>
+          <View style={[styles.sectionRow, styles.section]}>
+            <AppText variant="headline" style={{ flex: 1 }}>Domínio por conta</AppText>
+            <Bouncy onPress={startWeakExam} style={[styles.weakBtn, { borderColor: c.danger }]} accessibilityLabel="Treinar pontos fracos">
+              <Icon name="target" size={16} color={c.danger} />
+              <AppText variant="caption" style={{ color: c.danger }}>Treinar fracos</AppText>
+            </Bouncy>
+          </View>
           {ranking.length === 0 ? (
             <AppText dim>Responda quizzes no feed para ver o quanto você domina cada conta.</AppText>
           ) : (
@@ -137,6 +145,8 @@ const styles = StyleSheet.create({
   statsRow: { flexDirection: "row", alignSelf: "stretch", justifyContent: "space-between", marginTop: space.lg },
   stat: { alignItems: "center", flex: 1 },
   section: { marginTop: space.xl, marginBottom: space.md },
+  sectionRow: { flexDirection: "row", alignItems: "center", gap: space.sm },
+  weakBtn: { flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: space.md, paddingVertical: 6, borderRadius: radius.pill, borderWidth: 1 },
   rank: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.lg, borderWidth: 1, marginBottom: space.sm },
   rankHead: { flexDirection: "row", alignItems: "center", gap: space.sm },
   track: { height: 6, borderRadius: 3, overflow: "hidden", marginVertical: 5 },

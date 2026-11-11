@@ -25,6 +25,7 @@ import { useWidgetSync } from "@/widget/sync";
 import { useSettings } from "@/store/settings";
 import { useColors, useTheme } from "@/theme";
 import { showTabBar } from "@/store/chrome";
+import { tickClock } from "@/store/clock";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 SplashScreen.setOptions({ fade: true, duration: 150 });
@@ -50,8 +51,16 @@ export default function RootLayout() {
   }, [hydrated, reminder, streak, goal]);
   // Leaving or returning to the app cancels any half-finished swipe, so the tab bar must come back.
   useEffect(() => {
-    const sub = AppState.addEventListener("change", () => showTabBar());
-    return () => sub.remove();
+    const sub = AppState.addEventListener("change", () => {
+      showTabBar();
+      tickClock();
+    });
+    // The automatic theme follows the clock.
+    const id = setInterval(tickClock, 60_000);
+    return () => {
+      sub.remove();
+      clearInterval(id);
+    };
   }, []);
   const c = useColors();
   const light = useTheme().light;
@@ -98,6 +107,9 @@ export default function RootLayout() {
           <Stack.Screen name="my-topics" />
           <Stack.Screen name="profile" />
           <Stack.Screen name="blitz" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="lesson" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="mistakes" />
+          <Stack.Screen name="final" />
         </Stack>
         <OfflineBadge />
         <SheetsHost />

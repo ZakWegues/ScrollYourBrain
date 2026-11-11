@@ -7,6 +7,7 @@ import { getPage } from "@/data/pages";
 import { formatDuration, heatmap, summarize } from "@/lib/stats";
 import { useProgress } from "@/store/progress";
 import { radius, space, TOUCH, useColors } from "@/theme";
+import { WeeklySummary } from "@/components/WeeklySummary";
 
 type Range = "7" | "30" | "all";
 
@@ -44,6 +45,7 @@ export default function Stats() {
         <View style={styles.iconBtn} />
       </View>
       <ScrollView contentContainerStyle={{ paddingHorizontal: space.lg, paddingBottom: insets.bottom + space.xxl }} showsVerticalScrollIndicator={false}>
+        <WeeklySummary linkToStats={false} />
         <Segmented<Range>
           fill
           value={range}

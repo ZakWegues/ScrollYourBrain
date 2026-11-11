@@ -4,6 +4,7 @@ import type { StudyItem } from "@/feed/types";
 import { bump, type ActivityLog, type Counter } from "@/lib/stats";
 import { currentStreak, dayKey } from "@/lib/streak";
 import { useLibrary } from "./library";
+import { useMistakes } from "./mistakes";
 import { awardXp } from "./xp";
 import { persistStorage } from "./storage";
 import { useSettings } from "./settings";
@@ -106,6 +107,7 @@ export function trackAnswer(item: StudyItem, correct: boolean) {
   useLibrary.getState().recordAnswer(correct);
   if (correct) awardXp("correct");
   useProgress.getState().logEvent(item.pageId, { answered: 1, correct: correct ? 1 : 0 });
+  if (item.kind === "quiz") useMistakes.getState().record(item, correct);
 }
 
 const MAX_CARD_SECONDS = 180;

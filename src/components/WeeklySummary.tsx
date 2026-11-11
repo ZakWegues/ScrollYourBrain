@@ -8,7 +8,7 @@ import { radius, space, useColors } from "@/theme";
 import { AppText, Bouncy, Icon, PageAvatar } from "./ui";
 
 /** Last 7 days at a glance, compared with the 7 before. */
-export function WeeklySummary() {
+export function WeeklySummary({ linkToStats = true }: { linkToStats?: boolean }) {
   const c = useColors();
   const log = useProgress((s) => s.log);
   const data = useMemo(() => {
@@ -26,11 +26,11 @@ export function WeeklySummary() {
   const bestDay = best && best.studied > 0 ? new Date(`${best.key}T12:00:00`).toLocaleDateString("pt-BR", { weekday: "long" }) : null;
 
   return (
-    <Bouncy onPress={() => router.push("/stats")} scaleTo={0.98} style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={`Resumo da semana: ${week.studied} cards`} testID="weekly-summary">
+    <Bouncy disabled={!linkToStats} onPress={() => router.push("/stats")} scaleTo={0.98} style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={`Resumo da semana: ${week.studied} cards`} testID="weekly-summary">
       <View style={styles.head}>
         <Icon name="calendar-week" size={20} color={c.accent2} />
         <AppText variant="label" style={{ flex: 1 }}>{sunday ? "Sua semana fechou" : "Resumo da semana"}</AppText>
-        <Icon name="chevron-right" size={20} color={c.textDim} />
+        {linkToStats && <Icon name="chevron-right" size={20} color={c.textDim} />}
       </View>
       <View style={styles.row}>
         <View style={styles.stat}>

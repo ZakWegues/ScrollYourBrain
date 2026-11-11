@@ -24,6 +24,8 @@ import { ACHIEVEMENTS } from "@/lib/achievements";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
 import { LevelCard } from "@/components/LevelCard";
 import { WeeklySummary } from "@/components/WeeklySummary";
+import { DailyQuestion } from "@/components/DailyQuestion";
+import { useMistakes } from "@/store/mistakes";
 
 type Tab = "saved" | "liked" | "notebooks" | "notes";
 
@@ -55,12 +57,13 @@ export default function Library() {
       }
     >
       <LevelCard />
-      <WeeklySummary />
       <NextExam />
+      <DailyQuestion />
       <ReviewCard />
-      <View style={{ height: space.md }} />
-      <StreakCard />
       <QuickLinks />
+      {/* The week's summary shows up when the week turns (Sunday and Monday); it always lives in Estatísticas. */}
+      {[0, 1].includes(new Date().getDay()) && <WeeklySummary />}
+      <StreakCard />
       <View style={{ height: space.md }} />
       <WeeklyChallenge />
 
@@ -100,16 +103,18 @@ function QuickLinks() {
   const c = useColors();
   const unlocked = useProgress((s) => Object.keys(s.achievements).length);
   const examCount = usePlanner((s) => Object.values(s.exams).filter((e) => daysUntil(e.date) >= 0).length);
-  const links: { icon: IconName; color: string; title: string; sub: string; to: "/stats" | "/achievements" | "/planner"; id: string }[] = [
-    { icon: "chart-box-outline", color: c.accent2, title: "Estatísticas", sub: "seu ritmo", to: "/stats", id: "stats-link" },
+  const mistakes = useMistakes((s) => Object.values(s.items).filter((m) => !m.fixed).length);
+  const links: { icon: IconName; color: string; title: string; sub: string; to: "/stats" | "/achievements" | "/planner" | "/mistakes"; id: string }[] = [
+    { icon: "chart-box-outline", color: c.accent2, title: "Ritmo", sub: "estatísticas", to: "/stats", id: "stats-link" },
     { icon: "trophy-outline", color: c.save, title: "Conquistas", sub: `${unlocked}/${ACHIEVEMENTS.length}`, to: "/achievements", id: "achievements-link" },
     { icon: "calendar-star", color: c.like, title: "Provas", sub: examCount ? `${examCount} marcada${examCount > 1 ? "s" : ""}` : "calendário", to: "/planner", id: "planner-link" },
+    { icon: "alert-circle-outline", color: c.danger, title: "Erros", sub: mistakes ? `${mistakes} pendente${mistakes > 1 ? "s" : ""}` : "nenhum", to: "/mistakes", id: "mistakes-link" },
   ];
   return (
-    <View style={[styles.links, { marginTop: space.md }]}>
+    <View style={[styles.links, { marginTop: space.md, marginBottom: space.md }]}>
       {links.map((l) => (
-        <Bouncy key={l.id} onPress={() => router.push(l.to)} scaleTo={0.96} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={l.title} testID={l.id}>
-          <Icon name={l.icon} size={24} color={l.color} />
+        <Bouncy key={l.id} onPress={() => router.push(l.to)} scaleTo={0.96} style={[styles.link, { backgroundColor: c.surface, borderColor: c.border }]} accessibilityLabel={`${l.title}: ${l.sub}`} testID={l.id}>
+          <Icon name={l.icon} size={22} color={l.color} />
           <AppText variant="label" numberOfLines={1}>{l.title}</AppText>
           <AppText variant="caption" dim numberOfLines={1}>{l.sub}</AppText>
         </Bouncy>
@@ -124,14 +129,16 @@ function NextExam() {
   const next = Object.values(exams).filter((e) => daysUntil(e.date) >= 0).sort((a, b) => a.date.localeCompare(b.date))[0];
   if (!next) return null;
   const days = daysUntil(next.date);
+  // In the last week the card opens the day-by-day final plan.
+  const final = days >= 1 && days <= 7;
   return (
-    <Bouncy onPress={() => router.push("/planner")} scaleTo={0.98} style={[styles.nextExam, { backgroundColor: c.surface, borderColor: days <= 3 ? c.danger : c.border }]} accessibilityLabel={`Próxima prova: ${next.title}, ${countdownLabel(days)}`}>
+    <Bouncy onPress={() => router.push(final ? { pathname: "/final", params: { exam: next.id } } : "/planner")} scaleTo={0.98} style={[styles.nextExam, { backgroundColor: c.surface, borderColor: days <= 3 ? c.danger : c.border }]} accessibilityLabel={`Próxima prova: ${next.title}, ${countdownLabel(days)}${final ? ". Abrir reta final" : ""}`} testID="next-exam">
       <View style={[styles.examDays, { backgroundColor: days <= 3 ? "rgba(244,63,94,0.16)" : c.surface2 }]}>
         <AppText variant="title" style={{ color: days <= 3 ? c.danger : c.text }}>{days}</AppText>
         <AppText variant="caption" dim>{days === 1 ? "dia" : "dias"}</AppText>
       </View>
       <View style={{ flex: 1 }}>
-        <AppText variant="caption" dim>Próxima prova</AppText>
+        <AppText variant="caption" style={{ color: final ? c.accent2 : c.textDim }}>{final ? "Reta final · plano do dia" : "Próxima prova"}</AppText>
         <AppText variant="headline" numberOfLines={1}>{next.title}</AppText>
       </View>
       <Icon name="chevron-right" size={24} color={c.textDim} />

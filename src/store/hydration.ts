@@ -8,9 +8,11 @@ import { useProgress } from "./progress";
 import { useReview } from "./review";
 import { useSearch } from "./search";
 import { useResume } from "./resume";
+import { useMistakes } from "./mistakes";
+import { useDaily } from "./daily";
 import { useSettings } from "./settings";
 
-const stores = [useLibrary, useSettings, useProgress, useReview, useNotebooks, usePlanner, useModes, useXp, useSearch, useResume] as const;
+const stores = [useLibrary, useSettings, useProgress, useReview, useNotebooks, usePlanner, useModes, useXp, useSearch, useResume, useMistakes, useDaily] as const;
 
 /** True once all persisted stores have been read back from storage. */
 export function useStoresHydrated(): boolean {

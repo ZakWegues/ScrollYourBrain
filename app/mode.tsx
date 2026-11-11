@@ -433,7 +433,7 @@ function Plan({ config, onChange, onEdit, onCustomize }: { config: ModeConfig; o
                 <Bouncy onPress={() => { useModes.getState().toggleMastered(t.id); haptic.select(); }} style={styles.check} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={`Marcar ${t.name} como dominado`}>
                   <Icon name={on ? "checkbox-marked-circle" : "checkbox-blank-circle-outline"} size={26} color={on ? c.success : c.textDim} />
                 </Bouncy>
-                <Bouncy onPress={() => study(itemsForTopics([t.id], custom), t.name)} scaleTo={0.98} style={styles.topicBody} accessibilityLabel={`Estudar ${t.name}`}>
+                <Bouncy onPress={() => router.push({ pathname: "/lesson", params: { topic: t.id } })} scaleTo={0.98} style={styles.topicBody} accessibilityLabel={`Aula guiada: ${t.name}`}>
                   {!config.subject && <PageAvatar pageId={t.subject} size={26} />}
                   <View style={{ flex: 1 }}>
                     <AppText variant="label" style={{ color: on ? c.textDim : c.text }} numberOfLines={2}>{t.name}</AppText>

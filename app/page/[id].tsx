@@ -76,12 +76,20 @@ export default function PageScreen() {
           </Bouncy>
           <GradientButton label="Assistir" icon="play" onPress={() => watch(0)} />
         </View>
-        {examAvailability(page.id) >= MIN_EXAM_QUESTIONS && (
-          <Bouncy onPress={() => router.push(`/exam?page=${page.id}`)} style={styles.examBtn} accessibilityLabel={`Fazer prova de ${page.name}`}>
-            <Icon name="timer-outline" size={18} color="#fff" />
-            <AppText variant="label" style={{ color: "#fff" }}>Fazer prova</AppText>
-          </Bouncy>
-        )}
+        <View style={styles.pills}>
+          {items.some((i) => i.kind !== "video") && (
+            <Bouncy onPress={() => router.push({ pathname: "/lesson", params: { page: page.id } })} style={styles.examBtn} accessibilityLabel={`Aula guiada de ${page.name}`} testID="page-lesson">
+              <Icon name="school-outline" size={18} color="#fff" />
+              <AppText variant="label" style={{ color: "#fff" }}>Aula guiada</AppText>
+            </Bouncy>
+          )}
+          {examAvailability(page.id) >= MIN_EXAM_QUESTIONS && (
+            <Bouncy onPress={() => router.push(`/exam?page=${page.id}`)} style={styles.examBtn} accessibilityLabel={`Fazer prova de ${page.name}`}>
+              <Icon name="timer-outline" size={18} color="#fff" />
+              <AppText variant="label" style={{ color: "#fff" }}>Fazer prova</AppText>
+            </Bouncy>
+          )}
+        </View>
       </View>
 
       {subs.length > 0 && (
@@ -121,6 +129,7 @@ const styles = StyleSheet.create({
   stat: { color: "rgba(255,255,255,0.85)" },
   actions: { flexDirection: "row", gap: 10, marginTop: 18 },
   followBtn: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 20, paddingVertical: 13, borderRadius: radius.pill },
+  pills: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 },
   examBtn: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 12, paddingHorizontal: 16, paddingVertical: 9, borderRadius: radius.pill, backgroundColor: "rgba(0,0,0,0.3)" },
   parent: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 8, paddingHorizontal: 12, paddingVertical: 5, borderRadius: radius.pill, backgroundColor: "rgba(0,0,0,0.28)" },
   sub: { width: 118, alignItems: "center", padding: 12, borderRadius: radius.lg, borderWidth: 1 },

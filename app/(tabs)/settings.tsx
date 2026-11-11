@@ -108,6 +108,38 @@ function ThemeOption({ mode }: { mode: ThemeMode }) {
   );
 }
 
+/** "Tema automático": Claro during the day, a dark theme of your choice at night. */
+function AutoTheme() {
+  const c = useColors();
+  const st = useSettings();
+  const level = useXp((x) => levelInfo(x.xp).level);
+  const darks = THEME_ORDER.filter((m) => !THEMES[m].light && level >= themeLevel(m));
+  const hours = (list: number[], value: number, key: "dayStart" | "nightStart") => (
+    <View style={styles.chips}>
+      {list.map((h) => <Chip key={h} label={`${h}h`} active={value === h} onPress={() => st.set({ [key]: h })} />)}
+    </View>
+  );
+  return (
+    <View style={{ marginTop: space.md }}>
+      <Card>
+        <Row icon="theme-light-dark" title="Tema automático" subtitle="Claro de dia, escuro à noite" value={st.autoTheme} onChange={(v) => st.set({ autoTheme: v })} last testID="toggle-auto-theme" />
+      </Card>
+      {st.autoTheme && (
+        <View style={[styles.autoBox, { borderColor: c.border }]}>
+          <AppText variant="caption" dim>Tema da noite</AppText>
+          <View style={styles.chips}>
+            {darks.map((m) => <Chip key={m} label={THEMES[m].name} active={st.nightTheme === m} onPress={() => st.set({ nightTheme: m })} />)}
+          </View>
+          <AppText variant="caption" dim style={{ marginTop: space.md }}>O dia começa às</AppText>
+          {hours([5, 6, 7, 8], st.dayStart, "dayStart")}
+          <AppText variant="caption" dim style={{ marginTop: space.md }}>A noite começa às</AppText>
+          {hours([17, 18, 19, 20, 21], st.nightStart, "nightStart")}
+        </View>
+      )}
+    </View>
+  );
+}
+
 const REMINDER_TIMES = [7 * 60, 12 * 60, 18 * 60, 20 * 60, 21 * 60 + 30];
 
 function ReminderSettings() {
@@ -172,9 +204,10 @@ export default function Settings() {
   return (
     <Screen title="Ajustes" subtitle="Deixe o app do seu jeito">
       <SectionTitle>Aparência</SectionTitle>
-      <View style={styles.themeRow}>
+      <View style={[styles.themeRow, s.autoTheme && { opacity: 0.55 }]}>
         {THEME_ORDER.map((m) => <ThemeOption key={m} mode={m} />)}
       </View>
+      <AutoTheme />
 
       <SectionTitle>Texto confortável</SectionTitle>
       <Segmented<string>
@@ -303,6 +336,7 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, paddingVertical: 12, minHeight: 58 },
   rowIcon: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  autoBox: { marginTop: space.sm, padding: space.md, borderRadius: radius.lg, borderWidth: 1, gap: space.sm },
   themeOpt: { width: "48%", flexGrow: 1, padding: 10, borderRadius: radius.lg, borderWidth: 1.5 },
   lock: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 2, backgroundColor: "rgba(0,0,0,0.45)" },
   preview: { height: 110, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, padding: 10, gap: 6, overflow: "hidden" },

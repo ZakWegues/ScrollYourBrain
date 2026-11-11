@@ -1,3 +1,5 @@
+import { autoThemeAt } from "@/lib/autoTheme";
+import { useClock } from "@/store/clock";
 import { useSettings } from "@/store/settings";
 
 import { createContext, useContext } from "react";
@@ -101,7 +103,15 @@ export const ForceDark = createContext(false);
 
 /** The theme actually used where the hook is called (light themes are dark inside the feed). */
 export const useThemeMode = (): ThemeMode => {
-  const mode = useSettings((s) => s.theme);
+  const manual = useSettings((s) => s.theme);
+  const auto = useSettings((s) => s.autoTheme);
+  const night = useSettings((s) => s.nightTheme);
+  const dayStart = useSettings((s) => s.dayStart);
+  const nightStart = useSettings((s) => s.nightStart);
+  const hour = useClock((s) => s.hour);
+  // The night theme must be a dark one; anything else falls back to AMOLED.
+  const safeNight: ThemeMode = THEMES[night] && !THEMES[night].light ? night : "amoled";
+  const mode = auto ? autoThemeAt<ThemeMode>(hour, dayStart, nightStart, safeNight, "claro") : manual;
   const forceDark = useContext(ForceDark);
   return forceDark && THEMES[mode]?.light ? "default" : (THEMES[mode] ? mode : "amoled");
 };

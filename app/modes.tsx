@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppText, Bouncy, Icon, type IconName } from "@/components/ui";
 import { MODE_INFO, MODE_ORDER, modeKey, modeTitle, type ModeConfig } from "@/lib/modes";
 import { useModes } from "@/store/modes";
+import { startWeakExam } from "@/feed/practice";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
 export const openMode = (config: ModeConfig) => router.push({ pathname: "/mode", params: { c: JSON.stringify(config) } });
@@ -51,6 +52,14 @@ export default function Modes() {
           <View style={{ flex: 1 }}>
             <AppText variant="label">Prova personalizada</AppText>
             <AppText variant="caption" dim>Várias matérias e os assuntos exatos que vão cair</AppText>
+          </View>
+          <Icon name="chevron-right" size={22} color={c.textDim} />
+        </Bouncy>
+        <Bouncy onPress={startWeakExam} scaleTo={0.98} style={[styles.customize, { borderColor: c.danger, backgroundColor: c.surface }]} accessibilityLabel="Simulado dos pontos fracos" testID="mode-weak">
+          <Icon name="target" size={24} color={c.danger} />
+          <View style={{ flex: 1 }}>
+            <AppText variant="label">Pontos fracos</AppText>
+            <AppText variant="caption" dim>Simulado com o que você mais erra</AppText>
           </View>
           <Icon name="chevron-right" size={22} color={c.textDim} />
         </Bouncy>

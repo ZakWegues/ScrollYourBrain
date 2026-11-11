@@ -33,6 +33,12 @@ export interface SettingsState {
   saveToReview: boolean;
   /** How often videos show up in the feed. */
   videoFrequency: VideoFrequency;
+  /** Automatic theme: light during the day, `nightTheme` at night. */
+  autoTheme: boolean;
+  nightTheme: ThemeMode;
+  /** Hours (0–23) when the day and the night start. */
+  dayStart: number;
+  nightStart: number;
   set: (patch: Partial<Omit<SettingsState, "set" | "toggleInterest" | "reset">>) => void;
   toggleInterest: (id: PageId) => void;
   reset: () => void;
@@ -57,6 +63,10 @@ const defaults = {
   hintsShown: 0,
   saveToReview: true,
   videoFrequency: "balanced" as VideoFrequency,
+  autoTheme: false,
+  nightTheme: "amoled" as ThemeMode,
+  dayStart: 7,
+  nightStart: 19,
 };
 
 export type VideoFrequency = "more" | "balanced" | "less";
@@ -76,7 +86,7 @@ export const useSettings = create<SettingsState>()(
     {
       name: "syb-settings",
       storage: persistStorage,
-      version: 5,
+      version: 6,
       // v1 had no goal or onboarding flag; existing users keep their settings and see onboarding once.
       migrate: (persisted) => ({ ...defaults, ...(persisted as object) }),
     },
