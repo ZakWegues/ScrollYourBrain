@@ -71,8 +71,8 @@ more(F, 1, 1, [
 ]);
 more(F, 1, 2, [
   ["Peso de uma pessoa de 60 kg (g = 10 m/s²):", ["6 N", "60 N", "600 N", "6000 N"], 2, "P = m·g = 600 N."],
-  ["Ao frear o ônibus, o passageiro vai para frente por causa:", ["Da 3ª lei", "Da inércia (1ª lei)", "Da gravidade", "Do atrito"], 1, "O corpo tende a manter o movimento: inércia."],
-  ["A força de atrito sempre:", ["Ajuda o movimento", "Se opõe ao deslizamento", "É vertical", "É igual ao peso"], 1, "Atrito se opõe ao movimento (ou à tendência de movimento) relativo."],
+  ["Ao frear o ônibus, o passageiro vai para frente por causa:", ["Da 3ª lei de Newton", "Da inércia", "Da força peso", "Do atrito no piso"], 1, "O corpo tende a manter o movimento: inércia."],
+  ["A força de atrito sempre:", ["Ajuda o corpo a se mover", "Se opõe ao deslizamento", "É vertical, como o peso", "É igual ao peso do corpo"], 1, "Atrito se opõe ao movimento (ou à tendência de movimento) relativo."],
 ]);
 more(F, 1, 3, [
   ["Trabalho de uma força de 10 N ao deslocar um objeto 5 m na mesma direção:", ["2 J", "15 J", "50 J", "500 J"], 2, "τ = F·d = 10·5 = 50 J."],
@@ -82,12 +82,12 @@ more(F, 1, 3, [
 more(F, 1, 4, [
   ["Impulso de uma força de 20 N aplicada por 3 s:", ["6,7 N·s", "23 N·s", "60 N·s", "17 N·s"], 2, "I = F·Δt = 60 N·s."],
   ["Se a distância entre dois corpos dobra, a força gravitacional:", ["Dobra", "Cai pela metade", "Cai para 1/4", "Não muda"], 2, "F é proporcional a 1/d²."],
-  ["Na Lua, sua massa:", ["Diminui", "É a mesma que na Terra", "Vira zero", "Aumenta"], 1, "Massa não muda; o que muda é o peso."],
+  ["Na Lua, sua massa:", ["Diminui para 1/6", "Continua a mesma", "Vira zero", "Aumenta um pouco"], 1, "Massa não muda; o que muda é o peso."],
 ]);
 more(F, 2, 1, [
-  ["Calor é:", ["Temperatura alta", "Energia térmica em trânsito por diferença de temperatura", "Sinônimo de temperatura", "Uma substância"], 1, "Calor flui do mais quente para o mais frio."],
+  ["Calor é:", ["Temperatura alta de um corpo", "Energia térmica em trânsito", "Sinônimo de temperatura", "Uma substância que flui"], 1, "Calor flui do mais quente para o mais frio."],
   ["Para aquecer 100 g de água (c = 1 cal/g°C) em 10 °C são necessárias:", ["10 cal", "100 cal", "1000 cal", "110 cal"], 2, "Q = m·c·ΔT = 100·1·10 = 1000 cal."],
-  ["Durante a fusão do gelo a 0 °C, a temperatura:", ["Sobe", "Desce", "Fica constante", "Oscila"], 2, "Na mudança de estado, o calor latente muda o estado, não a temperatura."],
+  ["Durante a fusão do gelo a 0 °C, a temperatura:", ["Sobe aos poucos", "Cai abaixo de zero", "Fica constante", "Oscila sem parar"], 2, "Na mudança de estado, o calor latente muda o estado, não a temperatura."],
 ]);
 more(F, 2, 2, [
   ["Na transformação isovolumétrica de um gás, o trabalho é:", ["Máximo", "Zero", "Negativo sempre", "Igual ao calor"], 1, "Sem variação de volume, não há trabalho."],
@@ -95,14 +95,14 @@ more(F, 2, 2, [
   ["Lei geral dos gases ideais:", ["PV = nRT", "F = ma", "Q = mcΔT", "V = λf"], 0, "Equação de Clapeyron."],
 ]);
 more(F, 2, 3, [
-  ["O ângulo de incidência é igual ao de reflexão. Isso é:", ["Refração", "Lei da reflexão", "Difração", "Dispersão"], 1, "Na reflexão, i = r."],
+  ["O ângulo de incidência é igual ao de reflexão. Isso é:", ["Refração", "Lei da reflexão", "Difração", "Dispersão da luz"], 1, "Na reflexão, i = r."],
   ["A luz muda de direção ao passar do ar para a água por causa da:", ["Reflexão", "Refração", "Difração", "Interferência"], 1, "Muda de velocidade ao trocar de meio: refração."],
   ["Lente que corrige miopia:", ["Convergente", "Divergente", "Cilíndrica", "Bifocal"], 1, "Míope foca antes da retina; lente divergente corrige."],
 ]);
 more(F, 2, 4, [
   ["Frequência é medida em:", ["Metros", "Hertz", "Segundos", "Decibéis"], 1, "Hz = oscilações por segundo."],
   ["Som mais agudo tem:", ["Menor frequência", "Maior frequência", "Maior amplitude", "Menor velocidade"], 1, "Altura do som depende da frequência."],
-  ["A luz é uma onda:", ["Mecânica longitudinal", "Eletromagnética transversal", "Mecânica transversal", "Sonora"], 1, "Eletromagnética e transversal."],
+  ["A luz é uma onda:", ["Mecânica e longitudinal", "Eletromagnética e transversal", "Mecânica e transversal", "Sonora e longitudinal"], 1, "Eletromagnética e transversal."],
 ]);
 more(F, 3, 1, [
   ["Um corpo neutro que perde elétrons fica:", ["Negativo", "Positivo", "Neutro", "Magnético"], 1, "Menos elétrons → excesso de prótons → positivo."],
@@ -115,12 +115,12 @@ more(F, 3, 2, [
   ["Lâmpada de 100 W ligada por 10 h consome:", ["10 kWh", "1 kWh", "100 kWh", "0,1 kWh"], 1, "E = 0,1 kW · 10 h = 1 kWh."],
 ]);
 more(F, 3, 3, [
-  ["A agulha da bússola aponta para:", ["O sul geográfico", "O norte geográfico (perto do polo sul magnético)", "O Equador", "Qualquer direção"], 1, "O norte da agulha aponta o norte geográfico, onde fica um polo sul magnético."],
+  ["A agulha da bússola aponta para:", ["O sul geográfico", "O norte geográfico", "A linha do Equador", "Qualquer direção"], 1, "O norte da agulha aponta o norte geográfico, onde fica um polo sul magnético."],
   ["Uma corrente elétrica gera ao seu redor:", ["Campo gravitacional", "Campo magnético", "Luz", "Calor apenas"], 1, "Experimento de Oersted."],
   ["Transformadores funcionam com corrente:", ["Contínua", "Alternada", "Nula", "De pilha"], 1, "Precisam de variação de fluxo magnético: corrente alternada."],
 ]);
 more(F, 3, 4, [
-  ["Segundo a relatividade, nada com massa pode:", ["Parar", "Atingir a velocidade da luz", "Ter energia", "Acelerar"], 1, "c é o limite de velocidade."],
+  ["Segundo a relatividade, nada com massa pode:", ["Ficar parado", "Atingir a velocidade da luz", "Ter energia cinética", "Sofrer aceleração"], 1, "c é o limite de velocidade."],
   ["Energia de um fóton é proporcional à:", ["Massa", "Frequência", "Amplitude", "Distância"], 1, "E = h·f."],
   ["Radiação com maior energia por fóton:", ["Ondas de rádio", "Luz visível", "Infravermelho", "Raios gama"], 3, "Maior frequência → maior energia."],
 ]);
@@ -134,7 +134,7 @@ more(Qm, 1, 1, [
 more(Qm, 1, 2, [
   ["Átomo com 11 prótons e 12 nêutrons tem número de massa:", ["11", "12", "23", "1"], 2, "A = Z + N = 23."],
   ["Isótopos têm mesmo número de:", ["Nêutrons", "Prótons", "Massa", "Elétrons na valência sempre"], 1, "Mesmo elemento: mesmo Z."],
-  ["Na tabela periódica, as colunas são chamadas de:", ["Períodos", "Famílias (grupos)", "Camadas", "Séries"], 1, "Linhas = períodos; colunas = famílias."],
+  ["Na tabela periódica, as colunas são chamadas de:", ["Períodos", "Famílias", "Camadas", "Séries"], 1, "Linhas = períodos; colunas = famílias."],
 ]);
 more(Qm, 1, 3, [
   ["A água (H₂O) tem ligações:", ["Iônicas", "Covalentes", "Metálicas", "Nenhuma"], 1, "Ametal com ametal compartilham elétrons."],
@@ -144,12 +144,12 @@ more(Qm, 1, 3, [
 more(Qm, 1, 4, [
   ["NaOH é:", ["Ácido", "Base", "Sal", "Óxido"], 1, "Libera OH⁻ em água."],
   ["CO₂ é classificado como:", ["Ácido", "Base", "Óxido", "Sal"], 2, "Composto binário com oxigênio: óxido (ácido)."],
-  ["Chuva ácida é causada principalmente por:", ["O₂ e N₂", "SO₂ e NOₓ", "He e Ne", "H₂O"], 1, "Óxidos de enxofre e nitrogênio formam ácidos na atmosfera."],
+  ["Chuva ácida é causada principalmente por:", ["O₂ e N₂", "SO₂ e NOₓ", "He e Ne", "H₂O e O₂"], 1, "Óxidos de enxofre e nitrogênio formam ácidos na atmosfera."],
 ]);
 more(Qm, 2, 1, [
   ["Diluir 1 L de solução 2 mol/L até 4 L resulta em:", ["0,5 mol/L", "1 mol/L", "4 mol/L", "8 mol/L"], 0, "C₁V₁ = C₂V₂ → 2·1 = C₂·4 → 0,5 mol/L."],
-  ["Concentração em mol/L é:", ["Massa por volume", "Mols de soluto por litro de solução", "Mols por kg", "Volume por volume"], 1, "Molaridade = n/V(L)."],
-  ["Solução saturada:", ["Não dissolve nada", "Tem o máximo de soluto dissolvido àquela temperatura", "É sempre gasosa", "Tem pouco soluto"], 1, "Atingiu o coeficiente de solubilidade."],
+  ["Concentração em mol/L é:", ["Gramas de soluto por litro", "Mols de soluto por litro", "Mols de soluto por quilo", "Volume de soluto por volume"], 1, "Molaridade = n/V(L)."],
+  ["Solução saturada:", ["Não dissolve nenhum soluto", "Tem o máximo de soluto dissolvido", "É sempre uma mistura gasosa", "Tem pouco soluto dissolvido"], 1, "Atingiu o coeficiente de solubilidade."],
 ]);
 more(Qm, 2, 2, [
   ["A combustão é uma reação:", ["Endotérmica", "Exotérmica", "Sem troca de calor", "Nuclear"], 1, "Libera calor (ΔH < 0)."],
@@ -157,9 +157,9 @@ more(Qm, 2, 2, [
   ["Entalpia de formação de substâncias simples no estado padrão (ex.: O₂):", ["Positiva", "Zero", "Negativa", "Infinita"], 1, "Por convenção, vale zero."],
 ]);
 more(Qm, 2, 3, [
-  ["Carne na geladeira estraga mais devagar porque:", ["A pressão aumenta", "A temperatura baixa diminui a velocidade das reações", "Há mais oxigênio", "O catalisador some"], 1, "Menor temperatura, reações mais lentas."],
-  ["Comprimido triturado dissolve mais rápido por causa:", ["Da temperatura", "Da maior superfície de contato", "Do catalisador", "Da pressão"], 1, "Mais superfície exposta, mais choques."],
-  ["Energia de ativação é:", ["A energia liberada", "A energia mínima para a reação começar", "A entalpia final", "A energia do catalisador"], 1, "É a barreira a ser vencida."],
+  ["Carne na geladeira estraga mais devagar porque:", ["A pressão dentro dela aumenta", "O frio deixa as reações mais lentas", "Há mais oxigênio no ar frio", "O catalisador natural some"], 1, "Menor temperatura, reações mais lentas."],
+  ["Comprimido triturado dissolve mais rápido por causa:", ["Da temperatura mais alta", "Da maior superfície de contato", "Da ação de um catalisador", "Do aumento da pressão"], 1, "Mais superfície exposta, mais choques."],
+  ["Energia de ativação é:", ["A energia liberada no fim", "A energia mínima para começar", "A entalpia final dos produtos", "A energia gasta pelo catalisador"], 1, "É a barreira a ser vencida."],
 ]);
 more(Qm, 2, 4, [
   ["Solução com pH 10 é:", ["Ácida", "Neutra", "Básica", "Salina"], 2, "pH > 7: básica."],
@@ -178,11 +178,11 @@ more(Qm, 3, 2, [
 ]);
 more(Qm, 3, 3, [
   ["Etanol e éter dimetílico (C₂H₆O) são isômeros de:", ["Cadeia", "Função", "Posição", "Óptica"], 1, "Mesma fórmula molecular, funções diferentes."],
-  ["Isomeria cis-trans exige:", ["Carbono quiral", "Ligação dupla com ligantes diferentes em cada carbono", "Anel benzênico", "Oxigênio"], 1, "Isomeria geométrica."],
+  ["Isomeria cis-trans exige:", ["Carbono quiral com quatro ligantes", "Dupla com ligantes diferentes", "Anel benzênico na cadeia", "Oxigênio ligado ao carbono"], 1, "Isomeria geométrica."],
   ["Enantiômeros desviam a luz polarizada em sentidos:", ["Iguais", "Opostos", "Nenhum", "Aleatórios"], 1, "Dextrogiro e levogiro."],
 ]);
 more(Qm, 3, 4, [
   ["Combustão completa de hidrocarboneto produz:", ["CO e H₂", "CO₂ e H₂O", "C e H₂O", "O₂ e CO₂"], 1, "Com oxigênio suficiente: gás carbônico e água."],
-  ["Saponificação é a reação de:", ["Éster com base, formando sabão", "Ácido com álcool", "Polimerização", "Combustão"], 0, "Gordura + base forte → sabão + glicerol."],
-  ["Plástico PET é um:", ["Polímero", "Metal", "Sal", "Gás"], 0, "Poliéster usado em garrafas."],
+  ["Saponificação é a reação de:", ["Éster com base, formando sabão", "Ácido com álcool, formando éster", "Polimerização de monômeros", "Combustão de um hidrocarboneto"], 0, "Gordura + base forte → sabão + glicerol."],
+  ["Plástico PET é um:", ["Polímero", "Metal", "Sal", "Gás nobre"], 0, "Poliéster usado em garrafas."],
 ]);

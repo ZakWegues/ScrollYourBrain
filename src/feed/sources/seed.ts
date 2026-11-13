@@ -54,7 +54,7 @@ export const SEED: StudyItem[] = shuffleAnswers([
   {
     id: "qui-quiz-gas", pageId: "quimica", kind: "quiz", title: "Gases nobres", tags: ["tabela periódica"],
     question: "Por que os gases nobres quase não reagem?",
-    options: ["São muito pesados", "Têm a camada de valência completa", "Não têm elétrons", "São radioativos"], answer: 1,
+    options: ["São muito pesados e densos", "Têm a camada de valência completa", "Não têm elétrons na eletrosfera", "São todos radioativos e instáveis"], answer: 1,
     explanation: "Com a camada de valência completa, eles já são estáveis e não precisam ganhar, perder ou compartilhar elétrons.",
   },
   {
@@ -147,7 +147,7 @@ export const SEED: StudyItem[] = shuffleAnswers([
   {
     id: "ing-quiz-phrasal", pageId: "ingles", kind: "quiz", title: "Phrasal verbs", tags: ["phrasal verbs"],
     question: "“I gave up smoking.” O que significa ‘give up’?",
-    options: ["Começar", "Desistir / largar", "Aumentar", "Doar"], answer: 1,
+    options: ["Começar", "Largar", "Aumentar", "Doar"], answer: 1,
     explanation: "‘Give up’ = desistir ou parar de fazer algo. Eu parei de fumar.",
   },
   // Filosofia
