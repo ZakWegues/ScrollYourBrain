@@ -2,6 +2,23 @@
 
 Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [0.8.0] — 2026-11-13
+### Corrigido
+- **A resposta certa não é mais a alternativa mais longa.** Nas questões escritas à mão, a certa era sozinha a mais longa em 49% dos casos e tinha 1,7× o tamanho das erradas.
+  - As alternativas foram reescritas com o mesmo tamanho e estilo, e as erradas absurdas foram trocadas por erradas plausíveis.
+  - Agora a certa é sozinha a mais longa em 19% e a mais curta em 11% (no acaso seriam ~25%), com razão de tamanho 1,08.
+  - Um teste impede que o viés volte, também nas questões geradas.
+### Adicionado
+- **Marque todas as certas:** 95 questões com 2, 3 ou 4 certas. Só conta acerto com o conjunto exato, e o app mostra quantas certas você marcou.
+- **Dissertativas:** 37 perguntas de "explique por quê".
+  - Você escreve a resposta e vê a resposta-modelo e os pontos-chave; os que aparecem no seu texto já vêm marcados.
+  - Depois você diz se acertou, acertou parte ou errou.
+- As duas aparecem no feed, na aula guiada, na revisão e no caderno de erros. "Marque todas" entra nos simulados; as dissertativas entram na prova do modo de estudo se você ligar "Incluir dissertativas".
+- **Assistir depois:** guarde vídeos pelo menu "Mais" ou pela tela do vídeo; a lista fica na Biblioteca.
+- **Legendas em português** nos vídeos, ligadas por padrão (Ajustes → Vídeos).
+- **Shorts das contas que você segue** aparecem com o triplo de chance.
+- Mais Shorts para as contas que tinham poucos (330 no total).
+
 ## [0.7.2] — 2026-11-11
 ### Melhorado
 - **Shorts carregam bem mais rápido:**

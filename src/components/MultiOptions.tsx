@@ -15,13 +15,15 @@ interface Props {
   /** The confirmed answer (option indexes), or null while the student is still choosing. */
   picked: number[] | null;
   onConfirm: (picked: number[]) => void;
+  /** Tighter layout for the feed card, where five options and a button must fit on small phones. */
+  compact?: boolean;
 }
 
 /**
  * "Marque todas as certas": tick every right option, then confirm. Options come in a new random order each
  * time; `picked` and `onConfirm` use the item's own indexes.
  */
-export function MultiOptions({ item, picked, onConfirm }: Props) {
+export function MultiOptions({ item, picked, onConfirm, compact = false }: Props) {
   const c = useColors();
   const [salt] = useState(() => Math.floor(Math.random() * 2 ** 31));
   const order = useMemo(() => optionOrder(item.options.length, `${item.id}:${salt}`), [item.id, item.options.length, salt]);
@@ -45,10 +47,12 @@ export function MultiOptions({ item, picked, onConfirm }: Props) {
 
   return (
     <View>
-      <View style={[styles.tip, { borderColor: c.border }]}>
-        <Icon name="checkbox-multiple-marked-outline" size={15} color={c.accent2} />
-        <AppText variant="caption" dim>Marque todas as alternativas corretas</AppText>
-      </View>
+      {!compact && (
+        <View style={[styles.tip, { borderColor: c.border }]}>
+          <Icon name="checkbox-multiple-marked-outline" size={15} color={c.accent2} />
+          <AppText variant="caption" dim>Marque todas as alternativas corretas</AppText>
+        </View>
+      )}
       {order.map((o, i) => {
         const on = shown.includes(o);
         const isRight = right.has(o);
@@ -64,12 +68,12 @@ export function MultiOptions({ item, picked, onConfirm }: Props) {
             accessibilityState={{ checked: on, disabled: done }}
             accessibilityLabel={`Opção ${LETTERS[i]}: ${item.options[o]}`}
             testID={`multi-option-${i}`}
-            style={[styles.option, { borderColor: border, backgroundColor: bg, borderStyle: done && isRight && !on ? "dashed" : "solid" }]}
+            style={[styles.option, compact && styles.optionCompact, { borderColor: border, backgroundColor: bg, borderStyle: done && isRight && !on ? "dashed" : "solid" }]}
           >
             <View style={[styles.box, { borderColor: on ? c.accent : c.textDim, backgroundColor: on ? c.accent : "transparent" }]}>
               {on && <Icon name="check" size={16} color="#fff" />}
             </View>
-            <AppText variant="body" style={styles.optText}>{item.options[o]}</AppText>
+            <AppText variant="body" style={[styles.optText, compact && styles.optTextCompact]}>{item.options[o]}</AppText>
             {done && isRight && <Animated.View entering={ZoomIn}><Icon name="check-circle" size={22} color={c.success} /></Animated.View>}
             {done && on && !isRight && <Animated.View entering={ZoomIn}><Icon name="close-circle" size={22} color={c.danger} /></Animated.View>}
           </Bouncy>
@@ -77,10 +81,10 @@ export function MultiOptions({ item, picked, onConfirm }: Props) {
       })}
       {!done && (
         <GradientButton
-          label={marked.length ? `Confirmar (${marked.length} marcada${marked.length > 1 ? "s" : ""})` : "Marque ao menos uma"}
+          label={marked.length ? `Confirmar (${marked.length})` : "Confirmar"}
           icon="check-all"
           onPress={() => marked.length > 0 && onConfirm([...marked].sort())}
-          style={{ marginTop: 4, opacity: marked.length ? 1 : 0.55 }}
+          style={{ marginTop: compact ? 0 : 4, opacity: marked.length ? 1 : 0.55 }}
         />
       )}
       {grade && (
@@ -98,6 +102,8 @@ export function MultiOptions({ item, picked, onConfirm }: Props) {
 const styles = StyleSheet.create({
   tip: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, borderWidth: 1, marginBottom: 10 },
   option: { flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 12, paddingVertical: 9, borderRadius: radius.md, borderWidth: 1, marginBottom: 8, minHeight: 50 },
+  optionCompact: { paddingVertical: 5, minHeight: 42, marginBottom: 6 },
+  optTextCompact: { fontSize: 15, lineHeight: 19 },
   box: { width: 26, height: 26, borderRadius: 7, borderWidth: 2, alignItems: "center", justifyContent: "center" },
   optText: { flex: 1, fontSize: 16 },
   explain: { padding: 14, marginTop: 4 },

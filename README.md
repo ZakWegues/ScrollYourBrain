@@ -38,6 +38,8 @@
 - **Feed infinito em tela cheia**, card a card. Os formatos são:
   - conceitos animados;
   - quizzes;
+  - questões de **marcar todas as certas**;
+  - **dissertativas** com resposta-modelo e checklist de pontos-chave;
   - flashcards;
   - **mais de 300 Shorts reais em português**, de todas as matérias, e trechos de aula, tocando dentro do app;
   - curiosidades da Wikipédia.
@@ -58,6 +60,7 @@
 - **Aula guiada** por assunto ou conta: conceito → flashcards → questões → vídeo.
 - **Simulado dos pontos fracos**, montado com as contas em que você mais erra.
 - **Caderno de erros:** toda questão errada fica guardada até você acertar.
+- **Alternativas sem pista:** a certa não é a maior nem a menor com mais frequência que o acaso, e a ordem muda a cada vez (há um teste para isso).
 - **Quiz relâmpago:** 60 segundos, com recorde.
 - **Calendário de provas** e **reta final**, um plano de 7 dias para a próxima prova.
 - **Macetes de prova**, a partir de reels de professores: ordem de prova pela TRI, chute por eliminação, gestão de tempo e macetes de exatas.
