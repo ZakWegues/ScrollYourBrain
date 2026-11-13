@@ -33,6 +33,8 @@ export interface SettingsState {
   saveToReview: boolean;
   /** How often videos show up in the feed. */
   videoFrequency: VideoFrequency;
+  /** Turn on Portuguese captions in videos. */
+  captions: boolean;
   /** Automatic theme: light during the day, `nightTheme` at night. */
   autoTheme: boolean;
   nightTheme: ThemeMode;
@@ -63,6 +65,7 @@ const defaults = {
   hintsShown: 0,
   saveToReview: true,
   videoFrequency: "balanced" as VideoFrequency,
+  captions: true,
   autoTheme: false,
   nightTheme: "amoled" as ThemeMode,
   dayStart: 7,
@@ -86,7 +89,7 @@ export const useSettings = create<SettingsState>()(
     {
       name: "syb-settings",
       storage: persistStorage,
-      version: 6,
+      version: 7,
       // v1 had no goal or onboarding flag; existing users keep their settings and see onboarding once.
       migrate: (persisted) => ({ ...defaults, ...(persisted as object) }),
     },

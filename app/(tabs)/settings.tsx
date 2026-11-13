@@ -25,6 +25,7 @@ import { useXp } from "@/store/xp";
 import { useModes } from "@/store/modes";
 import { useMistakes } from "@/store/mistakes";
 import { useDaily } from "@/store/daily";
+import { useWatchLater } from "@/store/watchLater";
 import { useSearch } from "@/store/search";
 import { useResume } from "@/store/resume";
 
@@ -318,6 +319,7 @@ export default function Settings() {
         <Card>
           <Row icon="play-speed" title="Reproduzir vídeos automaticamente" subtitle="Toca o vídeo assim que ele aparece" value={s.autoplay} onChange={(v) => s.set({ autoplay: v })} testID="toggle-autoplay" />
           <Row icon="volume-off" title="Começar sem som" value={s.startMuted} onChange={(v) => s.set({ startMuted: v })} />
+          <Row icon="closed-caption-outline" title="Legendas em português" subtitle="Quando o vídeo tiver legenda" value={s.captions} onChange={(v) => s.set({ captions: v })} testID="toggle-captions" />
           <Row icon="wifi-strength-1" title="Economia de dados" subtitle="Sem autoplay, sem imagens e sem Wikipédia" value={s.dataSaver} onChange={(v) => s.set({ dataSaver: v })} last />
         </Card>
         <AppText variant="caption" dim style={{ marginTop: 14, marginBottom: 8 }}>Frequência de vídeos no feed (Shorts e aulas)</AppText>
@@ -371,7 +373,7 @@ export default function Settings() {
             <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name="refresh" size={18} color={c.text} /></View>
             <AppText variant="label" style={{ flex: 1 }}>Limpar histórico do feed</AppText>
           </Bouncy>
-          <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, erros, sequência, XP, recordes, modos salvos e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); usePlanner.getState().reset(); useXp.getState().reset(); useModes.getState().reset(); useMistakes.getState().reset(); useDaily.getState().reset(); useSearch.getState().clear(); useResume.getState().setForYou([]); s.reset(); haptic.success(); })}>
+          <Bouncy scaleTo={0.98} style={styles.row} onPress={() => confirm("Apagar tudo?", "Remove salvos, curtidos, cadernos, notas, revisão, erros, sequência, XP, recordes, modos salvos e ajustes.", () => { useLibrary.getState().reset(); useProgress.getState().reset(); useReview.getState().reset(); useNotebooks.getState().reset(); usePlanner.getState().reset(); useXp.getState().reset(); useModes.getState().reset(); useMistakes.getState().reset(); useDaily.getState().reset(); useWatchLater.getState().reset(); useSearch.getState().clear(); useResume.getState().setForYou([]); s.reset(); haptic.success(); })}>
             <View style={[styles.rowIcon, { backgroundColor: "rgba(244,63,94,0.15)" }]}><Icon name="trash-can-outline" size={18} color={c.danger} /></View>
             <AppText variant="label" style={{ flex: 1, color: c.danger }}>Apagar todos os dados</AppText>
           </Bouncy>

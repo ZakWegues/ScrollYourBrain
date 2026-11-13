@@ -10,7 +10,9 @@ import { WeeklyChallenge } from "@/components/WeeklyChallenge";
 import { toast } from "@/components/Toast";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, PageAvatar, Segmented, type IconName } from "@/components/ui";
 import { ROOT_PAGES, getPage } from "@/data/pages";
-import { parseYouTubeId } from "@/feed/sources/youtube";
+import { parseYouTubeId, youtubeThumb } from "@/feed/sources/youtube";
+import { Image } from "expo-image";
+import { useWatchLater, watchLaterList } from "@/store/watchLater";
 import type { StudyItem } from "@/feed/types";
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
@@ -64,6 +66,7 @@ export default function Library() {
       <DailyQuestion />
       <QuickLinks />
       <YourWeek />
+      <WatchLater />
 
       <View style={{ marginTop: space.xl, marginBottom: space.md }}>
         <Segmented<Tab>
@@ -98,6 +101,37 @@ export default function Library() {
         </Collapsible>
       </View>
     </Screen>
+  );
+}
+
+/** "Assistir depois": videos saved from the feed; they open in the in-app player. Hidden while empty. */
+function WatchLater() {
+  const c = useColors();
+  const items = useWatchLater((s) => s.items);
+  const list = useMemo(() => watchLaterList(items), [items]);
+  if (list.length === 0) return null;
+  return (
+    <Collapsible id="watch-later" icon="clock-outline" iconColor={c.accent2} title="Assistir depois" summary={`${list.length} ${list.length === 1 ? "vídeo" : "vídeos"}`}>
+      {list.map((v) => (
+        <Bouncy
+          key={v.id}
+          onPress={() => router.push({ pathname: "/watch", params: { id: v.youtubeId, vertical: v.vertical ? "1" : "0", title: v.title } })}
+          scaleTo={0.98}
+          style={[styles.laterRow, { backgroundColor: c.surface, borderColor: c.border }]}
+          accessibilityLabel={`Assistir ${v.title}`}
+          testID="watch-later-item"
+        >
+          <Image source={youtubeThumb(v.youtubeId)} style={styles.laterThumb} contentFit="cover" />
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <AppText variant="label" numberOfLines={2}>{v.title}</AppText>
+            {!!v.channel && <AppText variant="caption" dim numberOfLines={1}>{v.channel}</AppText>}
+          </View>
+          <Bouncy onPress={() => useWatchLater.getState().remove(v.id)} style={styles.editBtn} accessibilityLabel={`Tirar ${v.title} da lista`}>
+            <Icon name="close" size={18} color={c.textDim} />
+          </Bouncy>
+        </Bouncy>
+      ))}
+    </Collapsible>
   );
 }
 
@@ -330,6 +364,8 @@ function EmptyState({ icon, title, text }: { icon: IconName; title: string; text
 }
 
 const styles = StyleSheet.create({
+  laterRow: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.sm, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, marginBottom: space.sm },
+  laterThumb: { width: 72, height: 54, borderRadius: radius.sm },
   headerBtn: { width: TOUCH, height: TOUCH, borderRadius: TOUCH / 2, alignItems: "center", justifyContent: "center", borderWidth: StyleSheet.hairlineWidth },
   review: { flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.lg, overflow: "hidden", marginBottom: space.md },
   reviewIcon: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center" },

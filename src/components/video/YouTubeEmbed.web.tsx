@@ -6,10 +6,10 @@ import type { YouTubeEmbedProps } from "./types";
 type Frame = HTMLIFrameElement & { contentWindow: (Window & { __cmd?: (c: string, a?: unknown) => void }) | null };
 
 /** Web build: the same player page in a same-origin srcdoc iframe. */
-export function YouTubeEmbed({ id, start, play, muted, rate = 1, loop = true, controls = false, mode = "direct", width, height, onReady, onState, onError, onAutoMuted }: YouTubeEmbedProps) {
+export function YouTubeEmbed({ id, start, play, muted, rate = 1, loop = true, controls = false, captions = false, mode = "direct", width, height, onReady, onState, onError, onAutoMuted }: YouTubeEmbedProps) {
   const frame = useRef<Frame | null>(null);
   const [ready, setReady] = useState(false);
-  const [html] = useState(() => embedHtml({ id, start, play, muted, loop, controls }, mode));
+  const [html] = useState(() => embedHtml({ id, start, play, muted, loop, controls, captions }, mode));
   const handlers = useRef({ onReady, onState, onError, onAutoMuted });
   useEffect(() => {
     handlers.current = { onReady, onState, onError, onAutoMuted };

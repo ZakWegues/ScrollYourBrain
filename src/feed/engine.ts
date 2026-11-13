@@ -50,6 +50,9 @@ export function pageWeight(pageId: PageId, s: Signals): number {
   return Math.max(0.15, w);
 }
 
+/** Videos from accounts you follow (or their subject) come first: three times the usual weight. */
+export const videoWeight = (pageId: PageId, s: Signals) => pageWeight(pageId, s) * (s.followed.has(pageId) || s.followed.has(rootOf(pageId)) ? 3 : 1);
+
 function weightedPick<T>(rng: Rng, entries: [T, number][]): T {
   const total = entries.reduce((sum, [, w]) => sum + w, 0);
   let roll = rng() * total;
@@ -92,7 +95,7 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
     if (opts.videoEvery && (state.sinceVideo ?? 0) >= opts.videoEvery - 1) {
       const videos = pageIds.flatMap((id) => (byPage.get(id) ?? []).filter((i) => i.kind === "video" && !recent.has(i.id)));
       if (videos.length > 0) {
-        const video = weightedPick(rng, videos.map((v) => [v, pageWeight(v.pageId, signals)] as [StudyItem, number]));
+        const video = weightedPick(rng, videos.map((v) => [v, videoWeight(v.pageId, signals)] as [StudyItem, number]));
         remember(state, video);
         out.push(video);
         continue;

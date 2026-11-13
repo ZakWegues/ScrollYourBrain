@@ -14,6 +14,7 @@ import { useSettings } from "./settings";
 import { useSearch } from "./search";
 import { useMistakes } from "./mistakes";
 import { useDaily } from "./daily";
+import { useWatchLater } from "./watchLater";
 
 const STORES: Record<BackupStore, { getState: () => object; setState: (s: object) => void }> = {
   "syb-settings": useSettings,
@@ -27,6 +28,7 @@ const STORES: Record<BackupStore, { getState: () => object; setState: (s: object
   "syb-search": useSearch,
   "syb-mistakes": useMistakes,
   "syb-daily": useDaily,
+  "syb-watchlater": useWatchLater,
 };
 
 /** Saves a backup file and opens the share sheet (or downloads it on the web). */

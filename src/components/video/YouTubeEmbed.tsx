@@ -5,11 +5,11 @@ import { APP_ORIGIN, command, embedHtml, type EmbedMessage } from "@/lib/ytEmbed
 import type { YouTubeEmbedProps } from "./types";
 
 /** YouTube IFrame API player in a WebView whose page has the app's https origin (see src/lib/ytEmbed.ts). */
-export function YouTubeEmbed({ id, start, play, muted, rate = 1, loop = true, controls = false, mode = "direct", width, height, onReady, onState, onError, onAutoMuted }: YouTubeEmbedProps) {
+export function YouTubeEmbed({ id, start, play, muted, rate = 1, loop = true, controls = false, captions = false, mode = "direct", width, height, onReady, onState, onError, onAutoMuted }: YouTubeEmbedProps) {
   const web = useRef<WebView>(null);
   const [ready, setReady] = useState(false);
   // The page is built once per video; later changes go in as commands so the player is not reloaded.
-  const [source] = useState(() => ({ html: embedHtml({ id, start, play, muted, loop, controls }, mode), baseUrl: APP_ORIGIN }));
+  const [source] = useState(() => ({ html: embedHtml({ id, start, play, muted, loop, controls, captions }, mode), baseUrl: APP_ORIGIN }));
   const run = (js: string) => web.current?.injectJavaScript(js);
 
   useEffect(() => {

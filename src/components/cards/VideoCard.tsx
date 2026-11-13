@@ -22,6 +22,7 @@ export function VideoCard({ item, active, preload, tapNonce, onFail, height, fas
   const c = useColors();
   const { width } = useWindowDimensions();
   const autoplay = useSettings((s) => s.autoplay && !s.dataSaver);
+  const captions = useSettings((s) => s.captions);
   const { muted, setMuted } = usePlayback();
   const online = useNetwork((s) => s.online);
   const [playing, setPlaying] = useState(false);
@@ -91,6 +92,7 @@ export function VideoCard({ item, active, preload, tapNonce, onFail, height, fas
                 key={attempt}
                 id={item.youtubeId}
                 mode={attempt > 0 ? "api" : "direct"}
+                captions={captions}
                 start={item.start}
                 width={playerW}
                 height={playerH}

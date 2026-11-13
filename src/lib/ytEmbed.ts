@@ -14,6 +14,8 @@ export interface EmbedOptions {
   muted?: boolean;
   loop?: boolean;
   controls?: boolean;
+  /** Show Portuguese captions when the video has them. */
+  captions?: boolean;
 }
 
 /** Messages the page sends back. `state` uses the IFrame API codes (1 playing, 2 paused, 0 ended, 3 buffering). */
@@ -38,6 +40,7 @@ export function playerVars(o: EmbedOptions) {
     iv_load_policy: 3,
     hl: "pt",
     cc_lang_pref: "pt",
+    cc_load_policy: o.captions ? 1 : 0,
     start: Math.max(0, Math.floor(o.start ?? 0)),
     ...(o.loop ? { loop: 1, playlist: o.id } : {}),
     enablejsapi: 1,

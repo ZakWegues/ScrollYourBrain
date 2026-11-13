@@ -12,6 +12,7 @@ import { getPage } from "@/data/pages";
 import { speak, speechText } from "@/lib/speech";
 import { useLibrary } from "@/store/library";
 import { reviewable, useReview } from "@/store/review";
+import { useWatchLater } from "@/store/watchLater";
 import { openShareCard } from "./ShareCard";
 
 type Open = { kind: "note"; item: StudyItem } | { kind: "notebooks"; item: StudyItem } | { kind: "more"; item: StudyItem } | null;
@@ -88,10 +89,21 @@ function MoreActions({ item }: { item: StudyItem }) {
   const hasNote = useNotebooks((s) => !!s.notes[item.id]);
   const inReview = useReview((s) => !!s.cards[item.id]);
   const page = getPage(item.pageId);
+  const later = useWatchLater((s) => !!s.items[item.id]);
   const actions: { icon: IconName; label: string; onPress: () => void; hidden?: boolean; tone?: string }[] = [
     { icon: hasNote ? "note-text" : "note-edit-outline", label: hasNote ? "Editar nota" : "Nota", onPress: () => switchTo(() => openNote(item)) },
     { icon: "notebook-plus-outline", label: "Caderno", onPress: () => switchTo(() => openNotebookPicker(item)) },
     { icon: "account-voice", label: "Ouvir", onPress: () => { speak(speechText(item)); close(); } },
+    {
+      icon: later ? "clock-check" : "clock-plus-outline", label: later ? "Na lista" : "Ver depois", hidden: item.kind !== "video",
+      onPress: () => {
+        if (item.kind !== "video") return;
+        const on = useWatchLater.getState().toggle(item);
+        haptic.success();
+        toast({ message: on ? "Na lista Assistir depois (Biblioteca)" : "Tirado de Assistir depois", icon: on ? "clock-check" : "clock-remove-outline" });
+        close();
+      },
+    },
     {
       icon: "history", label: inReview ? "Na revisão" : "Revisar depois", hidden: !reviewable(item),
       onPress: () => { if (useReview.getState().add(item)) toast({ message: "Vai voltar na sua revisão", icon: "history" }); close(); },
