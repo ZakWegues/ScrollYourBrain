@@ -22,6 +22,8 @@ import { AppText, Bouncy, Icon, PageAvatar, type IconName } from "./ui";
 import { ConceptCard } from "./cards/ConceptCard";
 import { FlashCard } from "./cards/FlashCard";
 import { QuizCard } from "./cards/QuizCard";
+import { MultiCard } from "./cards/MultiCard";
+import { OpenCard } from "./cards/OpenCard";
 import { VideoCard } from "./cards/VideoCard";
 import { WikiCard } from "./cards/WikiCard";
 import type { CardProps } from "./cards/types";
@@ -29,6 +31,8 @@ import type { CardProps } from "./cards/types";
 const KIND_LABEL: Record<ItemKind, { label: string; icon: IconName }> = {
   concept: { label: "Conceito", icon: "text-box-outline" },
   quiz: { label: "Quiz", icon: "help-circle-outline" },
+  multi: { label: "Marque todas", icon: "checkbox-multiple-marked-outline" },
+  open: { label: "Dissertativa", icon: "pencil-outline" },
   flash: { label: "Flashcard", icon: "cards-outline" },
   video: { label: "Vídeo", icon: "play-circle-outline" },
   wiki: { label: "Wikipédia", icon: "wikipedia" },
@@ -38,6 +42,8 @@ const HINTS: Partial<Record<ItemKind, string>> = {
   concept: "Toque para pausar · dois toques curte",
   flash: "Dois toques curte · arraste para o próximo",
   quiz: "Responda e arraste para o próximo",
+  multi: "Pode haver mais de uma certa: marque todas",
+  open: "Escreva com suas palavras e compare",
   video: "Toque para pausar o vídeo",
 };
 const MAX_HINTS = 4;
@@ -47,6 +53,8 @@ function Card(props: CardProps) {
   switch (item.kind) {
     case "concept": return <ConceptCard {...props} item={item} />;
     case "quiz": return <QuizCard {...props} item={item} />;
+    case "multi": return <MultiCard {...props} item={item} />;
+    case "open": return <OpenCard {...props} item={item} />;
     case "flash": return <FlashCard {...props} item={item} />;
     case "video": return <VideoCard {...props} item={item} />;
     case "wiki": return <WikiCard {...props} item={item} />;
@@ -216,7 +224,7 @@ export const FeedItem = memo(function FeedItem({ entry, active, preload, height,
         <RailButton icon={hasNote ? "dots-horizontal-circle" : "dots-horizontal"} color="#fff" label="Mais" onPress={() => openMore(item)} testID="more-button" />
       </View>
 
-      {item.kind !== "quiz" && (
+      {item.kind !== "quiz" && item.kind !== "multi" && item.kind !== "open" && (
         <View style={[styles.meta, { bottom: bottomInset + 14 }]} pointerEvents="box-none">
           <Bouncy onPress={openPage} style={styles.pageRow} scaleTo={0.97} accessibilityLabel={`Abrir ${page.name}`}>
             <AppText variant="label" style={styles.white}>{page.name}</AppText>

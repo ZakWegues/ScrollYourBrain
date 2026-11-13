@@ -2,9 +2,13 @@ import { LinearGradient } from "@/components/LinearGradient";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeInRight, ZoomIn } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { MultiOptions } from "@/components/MultiOptions";
+import { OpenAnswer } from "@/components/OpenAnswer";
+import { gradeMulti, selfGradeOk } from "@/lib/grading";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Bouncy, GradientButton, Icon, PageAvatar } from "@/components/ui";
 import { TOPIC_BY_ID, itemsForTopics } from "@/data/curriculum";
@@ -37,16 +41,18 @@ function buildLesson(topicId: string | undefined, pageId: string | undefined, se
   const concepts = of("concept").slice(0, 2);
   const flashes = of("flash").slice(0, 3);
   const quizzes = of("quiz").slice(0, 5);
+  const multis = of("multi").slice(0, 1);
+  const opens = of("open").slice(0, 1);
   const video = shuffle(CURATED_VIDEOS.filter((v) => v.pageId === page), seed)[0];
   return {
     title: topic?.name ?? getPage(page).name,
     pageId: page,
-    steps: [...concepts, ...flashes, ...quizzes, ...(video ? [video] : [])],
+    steps: [...concepts, ...flashes, ...quizzes, ...multis, ...opens, ...(video ? [video] : [])],
     topicIds: topic ? [topic.id] : [],
   };
 }
 
-const STEP_LABEL: Record<StudyItem["kind"], string> = { concept: "Entenda", flash: "Memorize", quiz: "Pratique", video: "Veja", wiki: "Leia" };
+const STEP_LABEL: Record<StudyItem["kind"], string> = { concept: "Entenda", flash: "Memorize", quiz: "Pratique", multi: "Pratique", open: "Explique", video: "Veja", wiki: "Leia" };
 
 /** A guided lesson for one topic or account: concept → flashcards → quizzes → video. */
 export default function Lesson() {
@@ -58,6 +64,8 @@ export default function Lesson() {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [picked, setPicked] = useState<number | null>(null);
+  const [multiPicked, setMultiPicked] = useState<number[] | null>(null);
+  const [openDone, setOpenDone] = useState(false);
   const [score, setScore] = useState({ right: 0, total: 0 });
   const [finished, setFinished] = useState(false);
   const step = lesson.steps[index];
@@ -76,6 +84,8 @@ export default function Lesson() {
     setIndex(index + 1);
     setRevealed(false);
     setPicked(null);
+    setMultiPicked(null);
+    setOpenDone(false);
     haptic.select();
   };
 
@@ -90,7 +100,13 @@ export default function Lesson() {
     else haptic.error();
   };
 
-  const canAdvance = !step || step.kind === "concept" || step.kind === "video" || step.kind === "wiki" || (step.kind === "flash" && revealed) || (step.kind === "quiz" && picked !== null);
+  const score1 = (ok: boolean) => {
+    setScore((s) => ({ right: s.right + (ok ? 1 : 0), total: s.total + 1 }));
+    haptic[ok ? "success" : "error"]();
+  };
+
+  const canAdvance =
+    !step || step.kind === "concept" || step.kind === "video" || step.kind === "wiki" || (step.kind === "flash" && revealed) || (step.kind === "quiz" && picked !== null) || (step.kind === "multi" && multiPicked !== null) || (step.kind === "open" && openDone);
   const back = () => (router.canGoBack() ? router.back() : router.replace("/explore"));
 
   if (lesson.steps.length === 0) {
@@ -140,7 +156,7 @@ export default function Lesson() {
         <View style={styles.iconBtn} />
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: space.lg, paddingBottom: 140 }} showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" bottomOffset={24} contentContainerStyle={{ padding: space.lg, paddingBottom: 140 }} showsVerticalScrollIndicator={false}>
         <View style={styles.titleRow}>
           <PageAvatar pageId={lesson.pageId} size={28} />
           <AppText variant="caption" dim numberOfLines={1} style={{ flex: 1 }}>{lesson.title}</AppText>
@@ -156,13 +172,45 @@ export default function Lesson() {
               <QuizOptions item={step} picked={picked} onPick={(i) => answer(step, i)} />
             </>
           )}
+          {step.kind === "multi" && (
+            <>
+              <AppText variant="title" style={styles.question}>{step.question}</AppText>
+              <MultiOptions
+                item={step}
+                picked={multiPicked}
+                onConfirm={(sel) => {
+                  if (multiPicked !== null) return;
+                  setMultiPicked(sel);
+                  const ok = gradeMulti(step, sel).ok;
+                  trackAnswer(step, ok);
+                  useReview.getState().recordQuiz(step, ok);
+                  score1(ok);
+                }}
+              />
+            </>
+          )}
+          {step.kind === "open" && (
+            <>
+              <AppText variant="title" style={styles.question}>{step.question}</AppText>
+              <OpenAnswer
+                item={step}
+                onGraded={(g) => {
+                  const ok = selfGradeOk(g);
+                  setOpenDone(true);
+                  trackAnswer(step, ok);
+                  useReview.getState().recordQuiz(step, ok);
+                  score1(ok);
+                }}
+              />
+            </>
+          )}
           {step.kind === "video" && <VideoStep item={step} />}
         </Animated.View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg, backgroundColor: c.bg }]}>
         <GradientButton
-          label={!canAdvance ? (step.kind === "flash" ? "Toque no card para ver a resposta" : "Escolha uma alternativa") : index + 1 >= lesson.steps.length ? "Concluir aula" : "Próximo"}
+          label={!canAdvance ? (step.kind === "flash" ? "Toque no card para ver a resposta" : step.kind === "open" ? "Responda e diga como foi" : step.kind === "multi" ? "Marque e confirme" : "Escolha uma alternativa") : index + 1 >= lesson.steps.length ? "Concluir aula" : "Próximo"}
           icon={index + 1 >= lesson.steps.length ? "check" : "arrow-right"}
           onPress={() => (canAdvance ? next() : haptic.error())}
           style={{ opacity: canAdvance ? 1 : 0.5 }}

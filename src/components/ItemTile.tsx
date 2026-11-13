@@ -8,13 +8,15 @@ import { radius, useColors } from "@/theme";
 import { AppText, Bouncy, Icon, type IconName } from "./ui";
 
 const ICON: Record<StudyItem["kind"], IconName> = {
-  concept: "text-box-outline", quiz: "help-circle-outline", flash: "cards-outline", video: "play-circle-outline", wiki: "wikipedia",
+  concept: "text-box-outline", quiz: "help-circle-outline", multi: "checkbox-multiple-marked-outline", open: "pencil-outline", flash: "cards-outline", video: "play-circle-outline", wiki: "wikipedia",
 };
 
 export const preview = (i: StudyItem): string => {
   switch (i.kind) {
     case "concept": return i.beats[0];
-    case "quiz": return i.question;
+    case "quiz":
+    case "multi":
+    case "open": return i.question;
     case "flash": return i.front;
     case "video": return i.caption;
     case "wiki": return i.extract;

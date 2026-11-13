@@ -1,10 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { QuizItem } from "@/feed/types";
+import type { MultiItem, OpenItem, QuizItem } from "@/feed/types";
+
+/** Questions that can be got wrong and kept in the "caderno de erros". */
+export type MistakeItem = QuizItem | MultiItem | OpenItem;
+
+/** The right answer, written out (for the list of mistakes). */
+export const rightAnswerText = (item: MistakeItem) =>
+  item.kind === "quiz" ? item.options[item.answer] : item.kind === "multi" ? item.answers.map((i) => item.options[i]).join(" · ") : item.model;
 import { persistStorage } from "./storage";
 
 export interface Mistake {
-  item: QuizItem;
+  item: MistakeItem;
   /** How many times it was answered wrong. */
   wrong: number;
   lastAt: number;
@@ -14,7 +21,7 @@ export interface Mistake {
 
 interface MistakesState {
   items: Record<string, Mistake>;
-  record: (item: QuizItem, correct: boolean) => void;
+  record: (item: MistakeItem, correct: boolean) => void;
   remove: (id: string) => void;
   clearFixed: () => void;
   reset: () => void;

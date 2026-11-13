@@ -21,6 +21,16 @@ describe("nextItems", () => {
     expect(items.filter((i) => i.pageId === "fisica").length).toBeGreaterThan(0);
   });
 
+  it("mixes in every question type and keeps dissertativas apart", () => {
+    const items = nextItems(600, { pool: CONTENT, signals: noSignals, rng: createRng(9), state: fresh() });
+    const kinds = items.map((i) => i.kind);
+    expect(kinds).toContain("multi");
+    expect(kinds).toContain("open");
+    kinds.forEach((k, i) => {
+      if (k === "open") expect(kinds.slice(Math.max(0, i - 3), i)).not.toContain("open");
+    });
+  });
+
   it("does not repeat seed items inside the recent window", () => {
     const items = nextItems(15, { pool: SEED, signals: noSignals, rng: createRng(3), state: fresh() });
     const ids = items.map((i) => i.id);

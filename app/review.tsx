@@ -1,9 +1,13 @@
 import { LinearGradient } from "@/components/LinearGradient";
 import { router } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeInDown, FadeInRight, ZoomIn } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { MultiOptions } from "@/components/MultiOptions";
+import { OpenAnswer } from "@/components/OpenAnswer";
+import { gradeMulti, selfGradeOk, type SelfGrade } from "@/lib/grading";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Bouncy, Glass, GradientButton, Icon, PageAvatar } from "@/components/ui";
 import { getPage } from "@/data/pages";
@@ -51,7 +55,13 @@ export default function Review() {
   const id = queue[pos];
   const card = id ? cards[id] : undefined;
   const finished = pos >= queue.length;
-  const quizRight = card?.item.kind === "quiz" && picked === card.item.answer;
+  const [multiPicked, setMultiPicked] = useState<number[] | null>(null);
+  const [openGrade, setOpenGrade] = useState<SelfGrade | null>(null);
+  const quizRight =
+    (card?.item.kind === "quiz" && picked === card.item.answer) ||
+    (card?.item.kind === "multi" && multiPicked !== null && gradeMulti(card.item, multiPicked).ok) ||
+    (card?.item.kind === "open" && openGrade === "right");
+  const answered = (card?.item.kind === "quiz" && picked !== null) || (card?.item.kind === "multi" && multiPicked !== null) || (card?.item.kind === "open" && openGrade !== null);
 
   const advance = (grade: Grade) => {
     if (!card) return;
@@ -66,6 +76,8 @@ export default function Review() {
     setPos((p) => p + 1);
     setRevealed(false);
     setPicked(null);
+    setMultiPicked(null);
+    setOpenGrade(null);
   };
 
   const onPick = (i: number) => {
@@ -101,7 +113,7 @@ export default function Review() {
         <Done done={stats.done} right={stats.right} total={total} onClose={close} />
       ) : card ? (
         <>
-          <ScrollView contentContainerStyle={{ padding: space.lg, paddingBottom: insets.bottom + 140 }} showsVerticalScrollIndicator={false}>
+          <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" bottomOffset={24} contentContainerStyle={{ padding: space.lg, paddingBottom: insets.bottom + 140 }} showsVerticalScrollIndicator={false}>
             <Animated.View key={`${id}-${pos}`} entering={FadeInRight.springify().damping(26).stiffness(280).mass(1)}>
               <CardHead item={card.item} />
               {card.item.kind === "flash" && (
@@ -124,9 +136,37 @@ export default function Review() {
                   <QuizOptions item={card.item} picked={picked} onPick={onPick} />
                 </>
               )}
+              {card.item.kind === "multi" && (
+                <>
+                  <AppText variant="title" style={{ fontSize: 22, lineHeight: 28, marginBottom: space.md }}>{card.item.question}</AppText>
+                  <MultiOptions
+                    item={card.item}
+                    picked={multiPicked}
+                    onConfirm={(sel) => {
+                      if (card.item.kind !== "multi") return;
+                      setMultiPicked(sel);
+                      const ok = gradeMulti(card.item, sel).ok;
+                      trackAnswer(card.item, ok);
+                      haptic[ok ? "success" : "error"]();
+                    }}
+                  />
+                </>
+              )}
+              {card.item.kind === "open" && (
+                <>
+                  <AppText variant="title" style={{ fontSize: 22, lineHeight: 28, marginBottom: space.md }}>{card.item.question}</AppText>
+                  <OpenAnswer
+                    item={card.item}
+                    onGraded={(g) => {
+                      setOpenGrade(g);
+                      trackAnswer(card.item, selfGradeOk(g));
+                    }}
+                  />
+                </>
+              )}
               <NoteBox itemId={card.item.id} />
             </Animated.View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
           <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg, backgroundColor: c.bg }]}>
             {card.item.kind === "flash" && !revealed && (
               <GradientButton label="Mostrar resposta" icon="eye-outline" onPress={() => { setRevealed(true); haptic.light(); }} />
@@ -141,7 +181,7 @@ export default function Review() {
                 ))}
               </Animated.View>
             )}
-            {card.item.kind === "quiz" && picked !== null && (
+            {answered && (
               <GradientButton
                 label={quizRight ? `Próxima · volta em ${nextLabel(card.srs, "good")}` : "Próxima · revisar de novo hoje"}
                 icon="arrow-right"

@@ -110,7 +110,9 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
     const pageId = weightedPick(rng, family.map((id) => [id, pageWeight(id, signals)] as [PageId, number]));
     const fresh = freshFor(pageId);
     const lastTwo = state.kinds.slice(-2);
-    const repeatsKind = (i: StudyItem) => lastTwo.length === 2 && lastTwo.every((k) => k === i.kind);
+    // Written answers take effort: at most one in any four cards.
+    const openNearby = state.kinds.slice(-3).includes("open");
+    const repeatsKind = (i: StudyItem) => (lastTwo.length === 2 && lastTwo.every((k) => k === i.kind)) || (openNearby && i.kind === "open");
     const varied = fresh.filter((i) => !repeatsKind(i));
     const candidates = varied.length > 0 ? varied : fresh;
 
@@ -133,7 +135,9 @@ const normalize = (s: string) =>
 const itemText = (i: StudyItem): string => {
   switch (i.kind) {
     case "concept": return [i.title, ...i.beats, i.takeaway].join(" ");
-    case "quiz": return [i.title, i.question, ...i.options, i.explanation].join(" ");
+    case "quiz":
+    case "multi": return [i.title, i.question, ...i.options, i.explanation].join(" ");
+    case "open": return [i.title, i.question, i.model].join(" ");
     case "flash": return [i.title, i.front, i.back].join(" ");
     case "video": return [i.title, i.caption].join(" ");
     case "wiki": return [i.title, i.extract].join(" ");

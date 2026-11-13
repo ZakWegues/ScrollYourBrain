@@ -107,7 +107,7 @@ export function trackAnswer(item: StudyItem, correct: boolean) {
   useLibrary.getState().recordAnswer(correct);
   if (correct) awardXp("correct");
   useProgress.getState().logEvent(item.pageId, { answered: 1, correct: correct ? 1 : 0 });
-  if (item.kind === "quiz") useMistakes.getState().record(item, correct);
+  if (item.kind === "quiz" || item.kind === "multi" || item.kind === "open") useMistakes.getState().record(item, correct);
 }
 
 const MAX_CARD_SECONDS = 180;

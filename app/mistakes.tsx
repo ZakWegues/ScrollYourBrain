@@ -6,7 +6,7 @@ import { AppText, Bouncy, GradientButton, Icon, PageAvatar, Segmented } from "@/
 import { getPage } from "@/data/pages";
 import { redoMistakes, startWeakExam } from "@/feed/practice";
 import { haptic } from "@/lib/haptics";
-import { useMistakes, type Mistake } from "@/store/mistakes";
+import { useMistakes, type Mistake, rightAnswerText } from "@/store/mistakes";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
 type Tab = "pending" | "fixed";
@@ -85,8 +85,8 @@ export default function Mistakes() {
                   </View>
                   {expanded && (
                     <View style={{ marginTop: space.sm }}>
-                      <AppText variant="label" style={{ color: c.success }}>✓ {m.item.options[m.item.answer]}</AppText>
-                      <AppText variant="caption" dim style={{ marginTop: 4 }}>{m.item.explanation}</AppText>
+                      <AppText variant="label" style={{ color: c.success }}>✓ {rightAnswerText(m.item)}</AppText>
+                      <AppText variant="caption" dim style={{ marginTop: 4 }}>{m.item.kind === "open" ? `Pontos-chave: ${m.item.points.map((p) => p.label).join("; ")}` : m.item.explanation}</AppText>
                       <Bouncy onPress={() => { useMistakes.getState().remove(m.item.id); haptic.select(); }} style={styles.remove} accessibilityLabel="Tirar do caderno de erros">
                         <Icon name="close" size={14} color={c.textDim} />
                         <AppText variant="caption" dim>Tirar daqui</AppText>

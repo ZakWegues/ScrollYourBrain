@@ -35,6 +35,31 @@ export interface QuizItem extends BaseItem {
   explanation: string;
 }
 
+/** "Marque todas as certas": two or more options are right; only the exact set counts as a hit. */
+export interface MultiItem extends BaseItem {
+  kind: "multi";
+  question: string;
+  options: string[];
+  /** Indexes of every right option. */
+  answers: number[];
+  explanation: string;
+}
+
+/** A key idea the written answer should contain, with words that show it is there. */
+export interface KeyPoint {
+  label: string;
+  /** Any of these (ignoring accents and case) marks the point as present. */
+  terms: string[];
+}
+
+/** Dissertativa: the student writes, then compares with a model answer and a checklist of key points. */
+export interface OpenItem extends BaseItem {
+  kind: "open";
+  question: string;
+  model: string;
+  points: KeyPoint[];
+}
+
 export interface FlashItem extends BaseItem {
   kind: "flash";
   front: string;
@@ -61,7 +86,11 @@ export interface WikiItem extends BaseItem {
   url: string;
 }
 
-export type StudyItem = ConceptItem | QuizItem | FlashItem | VideoItem | WikiItem;
+export type StudyItem = ConceptItem | QuizItem | MultiItem | OpenItem | FlashItem | VideoItem | WikiItem;
+/** Items that are questions with a right answer the app can check. */
+export type QuestionItem = QuizItem | MultiItem;
+/** What an exam can ask: checked questions, plus dissertativas when the student opts in. */
+export type ExamItem = QuestionItem | OpenItem;
 export type ItemKind = StudyItem["kind"];
 
 /** An item placed in a feed; the same item may appear more than once with different keys. */

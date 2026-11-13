@@ -1,6 +1,6 @@
 import { ACCOUNT_GENERATORS } from "@/feed/sources/generators-accounts";
 import type { Rng } from "@/feed/sources/gen-utils";
-import type { QuizItem, StudyItem } from "@/feed/types";
+import type { QuestionItem, StudyItem } from "@/feed/types";
 import { summarize, type ActivityLog } from "./stats";
 import { mastery } from "./xp";
 
@@ -28,12 +28,12 @@ function shuffle<T>(list: T[], rng: Rng): T[] {
  * Questions for a "weak points" exam: up to half are questions you got wrong and haven't fixed yet,
  * the rest come from your weakest accounts (bundled questions first, then generated ones).
  */
-export function weakPool(opts: { log: ActivityLog; mistakes: readonly QuizItem[]; content: readonly StudyItem[]; count: number; rng: Rng }): QuizItem[] {
+export function weakPool(opts: { log: ActivityLog; mistakes: readonly QuestionItem[]; content: readonly StudyItem[]; count: number; rng: Rng }): QuestionItem[] {
   const { log, mistakes, content, count, rng } = opts;
-  const picked = new Map<string, QuizItem>();
+  const picked = new Map<string, QuestionItem>();
   for (const q of shuffle([...mistakes], rng).slice(0, Math.ceil(count / 2))) picked.set(q.id, q);
   const weak = weakAccounts(log);
-  const fromContent = shuffle(content.filter((i): i is QuizItem => i.kind === "quiz" && weak.includes(i.pageId)), rng);
+  const fromContent = shuffle(content.filter((i): i is QuestionItem => (i.kind === "quiz" || i.kind === "multi") && weak.includes(i.pageId)), rng);
   for (const q of fromContent) if (picked.size < count) picked.set(q.id, q);
   const gens = weak.flatMap((id) => ACCOUNT_GENERATORS[id] ?? []);
   for (let tries = 0; picked.size < count && gens.length > 0 && tries < count * 10; tries++) {

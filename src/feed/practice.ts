@@ -14,7 +14,7 @@ export function startWeakExam(): void {
   const { serie, myTopics } = useSettings.getState();
   const quizzes = weakPool({
     log: useProgress.getState().log,
-    mistakes: pendingMistakes(useMistakes.getState().items).map((m) => m.item),
+    mistakes: pendingMistakes(useMistakes.getState().items).flatMap((m) => (m.item.kind === "open" ? [] : [m.item])),
     content: contentForStudent(serie, myTopics),
     count: 15,
     rng: createRng(Date.now() & 0xffffffff),

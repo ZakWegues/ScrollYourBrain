@@ -20,6 +20,8 @@ const close = () => useShareCard.setState({ item: null });
 const KIND: Record<StudyItem["kind"], { label: string; icon: IconName }> = {
   concept: { label: "Conceito", icon: "text-box-outline" },
   quiz: { label: "Quiz", icon: "help-circle-outline" },
+  multi: { label: "Marque todas", icon: "checkbox-multiple-marked-outline" },
+  open: { label: "Dissertativa", icon: "pencil-outline" },
   flash: { label: "Flashcard", icon: "cards-outline" },
   video: { label: "Vídeo", icon: "play-circle-outline" },
   wiki: { label: "Você sabia?", icon: "wikipedia" },
@@ -27,7 +29,15 @@ const KIND: Record<StudyItem["kind"], { label: string; icon: IconName }> = {
 
 function Body({ item }: { item: StudyItem }) {
   switch (item.kind) {
+    case "open":
+      return (
+        <>
+          <AppText variant="title" style={styles.white}>{item.question}</AppText>
+          <AppText variant="caption" style={styles.soft}>Responda com suas palavras no app ✍️</AppText>
+        </>
+      );
     case "quiz":
+    case "multi":
       return (
         <>
           <AppText variant="title" style={styles.white}>{item.question}</AppText>
@@ -37,7 +47,7 @@ function Body({ item }: { item: StudyItem }) {
               <AppText style={[styles.white, { flex: 1 }]}>{o}</AppText>
             </View>
           ))}
-          <AppText variant="caption" style={styles.soft}>Resposta no app 😉</AppText>
+          <AppText variant="caption" style={styles.soft}>{item.kind === "multi" ? "Mais de uma certa · resposta no app 😉" : "Resposta no app 😉"}</AppText>
         </>
       );
     case "flash":

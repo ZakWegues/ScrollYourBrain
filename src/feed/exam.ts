@@ -1,7 +1,7 @@
 import { ROOT_PAGES, SUB_PAGES, familyOf } from "@/data/pages";
 import { createRng, generateFor, type Rng } from "@/feed/sources/generators";
 import { CONTENT } from "@/feed/sources/library";
-import type { PageId, QuizItem } from "@/feed/types";
+import type { ExamItem, PageId, QuestionItem } from "@/feed/types";
 
 /** Pages whose generator produces quizzes, so their exams can be as long as needed. */
 const QUIZ_GENERATORS: readonly PageId[] = [
@@ -17,7 +17,7 @@ export const ALL_PAGES = "all";
 
 const seedQuizzes = (pageId?: PageId) => {
   const family = pageId ? new Set(familyOf(pageId)) : null;
-  return CONTENT.filter((i): i is QuizItem => i.kind === "quiz" && (!family || family.has(i.pageId)));
+  return CONTENT.filter((i): i is QuestionItem => (i.kind === "quiz" || i.kind === "multi") && (!family || family.has(i.pageId)));
 };
 
 const availabilityCache = new Map<string, number>();
@@ -55,8 +55,8 @@ function shuffle<T>(list: T[], rng: Rng): T[] {
  * Picks `count` distinct quiz questions for a page (or every page). Hand-written
  * questions come first; generated ones fill the rest when the page has a generator.
  */
-export function buildExam({ pageId, count, rng, pool }: { pageId?: PageId; count: number; rng: Rng; pool?: readonly QuizItem[] }): QuizItem[] {
-  const picked = new Map<string, QuizItem>();
+export function buildExam({ pageId, count, rng, pool }: { pageId?: PageId; count: number; rng: Rng; pool?: readonly ExamItem[] }): ExamItem[] {
+  const picked = new Map<string, ExamItem>();
   if (pool) {
     // A study mode supplies its own questions: no topic filter, no generated filler.
     for (const q of shuffle([...pool], rng)) if (picked.size < count) picked.set(q.id, q);

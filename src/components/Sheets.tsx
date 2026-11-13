@@ -139,6 +139,8 @@ export function shareText(item: StudyItem): string {
     case "video": return `${item.title} — https://youtu.be/${item.youtubeId}${tail}`;
     case "wiki": return `${item.title}: ${item.url}${tail}`;
     case "quiz": return `Quiz de ${page}: ${item.question}\n${item.options.map((o, i) => `${"ABCD"[i]}) ${o}`).join("\n")}${tail}`;
+    case "multi": return `Marque todas as certas (${page}): ${item.question}\n${item.options.map((o, i) => `${"ABCDE"[i]}) ${o}`).join("\n")}${tail}`;
+    case "open": return `Pergunta de ${page}: ${item.question}${tail}`;
     case "flash": return `${item.front}\n→ ${item.back}${tail}`;
     case "concept": return `${item.title}: ${item.takeaway}${tail}`;
   }

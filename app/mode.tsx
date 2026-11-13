@@ -12,7 +12,7 @@ import { MACETES } from "@/data/macetes";
 import { getPage } from "@/data/pages";
 import { useExamScope } from "@/feed/examPool";
 import { createRng } from "@/feed/sources/generators";
-import type { QuizItem, StudyItem } from "@/feed/types";
+import type { ExamItem, QuestionItem, StudyItem } from "@/feed/types";
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
 import { addDays } from "@/lib/planner";
@@ -312,7 +312,9 @@ function Plan({ config, onChange, onEdit, onCustomize }: { config: ModeConfig; o
   const mastered = useModes((s) => s.mastered);
   const topics = useMemo(() => modeTopics(config), [config]);
   const items = useMemo(() => modeItems(config, custom), [config, custom]);
-  const quizzes = useMemo(() => items.filter((i): i is QuizItem => i.kind === "quiz"), [items]);
+  const quizzes = useMemo(() => items.filter((i): i is QuestionItem => i.kind === "quiz" || i.kind === "multi"), [items]);
+  const opens = useMemo(() => items.filter((i) => i.kind === "open"), [items]);
+  const [withOpen, setWithOpen] = useState(false);
   const openViewer = useViewer((s) => s.open);
   const setScope = useExamScope((s) => s.set);
   const [tip] = useState(() => MACETES[Math.floor((Date.now() / 1000) % MACETES.length)]);
@@ -340,7 +342,9 @@ function Plan({ config, onChange, onEdit, onCustomize }: { config: ModeConfig; o
 
   const simulate = () => {
     if (quizzes.length < 3) return toast({ message: "Poucas questões aqui. Estude pelo feed ou escolha um escopo maior.", icon: "information-outline" });
-    setScope({ key: modeKey(config), title, subtitle, quizzes, count: info.examCount, secondsPerQuestion: info.secondsPerQuestion });
+    // Dissertativas are opt-in: about one in five questions, never timed.
+    const extra: ExamItem[] = withOpen ? shuffled(opens).slice(0, Math.max(1, Math.round(info.examCount / 5))) as ExamItem[] : [];
+    setScope({ key: withOpen ? `${modeKey(config)}+open` : modeKey(config), title, subtitle, quizzes: [...quizzes, ...extra], count: info.examCount + extra.length, secondsPerQuestion: info.secondsPerQuestion });
     router.push({ pathname: "/exam", params: { mode: "1" } });
   };
 
@@ -416,6 +420,11 @@ function Plan({ config, onChange, onEdit, onCustomize }: { config: ModeConfig; o
             </Bouncy>
           ))}
         </View>
+        {opens.length > 0 && (
+          <View style={styles.openRow}>
+            <Chip label="Incluir dissertativas no simulado" icon="pencil-outline" active={withOpen} onPress={() => setWithOpen((v) => !v)} />
+          </View>
+        )}
 
         <View style={styles.sectionHead}>
           <AppText variant="headline">Assuntos</AppText>
@@ -468,6 +477,7 @@ function Plan({ config, onChange, onEdit, onCustomize }: { config: ModeConfig; o
 }
 
 const styles = StyleSheet.create({
+  openRow: { flexDirection: "row", marginTop: space.sm },
   top: { position: "absolute", left: space.sm },
   iconBtn: { width: TOUCH, height: TOUCH, alignItems: "center", justifyContent: "center" },
   round: { borderRadius: TOUCH / 2, backgroundColor: "rgba(0,0,0,0.25)" },

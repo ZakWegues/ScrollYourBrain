@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInDown, FadeInRight, ZoomIn, cancelAnimation, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { QuizOptions, TIMED_OUT } from "@/components/QuizOptions";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
@@ -10,7 +11,10 @@ import { getPage } from "@/data/pages";
 import { ALL_PAGES, buildExam, examAvailability, examPages, examScore } from "@/feed/exam";
 import { useExamScope, type ExamScope } from "@/feed/examPool";
 import { createRng } from "@/feed/sources/generators";
-import type { QuizItem } from "@/feed/types";
+import type { ExamItem } from "@/feed/types";
+import { OpenAnswer } from "@/components/OpenAnswer";
+import { MultiOptions } from "@/components/MultiOptions";
+import { gradeMulti, selfGradeOk, type SelfGrade } from "@/lib/grading";
 import { haptic } from "@/lib/haptics";
 import { awardXp } from "@/store/xp";
 import { useReview } from "@/store/review";
@@ -27,9 +31,22 @@ interface Settings {
 }
 
 interface Answer {
-  item: QuizItem;
+  item: ExamItem;
+  /** Option picked (quiz) or TIMED_OUT; -1 for a "marque todas" answer, whose choice is in `set`. */
   picked: number;
+  set?: number[];
+  ok: boolean;
 }
+
+/** Text of the right answer and of what was chosen, for the results list. */
+const rightText = (q: ExamItem) => (q.kind === "quiz" ? q.options[q.answer] : q.kind === "multi" ? q.answers.map((i) => q.options[i]).join(" · ") : q.model);
+const pickedText = (a: Answer) => {
+  const q = a.item;
+  if (q.kind === "quiz") return a.picked >= 0 ? q.options[a.picked] : "";
+  if (q.kind === "multi") return (a.set ?? []).map((i) => q.options[i]).join(" · ");
+  return "";
+};
+const explanationOf = (q: ExamItem) => (q.kind === "open" ? `Pontos-chave: ${q.points.map((p) => p.label).join("; ")}` : q.explanation);
 
 const fmtTime = (ms: number) => {
   const s = Math.round(ms / 1000);
@@ -49,7 +66,7 @@ export default function Exam() {
   }));
   const recordKey = scope ? `mode:${scope.key}` : settings.pageId;
   const seconds = scope?.secondsPerQuestion ?? SECONDS;
-  const [questions, setQuestions] = useState<QuizItem[] | null>(null);
+  const [questions, setQuestions] = useState<ExamItem[] | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [startedAt, setStartedAt] = useState(0);
   const [elapsed, setElapsed] = useState(0);
@@ -70,8 +87,8 @@ export default function Exam() {
     haptic.medium();
   };
 
-  const onAnswer = useCallback((item: QuizItem, picked: number) => {
-    const ok = picked === item.answer;
+  const onAnswer = useCallback((item: ExamItem, picked: number, set?: number[], self?: SelfGrade) => {
+    const ok = item.kind === "quiz" ? picked === item.answer : item.kind === "multi" ? !!set && gradeMulti(item, set).ok : !!self && selfGradeOk(self);
     trackAnswer(item, ok);
     useReview.getState().recordQuiz(item, ok);
     countStudy(item.pageId);
@@ -79,11 +96,11 @@ export default function Exam() {
     lastAt.current = Date.now();
     if (ok) haptic.success();
     else haptic.error();
-    setAnswers((a) => (a.some((x) => x.item.id === item.id) ? a : [...a, { item, picked }]));
+    setAnswers((a) => (a.some((x) => x.item.id === item.id) ? a : [...a, { item, picked, set, ok }]));
   }, []);
 
   const onFinish = (list: Answer[]) => {
-    const score = examScore(list.filter((a) => a.picked === a.item.answer).length, list.length);
+    const score = examScore(list.filter((a) => a.ok).length, list.length);
     setElapsed(Date.now() - startedAt);
     setNewBest(useProgress.getState().recordExam(recordKey, score));
     useProgress.getState().logEvent(undefined, { exams: 1 });
@@ -194,7 +211,7 @@ function Setup({ settings, onChange, onStart, scope, seconds, recordKey }: { set
   );
 }
 
-function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questions: QuizItem[]; answers: Answer[]; timed: boolean; seconds: number; onAnswer: (item: QuizItem, picked: number) => void; onDone: (answers: Answer[]) => void }) {
+function Run({ questions, answers, timed: timedExam, seconds, onAnswer, onDone }: { questions: ExamItem[]; answers: Answer[]; timed: boolean; seconds: number; onAnswer: (item: ExamItem, picked: number, set?: number[], self?: SelfGrade) => void; onDone: (answers: Answer[]) => void }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const [current, setCurrent] = useState(0);
@@ -204,6 +221,8 @@ function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questio
   const last = current === questions.length - 1;
   const time = useSharedValue(1);
   const page = getPage(item.pageId);
+  // Written answers are never timed.
+  const timed = timedExam && item.kind !== "open";
 
   // Countdown for the current question; running out counts as a wrong answer.
   useEffect(() => {
@@ -224,14 +243,14 @@ function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questio
 
   // A right answer moves on by itself; a wrong one waits so the explanation can be read.
   useEffect(() => {
-    if (picked === null || picked !== item.answer) return;
+    if (picked === null || !answer?.ok) return;
     const id = setTimeout(next, AUTO_NEXT_MS);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [picked]);
 
   const bar = useAnimatedStyle(() => ({ width: `${time.value * 100}%` }));
-  const correct = answers.filter((a) => a.picked === a.item.answer).length;
+  const correct = answers.filter((a) => a.ok).length;
 
   return (
     <View style={{ flex: 1 }}>
@@ -239,7 +258,7 @@ function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questio
         <View style={styles.dots}>
           {questions.map((q, i) => {
             const a = answers[i];
-            const color = a ? (a.picked === a.item.answer ? c.success : c.danger) : i === current ? c.text : c.surface2;
+            const color = a ? (a.ok ? c.success : c.danger) : i === current ? c.text : c.surface2;
             return <View key={q.id} style={[styles.dot, { backgroundColor: color, flex: 1 }]} />;
           })}
         </View>
@@ -253,12 +272,18 @@ function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questio
           </View>
         )}
       </View>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 110 }} showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" bottomOffset={24} contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 110 }} showsVerticalScrollIndicator={false}>
         <Animated.View key={item.id} entering={FadeInRight.springify().damping(26).stiffness(280).mass(1)}>
           <AppText variant="title" style={{ fontSize: 24, lineHeight: 30, marginBottom: 18 }} testID="exam-question">{item.question}</AppText>
-          <QuizOptions item={item} picked={picked} onPick={(i) => picked === null && onAnswer(item, i)} />
+          {item.kind === "quiz" ? (
+            <QuizOptions item={item} picked={picked} onPick={(i) => picked === null && onAnswer(item, i)} />
+          ) : item.kind === "multi" ? (
+            <MultiOptions item={item} picked={answer ? (answer.set ?? []) : null} onConfirm={(sel) => picked === null && onAnswer(item, -1, sel)} />
+          ) : (
+            <OpenAnswer item={item} onGraded={(g) => picked === null && onAnswer(item, -1, undefined, g)} />
+          )}
         </Animated.View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       {picked !== null && (
         <Animated.View entering={FadeInDown} style={[styles.footer, { paddingBottom: insets.bottom + 16, backgroundColor: c.bg }]}>
           <GradientButton label={last ? "Ver resultado" : "Próxima"} icon={last ? "flag-checkered" : "arrow-right"} onPress={next} />
@@ -271,9 +296,9 @@ function Run({ questions, answers, timed, seconds, onAnswer, onDone }: { questio
 function Result({ answers, elapsed, newBest, best, pageId, scopeTitle, onRetry, onClose }: { answers: Answer[]; elapsed: number; newBest: boolean; best: number; pageId: string; scopeTitle?: string; onRetry: () => void; onClose: () => void }) {
   const c = useColors();
   const insets = useSafeAreaInsets();
-  const correct = answers.filter((a) => a.picked === a.item.answer).length;
+  const correct = answers.filter((a) => a.ok).length;
   const score = examScore(correct, answers.length);
-  const wrong = answers.filter((a) => a.picked !== a.item.answer);
+  const wrong = answers.filter((a) => !a.ok);
   const mood = score >= 80 ? { icon: "trophy" as const, text: "Excelente!", color: c.save } : score >= 50 ? { icon: "thumb-up" as const, text: "Bom trabalho!", color: c.accent2 } : { icon: "book-open-variant" as const, text: "Bora revisar!", color: c.like };
   const topic = scopeTitle ?? (pageId === ALL_PAGES ? "Todos os temas" : getPage(pageId).name);
 
@@ -314,15 +339,15 @@ function Result({ answers, elapsed, newBest, best, pageId, scopeTitle, onRetry, 
               <AppText variant="label">{a.item.question}</AppText>
               <View style={styles.reviewRow}>
                 <Icon name="check-circle" size={16} color={c.success} />
-                <AppText variant="caption" style={{ color: c.success, flex: 1 }}>{a.item.options[a.item.answer]}</AppText>
+                <AppText variant="caption" style={{ color: c.success, flex: 1 }}>{rightText(a.item)}</AppText>
               </View>
-              {a.picked >= 0 && (
+              {!!pickedText(a) && (
                 <View style={styles.reviewRow}>
                   <Icon name="close-circle" size={16} color={c.danger} />
-                  <AppText variant="caption" style={{ color: c.danger, flex: 1 }}>{a.item.options[a.picked]}</AppText>
+                  <AppText variant="caption" style={{ color: c.danger, flex: 1 }}>{pickedText(a)}</AppText>
                 </View>
               )}
-              <AppText variant="caption" dim style={{ marginTop: 6 }}>{a.item.explanation}</AppText>
+              <AppText variant="caption" dim style={{ marginTop: 6 }}>{explanationOf(a.item)}</AppText>
             </View>
           ))}
         </>

@@ -11,7 +11,7 @@ export interface ReviewCard {
 }
 
 /** Only items with a clear right answer can be reviewed. */
-export const reviewable = (item: StudyItem) => item.kind === "quiz" || item.kind === "flash";
+export const reviewable = (item: StudyItem) => item.kind === "quiz" || item.kind === "multi" || item.kind === "open" || item.kind === "flash";
 
 interface ReviewState {
   cards: Record<string, ReviewCard>;

@@ -14,6 +14,9 @@ import "./pack-quimica";
 import "./pack-biologia";
 import "./pack-humanas";
 import "./pack-linguagens";
+// "Marque todas" and dissertativas, attached to the topics above.
+import "./pack-multi";
+import "./pack-open";
 
 export type { Bimestre, CurriculumTopic, Serie } from "./build";
 

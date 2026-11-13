@@ -7,6 +7,8 @@ export function speechText(item: StudyItem, flipped = false): string {
   switch (item.kind) {
     case "concept": return [item.title, ...item.beats, item.takeaway].join(". ");
     case "quiz": return [item.question, ...item.options].join(". ");
+    case "multi": return [item.question, "Pode haver mais de uma certa.", ...item.options].join(". ");
+    case "open": return item.question;
     case "flash": return flipped ? `Resposta: ${item.back}` : item.front;
     case "video": return `${item.title}. ${item.caption}`;
     case "wiki": return `${item.title}. ${item.extract}`;
