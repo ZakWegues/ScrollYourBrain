@@ -164,7 +164,7 @@ more(Qm, 2, 3, [
 more(Qm, 2, 4, [
   ["Uma solução com pH 10 é:", ["Ácida", "Neutra", "Básica", "Salina"], 2, "pH acima de 7 é básico (alcalino), com mais OH⁻ que H⁺. Sabão e água sanitária ficam nessa faixa."],
   ["Aumentar a pressão desloca o equilíbrio para o lado de:", ["Mais mols de gás", "Menos mols de gás", "Mais sólido", "Nenhum lado"], 1, "Princípio de Le Chatelier: o sistema reage contra a perturbação. Mais pressão favorece o lado com menos mols de gás, que ocupa menos volume."],
-  ["A diferença de 1 no pH significa concentração de H⁺:", ["2 vezes", "10 vezes", "100 vezes", "Igual"], 1, "O pH é logarítmico: cada unidade a menos significa 10 vezes mais H⁺. pH 3 é 10 vezes mais ácido que pH 4 e 100 vezes mais que pH 5."],
+  ["Uma solução tem [H⁺] = 10⁻⁵ mol/L. Qual é o seu pH?", ["10", "5", "−5", "0,5"], 1, "pH = −log[H⁺] = −log 10⁻⁵ = 5: é o expoente com o sinal trocado. pH 5 é ácido."],
 ]);
 more(Qm, 3, 1, [
   ["Qual é a fórmula do metano?", ["CH₄", "C₂H₆", "CO₂", "C₆H₆"], 0, "Metano tem 1 carbono (\"met-\") e só ligações simples: CH₄. É o principal componente do gás natural e do biogás."],

@@ -76,7 +76,7 @@ pack(M, "funcoes", 1, 4, "Exponencial e log na prática", [
 pack(M, "geometria", 1, 4, "Semelhança e relações no triângulo", [
   q("Um poste projeta sombra de 6 m no mesmo instante em que uma pessoa de 1,8 m projeta sombra de 1,2 m. Qual a altura do poste?", ["4 m", "7,2 m", "9 m", "10,8 m"], 2, "Os raios de sol são paralelos: triângulos semelhantes. h/6 = 1,8/1,2 = 1,5 → h = 9 m."),
   q("Triângulos semelhantes com razão 2 têm áreas na razão:", ["2", "4", "8", "√2"], 1, "Comprimentos na razão k → áreas na razão k² e volumes na razão k³. Com k = 2, as áreas ficam 4 vezes maiores."),
-  q("Qual é a soma dos ângulos internos de um hexágono?", ["360°", "540°", "720°", "1.080°"], 1, "Soma = (n − 2)·180° = (6 − 2)·180° = 720°. O hexágono pode ser dividido em 4 triângulos a partir de um vértice."),
+  q("Qual é a soma dos ângulos internos de um octógono?", ["720°", "900°", "1.080°", "1.440°"], 1, "Soma = (n − 2)·180° = (8 − 2)·180° = 1.080°. A partir de um vértice, o octógono se divide em 6 triângulos."),
   q("Num triângulo equilátero de lado 6, a altura mede:", ["3", "3√3", "6√3", "√3"], 1, "h = l√3/2 = 6√3/2 = 3√3 ≈ 5,2. Vem de Pitágoras: h² = 6² − 3²."),
   q("A diagonal de um quadrado de lado 5 mede:", ["5", "5√2", "10", "25"], 1, "d = l√2 = 5√2 ≈ 7,07, por Pitágoras: d² = 5² + 5² = 50. Somar os lados (10) daria um caminho maior que a diagonal."),
   q("Em um triângulo retângulo, a hipotenusa é sempre:", ["O menor lado", "O lado oposto ao ângulo reto", "Igual à soma dos catetos", "Perpendicular a um cateto"], 1, "A hipotenusa é o lado oposto ao ângulo reto e o maior lado do triângulo retângulo. Os outros dois lados são os catetos."),

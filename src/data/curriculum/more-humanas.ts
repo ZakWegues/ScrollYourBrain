@@ -96,7 +96,7 @@ more(H, 2, 2, [
   ["Queda da Bastilha marcou o início da:", ["Revolução Industrial", "Revolução Francesa", "Independência dos EUA", "Primavera dos Povos"], 1, "A tomada da Bastilha, prisão símbolo do absolutismo, em 14 de julho de 1789, marca o início da Revolução Francesa."],
 ]);
 more(H, 2, 3, [
-  ["Em que ano o Brasil se tornou independente?", ["1808", "1822", "1889", "1831"], 1, "Em 7 de setembro de 1822, com Dom Pedro I. 1808 é a chegada da família real; 1889, a Proclamação da República."],
+  ["Quem foi o primeiro imperador do Brasil?", ["Dom Pedro I", "Dom João VI", "Dom Pedro II", "Deodoro da Fonseca"], 1, "Dom Pedro I proclamou a independência em 1822 e foi o primeiro imperador, até abdicar em 1831. Pedro II foi o segundo; Deodoro, o primeiro presidente."],
   ["Período Regencial ocorreu porque:", ["Dom Pedro II era menor de idade", "A República tinha sido proclamada", "O Brasil sofreu uma invasão francesa", "Dom João VI voltou ao trono do Brasil"], 0, "Pedro I abdicou em 1831 e o herdeiro, Pedro II, tinha 5 anos. Regentes governaram até o Golpe da Maioridade (1840)."],
   ["A vinda da família real ao Brasil (1808) foi causada por:", ["Revolução Francesa e queda do rei", "Invasão de Portugal por Napoleão", "Independência das colônias espanholas", "Abolição da escravidão em Portugal"], 1, "Napoleão invadiu Portugal (Bloqueio Continental) e a Corte fugiu para o Brasil, com escolta inglesa. Logo vieram a abertura dos portos e outras mudanças."],
 ]);

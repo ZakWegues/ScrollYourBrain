@@ -80,7 +80,7 @@ export const HISTORIA = h.done();
 
 const g = subject("geografia");
 t = g.topic(1, 1, "Cartografia");
-g.quiz(t, "Em uma escala 1:100.000, 1 cm no mapa equivale a:", ["100 m", "1 km", "10 km", "100 km"], 1, "1 cm no mapa = 100.000 cm no real. 100.000 cm = 1.000 m = 1 km. Dica: corte dois zeros para ter metros e mais três para quilômetros.");
+g.quiz(t, "Num mapa de escala 1:250.000, 4 cm representam:", ["1 km", "4 km", "10 km", "25 km"], 1, "4 cm · 250.000 = 1.000.000 cm = 10.000 m = 10 km. De cm para km, corte 5 zeros.");
 g.flash(t, "Latitude x longitude", "Latitude: distância em graus da Linha do Equador (N/S). Longitude: distância do Meridiano de Greenwich (L/O).");
 t = g.topic(1, 2, "Geologia e relevo");
 g.quiz(t, "Terremotos e vulcões ocorrem principalmente:", ["No centro das placas tectônicas", "Nos limites das placas", "Nas áreas de deserto quente", "Nas grandes planícies"], 1, "Nos limites das placas tectônicas, onde elas se chocam, se afastam ou deslizam. Por isso o Brasil, no meio da placa Sul-Americana, tem poucos tremores.");

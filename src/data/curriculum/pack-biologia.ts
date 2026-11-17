@@ -38,7 +38,7 @@ pack(B, "genetica", 3, 1, "Heredogramas e grupos sanguíneos", [
 ]);
 
 pack(B, "genetica", 3, 2, "DNA, RNA e proteínas", [
-  q("No DNA, a adenina pareia com:", ["Citosina", "Guanina", "Timina", "Uracila"], 2, "Pareamento no DNA: adenina com timina (A–T) e citosina com guanina (C–G). No RNA, a adenina pareia com uracila."),
+  q("Uma fita de DNA tem a sequência AGC. Qual é a fita complementar?", ["TCG", "AGC", "UCG", "GCA"], 2, "No DNA, A pareia com T e G com C: AGC → TCG. UCG seria RNA (tem U), não DNA."),
   q("Qual é uma diferença entre RNA e DNA?", ["O RNA tem uracila e ribose", "O RNA tem timina e desoxirribose", "O RNA tem sempre dupla hélice", "O RNA não tem bases nitrogenadas"], 1, "O RNA tem uracila no lugar da timina, açúcar ribose (não desoxirribose) e em geral é fita simples. O DNA é a dupla hélice."),
   q("A transcrição é a produção de:", ["DNA a partir de DNA", "RNA a partir de DNA", "Proteína a partir de RNA", "Lipídios"], 1, "Transcrição = RNA feito a partir do molde de DNA, no núcleo (eucariontes). DNA a partir de DNA é replicação; proteína a partir de RNA é tradução."),
   q("A tradução acontece:", ["No núcleo", "Nos ribossomos", "Nas mitocôndrias apenas", "No lisossomo"], 1, "Nos ribossomos, o RNA mensageiro é lido em códons e os aminoácidos trazidos pelo RNA transportador são unidos em proteína."),
