@@ -296,3 +296,164 @@ extend(GEOGRAFIA, "Conflitos e refugiados", [
   m("Marque causas de deslocamentos forçados:", ["Guerras", "Perseguição política", "Desastres climáticos", "Férias escolares", "Intercâmbio cultural"], [0, 1, 2], "Férias e intercâmbio são deslocamentos voluntários."),
   m("Marque direitos dos refugiados no Brasil:", ["Documentos", "Trabalho", "Saúde pelo SUS", "Expulsão sem motivo", "Proibição de estudar"], [0, 1, 2], "A Lei de Migração (2017) garante acesso a serviços públicos."),
 ], "n");
+
+// Complemento (mais prática por assunto).
+extend(GEOGRAFIA, "Cartografia", [
+  q("Numa escala 1:50.000, 1 cm no mapa vale:", ["500 m", "5 km no terreno", "50 m no terreno", "50 km no terreno"], 0, "50.000 cm = 500 m."),
+  q("A orientação de um mapa costuma usar:", ["O norte", "A linha da costa", "O maior rio do país", "A capital mais próxima"], 0, "Por convenção, o norte fica para cima."),
+  qe("Um mapa-múndi com o Sul para cima, feito por um artista uruguaio, questiona a convenção do Norte no topo.", "A obra mostra que mapas:", ["Expressam pontos de vista", "São sempre neutros e exatos", "Não têm convenções", "Devem mostrar só a Europa"], 0, "Ex.: 'América Invertida', de Joaquín Torres García."),
+  q("Anamorfose é um mapa que:", ["Distorce áreas por um dado", "Mostra só o relevo do país", "Usa apenas a cor azul", "Não tem nenhuma legenda"], 0, "Ex.: países 'inflados' conforme a população."),
+  q("A cartografia que mapeia com drones e GPS é chamada de:", ["Digital", "Medieval portuguesa", "Rupestre das cavernas", "Manual com bússola"], 0, "Dados em tempo real e grande precisão."),
+], "n");
+
+extend(GEOGRAFIA, "Geologia e relevo", [
+  q("A Pangeia foi:", ["Um supercontinente", "Um oceano gelado", "Uma cordilheira andina", "Uma placa do Pacífico"], 0, "Há cerca de 250 milhões de anos; depois se fragmentou."),
+  q("A teoria da deriva continental foi proposta por:", ["Wegener", "Charles Darwin", "Isaac Newton", "Galileu Galilei"], 0, "Alfred Wegener, em 1912."),
+  qe("No Brasil, o relevo é antigo e muito desgastado, com altitudes modestas.", "Isso se explica por:", ["Longa ação da erosão", "Vulcões ativos no país", "Choque recente de placas", "Muito gelo nas serras"], 0, "Estruturas antigas, erodidas por milhões de anos."),
+  q("Intemperismo é:", ["A decomposição das rochas", "A formação de vulcões", "O choque de placas", "A queda de meteoros"], 0, "Pode ser físico (temperatura) ou químico (água)."),
+  q("As voçorocas são:", ["Grandes erosões no solo", "Lagos de origem vulcânica", "Picos de montanhas altas", "Ilhas no meio do mar"], 0, "Causadas por chuva em solo sem vegetação."),
+], "n");
+
+extend(GEOGRAFIA, "Clima e hidrografia", [
+  q("O El Niño é:", ["O aquecimento do Pacífico", "Um furacão do Atlântico", "Um rio da Amazônia", "Uma montanha andina"], 0, "Muda chuvas: seca no Norte/Nordeste e chuva no Sul do Brasil."),
+  q("A maior bacia hidrográfica totalmente brasileira é a:", ["Do São Francisco", "Do rio Amazonas", "Do rio da Prata", "Do rio Paraguai"], 0, "A Amazônica e a do Prata abrangem outros países."),
+  qe("A transposição do rio São Francisco leva água a áreas do semiárido por canais.", "Uma crítica ao projeto é:", ["Impactos e custo alto", "Excesso de chuva no Sertão", "Falta total de canais", "Água salgada demais"], 0, "Também se discute quem realmente recebe a água."),
+  q("As monções são:", ["Ventos sazonais com chuvas", "Rios subterrâneos frios", "Geleiras dos Himalaias", "Desertos da Ásia"], 0, "Típicas do sul da Ásia, como na Índia."),
+  q("Frentes frias trazem ao Sul e Sudeste:", ["Queda de temperatura", "Calor intenso e seco", "Neve em todo o país", "Fim das chuvas no verão"], 0, "Massa polar avança e provoca chuva e frio."),
+], "n");
+
+extend(GEOGRAFIA, "Biomas e questões ambientais", [
+  q("A chuva ácida é causada principalmente por:", ["Gases de fábricas e carros", "Excesso de árvores nas cidades", "Água do mar evaporada", "Neve derretida nas serras"], 0, "Óxidos de enxofre e nitrogênio reagem com a água."),
+  qe("Ilhas do Pacífico, como Tuvalu, correm risco de desaparecer.", "O motivo é:", ["A subida do mar", "O excesso de vulcões ativos", "A queda do nível do oceano", "O frio intenso do inverno"], 0, "O aquecimento derrete geleiras e expande a água do mar."),
+  q("O efeito estufa natural é:", ["Necessário à vida", "Sempre um desastre", "Causado só por carros", "Inexistente na Terra"], 0, "Sem ele, a Terra seria muito fria; o problema é a intensificação."),
+  q("A COP é a conferência anual da ONU sobre:", ["Mudanças climáticas", "Futebol entre seleções", "Comércio de armas", "Turismo internacional"], 0, "Em 2025, foi realizada em Belém (COP30)."),
+  q("Desmatar florestas tropicais contribui para:", ["Mais CO₂ no ar", "Mais chuva em todo lugar", "Menos calor no planeta", "Mais oxigênio no ar"], 0, "Queimadas e perda de árvores liberam carbono."),
+], "n");
+
+extend(GEOGRAFIA, "População e demografia", [
+  q("Imigrante é quem:", ["Entra em outro país", "Sai do próprio país", "Nunca muda de lugar", "Viaja só a turismo"], 0, "Emigrante é quem sai."),
+  q("Expectativa de vida é:", ["A média de anos vividos", "A idade da pessoa mais velha", "O número de nascimentos", "A idade para votar"], 0, "No Brasil, cerca de 76 anos."),
+  qe("O Censo 2022 mostrou que o Brasil tem cerca de 203 milhões de habitantes.", "O Censo é feito pelo:", ["IBGE", "Banco Central do Brasil", "Ministério da Defesa", "Supremo Tribunal Federal"], 0, "Recenseamento a cada dez anos (em geral)."),
+  q("País populoso é aquele com:", ["Muitos habitantes", "Muita área territorial", "Muitos habitantes por km²", "Muitos idosos e poucos jovens"], 0, "Povoado refere-se à densidade."),
+  q("A taxa de natalidade mede:", ["Nascimentos por mil habitantes", "Mortes de idosos por ano", "Casamentos por cidade", "Migrantes por estado"], 0, "Em geral, ao longo de um ano."),
+], "n");
+
+extend(GEOGRAFIA, "Urbanização", [
+  q("Metrópole é:", ["Uma grande cidade influente", "Um bairro rural isolado", "Uma vila de pescadores", "Uma fazenda de café"], 0, "Polariza cidades vizinhas e outras regiões."),
+  q("Cidade global é aquela que:", ["Comanda fluxos mundiais", "Fica perto do Equador", "Tem só população idosa", "Não tem conexões externas"], 0, "Ex.: Nova York, Londres, Tóquio, São Paulo."),
+  qe("Em São Paulo, muitos moram longe do trabalho e passam horas no transporte público.", "Isso revela um problema de:", ["Mobilidade urbana", "Excesso de áreas verdes", "Falta de população", "Clima polar urbano"], 0, "Moradia longe dos empregos e transporte insuficiente."),
+  q("Favelização é ligada principalmente a:", ["Falta de moradia acessível", "Excesso de parques urbanos", "Riqueza bem distribuída", "Baixa população urbana"], 0, "Ocupações em áreas de risco e sem infraestrutura."),
+  q("A urbanização brasileira foi:", ["Rápida e desigual", "Lenta e bem planejada", "Inexistente até hoje", "Só no século XIX"], 0, "Acelerou entre 1950 e 1980."),
+], "n");
+
+extend(GEOGRAFIA, "Agropecuária e espaço rural", [
+  q("Plantation é um sistema baseado em:", ["Latifúndio e monocultura", "Hortas familiares variadas", "Caça e coleta na mata", "Pesca artesanal no rio"], 0, "Herança colonial voltada à exportação."),
+  q("Agricultura de precisão usa:", ["GPS, sensores e drones", "Apenas enxadas e foices", "Somente queimadas", "Nenhuma tecnologia"], 0, "Aplicar insumos só onde é preciso."),
+  qe("Plantio direto mantém a palha da colheita anterior sobre o solo.", "Isso ajuda a:", ["Reduzir a erosão", "Aumentar a erosão", "Secar o solo mais rápido", "Acabar com a matéria orgânica"], 0, "Protege o solo e retém água."),
+  q("A pecuária intensiva se caracteriza por:", ["Alta produtividade por área", "Gado solto em áreas enormes", "Nenhum uso de tecnologia", "Baixa produção de carne"], 0, "Confinamento, ração e manejo técnico."),
+  q("O êxodo rural no Brasil foi impulsionado pela:", ["Mecanização do campo", "Falta de cidades no país", "Abundância de terras livres", "Reforma agrária ampla"], 0, "Também pela concentração fundiária."),
+], "n");
+
+extend(GEOGRAFIA, "Indústria e energia", [
+  q("A Primeira Revolução Industrial usava como fonte principal o:", ["Carvão", "Petróleo do pré-sal", "Urânio enriquecido", "Vento das eólicas"], 0, "Máquinas a vapor movidas a carvão."),
+  q("A Segunda Revolução Industrial trouxe:", ["Eletricidade e petróleo", "Apenas a máquina a vapor", "A internet e os robôs", "O fim das fábricas"], 0, "Fim do século XIX: aço, química, motor a combustão."),
+  qe("Um tecnopolo reúne universidades, centros de pesquisa e empresas de tecnologia.", "Um exemplo no Brasil é:", ["Campinas (SP)", "Uma vila de pescadores", "Uma fazenda de gado", "Um garimpo na mata"], 0, "Também São José dos Campos e Florianópolis."),
+  q("A matriz energética mundial ainda depende de:", ["Combustíveis fósseis", "Energia das marés", "Energia geotérmica", "Biogás de aterros"], 0, "Petróleo, carvão e gás somam a maior parte."),
+  q("Indústrias de base produzem:", ["Matérias para outras indústrias", "Roupas e calçados prontos", "Alimentos industrializados", "Celulares e televisores"], 0, "Ex.: siderurgia e petroquímica."),
+], "n");
+
+extend(GEOGRAFIA, "Globalização e blocos econômicos", [
+  q("Deslocalização industrial é:", ["Fábricas mudando de país", "Fim de todas as fábricas", "Fábricas só no campo", "Fábricas sem trabalhadores"], 0, "Busca custos menores em outros países."),
+  q("Paraísos fiscais são países com:", ["Impostos baixos e sigilo", "Muita neve e turismo", "Praias e resorts caros", "Leis fiscais rigorosas"], 0, "Atraem capitais, às vezes de origem ilegal."),
+  qe("Uma pandemia interrompeu fábricas na Ásia e faltaram peças para carros no Brasil.", "Isso mostra:", ["A interdependência global", "O isolamento das economias", "A autossuficiência do Brasil", "O fim do comércio exterior"], 0, "Cadeias produtivas globais são vulneráveis."),
+  q("Protecionismo é:", ["Proteger o mercado interno", "Abrir totalmente o comércio", "Proibir toda exportação", "Usar só moeda estrangeira"], 0, "Tarifas e cotas contra importados."),
+  q("O Banco Mundial financia principalmente:", ["Projetos de desenvolvimento", "Campanhas eleitorais", "Times de futebol", "Guerras entre países"], 0, "Infraestrutura, saúde e educação."),
+], "n");
+
+extend(GEOGRAFIA, "Geopolítica e conflitos", [
+  q("A Otan é uma aliança:", ["Militar", "Comercial do Mercosul", "Religiosa europeia", "Esportiva mundial"], 0, "Criada em 1949; defesa coletiva."),
+  q("O Conselho de Segurança da ONU tem membros permanentes com direito a:", ["Veto", "Voto duplo nas eleições", "Moeda própria", "Exército da ONU"], 0, "EUA, Rússia, China, Reino Unido e França."),
+  qe("O Ártico está ficando com menos gelo e novas rotas de navegação se abrem.", "Isso aumenta a disputa por:", ["Rotas e recursos", "Neve e geleiras", "Florestas tropicais", "Desertos de areia"], 0, "Petróleo, gás e passagem de navios."),
+  q("A Primavera Árabe começou na:", ["Tunísia", "Argentina", "Noruega", "Austrália"], 0, "Em 2010, com protestos contra a ditadura."),
+  q("Separatismo é o desejo de:", ["Formar um novo país", "Unir dois países", "Acabar com fronteiras", "Mudar de capital"], 0, "Ex.: Catalunha, Escócia, País Basco."),
+], "n");
+
+extend(GEOGRAFIA, "Regiões do Brasil", [
+  q("A região com maior PIB do Brasil é o:", ["Sudeste", "Norte amazônico", "Nordeste do Sertão", "Centro-Oeste agrícola"], 0, "Concentra indústria, serviços e população."),
+  q("O MATOPIBA é uma fronteira agrícola entre:", ["MA, TO, PI e BA", "MG, SP, RJ e ES", "RS, SC, PR e SP", "AM, PA, AC e RO"], 0, "Expansão da soja no Cerrado nordestino."),
+  qe("A região Norte tem a maior área, mas baixa densidade demográfica.", "Isso se explica em parte pela:", ["Floresta e poucas vias", "Falta de rios na região", "Neve no inverno amazônico", "Excesso de indústrias pesadas"], 0, "Ocupação concentrada ao longo dos rios e capitais."),
+  q("A região Sul se destaca por:", ["Bons índices sociais", "Clima equatorial úmido", "Maior população do país", "Ausência de agricultura"], 0, "Alto IDH e forte agropecuária."),
+  q("Brasília fica na região:", ["Centro-Oeste", "Sudeste do país", "Nordeste do país", "Norte do país"], 0, "Inaugurada em 1960 para interiorizar o país."),
+], "n");
+
+extend(GEOGRAFIA, "Meio ambiente e sustentabilidade", [
+  q("Aterro sanitário é melhor que lixão porque:", ["Trata o chorume e o gás", "Fica mais perto das casas", "Queima o lixo ao ar livre", "Não precisa de controle"], 0, "Solo impermeabilizado e controle ambiental."),
+  q("Compostagem transforma restos orgânicos em:", ["Adubo", "Plástico reciclado", "Vidro novo", "Combustível fóssil"], 0, "Reduz lixo e devolve nutrientes ao solo."),
+  qe("Uma cidade cria ciclovias e melhora o transporte coletivo.", "Essas ações contribuem para:", ["Reduzir emissões", "Aumentar o trânsito", "Poluir mais o ar", "Diminuir áreas verdes"], 0, "Menos carros, menos poluição."),
+  q("Economia circular propõe:", ["Reaproveitar materiais", "Descartar tudo após o uso", "Produzir sem nenhum plano", "Queimar o lixo urbano"], 0, "Produtos pensados para reuso e reciclagem."),
+  q("O Código Florestal protege as:", ["Áreas de preservação", "Áreas de mineração livre", "Rodovias federais", "Zonas industriais"], 0, "APPs e reserva legal nas propriedades rurais."),
+], "n");
+
+extend(GEOGRAFIA, "Escalas, coordenadas e fusos", [
+  q("Os paralelos indicam a:", ["Latitude", "Longitude oeste", "Altitude do relevo", "Hora do lugar"], 0, "Linhas paralelas ao Equador."),
+  q("A cada 15° de longitude, a hora muda em:", ["1 hora", "15 minutos", "2 horas", "30 minutos"], 0, "360° ÷ 24 h = 15° por hora."),
+  qe("Um voo sai de São Paulo às 22h e chega a Lisboa após 10 horas de voo. Lisboa está 3 horas à frente.", "Que horas são em Lisboa na chegada?", ["11h", "8h", "13h", "5h"], 0, "22h + 10h = 8h (SP); +3 h = 11h em Lisboa."),
+  q("Escala pequena mostra:", ["Áreas grandes, pouco detalhe", "Áreas pequenas, muito detalhe", "Só o relevo do bairro", "Só as ruas da cidade"], 0, "Ex.: um mapa-múndi (1:50.000.000)."),
+  q("O Trópico de Câncer fica no hemisfério:", ["Norte", "Sul", "Oeste", "Leste"], 0, "O de Capricórnio fica no Sul."),
+], "n");
+
+extend(GEOGRAFIA, "Biomas brasileiros", [
+  q("O bioma com maior número de espécies ameaçadas é a:", ["Mata Atlântica", "Caatinga seca", "Floresta Amazônica", "Campos do Pampa"], 0, "Foi o mais devastado ao longo da história."),
+  q("A Mata dos Cocais fica entre a Amazônia e a:", ["Caatinga", "Mata Atlântica do Sul", "Floresta de araucárias", "Área do Pampa"], 0, "Babaçu e carnaúba, no Maranhão e Piauí."),
+  qe("A carnaúba, árvore da Mata dos Cocais e da Caatinga, produz uma cera usada em cosméticos e polidores.", "Esse uso é um exemplo de:", ["Extrativismo vegetal", "Mineração de ouro", "Pecuária extensiva", "Pesca industrial"], 0, "Coleta de produtos da vegetação nativa."),
+  q("A Mata de Araucárias ocorre principalmente no:", ["Sul", "Norte amazônico", "Sertão nordestino", "Pantanal mato-grossense"], 0, "Pinheiro-do-paraná; muito desmatada."),
+  q("A vegetação da Caatinga perde as folhas na seca para:", ["Economizar água", "Ganhar mais sol", "Atrair animais", "Crescer mais rápido"], 0, "Caducifólia: reduz a transpiração."),
+], "n");
+
+extend(GEOGRAFIA, "Transição demográfica", [
+  q("Na última fase da transição, a população:", ["Cresce pouco ou cai", "Explode rapidamente", "Fica muito jovem", "Tem natalidade altíssima"], 0, "Natalidade e mortalidade baixas."),
+  q("O Brasil está hoje numa fase de:", ["Envelhecimento", "Explosão demográfica", "Natalidade altíssima", "Mortalidade alta"], 0, "Fecundidade baixa e vida mais longa."),
+  qe("Em 2050, o Brasil deve ter mais idosos do que crianças.", "Uma política necessária é:", ["Ampliar cuidados a idosos", "Fechar todos os hospitais", "Reduzir a previdência a zero", "Proibir a imigração"], 0, "Saúde, cuidadores e cidades acessíveis."),
+  q("A queda da mortalidade infantil se deve principalmente a:", ["Vacinas e saneamento", "Aumento das guerras", "Falta de hospitais", "Fim das escolas"], 0, "Também ao pré-natal e à amamentação."),
+  q("O bônus demográfico do Brasil:", ["Está terminando", "Ainda vai começar", "Nunca existiu", "Dura para sempre"], 0, "A proporção de idosos cresce rápido."),
+], "n");
+
+extend(GEOGRAFIA, "Regiões e migrações no Brasil", [
+  q("Os 'retirantes' fugiam principalmente da:", ["Seca", "Neve do inverno", "Enchente do Sul", "Guerra civil"], 0, "Retratados em 'Vidas Secas' e 'O Quinze'."),
+  q("A migração de japoneses para o Brasil começou em:", ["1908", "1500", "1822", "1990"], 0, "Com o navio Kasato Maru, em Santos."),
+  qe("Haitianos chegaram ao Brasil após o terremoto de 2010.", "Muitos foram trabalhar em:", ["Indústrias e serviços", "Minas de ouro coloniais", "Engenhos de açúcar", "Fazendas de café do Império"], 0, "Sobretudo no Sul e no Sudeste."),
+  q("Transumância é a migração:", ["Com rebanhos por estação", "Diária para o trabalho", "Entre continentes", "De turistas no verão"], 0, "Pastores levam o gado conforme o clima."),
+  q("A 'fuga de cérebros' é a saída de:", ["Profissionais qualificados", "Trabalhadores rurais", "Turistas em férias", "Crianças para estudar"], 0, "Cientistas e técnicos que emigram."),
+], "n");
+
+extend(GEOGRAFIA, "Matriz energética", [
+  q("O carvão mineral brasileiro concentra-se no:", ["Sul", "Norte amazônico", "Sertão nordestino", "Centro-Oeste"], 0, "Santa Catarina e Rio Grande do Sul."),
+  q("As usinas nucleares brasileiras ficam em:", ["Angra dos Reis (RJ)", "Manaus (AM)", "Brasília (DF)", "Salvador (BA)"], 0, "Angra 1 e 2; Angra 3 em construção."),
+  qe("O biogás é produzido pela decomposição de lixo orgânico e dejetos de animais.", "Uma vantagem do biogás é:", ["Aproveitar resíduos", "Gerar lixo radioativo", "Depender de petróleo", "Aumentar o desmatamento"], 0, "Transforma um problema em energia."),
+  q("Termelétricas são acionadas em secas porque:", ["Não dependem de chuva", "São as mais baratas", "Não poluem nada", "Usam só energia solar"], 0, "Queimam gás, óleo ou carvão."),
+  q("A energia maremotriz vem:", ["Das marés", "Do calor da Terra", "Do vento forte", "Da queima de lixo"], 0, "Pouco usada no Brasil."),
+], "n");
+
+extend(GEOGRAFIA, "Agronegócio e questão agrária", [
+  q("Reforma agrária é:", ["Redistribuir terras", "Concentrar terras", "Vender terras ao exterior", "Fechar as fazendas"], 0, "Dar terra a quem quer produzir."),
+  q("A Lei de Terras de 1850 dificultou o acesso à terra porque:", ["Exigia compra", "Doava terras aos pobres", "Proibia o café", "Libertava os escravizados"], 0, "Pobres e libertos ficaram sem acesso."),
+  qe("A soja avança sobre o Cerrado e empurra a pecuária para a Amazônia.", "Esse efeito indireto aumenta o:", ["Desmatamento", "Reflorestamento", "Número de geleiras", "Volume de chuvas"], 0, "O gado ocupa novas áreas de floresta."),
+  q("Agricultura familiar recebe crédito pelo:", ["Pronaf", "FGTS", "Enem", "Detran"], 0, "Programa Nacional de Fortalecimento da Agricultura Familiar."),
+  q("Commodities agrícolas são:", ["Produtos padronizados exportados", "Artesanato regional", "Produtos de luxo raros", "Serviços de turismo"], 0, "Ex.: soja, milho, café, açúcar."),
+], "n");
+
+extend(GEOGRAFIA, "Blocos econômicos", [
+  q("O euro é a moeda da:", ["Zona do Euro", "América do Sul", "Ásia oriental", "África do Norte"], 0, "Parte dos países da União Europeia."),
+  q("A Comunidade Andina reúne:", ["Bolívia, Colômbia, Equador e Peru", "Brasil e Argentina", "EUA e Canadá", "China e Japão"], 0, "Bloco sul-americano criado em 1969."),
+  qe("Um carro fabricado no Brasil é vendido na Argentina sem pagar imposto de importação.", "Isso ocorre por causa:", ["Do Mercosul", "Da Otan", "Do G7", "Da Opep"], 0, "Livre comércio entre os membros."),
+  q("A Opep reúne países exportadores de:", ["Petróleo", "Café", "Soja", "Ouro"], 0, "Influencia o preço mundial do petróleo."),
+  q("A União Europeia tem um parlamento:", ["Eleito pelos cidadãos", "Escolhido pelo papa", "Formado só por reis", "Sem poder nenhum"], 0, "O Parlamento Europeu, eleito a cada 5 anos."),
+], "n");
+
+extend(GEOGRAFIA, "Conflitos e refugiados", [
+  q("A maior crise de refugiados das Américas recente envolve a:", ["Venezuela", "Canadá", "Uruguai", "Chile"], 0, "Milhões deixaram o país desde 2015."),
+  q("Apátrida é a pessoa:", ["Sem nacionalidade", "Com duas pátrias", "Que nasceu no mar", "Que é diplomata"], 0, "Nenhum país a reconhece como cidadã."),
+  qe("Crianças refugiadas muitas vezes perdem anos de escola durante a fuga.", "Uma medida importante é:", ["Garantir matrícula", "Proibir a matrícula", "Separar as famílias", "Fechar as fronteiras"], 0, "Educação ajuda a integração."),
+  q("A Convenção dos Refugiados é de:", ["1951", "1500", "1888", "2020"], 0, "Criada após a Segunda Guerra."),
+  q("O Brasil reconheceu muitos refugiados de qual país em guerra desde 2011?", ["Síria", "Japão", "Suíça", "Islândia"], 0, "Também afegãos e ucranianos, com vistos humanitários."),
+], "n");
