@@ -305,3 +305,172 @@ extend(PORTUGUES, "Repertório e proposta de intervenção", [
     ["Finalidade", "a fim de", "para que", "com o objetivo", "reduzir"],
   ]),
 ], "n");
+
+// Complemento (mais prática por assunto).
+extend(PORTUGUES, "Funções da linguagem", [
+  qe("Notícia: 'O IBGE divulgou que a inflação de março foi de 0,4%.'", "Nesse trecho, predomina a função:", ["Referencial", "Emotiva, do autor", "Conativa, de apelo", "Poética, do ritmo"], 0, "Informação objetiva, centrada no assunto."),
+  q("Em 'Vem pra Caixa você também!', o foco está no:", ["Receptor", "Emissor da mensagem", "Código da língua", "Canal da conversa"], 0, "Função conativa: convencer o interlocutor."),
+  q("A função emotiva usa com frequência:", ["Primeira pessoa", "Terceira pessoa neutra", "Dados estatísticos", "Verbos no imperativo"], 0, "Exprime sentimentos de quem fala."),
+  qe("Poema: 'Quadrilha', de Drummond: 'João amava Teresa que amava Raimundo / que amava Maria que amava Joaquim…'", "O jogo sonoro e a repetição destacam a função:", ["Poética", "Fática, de contato", "Referencial, informativa", "Conativa, de ordem"], 0, "A construção da mensagem chama a atenção."),
+  q("'Câmbio, você me ouve?' no rádio é exemplo de função:", ["Fática", "Emotiva do falante", "Metalinguística do código", "Poética da mensagem"], 0, "Testa o canal."),
+], "n");
+
+extend(PORTUGUES, "Figuras de linguagem", [
+  q("Em 'Ela saiu, ele ficou', a oposição de ideias é uma:", ["Antítese", "Hipérbole exagerada", "Catacrese comum", "Onomatopeia sonora"], 0, "Saiu × ficou."),
+  q("Em 'Vi com meus próprios olhos', há:", ["Pleonasmo", "Metáfora visual", "Ironia sutil", "Metonímia de autor"], 0, "Repetição de ideia para reforçar."),
+  qe("Música: 'Eu sei que vou te amar / Por toda a minha vida eu vou te amar'.", "A repetição de 'vou te amar' reforça:", ["A intensidade do sentimento", "Uma crítica política", "Um dado científico", "Uma ordem ao leitor"], 0, "Recurso expressivo de ênfase."),
+  q("'O Brasil chorou a derrota' é exemplo de:", ["Metonímia", "Comparação com 'como'", "Pleonasmo vicioso", "Onomatopeia"], 0, "'Brasil' representa os brasileiros."),
+  q("Em 'Morreu de rir', há:", ["Hipérbole", "Eufemismo suave", "Antítese de ideias", "Catacrese técnica"], 0, "Exagero expressivo."),
+], "n");
+
+extend(PORTUGUES, "Classes de palavras", [
+  q("Em 'O bom aluno estuda', 'bom' é:", ["Adjetivo", "Advérbio de modo", "Substantivo comum", "Pronome possessivo"], 0, "Caracteriza o substantivo 'aluno'."),
+  q("Em 'Ele estuda bem', 'bem' é:", ["Advérbio", "Adjetivo do sujeito", "Substantivo abstrato", "Verbo de ligação"], 0, "Modifica o verbo."),
+  qe("Frase: 'O amanhã a Deus pertence.'", "A palavra 'amanhã' funciona como:", ["Substantivo", "Advérbio de tempo", "Adjetivo qualificativo", "Verbo no futuro"], 0, "Vem com artigo 'o': substantivação."),
+  q("Em 'Comprei aquele livro', 'aquele' é pronome:", ["Demonstrativo", "Pessoal do caso reto", "Possessivo de terceira", "Relativo de lugar"], 0, "Indica posição em relação às pessoas do discurso."),
+  q("'Sob', 'sobre', 'entre' e 'até' são:", ["Preposições", "Conjunções coordenativas", "Advérbios de lugar", "Interjeições de espanto"], 0, "Ligam termos estabelecendo relações."),
+], "n");
+
+extend(PORTUGUES, "Quinhentismo e Barroco", [
+  q("O 'Tratado da Terra do Brasil' é um texto de:", ["Informação", "Poesia barroca", "Romance romântico", "Crônica moderna"], 0, "De Pero de Magalhães Gândavo, no século XVI."),
+  q("O cultismo barroco valoriza:", ["Jogos de palavras", "Linguagem simples", "Fala coloquial", "Verso livre"], 0, "Também chamado de gongorismo."),
+  q("O conceptismo barroco valoriza:", ["Jogos de ideias", "Rimas pobres", "Prosa jornalística", "Gírias urbanas"], 0, "Raciocínio engenhoso, típico de Vieira."),
+  qe("Gregório de Matos satiriza: 'Que falta nesta cidade? Verdade. / Que mais por sua desonra? Honra.'", "A sátira critica:", ["A corrupção de Salvador", "A natureza tropical", "Os poetas árcades", "A vida no campo"], 0, "Falta de verdade, de honra e de vergonha na Bahia."),
+  q("O Barroco no Brasil se desenvolveu sobretudo no século:", ["XVII", "XIX", "XX", "XV"], 0, "Na Bahia e, depois, em Minas Gerais."),
+], "n");
+
+extend(PORTUGUES, "Sintaxe do período simples", [
+  q("Em 'Comprei flores para minha mãe', 'flores' é:", ["Objeto direto", "Objeto indireto", "Sujeito da oração", "Adjunto adverbial"], 0, "Completa o verbo sem preposição."),
+  q("Em 'Os alunos chegaram cedo', o núcleo do sujeito é:", ["alunos", "os", "chegaram", "cedo"], 0, "Palavra principal do sujeito."),
+  qe("Frase: 'Faltaram três professores hoje.'", "O sujeito da oração é:", ["três professores", "hoje", "inexistente", "oculto (eles)"], 0, "Sujeito posposto: três professores faltaram."),
+  q("Em 'A casa de madeira caiu', 'de madeira' é:", ["Adjunto adnominal", "Complemento nominal", "Objeto indireto", "Agente da passiva"], 0, "Caracteriza o substantivo 'casa'."),
+  q("Em 'Chegaram os convidados', o sujeito é:", ["Simples e posposto", "Oculto", "Indeterminado", "Inexistente"], 0, "Os convidados chegaram."),
+], "n");
+
+extend(PORTUGUES, "Arcadismo e Romantismo", [
+  q("O 'carpe diem' árcade significa:", ["Aproveite o dia", "Fuja da cidade", "Ame a pátria", "Tema a morte"], 0, "Viver o presente, pois o tempo passa."),
+  q("Cláudio Manuel da Costa é um poeta:", ["Árcade", "Barroco", "Romântico", "Modernista"], 0, "Também participou da Inconfidência Mineira."),
+  qe("O poema 'O Uraguai', de Basílio da Gama, narra a guerra contra os indígenas das missões.", "A obra é um poema:", ["Épico", "Satírico curto", "Lírico amoroso", "Concreto visual"], 0, "Poema épico árcade de 1769."),
+  q("O Romantismo surgiu no Brasil em:", ["1836", "1922", "1500", "1881"], 0, "Com 'Suspiros Poéticos e Saudades', de Gonçalves de Magalhães."),
+  q("O ultrarromantismo é também chamado de:", ["Mal do século", "Antropofagia", "Condoreirismo", "Concretismo"], 0, "Tédio, morte e melancolia."),
+], "n");
+
+extend(PORTUGUES, "Realismo e Naturalismo", [
+  q("'Quincas Borba' apresenta a filosofia do:", ["Humanitismo", "Positivismo de Comte", "Existencialismo", "Estoicismo grego"], 0, "'Ao vencedor, as batatas!'"),
+  q("O Naturalismo dá ênfase a:", ["Instintos e meio social", "Idealização do amor", "Heróis indígenas", "Natureza bucólica"], 0, "Influência das ciências do século XIX."),
+  qe("Em 'O Cortiço', João Romão enriquece explorando trabalhadores e a escravizada Bertoleza.", "A obra critica:", ["A ambição e a exploração", "O amor romântico puro", "A vida rural árcade", "A religião medieval"], 0, "Crítica ao capitalismo nascente."),
+  q("'O Alienista', de Machado, ironiza:", ["A ciência e a loucura", "A vida no sertão", "Os índios heróis", "A guerra do Paraguai"], 0, "Simão Bacamarte interna quase toda a cidade."),
+  q("O narrador de 'Dom Casmurro' é:", ["Bentinho", "Capitu", "Escobar", "José Dias"], 0, "Narrador em primeira pessoa, não confiável."),
+], "n");
+
+extend(PORTUGUES, "Concordância e regência", [
+  q("Com 'implicar' (acarretar), a forma correta é:", ["A decisão implica mudanças.", "A decisão implica em mudanças.", "A decisão implica a mudanças.", "A decisão implicam mudanças."], 0, "Nesse sentido, 'implicar' é transitivo direto."),
+  q("Com 'visar' (pretender), a forma correta é:", ["Ele visa ao sucesso.", "Ele visa o sucesso de.", "Ele visa no sucesso.", "Ele visam ao sucesso."], 0, "No sentido de pretender, pede 'a'."),
+  qe("Bilhete: 'Segue em anexo as fotos.'", "A concordância correta é:", ["Seguem em anexo as fotos.", "Segue em anexas as fotos.", "Seguem em anexos as fotos.", "Segue anexo as fotos."], 0, "O sujeito 'as fotos' é plural; 'em anexo' é invariável."),
+  q("Com 'existir', a forma correta é:", ["Existem muitas dúvidas.", "Existe muitas dúvidas.", "Existiu muitas dúvidas.", "Existe-se muitas dúvidas."], 0, "Diferente de 'haver', 'existir' concorda com o sujeito."),
+  q("Com 'lembrar-se', a forma correta é:", ["Lembrei-me do aniversário.", "Lembrei-me o aniversário.", "Lembrei do-me aniversário.", "Lembrei-me no aniversário."], 0, "Pronominal: lembrar-se de algo."),
+], "n");
+
+extend(PORTUGUES, "Período composto", [
+  q("Em 'Não fui à festa, pois estava doente', 'pois' é:", ["Explicativo", "Conclusivo", "Adversativo", "Aditivo"], 0, "Antes do verbo, 'pois' explica."),
+  q("Em 'Ele é rico; deve, pois, ajudar', 'pois' é:", ["Conclusivo", "Explicativo", "Adversativo", "Alternativo"], 0, "Depois do verbo e entre vírgulas, conclui."),
+  qe("Frase: 'Não só estudou, mas também trabalhou.'", "A relação entre as orações é de:", ["Adição", "Oposição", "Conclusão", "Alternância"], 0, "'Não só… mas também' soma ideias."),
+  q("Em 'Quer chova, quer faça sol, iremos', há coordenação:", ["Alternativa", "Conclusiva", "Explicativa", "Adversativa"], 0, "'Quer… quer' indica alternância."),
+  q("Oração principal é aquela que:", ["Tem outra dependente dela", "Não tem verbo", "Sempre vem por último", "Começa com 'que'"], 0, "As subordinadas completam o seu sentido."),
+], "n");
+
+extend(PORTUGUES, "Pré-Modernismo e Modernismo", [
+  q("Augusto dos Anjos ficou conhecido pela poesia:", ["Científica e mórbida", "Bucólica e alegre", "Indianista e heroica", "Concreta e visual"], 0, "'Eu', de 1912, com vocabulário científico."),
+  q("'Triste Fim de Policarpo Quaresma' é de:", ["Lima Barreto", "Monteiro Lobato", "Graciliano Ramos", "Euclides da Cunha"], 0, "Um patriota ingênuo esmagado pela República."),
+  qe("Mário de Andrade: 'Macunaíma, o herói sem nenhum caráter'.", "A expressão 'sem nenhum caráter' sugere:", ["Identidade brasileira em formação", "Um vilão cruel", "Um herói europeu", "Um santo católico"], 0, "Mistura de culturas, sem traço único definido."),
+  q("O 'Manifesto da Poesia Pau-Brasil' é de:", ["Oswald de Andrade", "Manuel Bandeira", "Cecília Meireles", "Jorge Amado"], 0, "1924: poesia de exportação, com a cara do Brasil."),
+  q("Anita Malfatti e Tarsila do Amaral se destacaram na:", ["Pintura modernista", "Poesia árcade", "Música barroca", "Escultura grega"], 0, "Tarsila pintou 'Abaporu' (1928)."),
+], "n");
+
+extend(PORTUGUES, "Interpretação e gêneros textuais", [
+  q("Uma informação explícita está:", ["Escrita no texto", "Só nas entrelinhas", "Fora do texto", "Na cabeça do leitor"], 0, "Implícita é a que se deduz."),
+  q("Pressuposto é:", ["Algo que a frase dá como certo", "A conclusão do texto", "O título da obra", "Um erro de leitura"], 0, "'Parou de fumar' pressupõe que fumava."),
+  qe("Charge: um político discursa 'Educação é prioridade!' diante de uma escola em ruínas.", "A charge usa:", ["Ironia", "Linguagem técnica", "Descrição neutra", "Instrução"], 0, "O contraste entre fala e realidade critica o político."),
+  q("O subentendido depende:", ["Do contexto", "Só do dicionário", "Só da gramática", "Do número de linhas"], 0, "Ex.: 'Está frio aqui' pode ser um pedido para fechar a janela."),
+  q("Paráfrase é:", ["Reescrever mantendo o sentido", "Copiar sem citar", "Inverter o sentido", "Fazer uma piada"], 0, "Diferente da paródia, que altera e critica."),
+], "n");
+
+extend(PORTUGUES, "Redação dissertativo-argumentativa", [
+  q("Coerência é:", ["Lógica entre as ideias", "Número de parágrafos", "Uso de gírias", "Tamanho da letra"], 0, "O texto não pode se contradizer."),
+  q("Um bom título na redação do ENEM é:", ["Opcional", "Obrigatório", "Proibido", "Vale 200 pontos"], 0, "Não é exigido; se usado, conta como linha."),
+  qe("Parágrafo: 'O problema é grave. O problema afeta jovens. O problema precisa de solução.'", "O parágrafo falha por:", ["Repetição sem coesão", "Excesso de dados", "Linguagem formal", "Uso de conectivos"], 0, "Faltam retomadas (ele, essa questão) e conectivos."),
+  q("Argumento por exemplificação usa:", ["Casos concretos", "Opiniões vagas", "Perguntas soltas", "Gírias"], 0, "Fatos que ilustram a tese."),
+  q("A redação do ENEM deve ter entre:", ["7 e 30 linhas", "1 e 5 linhas", "50 e 100 linhas", "Qualquer número"], 0, "Até 7 linhas recebe nota zero."),
+], "n");
+
+extend(PORTUGUES, "Crase", [
+  q("Há crase em 'Entregou o prêmio ___ vencedora'?", ["Sim: à", "Não: a", "Não: há", "Sim: há"], 0, "Entregar a + a vencedora."),
+  q("Em 'Ficou frente ___ frente com ele', usa-se:", ["a", "à", "há", "ah"], 0, "Palavras repetidas não levam crase."),
+  qe("Convite: 'A festa começa ___ 20h.'", "A forma correta é:", ["às", "as", "a", "há"], 0, "Horas determinadas pedem crase."),
+  q("Antes de 'Vossa Excelência', a crase é:", ["Proibida", "Obrigatória", "Opcional", "Dupla"], 0, "Pronomes de tratamento não admitem artigo."),
+  q("Em 'Foi à Itália', a crase ocorre porque:", ["Volta-se 'da' Itália", "Itália é masculino", "Vem antes de verbo", "É nome de cidade"], 0, "Macete: se 'volto da', crase há."),
+], "n");
+
+extend(PORTUGUES, "Pontuação", [
+  q("O travessão pode indicar:", ["Fala de personagem", "Fim de parágrafo", "Número negativo", "Plural"], 0, "Também isola explicações, como as vírgulas."),
+  q("As aspas podem marcar:", ["Citações", "Pausas longas", "Perguntas", "Exclamações"], 0, "Também ironia ou estrangeirismos."),
+  qe("Frase: 'Se o homem soubesse o valor que tem a mulher andaria de quatro à sua procura.'", "Com vírgula após 'tem', o sentido passa a ser que:", ["A mulher anda de quatro", "O homem anda de quatro", "Ninguém procura", "A frase fica igual"], 0, "'…o valor que tem, a mulher andaria…': a vírgula muda o sujeito."),
+  q("O ponto de exclamação expressa:", ["Emoção", "Dúvida", "Enumeração", "Citação"], 0, "Surpresa, alegria, raiva, ordem."),
+  q("Em datas, separa-se o local por vírgula:", ["Recife, 10 de maio", "Recife 10, de maio", "Recife; 10 de maio", "Recife: 10, de maio"], 0, "Lugar, vírgula, data."),
+], "n");
+
+extend(PORTUGUES, "Orações subordinadas", [
+  q("A oração adjetiva explicativa vem:", ["Entre vírgulas", "Sem vírgulas", "Depois de ponto", "Antes do sujeito"], 0, "Acrescenta informação sobre o termo."),
+  q("Em 'Disse que viria', 'que viria' é substantiva:", ["Objetiva direta", "Subjetiva", "Apositiva", "Predicativa"], 0, "Disse isso."),
+  qe("Frase: 'Saiu cedo para que não pegasse trânsito.'", "A oração destacada indica:", ["Finalidade", "Causa", "Consequência", "Condição"], 0, "'Para que' = objetivo."),
+  q("Em 'Meu desejo é que você vença', a oração 'que você vença' é:", ["Predicativa", "Subjetiva", "Objetiva", "Apositiva"], 0, "Vem depois do verbo de ligação 'é'."),
+  q("A conjunção 'caso' introduz oração:", ["Condicional", "Causal", "Concessiva", "Final"], 0, "Caso chova = se chover."),
+], "n");
+
+extend(PORTUGUES, "Romantismo", [
+  q("'Lucíola' é um romance urbano de:", ["José de Alencar", "Machado de Assis", "Aluísio Azevedo", "Castro Alves"], 0, "Perfil de mulher, crítica à sociedade carioca."),
+  q("O 'mal do século' está ligado a:", ["Tédio e melancolia", "Euforia e festa", "Ciência e razão", "Humor e sátira"], 0, "Influência de Byron e Musset."),
+  qe("Gonçalves Dias, em 'I-Juca-Pirama', narra a honra de um guerreiro tupi aprisionado.", "O poema exalta:", ["O índio heroico", "O colono português", "A cidade moderna", "O escravizado"], 0, "Indianismo da primeira geração."),
+  q("'Inocência' é romance regionalista de:", ["Visconde de Taunay", "Graciliano Ramos", "Euclides da Cunha", "Jorge Amado"], 0, "Ambientado no sertão de Mato Grosso."),
+  q("O Romantismo valoriza a:", ["Emoção", "Objetividade", "Ciência", "Impessoalidade"], 0, "Subjetividade do eu."),
+], "n");
+
+extend(PORTUGUES, "Modernismo", [
+  q("'A Hora da Estrela' tem como protagonista:", ["Macabéa", "Capitu", "Iracema", "Fabiano"], 0, "Retirante nordestina no Rio, por Clarice Lispector."),
+  q("Fabiano e sinha Vitória são personagens de:", ["Vidas Secas", "O Quinze", "Macunaíma", "Grande Sertão"], 0, "Graciliano Ramos, 1938."),
+  qe("Drummond: 'Tenho apenas duas mãos / e o sentimento do mundo'.", "O verso expressa:", ["Engajamento com o mundo", "Fuga da realidade", "Amor pela natureza", "Crítica religiosa"], 0, "Fase social de Drummond, nos anos 1940."),
+  q("O Concretismo valoriza:", ["O aspecto visual", "A rima obrigatória", "O soneto rígido", "A narrativa longa"], 0, "Haroldo e Augusto de Campos, Décio Pignatari."),
+  q("'Capitães da Areia' é de:", ["Jorge Amado", "Rachel de Queiroz", "Mário de Andrade", "Lima Barreto"], 0, "Meninos de rua em Salvador."),
+], "n");
+
+extend(PORTUGUES, "Figuras de linguagem na prática", [
+  qe("Outdoor: 'Nosso sorvete: o frio que aquece o coração.'", "O slogan do sorvete usa:", ["Paradoxo", "Pleonasmo", "Catacrese", "Onomatopeia"], 0, "Frio que aquece: ideias opostas."),
+  q("Em 'Plim-plim! Chegou mensagem', há:", ["Onomatopeia", "Hipérbole", "Antítese", "Elipse"], 0, "Imita o som da notificação."),
+  q("Em 'Na sala, apenas quatro cadeiras', há:", ["Elipse", "Hipérbole", "Ironia", "Metáfora"], 0, "Omissão do verbo 'havia'."),
+  qe("Tirinha: 'Meu chefe é um doce… de jiló.'", "O humor vem da:", ["Quebra de expectativa irônica", "Linguagem técnica", "Rima perfeita", "Descrição neutra"], 0, "Começa como elogio e vira crítica."),
+  q("Em 'Ela tem um coração de pedra', há:", ["Metáfora", "Comparação", "Pleonasmo", "Onomatopeia"], 0, "Coração 'duro', insensível."),
+], "n");
+
+extend(PORTUGUES, "Gêneros textuais", [
+  q("A carta do leitor serve para:", ["Opinar sobre uma publicação", "Ensinar uma receita", "Vender um produto", "Narrar uma fábula"], 0, "Enviada a jornais e revistas."),
+  q("O artigo de opinião é:", ["Assinado", "Sempre anônimo", "Só com dados", "Só narrativo"], 0, "Traz o ponto de vista do autor."),
+  qe("Texto: 'Era uma vez um reino distante, onde vivia uma princesa…'", "Pela abertura, o gênero é:", ["Conto de fadas", "Editorial", "Bula", "Relatório"], 0, "Abertura típica e elementos maravilhosos."),
+  q("O cordel é um gênero:", ["Poético popular", "Científico", "Jurídico", "Publicitário"], 0, "Folhetos com xilogravuras, típicos do Nordeste."),
+  q("A ata registra:", ["O que ocorreu numa reunião", "Uma receita de bolo", "Uma piada", "Um poema"], 0, "Texto formal e cronológico."),
+], "n");
+
+extend(PORTUGUES, "Competências do ENEM", [
+  q("A competência 2 avalia a:", ["Compreensão do tema", "Ortografia", "Coesão", "Proposta"], 0, "E o uso de repertório e do tipo textual."),
+  q("A competência 5 avalia a:", ["Proposta de intervenção", "Gramática", "Coesão", "Introdução"], 0, "Respeitando os direitos humanos."),
+  qe("Uma redação usa 'a gente vai ver' e 'tipo assim' em vários trechos.", "Ela perde pontos principalmente na competência:", ["1", "3", "4", "5"], 0, "Registro informal fere a norma-padrão."),
+  q("Cópia dos textos motivadores:", ["Não conta como texto do aluno", "Vale ponto extra", "É obrigatória", "Melhora a nota"], 0, "Linhas copiadas são desconsideradas."),
+  q("Cada competência vale até:", ["200 pontos", "100 pontos", "500 pontos", "50 pontos"], 0, "5 × 200 = 1.000."),
+], "n");
+
+extend(PORTUGUES, "Repertório e proposta de intervenção", [
+  q("Um repertório legitimado é aquele:", ["De fonte confiável", "Inventado pelo autor", "Sem fonte nenhuma", "De boato online"], 0, "Livros, leis, dados oficiais, pensadores."),
+  q("O 'meio' na proposta responde:", ["Como?", "Quem?", "Para quê?", "Onde fica?"], 0, "Ex.: 'por meio de campanhas'."),
+  qe("Repertório: 'O artigo 196 da Constituição diz que a saúde é direito de todos e dever do Estado.'", "Esse repertório serve bem para um tema sobre:", ["Acesso à saúde", "Exploração espacial", "Moda", "Futebol"], 0, "Lei ligada diretamente ao tema."),
+  q("Detalhar a proposta significa:", ["Explicar melhor um elemento", "Repetir o tema", "Mudar de assunto", "Fazer uma pergunta"], 0, "Ex.: explicar como as campanhas serão feitas."),
+  q("Citar um filme pode ser repertório se:", ["For bem relacionado ao tema", "For muito famoso", "For estrangeiro", "For recente"], 0, "O que importa é a relação produtiva."),
+], "n");
