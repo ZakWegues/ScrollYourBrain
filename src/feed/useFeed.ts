@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSeen } from "@/store/seen";
 import { nextItems, type EngineState, type Signals } from "@/feed/engine";
 import { withFamilies } from "@/data/pages";
 import { createRng } from "@/feed/sources/generators";
@@ -96,6 +97,7 @@ export function useFeed(source: FeedSource) {
         state: memory.engine,
         pages,
         blocked: blockedItems,
+        seen: useSeen.getState().seen,
         videoEvery: online && !useSettings.getState().dataSaver ? VIDEO_EVERY[useSettings.getState().videoFrequency] : undefined,
       });
       // One review card that is due today goes near the top of each batch.

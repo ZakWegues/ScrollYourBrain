@@ -9,6 +9,8 @@ interface XpState {
   xp: number;
   /** Best lightning-quiz score (correct answers in 60 s). */
   blitzBest: number;
+  /** Best survival run (correct answers before losing three lives). */
+  survivalBest: number;
   /** "event:itemId" already rewarded, so toggling like/save on and off does not farm XP. */
   once: Record<string, 1>;
   counts: Partial<Record<XpEvent, number>>;
@@ -20,9 +22,10 @@ export const useXp = create<XpState>()(
     (set) => ({
       xp: 0,
       blitzBest: 0,
+      survivalBest: 0,
       once: {},
       counts: {},
-      reset: () => set({ xp: 0, counts: {}, blitzBest: 0, once: {} }),
+      reset: () => set({ xp: 0, counts: {}, blitzBest: 0, survivalBest: 0, once: {} }),
     }),
     { name: "syb-xp", storage: persistStorage, version: 1 },
   ),

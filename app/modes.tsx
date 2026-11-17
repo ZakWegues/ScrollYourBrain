@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppText, Bouncy, Icon, type IconName } from "@/components/ui";
 import { MODE_INFO, MODE_ORDER, modeKey, modeTitle, type ModeConfig } from "@/lib/modes";
 import { useModes } from "@/store/modes";
+import { useXp } from "@/store/xp";
 import { startWeakExam } from "@/feed/practice";
 import { radius, space, TOUCH, useColors } from "@/theme";
 
@@ -14,6 +15,7 @@ export const openMode = (config: ModeConfig) => router.push({ pathname: "/mode",
 /** Hub of study modes: ENEM, vestibular and school exams per subject. */
 export default function Modes() {
   const c = useColors();
+  const survivalBest = useXp((s) => s.survivalBest);
   const insets = useSafeAreaInsets();
   const recent = useModes((s) => s.recent);
   const saved = useModes((s) => s.saved);
@@ -60,6 +62,14 @@ export default function Modes() {
           <View style={{ flex: 1 }}>
             <AppText variant="label">Pontos fracos</AppText>
             <AppText variant="caption" dim>Simulado com o que você mais erra</AppText>
+          </View>
+          <Icon name="chevron-right" size={22} color={c.textDim} />
+        </Bouncy>
+        <Bouncy onPress={() => router.push("/survival")} scaleTo={0.98} style={[styles.customize, { borderColor: "#F43F5E", backgroundColor: c.surface }]} accessibilityLabel="Sobrevivência: 3 vidas, o tempo encurta" testID="mode-survival">
+          <Icon name="heart-pulse" size={24} color="#F43F5E" />
+          <View style={{ flex: 1 }}>
+            <AppText variant="label">Sobrevivência</AppText>
+            <AppText variant="caption" dim>3 vidas · o relógio encurta · recorde {survivalBest}</AppText>
           </View>
           <Icon name="chevron-right" size={22} color={c.textDim} />
         </Bouncy>

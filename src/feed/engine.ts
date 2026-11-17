@@ -30,7 +30,13 @@ export interface NextOptions {
   blocked?: ReadonlySet<string>;
   /** Guarantee a video at least every N cards when the pool has fresh ones. */
   videoEvery?: number;
+  /** Cards met before (1 seen, 2 right once, 3 right twice+): new ones come first, mastered ones rarely. */
+  seen?: Readonly<Record<string, number>>;
 }
+
+/** How likely a card already met is to be picked again, compared with a new one. */
+export const SEEN_WEIGHT = [1, 0.35, 0.2, 0.06] as const;
+const freshness = (id: string, seen?: Readonly<Record<string, number>>) => SEEN_WEIGHT[Math.min(3, seen?.[id] ?? 0)];
 
 const RECENT_LIMIT = 40;
 
@@ -121,7 +127,7 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
     const candidates = varied.length > 0 ? varied : fresh;
 
     let item: StudyItem | undefined;
-    if (varied.length > 0) item = varied[Math.floor(rng() * varied.length)];
+    if (varied.length > 0) item = opts.seen ? weightedPick(rng, varied.map((i) => [i, freshness(i.id, opts.seen)] as [StudyItem, number])) : varied[Math.floor(rng() * varied.length)];
     // Nothing varied left in this account: its own generator keeps the account's turn (and its boost).
     if (!item && GENERATED_PAGES.includes(pageId)) {
       for (let tries = 0; tries < 8 && !item; tries++) {
@@ -134,8 +140,8 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
       const variedFrom = (ids: readonly PageId[]) => ids.filter((id) => id !== pageId).flatMap((id) => freshFor(id).filter((i) => !repeatsKind(i)));
       const sameFamily = variedFrom(family);
       const elsewhere = sameFamily.length > 0 ? sameFamily : variedFrom(choices);
-      if (elsewhere.length > 0) item = weightedPick(rng, elsewhere.map((i) => [i, pageWeight(i.pageId, signals)] as [StudyItem, number]));
-      else if (candidates.length > 0) item = candidates[Math.floor(rng() * candidates.length)];
+      if (elsewhere.length > 0) item = weightedPick(rng, elsewhere.map((i) => [i, pageWeight(i.pageId, signals) * freshness(i.id, opts.seen)] as [StudyItem, number]));
+      else if (candidates.length > 0) item = weightedPick(rng, candidates.map((i) => [i, freshness(i.id, opts.seen)] as [StudyItem, number]));
       else item = generateFor(pageId, rng);
     }
     remember(state, item);
