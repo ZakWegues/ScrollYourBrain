@@ -275,3 +275,147 @@ extend(FILOSOFIA, "Filosofia política", [
     ["Virtù e fortuna / manter o poder", "virtu", "fortuna", "poder"],
   ]),
 ], "n");
+
+// Complemento (mais prática por assunto).
+extend(FILOSOFIA, "Origem da filosofia", [
+  q("A palavra 'filosofia' significa:", ["Amor à sabedoria", "Medo do saber", "Estudo dos deuses", "Arte de discursar"], 0, "Philo (amor, amizade) + sophia (sabedoria)."),
+  q("A filosofia nasceu na Grécia por volta do século:", ["VI a.C.", "I d.C., com Roma", "XV, no Renascimento", "X a.C., com Homero"], 0, "Com os pré-socráticos, nas colônias da Jônia."),
+  q("Para Heráclito, a realidade é marcada pelo:", ["Devir (mudança)", "Repouso absoluto", "Número perfeito", "Átomo indivisível"], 0, "'Ninguém se banha duas vezes no mesmo rio.'"),
+  q("Para Parmênides, o ser:", ["É imutável", "Muda sempre", "Não existe", "É fogo"], 0, "A mudança seria ilusão dos sentidos."),
+  qe("Os primeiros filósofos procuravam a arché, o princípio de todas as coisas: para Tales, a água; para Anaxímenes, o ar.", "Essa busca mostra a tentativa de explicar o mundo pela:", ["Razão", "Revelação divina", "Tradição oral", "Magia"], 0, "Passagem do mito ao logos."),
+  qe("Os sofistas cobravam para ensinar oratória a jovens que queriam atuar na política de Atenas.", "Sócrates e Platão os criticavam porque:", ["Buscavam vencer, não a verdade", "Não sabiam falar em público", "Eram contra a democracia", "Ensinavam só matemática"], 0, "Para os críticos, buscavam vencer debates, e não a verdade."),
+  q("Para os atomistas, além dos átomos existe:", ["O vazio", "O fogo eterno", "O número", "A alma do mundo"], 0, "Átomos se movem no vazio e formam todas as coisas."),
+  q("Pitágoras via o princípio das coisas nos:", ["Números", "Átomos", "Deuses", "Sonhos"], 0, "A harmonia do cosmos seria matemática."),
+], "n");
+
+extend(FILOSOFIA, "Sócrates e Platão", [
+  q("A frase 'Conhece-te a ti mesmo' estava inscrita no templo de:", ["Delfos", "Olímpia", "Esparta", "Roma"], 0, "Sócrates fez dela um lema da filosofia."),
+  q("A maiêutica de Sócrates compara o filósofo a um:", ["Parteiro", "Juiz severo da cidade", "Soldado em uma batalha", "Médico que cura corpos"], 0, "Por perguntas, ajuda o outro a 'dar à luz' o conhecimento."),
+  q("Sócrates foi condenado à morte acusado de:", ["Corromper os jovens", "Roubar o templo de Atena", "Trair Atenas para Esparta", "Matar um rei estrangeiro"], 0, "Também de não honrar os deuses da cidade; bebeu cicuta em 399 a.C."),
+  q("Para Platão, a alma racional deve governar:", ["Coragem e desejos", "Só o corpo físico", "Os deuses do Olimpo", "As leis escritas da cidade"], 0, "A alma tem três partes: racional, irascível e concupiscível."),
+  qe("Na 'República', Platão propõe que governem os filósofos, que conhecem o Bem.", "Esse governo ideal seria uma:", ["Sofocracia", "Democracia direta", "Tirania", "Anarquia"], 0, "O governo dos sábios."),
+  qe("Platão: as coisas que vemos são cópias imperfeitas de modelos eternos, como o triângulo perfeito.", "Esses modelos são as:", ["Ideias", "Sombras da caverna", "Sensações do corpo", "Opiniões da maioria"], 0, "Mundo inteligível × mundo sensível."),
+  q("Sócrates dizia que ninguém faz o mal:", ["Voluntariamente", "Por prazer", "Por ignorância nunca", "Sem castigo"], 0, "O mal viria da ignorância do Bem."),
+  q("A Academia foi a escola fundada por:", ["Platão", "Aristóteles", "Epicuro", "Zenão"], 0, "Em Atenas, por volta de 387 a.C."),
+], "n");
+
+extend(FILOSOFIA, "Aristóteles", [
+  q("A escola de Aristóteles se chamava:", ["Liceu", "Academia", "Jardim", "Pórtico"], 0, "Os alunos eram chamados de peripatéticos (caminhavam enquanto discutiam)."),
+  q("Na ética de Aristóteles, a coragem fica entre:", ["Covardia e temeridade", "Prazer e dor física", "Riqueza e pobreza", "Fé e razão pura"], 0, "A virtude é o meio-termo entre dois vícios: a falta e o excesso."),
+  q("A causa final é:", ["A finalidade", "O material de que é feito", "Quem produziu a coisa", "A forma que a coisa tem"], 0, "As quatro causas: material, formal, eficiente e final."),
+  q("Para Aristóteles, o fim último da vida humana é a:", ["Felicidade", "Riqueza acumulada", "Fama entre os gregos", "Força física e saúde"], 0, "Viver bem, segundo a razão e a virtude."),
+  qe("Aristóteles: 'Todos os homens são mortais. Sócrates é homem. Logo, Sócrates é mortal.'", "Esse raciocínio é um:", ["Silogismo", "Mito de origem", "Paradoxo lógico", "Sofisma enganoso"], 0, "Duas premissas levam a uma conclusão necessária."),
+  qe("Aristóteles dizia que a semente de carvalho é uma árvore em potência.", "A árvore crescida seria a semente em:", ["Ato", "Ideia", "Matéria", "Opinião"], 0, "Ato e potência explicam a mudança."),
+  q("Para Aristóteles, o conhecimento começa pelos:", ["Sentidos", "Sonhos e visões", "Mitos dos poetas", "Deuses do Olimpo"], 0, "Diferente de Platão, valoriza a experiência sensível."),
+  q("A melhor forma de governo, para Aristóteles, visa:", ["O bem comum", "O bem do governante", "O lucro", "A guerra"], 0, "Monarquia, aristocracia e politeia; as degeneradas visam o interesse próprio."),
+], "n");
+
+extend(FILOSOFIA, "Filosofia helenística", [
+  q("Os céticos defendiam:", ["Suspender o juízo", "Certeza absoluta", "Prazer sem limites", "Obediência ao rei"], 0, "Epoché: sem certezas, alcança-se a tranquilidade."),
+  q("Para os estoicos, a felicidade vem de:", ["Viver conforme a natureza", "Acumular bens e riquezas", "Fugir de toda razão", "Buscar fama e glória"], 0, "Aceitar o que não depende de nós."),
+  q("O cinismo, com Diógenes, pregava:", ["Viver com o mínimo", "Luxo e poder", "Obediência às convenções", "Riqueza"], 0, "Diógenes vivia num barril e desprezava convenções."),
+  q("Para Epicuro, o prazer é a:", ["Ausência de dor", "Festa sem nenhum fim", "Riqueza sem limites", "Fama entre os homens"], 0, "Ataraxia (paz da alma) e aponia (ausência de dor no corpo)."),
+  qe("Epicteto: 'Não são as coisas que nos perturbam, mas a opinião que temos delas.'", "A frase expressa uma ideia:", ["Estoica", "Epicurista", "Platônica", "Sofista"], 0, "Controlar o julgamento, não os fatos."),
+  qe("Epicuro: 'A morte não é nada para nós: quando estamos, ela não está; quando ela está, nós não estamos.'", "A frase busca:", ["Tirar o medo da morte", "Exaltar a morte como bem", "Punir os vivos pelos erros", "Negar o valor da vida"], 0, "Sem medo da morte, chega-se à ataraxia."),
+  q("O período helenístico começa após a morte de:", ["Alexandre", "Sócrates, em Atenas", "Júlio César, em Roma", "Platão, na Academia"], 0, "Em 323 a.C.; a filosofia passa a focar a vida individual."),
+  q("Sêneca e Marco Aurélio foram filósofos:", ["Estoicos", "Céticos", "Cínicos", "Sofistas"], 0, "Marco Aurélio escreveu 'Meditações'."),
+], "n");
+
+extend(FILOSOFIA, "Filosofia medieval", [
+  q("Para Santo Agostinho, o mal é:", ["Ausência do bem", "Uma criação de Deus", "Uma substância", "Um outro deus"], 0, "O mal não tem ser próprio; é privação do bem."),
+  q("A escolástica foi:", ["Um método de ensino", "Uma heresia condenada", "Uma ordem de cavaleiros", "Um estilo de arte gótica"], 0, "Unir razão e fé por meio de debates e comentários."),
+  q("Tomás de Aquino baseou-se principalmente em:", ["Aristóteles", "Platão e Plotino", "Epicuro e Lucrécio", "Heráclito de Éfeso"], 0, "Agostinho se apoiou mais em Platão."),
+  q("Para Agostinho, o tempo existe:", ["Na alma", "Só no passado", "Fora de Deus", "No futuro"], 0, "Memória (passado), atenção (presente) e expectativa (futuro)."),
+  qe("Tomás de Aquino apresentou cinco vias para provar a existência de Deus, como a do primeiro motor.", "Essas provas partem:", ["Da observação do mundo", "Apenas da revelação bíblica", "Dos sonhos dos profetas", "Da negação de toda razão"], 0, "Do movimento, das causas e da ordem do mundo, chega a Deus."),
+  qe("Agostinho escreveu: 'Creio para compreender.'", "A frase indica que, para ele:", ["A fé guia a razão", "A razão substitui a fé", "Não há fé", "Não há razão"], 0, "A fé é o ponto de partida do conhecimento."),
+  q("A disputa dos universais discutia se os conceitos gerais:", ["Existem fora da mente", "São apenas números", "São deuses antigos", "São sonhos dos monges"], 0, "Realistas × nominalistas (Guilherme de Ockham)."),
+  q("A 'navalha de Ockham' recomenda:", ["A explicação mais simples", "Complicar todas as teorias", "Negar as leis da lógica", "Seguir os mitos antigos"], 0, "Não multiplicar entidades sem necessidade."),
+], "n");
+
+extend(FILOSOFIA, "Racionalismo e empirismo", [
+  q("Para Locke, a mente ao nascer é uma:", ["Tábula rasa", "Biblioteca cheia", "Ideia inata", "Alma divina"], 0, "Tudo vem da experiência."),
+  q("Hume criticou a ideia de:", ["Causalidade", "Experiência sensível", "Sensação e impressão", "Hábito e costume"], 0, "Vemos sucessão de fatos, não a conexão necessária: é hábito."),
+  q("Descartes dividiu a realidade em:", ["Mente e matéria", "Fogo, água e terra", "Bem e mal absolutos", "Ato e potência"], 0, "Res cogitans (mente) e res extensa (matéria)."),
+  q("Bacon chamou de 'ídolos' os:", ["Preconceitos da mente", "Deuses gregos antigos", "Reis absolutistas", "Números perfeitos"], 0, "Ídolos da tribo, da caverna, do foro e do teatro atrapalham o conhecimento."),
+  qe("Hume: 'O sol nascer amanhã é apenas uma hipótese.'", "Ele quer dizer que:", ["O passado não garante o futuro", "O sol não existe de verdade", "A razão pode provar tudo", "Nada muda no universo"], 0, "Problema da indução."),
+  qe("Descartes compara o conhecimento a uma árvore: as raízes são a metafísica, o tronco a física e os galhos as demais ciências.", "A imagem mostra que o saber deve ter:", ["Base segura", "Base nos sentidos", "Origem nos mitos", "Fim na dúvida"], 0, "Fundamentos sólidos para todo o conhecimento."),
+  q("Para Berkeley, 'ser é':", ["Ser percebido", "Ser pensado", "Ser matéria", "Ser número"], 0, "Esse est percipi."),
+  q("Espinosa identificava Deus com:", ["A natureza", "Um rei poderoso", "Uma ideia da mente", "O mal do mundo"], 0, "Deus sive natura (Deus, ou seja, a natureza)."),
+], "n");
+
+extend(FILOSOFIA, "Iluminismo e Kant", [
+  q("Para Kant, o imperativo categórico é uma ordem:", ["Incondicional", "Condicional, com um 'se'", "Opcional, a gosto", "Religiosa, da Igreja"], 0, "Vale sempre, não 'se você quiser algo'."),
+  q("A 'revolução copernicana' de Kant afirma que:", ["O sujeito molda o saber", "A Terra gira ao redor do Sol", "Só existe matéria no mundo", "Não há razão nenhuma em nós"], 0, "Os objetos se adaptam às formas do nosso conhecimento."),
+  q("Para Kant, espaço e tempo são:", ["Formas da sensibilidade", "Coisas reais fora de nós", "Ilusões", "Deuses"], 0, "Condições a priori de toda experiência."),
+  q("Kant chama de 'coisa em si':", ["O que não conhecemos", "O que vemos", "Um objeto físico", "Uma ideia platônica"], 0, "Númeno: a realidade independente de nós, inacessível."),
+  qe("Kant: 'Age de tal modo que trates a humanidade sempre como fim, e nunca apenas como meio.'", "A frase condena:", ["Usar pessoas", "Ajudar os outros", "Trabalhar", "Estudar"], 0, "Pessoas têm dignidade, não preço."),
+  qe("Kant critica quem segue sempre um tutor, um padre ou um médico sem pensar por si.", "Ele chama esse estado de:", ["Menoridade", "Maioridade", "Liberdade", "Autonomia"], 0, "Sair da menoridade é ter coragem de usar a própria razão."),
+  q("Para Kant, mentir é errado porque:", ["Não pode ser universal", "Sempre dá prejuízo", "Desagrada a Deus", "É proibido por lei"], 0, "Se todos mentissem, a confiança desapareceria."),
+  q("Voltaire defendia:", ["Tolerância", "A Inquisição e seus tribunais", "A censura de todos os livros", "O direito divino dos reis"], 0, "Crítico do fanatismo."),
+], "n");
+
+extend(FILOSOFIA, "Ética", [
+  q("O relativismo moral afirma que:", ["O certo varia", "Existe uma única moral para todos", "Não existem culturas diferentes", "Tudo é sempre proibido"], 0, "Crítica: dificulta condenar violações graves."),
+  q("A ética das virtudes foca:", ["O caráter", "As consequências", "As regras", "As leis"], 0, "Que tipo de pessoa devo ser? (Aristóteles)."),
+  q("A bioética discute:", ["Vida e ciência", "Moda e tendências", "Esportes olímpicos", "Economia e juros"], 0, "Ex.: aborto, eutanásia, clonagem, uso de embriões."),
+  q("Para Mill, o utilitarismo busca:", ["A maior felicidade", "O dever pelo dever", "A vontade de Deus", "O interesse do rei"], 0, "Para o maior número de pessoas."),
+  qe("Dilema: desviar um trem para matar 1 pessoa e salvar 5.", "Um utilitarista tende a:", ["Desviar o trem", "Não agir", "Pedir ajuda divina", "Fugir"], 0, "Calcula as consequências: salvar mais vidas."),
+  qe("Hannah Arendt viu em Eichmann um funcionário comum que cumpria ordens sem pensar.", "Ela chamou isso de:", ["Banalidade do mal", "Vontade de potência", "Má-fé", "Imperativo"], 0, "O mal pode vir da ausência de reflexão."),
+  q("Ética e moral se diferenciam porque a ética:", ["Reflete sobre a moral", "É sempre de origem religiosa", "É apenas o conjunto das leis", "Não existe sem a moral cristã"], 0, "Moral = costumes; ética = reflexão sobre eles."),
+  q("Para Kant, uma ação é moral quando feita:", ["Por dever", "Por medo", "Por lucro", "Por fama"], 0, "Não basta parecer boa; precisa ter a intenção certa."),
+], "n");
+
+extend(FILOSOFIA, "Contratualistas", [
+  q("Para Hobbes, o Estado deve ter poder:", ["Absoluto", "Limitado", "Nenhum", "Religioso"], 0, "O Leviatã garante a paz e a segurança."),
+  q("Para Locke, se o governo viola direitos, o povo tem direito à:", ["Resistência", "Obediência cega", "Escravidão", "Fuga"], 0, "Base das revoluções liberais."),
+  q("Para Rousseau, a propriedade privada:", ["Gerou a desigualdade", "É natural e sempre boa", "Não existe em sociedade", "Vem diretamente de Deus"], 0, "'Isto é meu': início da sociedade civil desigual."),
+  q("O 'contrato social' é:", ["O pacto que cria o Estado", "Um contrato de trabalho", "Um tratado de guerra", "Uma lei divina eterna"], 0, "Indivíduos abrem mão de algo para viver em sociedade."),
+  qe("Hobbes: no estado de natureza, a vida seria 'solitária, pobre, sórdida, brutal e curta'.", "Por isso, para ele, os homens criam o Estado para obter:", ["Segurança", "Riqueza", "Fama", "Liberdade total"], 0, "O medo da morte leva ao pacto."),
+  qe("Rousseau: 'O homem nasce livre, e por toda parte encontra-se a ferros.'", "Com essa frase, Rousseau critica:", ["A sociedade", "A natureza humana boa", "A liberdade de todos", "A educação das crianças"], 0, "A sociedade corrompe o homem naturalmente bom."),
+  q("Para Locke, os direitos naturais são:", ["Vida, liberdade e bens", "Fama e poder político", "Riqueza e glória militar", "Fé e obediência ao rei"], 0, "O Estado existe para protegê-los."),
+  q("A 'vontade geral' é um conceito de:", ["Rousseau", "Hobbes", "Locke", "Maquiavel"], 0, "Expressa o interesse comum, não a soma de interesses privados."),
+], "n");
+
+extend(FILOSOFIA, "Marx e Nietzsche", [
+  q("Para Marx, a infraestrutura é:", ["A base econômica", "A religião oficial", "A arte e a cultura", "A filosofia e o direito"], 0, "Sobre ela se ergue a superestrutura (leis, ideias, Estado)."),
+  q("A alienação do trabalho ocorre quando o trabalhador:", ["Não se vê no produto", "Ganha um salário muito alto", "Escolhe livremente o que faz", "É o dono da própria fábrica"], 0, "O produto pertence ao capitalista."),
+  q("Para Nietzsche, o 'além-do-homem' é:", ["Quem cria valores", "Um super-herói com poderes", "Um santo da Igreja medieval", "Um rei com poder absoluto"], 0, "Übermensch: supera a moral tradicional."),
+  q("O 'eterno retorno' de Nietzsche propõe:", ["Querer reviver tudo", "Reencarnar em animais", "Voltar ao passado real", "Fugir do tempo presente"], 0, "Você aceitaria viver tudo de novo, infinitas vezes?"),
+  qe("Marx e Engels: 'A história de todas as sociedades até hoje é a história da luta de classes.'", "Para eles, a história avança pelo:", ["Conflito de classes", "Acaso e pela sorte", "Destino traçado pelos deuses", "Clima e pelas estações do ano"], 0, "Materialismo histórico."),
+  qe("Nietzsche: 'Deus está morto, e fomos nós que o matamos.'", "A frase indica:", ["A crise dos valores", "Uma notícia literal de jornal", "O fim de toda a filosofia", "Um ritual religioso antigo"], 0, "A modernidade abalou a base religiosa da moral."),
+  q("A mais-valia é:", ["Trabalho não pago", "Um imposto do governo", "O salário mais justo", "Um tipo de moeda forte"], 0, "O lucro vem do trabalho excedente."),
+  q("Nietzsche chama de 'moral de rebanho':", ["A moral que nega a vida", "A moral dos fortes", "A ética de Aristóteles", "A lei do Estado"], 0, "Valores de obediência e ressentimento."),
+], "n");
+
+extend(FILOSOFIA, "Existencialismo", [
+  q("Para Sartre, estamos 'condenados a ser':", ["Livres", "Felizes", "Tristes", "Escravos"], 0, "Não escolhemos nascer livres, mas não podemos fugir das escolhas."),
+  q("Camus usa o mito de Sísifo para falar do:", ["Absurdo", "Amor", "Poder", "Mercado"], 0, "'É preciso imaginar Sísifo feliz.'"),
+  q("A angústia, para os existencialistas, nasce:", ["Da liberdade", "Da falta de dinheiro", "Da doença do corpo", "Do clima frio e chuvoso"], 0, "Escolher é responsabilidade total."),
+  q("Kierkegaard é considerado precursor do existencialismo por destacar:", ["O indivíduo", "As leis da física", "A economia política", "A lógica formal"], 0, "Estádios estético, ético e religioso."),
+  qe("Sartre: 'O inferno são os outros.'", "A frase se refere a:", ["O olhar que nos julga", "Um lugar físico de castigo", "Uma crença religiosa antiga", "Um castigo previsto em lei"], 0, "Nos vemos pelo olhar alheio e isso nos limita."),
+  qe("Beauvoir mostrou que a mulher foi definida historicamente como 'o outro' em relação ao homem.", "Sua obra principal é:", ["O Segundo Sexo", "O Ser e o Nada", "O Estrangeiro", "A Náusea"], 0, "Marco do feminismo, de 1949."),
+  q("Para Sartre, a má-fé é:", ["Negar a própria liberdade", "Mentir sempre para os outros", "Não ter nenhuma religião", "Ser pessimista sobre o futuro"], 0, "Ex.: 'não tive escolha'."),
+  q("Heidegger chama o ser humano de:", ["Dasein (ser-aí)", "Animal político", "Coisa pensante", "Tábula rasa"], 0, "O ser que se pergunta pelo próprio ser."),
+], "n");
+
+extend(FILOSOFIA, "Filosofia contemporânea", [
+  q("A Escola de Frankfurt desenvolveu a:", ["Teoria crítica", "Escolástica", "Maiêutica", "Lógica aristotélica"], 0, "Adorno, Horkheimer, Marcuse, Habermas."),
+  q("Wittgenstein disse: 'Os limites da minha linguagem são':", ["Os do meu mundo", "Infinitos e sem fim", "Divinos e sagrados", "Inexistentes na mente"], 0, "A linguagem molda o que podemos pensar."),
+  q("Para Popper, uma teoria científica deve ser:", ["Falseável", "Infalível", "Religiosa", "Antiga"], 0, "Precisa poder ser testada e refutada."),
+  q("Habermas propõe a razão:", ["Comunicativa", "Instrumental", "Mítica", "Absoluta"], 0, "Consensos construídos pelo diálogo livre."),
+  qe("Bauman diz que, na modernidade líquida, relações, empregos e identidades mudam rápido e são frágeis.", "Um exemplo dessa ideia é:", ["Laços desfeitos num clique", "Laços eternos de família", "Empregos que duram a vida toda", "Tradições que nunca mudam"], 0, "Laços frágeis e descartáveis."),
+  qe("Byung-Chul Han fala da 'sociedade do cansaço', em que as pessoas se exploram em nome do desempenho.", "Um sintoma dessa sociedade é:", ["Burnout", "Excesso de lazer diário", "Falta total de metas", "Ócio sem fim nas férias"], 0, "A pressão vem de dentro: 'você pode mais'."),
+  q("Kuhn chamou de 'paradigma':", ["O modelo científico aceito", "Um mito antigo dos gregos", "Uma lei moral universal", "Um tipo de Estado moderno"], 0, "Revoluções científicas trocam paradigmas."),
+  q("Para Foucault, o poder:", ["Está em toda parte", "Só está nas mãos do rei", "Não existe de fato", "É apenas econômico"], 0, "Microfísica do poder: escolas, hospitais, prisões."),
+], "n");
+
+extend(FILOSOFIA, "Filosofia política", [
+  q("Para Maquiavel, o príncipe deve ter:", ["Virtù", "Só bondade cristã", "Medo de agir sozinho", "Riqueza herdada do pai"], 0, "Virtù: habilidade; fortuna: as circunstâncias."),
+  q("Para Aristóteles, quem vive fora da pólis seria:", ["Um animal ou um deus", "Um cidadão comum", "Um rei legítimo", "Um filósofo sábio"], 0, "O ser humano é animal político: só se realiza na comunidade."),
+  q("Tocqueville alertou para o risco da:", ["Tirania da maioria", "Falta de eleições", "Monarquia absoluta", "Anarquia"], 0, "A maioria pode oprimir minorias numa democracia."),
+  q("O anarquismo defende:", ["O fim do Estado", "Um Estado forte", "A monarquia", "A ditadura"], 0, "Proudhon e Bakunin; organização sem governo coercitivo."),
+  qe("Maquiavel: 'É mais seguro ser temido do que amado, se não se pode ser os dois.'", "Para ele, a política deve ser avaliada pela:", ["Eficácia", "Religião", "Bondade pessoal", "Tradição"], 0, "Separação entre moral privada e ação política."),
+  qe("Rawls propõe escolher as regras da sociedade sob um 'véu da ignorância', sem saber que lugar ocuparemos.", "O objetivo é criar regras:", ["Justas para todos", "Favoráveis aos ricos", "Religiosas", "Militares"], 0, "Sem saber se seremos ricos ou pobres, escolheríamos regras equitativas."),
+  q("Para Arendt, o totalitarismo se apoia em:", ["Terror e ideologia", "Eleições livres", "Liberdade de imprensa", "Debate público"], 0, "Destrói o espaço público e a pluralidade."),
+  q("A democracia representativa funciona por meio de:", ["Eleições", "Assembleia com todos os cidadãos", "Sorteio anual de um rei", "Herança do poder em família"], 0, "Diferente da democracia direta ateniense."),
+], "n");
