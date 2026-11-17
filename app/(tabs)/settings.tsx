@@ -13,7 +13,7 @@ import { ROOT_PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { useNotebooks } from "@/store/notebooks";
-import { useProgress, useToday } from "@/store/progress";
+import { useProgress } from "@/store/progress";
 import { useReview } from "@/store/review";
 import { usePlanner } from "@/store/planner";
 import { exportBackup, pickBackup, restoreBackup } from "@/store/backup";
@@ -223,7 +223,6 @@ function ReminderSettings() {
   const c = useColors();
   const reminder = useSettings((st) => st.reminder);
   const set = useSettings((st) => st.set);
-  const { streak, goal } = useToday();
 
   const apply = async (minutes: number | null) => {
     if (minutes !== null && !(await ensurePermission())) {
