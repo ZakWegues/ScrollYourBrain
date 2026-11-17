@@ -14,6 +14,19 @@ export interface AchievementStats {
   focus: number;
   challenges: number;
   minutes: number;
+  /** Accounts at "Avançado" or above, and at "Craque". */
+  advancedAccounts: number;
+  craqueAccounts: number;
+  /** Different subjects with at least one studied account. */
+  subjectsStudied: number;
+  survivalBest: number;
+  blitzBest: number;
+  /** Days on which the question of the day was answered. */
+  dailyDays: number;
+  /** Days with at least one review. */
+  reviewDays: number;
+  /** Different cards met in the feed and elsewhere. */
+  seenCards: number;
 }
 
 export interface Achievement {
@@ -46,6 +59,18 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: "focus-1", title: "Foco total", description: "Complete uma sessão de foco", icon: "bullseye-arrow", color: "#6366F1", progress: count("focus", 1) },
   { id: "challenge-1", title: "Desafiante", description: "Complete um desafio semanal", icon: "medal-outline", color: "#EAB308", progress: count("challenges", 1) },
   { id: "hours-10", title: "Dedicação", description: "Estude 10 horas no total", icon: "clock-check-outline", color: "#10B981", progress: count("minutes", 600) },
+  { id: "mastery-1", title: "Pegando o jeito", description: "Leve um assunto ao nível Avançado", icon: "star-half-full", color: "#F59E0B", progress: count("advancedAccounts", 1) },
+  { id: "mastery-5", title: "Especialista", description: "Leve 5 assuntos ao nível Avançado", icon: "star-circle", color: "#EAB308", progress: count("advancedAccounts", 5) },
+  { id: "craque-1", title: "Craque", description: "Chegue ao nível Craque em um assunto", icon: "crown", color: "#FBBF24", progress: count("craqueAccounts", 1) },
+  { id: "subjects-8", title: "Explorador", description: "Estude assuntos de 8 matérias diferentes", icon: "map-search-outline", color: "#06B6D4", progress: count("subjectsStudied", 8) },
+  { id: "survival-10", title: "Sobrevivente", description: "Faça 10 pontos na Sobrevivência", icon: "heart-pulse", color: "#F43F5E", progress: count("survivalBest", 10) },
+  { id: "survival-25", title: "Imortal", description: "Faça 25 pontos na Sobrevivência", icon: "shield-star", color: "#BE123C", progress: count("survivalBest", 25) },
+  { id: "blitz-15", title: "Relâmpago", description: "Acerte 15 no Quiz relâmpago", icon: "lightning-bolt", color: "#F97316", progress: count("blitzBest", 15) },
+  { id: "daily-7", title: "Pontual", description: "Responda 7 perguntas do dia", icon: "calendar-check", color: "#0EA5E9", progress: count("dailyDays", 7) },
+  { id: "review-days-7", title: "Memória em dia", description: "Revise cards em 7 dias diferentes", icon: "brain", color: "#8B5CF6", progress: count("reviewDays", 7) },
+  { id: "correct-500", title: "Atirador de elite", description: "Acerte 500 questões", icon: "bullseye", color: "#DC2626", progress: count("correct", 500) },
+  { id: "seen-1000", title: "Sempre algo novo", description: "Conheça 1.000 cards diferentes", icon: "cards-outline", color: "#14B8A6", progress: count("seenCards", 1000) },
+  { id: "exam-10", title: "Veterano de provas", description: "Termine 10 provas", icon: "file-certificate-outline", color: "#2563EB", progress: count("exams", 10) },
 ];
 
 /** Ids that the stats now satisfy but are not yet unlocked. */

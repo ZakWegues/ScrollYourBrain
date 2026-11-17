@@ -67,11 +67,17 @@ describe("weekly challenges", () => {
 });
 
 describe("achievements", () => {
-  const zero: AchievementStats = { studied: 0, bestStreak: 0, goalDays: 0, exams: 0, perfectExam: false, correct: 0, reviews: 0, notebooks: 0, notes: 0, imported: 0, topicsStudied: 0, focus: 0, challenges: 0, minutes: 0 };
+  const zero: AchievementStats = { studied: 0, bestStreak: 0, goalDays: 0, exams: 0, perfectExam: false, correct: 0, reviews: 0, notebooks: 0, notes: 0, imported: 0, topicsStudied: 0, focus: 0, challenges: 0, minutes: 0, advancedAccounts: 0, craqueAccounts: 0, subjectsStudied: 0, survivalBest: 0, blitzBest: 0, dailyDays: 0, reviewDays: 0, seenCards: 0 };
   it("unlocks only what is reached and not yet unlocked", () => {
     expect(newlyUnlocked(zero, {})).toEqual([]);
     const ids = newlyUnlocked({ ...zero, studied: 120, bestStreak: 3 }, { "first-card": 1 }).map((a) => a.id);
     expect(ids).toEqual(["cards-100", "streak-3"]);
+  });
+  it("rewards mastery, variety and the game modes", () => {
+    const ids = newlyUnlocked({ ...zero, advancedAccounts: 5, craqueAccounts: 1, survivalBest: 12, subjectsStudied: 8 }, {}).map((a) => a.id);
+    expect(ids).toEqual(expect.arrayContaining(["mastery-1", "mastery-5", "craque-1", "survival-10", "subjects-8"]));
+    expect(ids).not.toContain("survival-25");
+    expect(ACHIEVEMENTS.length).toBeGreaterThanOrEqual(30);
   });
   it("have unique ids", () => {
     expect(new Set(ACHIEVEMENTS.map((a) => a.id)).size).toBe(ACHIEVEMENTS.length);

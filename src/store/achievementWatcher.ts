@@ -9,6 +9,12 @@ import { useNotebooks } from "./notebooks";
 import { useProgress } from "./progress";
 import { useReview } from "./review";
 import { useSettings } from "./settings";
+import { useDaily } from "./daily";
+import { useSeen } from "./seen";
+import { useXp } from "./xp";
+import { PAGE_BY_ID, rootOf } from "@/data/pages";
+import { accountTotals } from "@/lib/today";
+import { mastery, masteryLevel } from "@/lib/xp";
 
 /** Snapshot of everything achievements look at. */
 export function collectStats(): AchievementStats {
@@ -17,6 +23,7 @@ export function collectStats(): AchievementStats {
   const days = Object.values(p.log);
   const total = (k: "studied" | "seconds" | "reviews" | "exams" | "focus") => days.reduce((n, d) => n + d[k], 0);
   const topics = new Set(days.flatMap((d) => Object.entries(d.topics).filter(([, t]) => t.studied > 0).map(([id]) => id)));
+  const levels = Object.entries(accountTotals(p.log)).filter(([id]) => PAGE_BY_ID[id]?.parent).map(([, t]) => masteryLevel(mastery(t)));
   return {
     studied: total("studied"),
     bestStreak: p.bestStreak,
@@ -32,6 +39,14 @@ export function collectStats(): AchievementStats {
     focus: total("focus"),
     challenges: Object.values(p.challenges).filter((ids) => ids.includes("all")).length,
     minutes: Math.floor(total("seconds") / 60),
+    advancedAccounts: levels.filter((l) => l >= 3).length,
+    craqueAccounts: levels.filter((l) => l >= 4).length,
+    subjectsStudied: new Set([...topics].filter((id) => PAGE_BY_ID[id]).map(rootOf)).size,
+    survivalBest: useXp.getState().survivalBest ?? 0,
+    blitzBest: useXp.getState().blitzBest,
+    dailyDays: Object.keys(useDaily.getState().answered).length,
+    reviewDays: days.filter((d) => d.reviews > 0).length,
+    seenCards: Object.keys(useSeen.getState().seen).length,
   };
 }
 
@@ -81,7 +96,7 @@ export function useAchievementWatcher(enabled: boolean) {
       clearTimeout(timer);
       timer = setTimeout(evaluate, 600);
     };
-    const unsubs = [useProgress, useLibrary, useReview, useNotebooks].map((store) => (store as { subscribe: (cb: () => void) => () => void }).subscribe(schedule));
+    const unsubs = [useProgress, useLibrary, useReview, useNotebooks, useXp, useDaily].map((store) => (store as { subscribe: (cb: () => void) => () => void }).subscribe(schedule));
     schedule();
     return () => {
       clearTimeout(timer);
