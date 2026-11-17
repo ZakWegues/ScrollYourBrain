@@ -1,3 +1,4 @@
+import { normalizeText } from "@/lib/grading";
 import { PAGES, rootOf } from "@/data/pages";
 import { GENERATED_PAGES, generateFor, type Rng } from "@/feed/sources/generators";
 import type { ItemKind, PageId, StudyItem } from "@/feed/types";
@@ -132,8 +133,7 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
   return out;
 }
 
-const normalize = (s: string) =>
-  s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const normalize = normalizeText;
 
 const itemText = (i: StudyItem): string => {
   switch (i.kind) {

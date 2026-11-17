@@ -1,3 +1,4 @@
+import { shuffleWith } from "@/lib/random";
 import { LinearGradient } from "@/components/LinearGradient";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
@@ -27,10 +28,7 @@ import { radius, space, TOUCH, useColors } from "@/theme";
 
 const PASS = 0.7;
 
-function shuffle<T>(list: T[], seed: number): T[] {
-  const rng = createRng(seed);
-  return [...list].map((x) => [rng(), x] as const).sort((a, b) => a[0] - b[0]).map(([, x]) => x);
-}
+const shuffle = <T,>(list: T[], seed: number): T[] => shuffleWith(list, createRng(seed));
 
 /** Builds the lesson: explanation first, then memory, then practice, then a video. */
 function buildLesson(topicId: string | undefined, pageId: string | undefined, seed: number): { title: string; pageId: string; steps: StudyItem[]; topicIds: string[] } {

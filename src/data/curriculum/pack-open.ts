@@ -16,21 +16,21 @@ extend(MATEMATICA, "Função afim (1º grau)", [
     ["a > 0: crescente; a < 0: decrescente", "crescente", "decrescente", "sobe", "desce"],
     ["Mede a inclinação da reta", "inclina", "inclinação", "angulo"],
   ]),
-]);
+], "o");
 extend(MATEMATICA, "Porcentagem", [
   o("Um produto subiu 10% e depois caiu 10%. Ele voltou ao preço original? Explique.", "Não. Os 10% de queda são calculados sobre o preço já aumentado, que é maior. Ex.: 100 → 110 → 99. No fim, o preço fica 1% menor (1,1 × 0,9 = 0,99).", [
     ["Não volta ao preço original", "nao", "menor", "abaixo"],
     ["A queda é sobre um valor maior", "sobre", "base", "maior", "aumentado"],
     ["Fica 1% menor (99 de 100)", "99", "1%", "0,99"],
   ]),
-]);
+], "o");
 extend(MATEMATICA, "Combinatória e probabilidade", [
   o("Por que a chance de tirar cara duas vezes seguidas numa moeda é 1/4?", "Os lançamentos são independentes: cada um tem chance 1/2. Para os dois acontecerem, multiplicam-se as chances: 1/2 × 1/2 = 1/4. Os resultados possíveis são CC, CK, KC e KK, e só um é favorável.", [
     ["Eventos independentes", "independ"],
     ["Multiplicam-se as probabilidades", "multiplic", "vezes", "1/2"],
     ["4 resultados possíveis, 1 favorável", "4", "quatro", "resultados", "casos"],
   ]),
-]);
+], "o");
 
 // Física
 extend(FISICA, "Leis de Newton", [
@@ -39,35 +39,35 @@ extend(FISICA, "Leis de Newton", [
     ["O corpo tende a manter o movimento", "manter", "continua", "tende"],
     ["É preciso uma força para pará-lo", "forca", "cinto", "segura"],
   ]),
-]);
+], "o");
 extend(FISICA, "Conservação da energia", [
   o("Numa montanha-russa sem atrito, por que o carrinho é mais rápido no ponto mais baixo?", "A energia mecânica se conserva. Ao descer, a energia potencial gravitacional diminui e vira energia cinética. No ponto mais baixo a potencial é mínima, então a cinética (e a velocidade) é máxima.", [
     ["A energia mecânica se conserva", "conserva", "constante", "mecanica"],
     ["Potencial vira cinética na descida", "potencial", "transforma", "converte", "vira"],
     ["No ponto mais baixo a cinética é máxima", "cinetica", "maxima", "maior velocidade"],
   ]),
-]);
+], "o");
 extend(FISICA, "Dilatação e transmissão de calor", [
   o("Por que o ar-condicionado é instalado no alto da parede e o aquecedor perto do chão?", "Por convecção. O ar frio é mais denso e desce; o ar quente é menos denso e sobe. Assim, o ar frio sai do alto e desce, e o quente sai de baixo e sobe, misturando o ar do ambiente.", [
     ["Convecção", "convec", "correntes"],
     ["Ar frio é mais denso e desce", "denso", "desce", "frio"],
     ["Ar quente sobe", "quente", "sobe"],
   ]),
-]);
+], "o");
 extend(FISICA, "Som e acústica", [
   o("Por que no espaço (vácuo) não se ouve o som de uma explosão?", "O som é uma onda mecânica: precisa de um meio material (ar, água, sólido) para se propagar, vibrando as partículas. No vácuo não há partículas, então o som não chega.", [
     ["O som é onda mecânica", "mecanica", "onda"],
     ["Precisa de um meio material", "meio", "material", "particulas", "do ar"],
     ["No vácuo não há meio", "vacuo", "nao ha", "nao tem"],
   ]),
-]);
+], "o");
 extend(FISICA, "Circuitos e consumo na conta de luz", [
   o("Por que trocar o chuveiro para a posição \"verão\" reduz a conta de luz?", "Na posição verão o chuveiro usa menos potência (a resistência esquenta menos). A energia gasta é potência × tempo (E = P·t), e a conta é cobrada em kWh: menos potência no mesmo tempo é menos energia.", [
     ["Menor potência", "potencia", "menos", "watts"],
     ["Energia = potência × tempo", "tempo", "p·t", "p.t", "energia"],
     ["A conta é cobrada em kWh", "kwh", "quilowatt"],
   ]),
-]);
+], "o");
 
 // Química
 extend(QUIMICA, "Separação de misturas", [
@@ -76,28 +76,28 @@ extend(QUIMICA, "Separação de misturas", [
     ["O vapor é condensado", "condens", "esfria"],
     ["O sal fica no recipiente", "sal fica", "fica no", "resta", "sobra"],
   ]),
-]);
+], "o");
 extend(QUIMICA, "Geometria e polaridade", [
   o("Por que água e óleo não se misturam?", "A água é polar e o óleo é apolar. Substâncias se dissolvem quando têm polaridade parecida (\"semelhante dissolve semelhante\"). As moléculas de água se atraem mais entre si (pontes de hidrogênio) e expulsam o óleo, que fica por cima por ser menos denso.", [
     ["Água é polar e óleo apolar", "polar", "apolar"],
     ["Semelhante dissolve semelhante", "semelhante"],
     ["Óleo flutua por ser menos denso", "denso", "densidade", "flutua", "em cima"],
   ]),
-]);
+], "o");
 extend(QUIMICA, "Cinética química", [
   o("Por que os alimentos duram mais na geladeira?", "A temperatura baixa diminui a energia das moléculas e a frequência de colisões efetivas, deixando mais lentas as reações de decomposição e o crescimento de microrganismos.", [
     ["Temperatura baixa", "temperatura", "frio", "baixa"],
     ["Reações ficam mais lentas", "lenta", "devagar", "velocidade"],
     ["Menos colisões / menos microrganismos", "colis", "microrganismo", "bacteria", "fungo"],
   ]),
-]);
+], "o");
 extend(QUIMICA, "Polímeros e combustíveis", [
   o("Por que o etanol de cana é considerado renovável e a gasolina não?", "A cana pode ser plantada de novo a cada safra, e durante o crescimento absorve CO₂ pela fotossíntese. A gasolina vem do petróleo, que leva milhões de anos para se formar.", [
     ["A cana é replantada", "replant", "planta", "safra", "cultiv"],
     ["A planta absorve CO₂ ao crescer", "absorve", "fotossintese", "co2", "carbono"],
     ["Petróleo leva milhões de anos", "milhoes", "fossil", "petroleo"],
   ]),
-]);
+], "o");
 
 // Biologia
 extend(BIOLOGIA, "Mitose e meiose", [
@@ -106,35 +106,35 @@ extend(BIOLOGIA, "Mitose e meiose", [
     ["Mantém o número de cromossomos na fecundação", "mantem", "fecunda", "2n"],
     ["Aumenta a variabilidade genética", "variabilidade", "crossing", "variacao"],
   ]),
-]);
+], "o");
 extend(BIOLOGIA, "Vírus e bactérias", [
   o("Por que antibióticos não curam gripe?", "A gripe é causada por um vírus. Antibióticos agem em estruturas de bactérias (parede celular, ribossomos bacterianos), que os vírus não têm. Usar antibiótico sem necessidade ainda favorece bactérias resistentes.", [
     ["A gripe é causada por vírus", "virus"],
     ["Antibiótico age só em bactérias", "bacteria", "parede", "so age"],
     ["Uso errado cria resistência", "resisten"],
   ]),
-]);
+], "o");
 extend(BIOLOGIA, "Sistema nervoso, hormônios e imunidade", [
   o("Explique como a vacina protege o corpo.", "A vacina apresenta ao sistema imune um antígeno (vírus enfraquecido, inativado ou parte dele) sem causar a doença. O corpo produz anticorpos e células de memória. Num contato real, a resposta é rápida e forte.", [
     ["Apresenta um antígeno sem causar a doença", "antigeno", "enfraquec", "inativ", "parte do"],
     ["Produz anticorpos", "anticorpo"],
     ["Cria memória imunológica", "memoria"],
   ]),
-]);
+], "o");
 extend(BIOLOGIA, "Teorias evolutivas", [
   o("Explique, pela seleção natural, por que surgem bactérias resistentes a antibióticos.", "Numa população de bactérias já existem variantes com mutações de resistência. O antibiótico mata as sensíveis; as resistentes sobrevivem e se reproduzem, e a população passa a ser, em sua maioria, resistente. O remédio seleciona, não cria a resistência.", [
     ["Já existiam variantes resistentes (mutação)", "variant", "mutac", "ja existiam", "variacao"],
     ["O antibiótico elimina as sensíveis", "sensive", "mata", "elimina"],
     ["As resistentes sobrevivem e se reproduzem", "sobreviv", "reproduz", "multiplic"],
   ]),
-]);
+], "o");
 extend(BIOLOGIA, "Relações ecológicas e cadeias", [
   o("Por que as cadeias alimentares raramente têm mais de 4 ou 5 níveis?", "Em cada nível trófico, boa parte da energia é perdida como calor (respiração, movimento) e só cerca de 10% passa para o nível seguinte. Depois de poucos níveis, sobra energia pouca demais para sustentar mais consumidores.", [
     ["Energia se perde a cada nível", "perde", "perda", "calor"],
     ["Só ~10% passa adiante", "10", "dez"],
     ["Falta energia para mais níveis", "pouca", "falta", "sustentar", "nao sobra"],
   ]),
-]);
+], "o");
 
 // História
 extend(HISTORIA, "Revolução Francesa e Industrial", [
@@ -143,28 +143,28 @@ extend(HISTORIA, "Revolução Francesa e Industrial", [
     ["Surgimento do operariado e más condições", "operari", "jornada", "infantil", "salario"],
     ["Sindicatos e luta por direitos", "sindicato", "greve", "direitos", "leis"],
   ]),
-]);
+], "o");
 extend(HISTORIA, "Ciclo do açúcar e do ouro", [
   o("Explique por que a Coroa portuguesa cobrava o quinto e o que era a derrama.", "O ouro de Minas era a principal riqueza da colônia no século XVIII, e a Coroa queria ficar com parte dele: o quinto era o imposto de 20% sobre o ouro extraído. Quando a arrecadação não atingia a meta, a derrama cobrava os atrasados à força, o que gerou revoltas como a Inconfidência Mineira.", [
     ["Quinto: imposto de 20% sobre o ouro", "20", "imposto", "ouro"],
     ["Derrama: cobrança forçada dos atrasados", "derrama", "atrasad", "forca", "cobranca"],
     ["Gerou revoltas (Inconfidência)", "inconfidencia", "revolta"],
   ]),
-]);
+], "o");
 extend(HISTORIA, "Era Vargas", [
   o("Por que Getúlio Vargas é chamado de \"pai dos pobres\" por uns e de ditador por outros?", "Ele criou leis trabalhistas (CLT, salário mínimo, férias) e ampliou a indústria, o que agradou aos trabalhadores. Mas no Estado Novo (1937–1945) fechou o Congresso, censurou a imprensa e perseguiu opositores.", [
     ["Direitos trabalhistas (CLT, salário mínimo)", "clt", "trabalhist", "salario minimo", "ferias"],
     ["Estado Novo foi uma ditadura", "estado novo", "ditadura", "1937"],
     ["Censura e perseguição", "censura", "persegu", "fechou o congresso"],
   ]),
-]);
+], "o");
 extend(HISTORIA, "Guerra Fria", [
   o("Por que a Guerra Fria recebeu esse nome?", "Porque EUA e URSS nunca guerrearam diretamente: a disputa foi ideológica (capitalismo × socialismo), econômica, tecnológica (corrida espacial e armamentista) e por meio de conflitos indiretos em outros países, como Coreia e Vietnã.", [
     ["Sem confronto direto entre EUA e URSS", "direto", "nunca", "sem guerra"],
     ["Disputa ideológica capitalismo × socialismo", "ideolog", "capitalismo", "socialismo"],
     ["Corrida armamentista/espacial e guerras indiretas", "corrida", "armament", "espacial", "coreia", "vietna", "indiret"],
   ]),
-]);
+], "o");
 
 // Geografia
 extend(GEOGRAFIA, "Urbanização", [
@@ -173,28 +173,28 @@ extend(GEOGRAFIA, "Urbanização", [
     ["A água não infiltra e escorre", "infiltr", "escorre", "escoa"],
     ["Lixo, rios canalizados e ocupação de várzeas", "lixo", "bueiro", "canaliz", "varzea", "margens"],
   ]),
-]);
+], "o");
 extend(GEOGRAFIA, "Biomas brasileiros", [
   o("Por que o Cerrado é chamado de \"berço das águas\" e qual é sua principal ameaça?", "No Cerrado nascem rios de grandes bacias (São Francisco, Paraná, Tocantins) e ficam áreas de recarga de aquíferos. A principal ameaça é o desmatamento para a expansão da agropecuária, sobretudo soja e pecuária.", [
     ["Nascentes de grandes bacias", "nascente", "bacia", "rios"],
     ["Recarga de aquíferos", "aquifero", "recarga"],
     ["Ameaça: expansão agropecuária", "agro", "soja", "pecuaria", "desmat"],
   ]),
-]);
+], "o");
 extend(GEOGRAFIA, "Transição demográfica", [
   o("Quais desafios o envelhecimento da população traz para o Brasil?", "Com menos jovens e mais idosos, há mais aposentados para menos trabalhadores, o que pressiona a previdência. Também cresce a demanda por saúde e cuidados de longo prazo.", [
     ["Pressão sobre a previdência", "previdencia", "aposentad"],
     ["Mais demanda por saúde", "saude", "cuidado", "hospital"],
     ["Menos pessoas em idade de trabalhar", "menos trabalhador", "idade ativa", "trabalhar", "jovens"],
   ]),
-]);
+], "o");
 extend(GEOGRAFIA, "Conflitos e refugiados", [
   o("Qual a diferença entre um refugiado e um migrante econômico?", "O refugiado é forçado a deixar o país por perseguição (política, religiosa, étnica) ou guerra e tem proteção internacional. O migrante econômico sai por escolha, em busca de trabalho e renda melhores.", [
     ["Refugiado foge de perseguição ou guerra", "persegu", "guerra", "forcad", "fog"],
     ["Refugiado tem proteção internacional", "protecao", "acnur", "direito"],
     ["Migrante econômico busca trabalho/renda", "trabalho", "renda", "emprego", "escolha"],
   ]),
-]);
+], "o");
 
 // Português
 extend(PORTUGUES, "Figuras de linguagem na prática", [
@@ -203,14 +203,14 @@ extend(PORTUGUES, "Figuras de linguagem na prática", [
     ["Comparação usa conectivo (como)", "como", "conectivo", "tal qual"],
     ["Metáfora é direta, sem conectivo", "direta", "sem conectivo", "sem o como", "implicit"],
   ]),
-]);
+], "o");
 extend(PORTUGUES, "Crase", [
   o("Explique por que se escreve \"Vou à escola\" mas \"Vou a pé\".", "Crase é a junção da preposição \"a\" (exigida por \"ir a\") com o artigo feminino \"a\". \"Escola\" é feminina e aceita artigo: a + a = à. \"Pé\" é masculino e não aceita o artigo \"a\", então só há a preposição.", [
     ["Crase = preposição + artigo", "preposicao", "artigo", "juncao", "fusao", "contração"],
     ["Escola é feminina e aceita artigo", "feminin", "escola"],
     ["Pé é masculino: só preposição", "masculin"],
   ]),
-]);
+], "o");
 extend(PORTUGUES, "Repertório e proposta de intervenção", [
   o("Escreva uma proposta de intervenção completa para o tema \"evasão escolar\".", "Exemplo: O Ministério da Educação (agente) deve ampliar bolsas de permanência e transporte escolar (ação), por meio de parceria com as prefeituras (meio), a fim de manter os jovens na escola (finalidade), priorizando as regiões com maior abandono (detalhamento).", [
     ["Agente (quem faz)", "ministerio", "governo", "escola", "estado", "prefeitura", "mec"],
@@ -218,7 +218,7 @@ extend(PORTUGUES, "Repertório e proposta de intervenção", [
     ["Finalidade (para quê)", "a fim de", "para que", "com o objetivo", "visando"],
     ["Detalhamento", "priorizando", "por exemplo", "especialmente", "sobretudo"],
   ]),
-]);
+], "o");
 extend(PORTUGUES, "Romantismo", [
   o("Cite duas características da poesia ultrarromântica (mal do século).", "Pessimismo e tédio diante da vida, obsessão pela morte, subjetivismo exagerado, idealização da mulher amada (inatingível) e fuga da realidade pelo sonho ou pela noite.", [
     ["Pessimismo / tédio", "pessimis", "tedio", "melancol", "tristeza"],
@@ -226,7 +226,7 @@ extend(PORTUGUES, "Romantismo", [
     ["Idealização da mulher / do amor", "idealiz", "mulher", "amor"],
     ["Fuga da realidade (sonho, noite)", "fuga", "sonho", "noite", "evasao"],
   ]),
-]);
+], "o");
 
 // Inglês
 extend(INGLES, "Present perfect", [
@@ -235,7 +235,7 @@ extend(INGLES, "Present perfect", [
     ["Present perfect liga passado e presente", "ainda", "presente", "ate hoje", "liga"],
     ["Nomeia os tempos verbais", "simple past", "present perfect"],
   ]),
-]);
+], "o");
 extend(INGLES, "Reading for ENEM", [
   o("Descreva uma boa estratégia para ler um texto em inglês no ENEM.", "Ler primeiro a pergunta para saber o que procurar; observar título, fonte, imagens e data; fazer uma leitura rápida para a ideia geral (skimming); depois procurar a informação pedida (scanning), aproveitando os cognatos.", [
     ["Ler a pergunta antes", "pergunta antes", "ler a pergunta", "primeiro a pergunta", "enunciado"],
@@ -243,7 +243,7 @@ extend(INGLES, "Reading for ENEM", [
     ["Skimming e scanning", "skimming", "scanning", "ideia geral", "procurar"],
     ["Usar cognatos", "cognato", "parecid"],
   ]),
-]);
+], "o");
 
 // Filosofia
 extend(FILOSOFIA, "Sócrates e Platão", [
@@ -252,7 +252,7 @@ extend(FILOSOFIA, "Sócrates e Platão", [
     ["Sair da caverna = conhecimento verdadeiro", "conhecimento", "verdade", "ideias", "luz"],
     ["Papel do filósofo de libertar os outros", "filosofo", "libertar", "voltar", "educa"],
   ]),
-]);
+], "o");
 extend(FILOSOFIA, "Contratualistas", [
   o("Compare o estado de natureza em Hobbes e em Rousseau.", "Para Hobbes, no estado de natureza há guerra de todos contra todos, pois o homem é egoísta e movido pelo medo; por isso é preciso um Estado forte. Para Rousseau, o homem nasce bom e livre, e é a sociedade (com a propriedade) que o corrompe.", [
     ["Hobbes: guerra de todos contra todos", "guerra", "todos contra", "lobo"],
@@ -260,7 +260,7 @@ extend(FILOSOFIA, "Contratualistas", [
     ["Rousseau: o homem nasce bom", "bom", "bondade"],
     ["Rousseau: a sociedade corrompe", "corromp", "sociedade", "propriedade"],
   ]),
-]);
+], "o");
 
 // Sociologia
 extend(SOCIOLOGIA, "Durkheim", [
@@ -270,11 +270,11 @@ extend(SOCIOLOGIA, "Durkheim", [
     ["Geral (coletivo)", "geral", "coletiv", "maioria"],
     ["Dá um exemplo", "lingua", "lei", "moda", "escola", "religiao", "exemplo"],
   ]),
-]);
+], "o");
 extend(SOCIOLOGIA, "Indústria cultural e mídia", [
   o("Como as bolhas de filtro das redes sociais afetam o debate público?", "Os algoritmos mostram principalmente conteúdos que confirmam o que já pensamos. Isso reduz o contato com opiniões diferentes, reforça crenças, facilita a desinformação e aumenta a polarização.", [
     ["Algoritmos mostram o que confirma nossas ideias", "algoritmo", "confirma", "mesm"],
     ["Menos contato com opiniões diferentes", "diferente", "contrari", "divers"],
     ["Polarização e desinformação", "polariz", "fake", "desinforma"],
   ]),
-]);
+], "o");

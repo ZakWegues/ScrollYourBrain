@@ -4,7 +4,7 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { contentForStudent } from "@/feed/sources/library";
 import { dailyQuestion, dailyStreak } from "@/lib/daily";
 import { haptic } from "@/lib/haptics";
-import { dayKey } from "@/lib/streak";
+import { useClock } from "@/store/clock";
 import { useDaily } from "@/store/daily";
 import { trackAnswer } from "@/store/progress";
 import { useSettings } from "@/store/settings";
@@ -16,13 +16,20 @@ import { AppText, Bouncy, Icon } from "./ui";
 /** One question a day, compact until opened; answering keeps a separate little streak. */
 export function DailyQuestion() {
   const c = useColors();
-  const [today] = useState(() => dayKey());
+  // Follows the clock, so the question rolls over at midnight even if the screen stays open.
+  const today = useClock((s) => s.day);
   const serie = useSettings((s) => s.serie);
   const myTopics = useSettings((s) => s.myTopics);
   const answered = useDaily((s) => s.answered);
   const q = useMemo(() => dailyQuestion(today, contentForStudent(serie, myTopics)), [today, serie, myTopics]);
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState<number | null>(null);
+  // A new day brings a new question: forget yesterday's pick.
+  const [pickedDay, setPickedDay] = useState(today);
+  if (pickedDay !== today) {
+    setPickedDay(today);
+    setPicked(null);
+  }
   if (!q) return null;
   const done = today in answered;
   const streak = dailyStreak(answered);

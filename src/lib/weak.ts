@@ -1,3 +1,4 @@
+import { shuffleWith } from "@/lib/random";
 import { ACCOUNT_GENERATORS } from "@/feed/sources/generators-accounts";
 import type { Rng } from "@/feed/sources/gen-utils";
 import type { QuestionItem, StudyItem } from "@/feed/types";
@@ -15,14 +16,7 @@ export function weakAccounts(log: ActivityLog, limit = 4, minAnswered = 3): stri
     .map((t) => t.id);
 }
 
-function shuffle<T>(list: T[], rng: Rng): T[] {
-  const out = [...list];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
+const shuffle = shuffleWith;
 
 /**
  * Questions for a "weak points" exam: up to half are questions you got wrong and haven't fixed yet,

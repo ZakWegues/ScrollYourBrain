@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { getPage } from "@/data/pages";
 import type { OpenItem } from "@/feed/types";
@@ -18,6 +18,16 @@ export function OpenCard({ item, onStudied }: CardProps<OpenItem>) {
   const c = useColors();
   const [open, setOpen] = useState(false);
   const [grade, setGrade] = useState<SelfGrade | null>(null);
+  // After grading, the sheet closes by itself a moment later (cancelled if the card goes away first).
+  const [closeSoon, setCloseSoon] = useState(false);
+  useEffect(() => {
+    if (!closeSoon) return;
+    const id = setTimeout(() => {
+      setOpen(false);
+      setCloseSoon(false);
+    }, 900);
+    return () => clearTimeout(id);
+  }, [closeSoon]);
 
   const graded = (g: SelfGrade) => {
     setGrade(g);
@@ -54,7 +64,7 @@ export function OpenCard({ item, onStudied }: CardProps<OpenItem>) {
             autoFocus
             onGraded={(g) => {
               graded(g);
-              setTimeout(() => setOpen(false), 900);
+              setCloseSoon(true);
             }}
           />
         </ScrollView>

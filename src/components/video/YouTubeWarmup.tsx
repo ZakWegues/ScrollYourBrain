@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import WebView from "react-native-webview";
 import { CURATED_VIDEOS } from "@/feed/sources/youtube";
 import { APP_ORIGIN, embedHtml } from "@/lib/ytEmbed";
+import { mountedPlayers } from "./YouTubeEmbed";
 import { useNetwork } from "@/store/network";
 import { useSettings } from "@/store/settings";
 
@@ -20,7 +21,8 @@ export function YouTubeWarmup() {
   const [phase, setPhase] = useState<"wait" | "load" | "done">("wait");
   useEffect(() => {
     if (phase === "done") return;
-    const id = setTimeout(() => setPhase((p) => (p === "wait" ? "load" : "done")), phase === "wait" ? START_AFTER_MS : GIVE_UP_MS);
+    // A real player already warms the cache: no need for a third WebView.
+    const id = setTimeout(() => setPhase((p) => (p === "wait" && mountedPlayers === 0 ? "load" : "done")), phase === "wait" ? START_AFTER_MS : GIVE_UP_MS);
     return () => clearTimeout(id);
   }, [phase]);
   const [source] = useState(() => {

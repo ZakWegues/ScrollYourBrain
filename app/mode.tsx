@@ -1,3 +1,4 @@
+import { shuffleWith } from "@/lib/random";
 import { LinearGradient } from "@/components/LinearGradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
@@ -11,7 +12,6 @@ import { ENEM_AREAS, MONTHS, SCHOOL_SUBJECTS, TOPICS, itemsForTopics, topicsWher
 import { MACETES } from "@/data/macetes";
 import { getPage } from "@/data/pages";
 import { useExamScope } from "@/feed/examPool";
-import { createRng } from "@/feed/sources/generators";
 import type { ExamItem, QuestionItem, StudyItem } from "@/feed/types";
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
@@ -25,10 +25,7 @@ import { useReview } from "@/store/review";
 import { useSettings } from "@/store/settings";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
 
-const shuffled = <T,>(list: T[]) => {
-  const rng = createRng(Date.now() & 0xffffffff);
-  return [...list].map((x) => [rng(), x] as const).sort((a, b) => a[0] - b[0]).map(([, x]) => x);
-};
+const shuffled = <T,>(list: T[]) => shuffleWith(list);
 
 function parseConfig(c?: string, kind?: string): ModeConfig | null {
   if (c) {

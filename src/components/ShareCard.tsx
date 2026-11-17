@@ -43,7 +43,7 @@ function Body({ item }: { item: StudyItem }) {
           <AppText variant="title" style={styles.white}>{item.question}</AppText>
           {item.options.map((o, i) => (
             <View key={i} style={styles.option}>
-              <AppText variant="label" style={styles.white}>{"ABCD"[i]}</AppText>
+              <AppText variant="label" style={styles.white}>•</AppText>
               <AppText style={[styles.white, { flex: 1 }]}>{o}</AppText>
             </View>
           ))}

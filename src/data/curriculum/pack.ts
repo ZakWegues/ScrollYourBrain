@@ -28,13 +28,19 @@ function toItem(card: Card, base: Omit<StudyItem, "id" | "kind">, id: string): S
   return { ...base, id, kind: "concept", beats: card.beats, takeaway: card.takeaway } satisfies ConceptItem;
 }
 
-/** Adds cards to a topic that already exists (found by name), keeping its account, série and bimestre. */
-export function extend(cur: SubjectCurriculum, topicName: string, cards: Card[]): void {
+/**
+ * Adds cards to a topic that already exists (found by name), keeping its account, série and bimestre.
+ * `key` is a short tag unique to the calling file ("m", "o", "n2"…): ids are `${topic}-${key}${n}`, so they
+ * only depend on the order inside that file, never on which other files load first. Only append new cards.
+ */
+export function extend(cur: SubjectCurriculum, topicName: string, cards: Card[], key: string): void {
+  if (!/^[a-z][a-z0-9]*$/.test(key) || key === "x") throw new Error(`invalid extend key: ${key}`);
   const topic = cur.topics.find((t) => t.name === topicName);
   if (!topic) throw new Error(`unknown topic: ${topicName}`);
   const base = { pageId: topic.page, title: topic.name, tags: [topic.name.toLowerCase(), `${topic.serie}º ano`], topicId: topic.id };
-  const already = cur.items.filter((i) => i.topicId === topic.id && /-x\d+$/.test(i.id)).length;
-  cards.forEach((card, i) => cur.items.push(toItem(card, base, `${topic.id}-x${already + i + 1}`)));
+  const prefix = `${topic.id}-${key}`;
+  const already = cur.items.filter((i) => i.id.startsWith(prefix) && /^\d+$/.test(i.id.slice(prefix.length))).length;
+  cards.forEach((card, i) => cur.items.push(toItem(card, base, `${prefix}${already + i + 1}`)));
 }
 
 /**

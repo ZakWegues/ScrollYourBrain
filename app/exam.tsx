@@ -13,6 +13,7 @@ import { useExamScope, type ExamScope } from "@/feed/examPool";
 import { createRng } from "@/feed/sources/generators";
 import type { ExamItem } from "@/feed/types";
 import { OpenAnswer } from "@/components/OpenAnswer";
+import { rightAnswerText } from "@/store/mistakes";
 import { MultiOptions } from "@/components/MultiOptions";
 import { gradeMulti, selfGradeOk, type SelfGrade } from "@/lib/grading";
 import { haptic } from "@/lib/haptics";
@@ -39,7 +40,6 @@ interface Answer {
 }
 
 /** Text of the right answer and of what was chosen, for the results list. */
-const rightText = (q: ExamItem) => (q.kind === "quiz" ? q.options[q.answer] : q.kind === "multi" ? q.answers.map((i) => q.options[i]).join(" · ") : q.model);
 const pickedText = (a: Answer) => {
   const q = a.item;
   if (q.kind === "quiz") return a.picked >= 0 ? q.options[a.picked] : "";
@@ -339,7 +339,7 @@ function Result({ answers, elapsed, newBest, best, pageId, scopeTitle, onRetry, 
               <AppText variant="label">{a.item.question}</AppText>
               <View style={styles.reviewRow}>
                 <Icon name="check-circle" size={16} color={c.success} />
-                <AppText variant="caption" style={{ color: c.success, flex: 1 }}>{rightText(a.item)}</AppText>
+                <AppText variant="caption" style={{ color: c.success, flex: 1 }}>{rightAnswerText(a.item)}</AppText>
               </View>
               {!!pickedText(a) && (
                 <View style={styles.reviewRow}>

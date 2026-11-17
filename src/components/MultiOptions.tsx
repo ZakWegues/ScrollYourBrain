@@ -83,7 +83,7 @@ export function MultiOptions({ item, picked, onConfirm, compact = false }: Props
         <GradientButton
           label={marked.length ? `Confirmar (${marked.length})` : "Confirmar"}
           icon="check-all"
-          onPress={() => marked.length > 0 && onConfirm([...marked].sort())}
+          onPress={() => marked.length > 0 && onConfirm([...marked].sort((a, b) => a - b))}
           style={{ marginTop: compact ? 0 : 4, opacity: marked.length ? 1 : 0.55 }}
         />
       )}

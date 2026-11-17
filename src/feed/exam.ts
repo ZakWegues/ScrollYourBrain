@@ -1,3 +1,4 @@
+import { shuffleWith } from "@/lib/random";
 import { ROOT_PAGES, SUB_PAGES, familyOf } from "@/data/pages";
 import { createRng, generateFor, type Rng } from "@/feed/sources/generators";
 import { CONTENT } from "@/feed/sources/library";
@@ -42,14 +43,7 @@ export function examAvailability(pageId?: PageId): number {
 export const examPages = (accounts = false) =>
   (accounts ? SUB_PAGES : ROOT_PAGES).map((p) => ({ page: p, available: examAvailability(p.id) })).filter((p) => p.available >= MIN_EXAM_QUESTIONS);
 
-function shuffle<T>(list: T[], rng: Rng): T[] {
-  const out = [...list];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
+const shuffle = shuffleWith;
 
 /**
  * Picks `count` distinct quiz questions for a page (or every page). Hand-written

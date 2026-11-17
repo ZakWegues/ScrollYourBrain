@@ -32,8 +32,13 @@ describe("marque todas as certas", () => {
     let right = 0, wrong = 0, nr = 0, nw = 0;
     for (const q of multis)
       q.options.forEach((o, i) => {
-        if (q.answers.includes(i)) (right += o.length), nr++;
-        else (wrong += o.length), nw++;
+        if (q.answers.includes(i)) {
+          right += o.length;
+          nr++;
+        } else {
+          wrong += o.length;
+          nw++;
+        }
       });
     expect(right / nr / (wrong / nw)).toBeLessThanOrEqual(1.15);
   });
