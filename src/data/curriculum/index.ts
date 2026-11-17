@@ -19,6 +19,7 @@ import "./pack-multi";
 import "./pack-open";
 // 2ª leva (v0.9): questões diretas e estilo ENEM, por matéria.
 import "./pack2-ingles";
+import "./pack2-filosofia";
 
 export type { Bimestre, CurriculumTopic, Serie } from "./build";
 
