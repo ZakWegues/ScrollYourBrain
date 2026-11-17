@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MultiOptions } from "@/components/MultiOptions";
 import { OpenAnswer } from "@/components/OpenAnswer";
 import { gradeMulti, selfGradeOk, type SelfGrade } from "@/lib/grading";
+import { ContextBlock } from "@/components/ContextBlock";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Bouncy, Glass, GradientButton, Icon, PageAvatar } from "@/components/ui";
 import { getPage } from "@/data/pages";
@@ -132,6 +133,7 @@ export default function Review() {
               )}
               {card.item.kind === "quiz" && (
                 <>
+                  {!!card.item.context && <ContextBlock text={card.item.context} />}
                   <AppText variant="title" style={{ fontSize: 23, lineHeight: 29, marginBottom: space.lg }}>{card.item.question}</AppText>
                   <QuizOptions item={card.item} picked={picked} onPick={onPick} />
                 </>

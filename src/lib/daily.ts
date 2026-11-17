@@ -9,7 +9,7 @@ function hash(text: string): number {
 
 /** The question of the day: the same for everyone with the same content on the same day. */
 export function dailyQuestion(day: string, pool: readonly StudyItem[]): QuizItem | null {
-  const quizzes = pool.filter((i): i is QuizItem => i.kind === "quiz" && i.question.length <= 160);
+  const quizzes = pool.filter((i): i is QuizItem => i.kind === "quiz" && !i.context && i.question.length <= 160);
   if (quizzes.length === 0) return null;
   return quizzes[hash(`daily-${day}`) % quizzes.length];
 }

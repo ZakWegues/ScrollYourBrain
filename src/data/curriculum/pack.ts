@@ -2,7 +2,7 @@ import type { ConceptItem, FlashItem, MultiItem, OpenItem, QuizItem, StudyItem }
 import type { Bimestre, CurriculumTopic, Serie, SubjectCurriculum } from "./build";
 
 type Card =
-  | { k: "q"; question: string; options: string[]; answer: number; explanation: string }
+  | { k: "q"; question: string; options: string[]; answer: number; explanation: string; context?: string }
   | { k: "f"; front: string; back: string; hint?: string }
   | { k: "c"; beats: string[]; takeaway: string }
   | { k: "m"; question: string; options: string[]; answers: number[]; explanation: string }
@@ -12,6 +12,8 @@ const slug = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export const q = (question: string, options: string[], answer: number, explanation: string): Card => ({ k: "q", question, options, answer, explanation });
+/** ENEM style: a short "texto-base" (passage, described chart or situation) before the question. */
+export const qe = (context: string, question: string, options: string[], answer: number, explanation: string): Card => ({ k: "q", context, question, options, answer, explanation });
 export const f = (front: string, back: string, hint?: string): Card => ({ k: "f", front, back, hint });
 export const c = (beats: string[], takeaway: string): Card => ({ k: "c", beats, takeaway });
 /** "Marque todas as certas": `answers` lists every right option. */
@@ -20,7 +22,7 @@ export const m = (question: string, options: string[], answers: number[], explan
 export const o = (question: string, model: string, points: [string, ...string[]][]): Card => ({ k: "o", question, model, points });
 
 function toItem(card: Card, base: Omit<StudyItem, "id" | "kind">, id: string): StudyItem {
-  if (card.k === "q") return { ...base, id, kind: "quiz", question: card.question, options: card.options, answer: card.answer, explanation: card.explanation } satisfies QuizItem;
+  if (card.k === "q") return { ...base, id, kind: "quiz", ...(card.context ? { context: card.context } : {}), question: card.question, options: card.options, answer: card.answer, explanation: card.explanation } satisfies QuizItem;
   if (card.k === "f") return { ...base, id, kind: "flash", front: card.front, back: card.back, hint: card.hint } satisfies FlashItem;
   if (card.k === "m") return { ...base, id, kind: "multi", question: card.question, options: card.options, answers: card.answers, explanation: card.explanation } satisfies MultiItem;
   if (card.k === "o")

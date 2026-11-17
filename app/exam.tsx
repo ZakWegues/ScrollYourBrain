@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInDown, FadeInRight, ZoomIn, cancelAnimation, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ContextBlock } from "@/components/ContextBlock";
 import { QuizOptions, TIMED_OUT } from "@/components/QuizOptions";
 import { AppText, Bouncy, Chip, Glass, GradientButton, Icon, Segmented } from "@/components/ui";
 import { getPage } from "@/data/pages";
@@ -274,6 +275,7 @@ function Run({ questions, answers, timed: timedExam, seconds, onAnswer, onDone }
       </View>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" bottomOffset={24} contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 110 }} showsVerticalScrollIndicator={false}>
         <Animated.View key={item.id} entering={FadeInRight.springify().damping(26).stiffness(280).mass(1)}>
+          {item.kind === "quiz" && !!item.context && <ContextBlock text={item.context} />}
           <AppText variant="title" style={{ fontSize: 24, lineHeight: 30, marginBottom: 18 }} testID="exam-question">{item.question}</AppText>
           {item.kind === "quiz" ? (
             <QuizOptions item={item} picked={picked} onPick={(i) => picked === null && onAnswer(item, i)} />

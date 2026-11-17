@@ -155,7 +155,7 @@ const normalize = normalizeText;
 const itemText = (i: StudyItem): string => {
   switch (i.kind) {
     case "concept": return [i.title, ...i.beats, i.takeaway].join(" ");
-    case "quiz":
+    case "quiz": return [i.title, i.context ?? "", i.question, ...i.options, i.explanation].join(" ");
     case "multi": return [i.title, i.question, ...i.options, i.explanation].join(" ");
     case "open": return [i.title, i.question, i.model].join(" ");
     case "flash": return [i.title, i.front, i.back].join(" ");

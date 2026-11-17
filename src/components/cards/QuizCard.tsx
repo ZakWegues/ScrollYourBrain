@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { getPage } from "@/data/pages";
 import type { QuizItem } from "@/feed/types";
+import { ContextBlock } from "@/components/ContextBlock";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Icon } from "@/components/ui";
 import { haptic } from "@/lib/haptics";
@@ -32,7 +33,8 @@ export function QuizCard({ item, active, onStudied }: CardProps<QuizItem>) {
           <Icon name="help-circle-outline" size={14} color={c.text} />
           <AppText variant="caption">QUIZ · {getPage(item.pageId).name} · {item.title}</AppText>
         </View>
-        <AppText variant="title" style={styles.question}>{item.question}</AppText>
+        {!!item.context && <ContextBlock text={item.context} compact />}
+        <AppText variant="title" style={[styles.question, !!item.context && styles.questionSmall]}>{item.question}</AppText>
         <QuizOptions item={item} picked={picked} onPick={choose} />
       </View>
     </View>
@@ -43,5 +45,6 @@ const styles = StyleSheet.create({
   // The feed hides the bottom meta for quizzes, so the card may use the space down to the tab bar.
   wrap: { flex: 1, justifyContent: "center", paddingLeft: 20, paddingRight: 80, paddingTop: 84, paddingBottom: TAB_BAR_SPACE + 12 },
   question: { fontSize: 23, lineHeight: 29, marginBottom: 16 },
+  questionSmall: { fontSize: 19, lineHeight: 25, marginBottom: 12 },
   badge: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.pill, borderWidth: 1, marginBottom: 16 },
 });

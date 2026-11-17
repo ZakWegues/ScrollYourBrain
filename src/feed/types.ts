@@ -29,6 +29,8 @@ export interface ConceptItem extends BaseItem {
 
 export interface QuizItem extends BaseItem {
   kind: "quiz";
+  /** ENEM-style "texto-base" shown above the question (a short passage, a described chart or situation). */
+  context?: string;
   question: string;
   options: string[];
   answer: number;

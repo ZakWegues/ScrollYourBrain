@@ -151,7 +151,7 @@ export function shareText(item: StudyItem): string {
     case "video": return `${item.title} — https://youtu.be/${item.youtubeId}${tail}`;
     case "wiki": return `${item.title}: ${item.url}${tail}`;
     // No letters: the app shows the options in a new order every time.
-    case "quiz": return `Quiz de ${page}: ${item.question}\n${item.options.map((o) => `• ${o}`).join("\n")}${tail}`;
+    case "quiz": return `Quiz de ${page}: ${item.context ? `${item.context}\n\n` : ""}${item.question}\n${item.options.map((o) => `• ${o}`).join("\n")}${tail}`;
     case "multi": return `Marque todas as certas (${page}): ${item.question}\n${item.options.map((o) => `• ${o}`).join("\n")}${tail}`;
     case "open": return `Pergunta de ${page}: ${item.question}${tail}`;
     case "flash": return `${item.front}\n→ ${item.back}${tail}`;

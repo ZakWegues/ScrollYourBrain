@@ -5,7 +5,7 @@ import type { QuizItem, StudyItem } from "@/feed/types";
 export const BLITZ_SECONDS = 60;
 
 /** Short questions read fast enough for a 60-second round. */
-const quick = (q: QuizItem) => q.question.length <= 110 && q.options.every((o) => o.length <= 40);
+const quick = (q: QuizItem) => !q.context && q.question.length <= 110 && q.options.every((o) => o.length <= 40);
 
 /**
  * Questions for a lightning round: quick hand-written quizzes from the student's content,

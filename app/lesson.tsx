@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MultiOptions } from "@/components/MultiOptions";
 import { OpenAnswer } from "@/components/OpenAnswer";
 import { gradeMulti, selfGradeOk } from "@/lib/grading";
+import { ContextBlock } from "@/components/ContextBlock";
 import { QuizOptions } from "@/components/QuizOptions";
 import { AppText, Bouncy, GradientButton, Icon, PageAvatar } from "@/components/ui";
 import { TOPIC_BY_ID, itemsForTopics } from "@/data/curriculum";
@@ -194,6 +195,7 @@ export default function Lesson() {
           {step.kind === "flash" && <FlashStep item={step} revealed={revealed} onReveal={() => { setRevealed(true); haptic.light(); }} />}
           {step.kind === "quiz" && (
             <>
+              {!!step.context && <ContextBlock text={step.context} />}
               <AppText variant="title" style={styles.question}>{step.question}</AppText>
               <QuizOptions item={step} picked={picked} onPick={(i) => answer(step, i)} />
             </>
