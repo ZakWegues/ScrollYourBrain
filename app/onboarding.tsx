@@ -10,9 +10,22 @@ import { ROOT_PAGES } from "@/data/pages";
 import { haptic } from "@/lib/haptics";
 import { useLibrary } from "@/store/library";
 import { useSettings } from "@/store/settings";
+import { usePlanner } from "@/store/planner";
+import { refreshReminders } from "@/store/reminders";
+import { SCHOOL_SUBJECTS } from "@/data/curriculum";
+import { addDays } from "@/lib/planner";
+import { dayKey } from "@/lib/streak";
+import { ensurePermission, formatTime, remindersSupported } from "@/lib/notifications";
 import { radius, useColors } from "@/theme";
 
 const MIN_TOPICS = 3;
+const REMINDER_DEFAULT = 19 * 60;
+const EXAM_WHEN: { days: number; label: string; icon: IconName }[] = [
+  { days: 0, label: "Nenhuma marcada", icon: "calendar-remove-outline" },
+  { days: 7, label: "Em 1 semana", icon: "calendar-alert" },
+  { days: 14, label: "Em 2 semanas", icon: "calendar-clock" },
+  { days: 30, label: "Em 1 mês", icon: "calendar-month-outline" },
+];
 const GOALS = [
   { value: 5, label: "Leve", desc: "~3 min por dia" },
   { value: 10, label: "Regular", desc: "~6 min por dia" },
@@ -24,7 +37,9 @@ export default function Onboarding() {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const settings = useSettings();
-  const [step, setStep] = useState<0 | 1>(0);
+  const [step, setStep] = useState<0 | 1 | 2>(0);
+  const [examIn, setExamIn] = useState(0);
+  const [remind, setRemind] = useState(remindersSupported);
   const [picked, setPicked] = useState<string[]>(settings.interests);
   const [goal, setGoal] = useState(settings.dailyGoal);
   const [serie, setSerie] = useState<string>(String(settings.serie ?? 0));
@@ -35,19 +50,28 @@ export default function Onboarding() {
     setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
   };
 
-  const finish = () => {
+  const finish = async () => {
     const lib = useLibrary.getState();
     for (const id of picked) if (!lib.followed[id]) lib.toggleFollow(id);
     settings.set({ interests: picked, dailyGoal: goal, onboarded: true, serie: serie === "0" ? null : (Number(serie) as 1 | 2 | 3) });
+    // The coming exam feeds "Seu dia" and the final-week plan; it can be edited later in Provas.
+    if (examIn > 0) {
+      const subjects = picked.filter((id) => (SCHOOL_SUBJECTS as readonly string[]).includes(id));
+      usePlanner.getState().save({ title: "Próxima prova", date: dayKey(addDays(new Date(), examIn)), pageIds: subjects.length ? subjects : picked.slice(0, 3) });
+    }
     haptic.success();
     router.replace("/");
+    if (remind && (await ensurePermission())) {
+      useSettings.getState().set({ reminder: REMINDER_DEFAULT });
+      refreshReminders();
+    }
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       <LinearGradient colors={["rgba(139,92,246,0.28)", "transparent"]} style={styles.glow} pointerEvents="none" />
       <View style={[styles.progress, { top: insets.top + 12 }]}>
-        {[0, 1].map((i) => (
+        {[0, 1, 2].map((i) => (
           <View key={i} style={[styles.dot, { backgroundColor: i <= step ? c.accent : c.surface2, width: i === step ? 28 : 8 }]} />
         ))}
       </View>
@@ -99,7 +123,7 @@ export default function Onboarding() {
             />
           </View>
         </Animated.View>
-      ) : (
+      ) : step === 1 ? (
         <Animated.View key="goal" entering={FadeInRight} exiting={FadeOutLeft} style={{ flex: 1, paddingTop: insets.top + 48, paddingHorizontal: 16 }}>
           <AppText variant="title" style={styles.center}>Em que série você está?</AppText>
           <AppText dim style={[styles.center, { marginTop: 4, marginBottom: 12 }]}>O feed e os modos de prova mostram o conteúdo da sua série.</AppText>
@@ -138,6 +162,47 @@ export default function Onboarding() {
           <View style={{ flex: 1 }} />
           <View style={[styles.row, { paddingBottom: insets.bottom + 16 }]}>
             <Bouncy onPress={() => setStep(0)} style={[styles.back, { borderColor: c.border }]} accessibilityLabel="Voltar">
+              <Icon name="chevron-left" size={26} color={c.text} />
+            </Bouncy>
+            <GradientButton label="Continuar" icon="arrow-right" onPress={() => { setStep(2); haptic.select(); }} style={{ flex: 1 }} />
+          </View>
+        </Animated.View>
+      ) : (
+        <Animated.View key="exam" entering={FadeInRight} exiting={FadeOutLeft} style={{ flex: 1, paddingTop: insets.top + 48, paddingHorizontal: 16 }}>
+          <AppText variant="title" style={styles.center}>Tem prova chegando?</AppText>
+          <AppText dim style={[styles.center, { marginTop: 4, marginBottom: 16 }]}>Com a data, o app monta seu dia e a reta final. Dá para mudar depois em Provas.</AppText>
+          {EXAM_WHEN.map((w, i) => {
+            const on = w.days === examIn;
+            return (
+              <Animated.View key={w.days} entering={FadeInDown.delay(i * 50).springify().damping(26).stiffness(280).mass(1)}>
+                <Bouncy
+                  onPress={() => { setExamIn(w.days); haptic.select(); }}
+                  scaleTo={0.97}
+                  style={[styles.goal, { borderColor: on ? c.accent : c.border, backgroundColor: on ? "rgba(139,92,246,0.16)" : c.surface }]}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: on }}
+                  testID={`exam-in-${w.days}`}
+                >
+                  <Icon name={on ? "radiobox-marked" : "radiobox-blank"} size={22} color={on ? c.accent : c.textDim} />
+                  <AppText variant="label" style={{ flex: 1 }}>{w.label}</AppText>
+                  <Icon name={w.icon} size={20} color={c.textDim} />
+                </Bouncy>
+              </Animated.View>
+            );
+          })}
+          {remindersSupported && (
+            <Bouncy onPress={() => { setRemind((r) => !r); haptic.select(); }} scaleTo={0.98} style={[styles.goal, { marginTop: 14, borderColor: c.border, backgroundColor: c.surface }]} accessibilityRole="switch" accessibilityState={{ checked: remind }} testID="onboarding-reminder">
+              <Icon name={remind ? "bell-ring" : "bell-off-outline"} size={22} color={remind ? c.accent2 : c.textDim} />
+              <View style={{ flex: 1 }}>
+                <AppText variant="label">Me lembrar às {formatTime(REMINDER_DEFAULT)}</AppText>
+                <AppText variant="caption" dim>Um aviso com o plano do dia. Muda nos Ajustes.</AppText>
+              </View>
+              <Icon name={remind ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color={remind ? c.accent : c.textDim} />
+            </Bouncy>
+          )}
+          <View style={{ flex: 1 }} />
+          <View style={[styles.row, { paddingBottom: insets.bottom + 16 }]}>
+            <Bouncy onPress={() => setStep(1)} style={[styles.back, { borderColor: c.border }]} accessibilityLabel="Voltar">
               <Icon name="chevron-left" size={26} color={c.text} />
             </Bouncy>
             <GradientButton label="Começar a estudar" icon="play" onPress={finish} style={{ flex: 1 }} />

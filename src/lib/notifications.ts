@@ -1,8 +1,10 @@
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
+import { planReminders, REMINDER_IDS, type ReminderInfo } from "./reminders";
 
 const CHANNEL = "daily-reminder";
-const REMINDER_ID = "syb-daily-reminder";
+/** The repeating reminder of older versions; cancelled when rescheduling. */
+const LEGACY_ID = "syb-daily-reminder";
 
 export const remindersSupported = Platform.OS !== "web";
 
@@ -22,25 +24,21 @@ export async function ensurePermission(): Promise<boolean> {
   return asked.granted;
 }
 
-function message(streak: number, goal: number): { title: string; body: string } {
-  if (streak >= 2) return { title: `Não perca seus ${streak} dias seguidos 🔥`, body: `Faltam ${goal} cards para manter a sequência. Bora?` };
-  if (streak === 1) return { title: "Ontem você estudou. Hoje também? 🔥", body: `Estude ${goal} cards e comece uma sequência.` };
-  return { title: "Hora de estudar 🧠", body: `Só ${goal} cards por dia já fazem diferença. Abra o ScrollYourBrain.` };
-}
-
 /**
- * (Re)schedules the daily reminder. `minutes` is minutes after midnight, or null to cancel.
- * The text reflects the streak at scheduling time, so the app refreshes it on every launch.
+ * (Re)schedules the reminders: the daily one at `minutes` (minutes after midnight, or null to cancel) and the evening
+ * warning when the streak is at stake. The text reflects today's plan, so the app refreshes them on launch and as you study.
  */
-export async function scheduleReminder(minutes: number | null, streak: number, goal: number): Promise<void> {
+export async function scheduleReminder(minutes: number | null, info: ReminderInfo): Promise<void> {
   if (!remindersSupported) return;
-  await Notifications.cancelScheduledNotificationAsync(REMINDER_ID).catch(() => {});
+  await Promise.all([LEGACY_ID, ...REMINDER_IDS].map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => {})));
   if (minutes === null) return;
-  await Notifications.scheduleNotificationAsync({
-    identifier: REMINDER_ID,
-    content: message(streak, goal),
-    trigger: { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: Math.floor(minutes / 60), minute: minutes % 60, channelId: CHANNEL },
-  });
+  for (const r of planReminders(new Date(), minutes, info)) {
+    await Notifications.scheduleNotificationAsync({
+      identifier: r.id,
+      content: { title: r.title, body: r.body },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: r.at, channelId: CHANNEL },
+    });
+  }
 }
 
 export const formatTime = (minutes: number) => `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
