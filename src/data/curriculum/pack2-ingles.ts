@@ -341,3 +341,164 @@ extend(INGLES, "Reading for ENEM", [
     ["O objetivo é convencer ou conscientizar", "convenc", "consciente", "persuad", "mudar"],
   ]),
 ], "n");
+
+// Complemento (mais prática por assunto).
+extend(INGLES, "Verb to be e simple present", [
+  q("Complete: My parents ___ teachers.", ["are", "is", "am", "be"], 0, "Sujeito no plural (they) pede 'are'."),
+  q("Complete: The bus ___ at 7 a.m. every day.", ["leaves", "leave", "leaving", "is leave"], 0, "Rotina na 3ª pessoa do singular: verbo + s."),
+  q("A negativa de 'He likes pizza' é:", ["He doesn't like pizza.", "He don't like pizza.", "He not likes pizza.", "He doesn't likes pizza."], 0, "Com 'doesn't', o verbo volta à forma base."),
+  q("Complete: ___ you from Brazil?", ["Are", "Is", "Do", "Am"], 0, "Pergunta com verbo to be: inverte-se o verbo (Are you…?)."),
+  qe("Text: 'Ana works at a hospital. She starts at 6 a.m. and finishes at 2 p.m. She loves her job.'", "What is true about Ana?", ["She works in the morning", "She works at night", "She hates her job", "She is a student"], 0, "Ela trabalha das 6h às 14h."),
+  qe("Sign at a park: 'Dogs are welcome. Please keep them on a leash.'", "The sign means dogs:", ["Can enter on a leash", "Cannot enter the park", "Must stay at home", "Can run free anywhere"], 0, "'Leash' é coleira com guia."),
+  q("Complete: Water ___ at 100 °C.", ["boils", "boil", "is boil", "boiling"], 0, "Verdade científica: simple present."),
+], "n");
+
+extend(INGLES, "Present continuous", [
+  q("Complete: Listen! The baby ___.", ["is crying", "cries", "cry", "are crying"], 0, "'Listen!' indica ação acontecendo agora."),
+  q("Complete: We ___ dinner right now.", ["are having", "have had", "is having", "has have"], 0, "'Right now' pede present continuous."),
+  q("A forma -ing de 'swim' é:", ["swimming", "swiming", "swimeing", "swimmng"], 0, "Consoante-vogal-consoante tônica: dobra a última letra."),
+  q("Complete: Look! It ___ outside.", ["is snowing", "snows", "snow", "are snowing"], 0, "Ação visível no momento."),
+  qe("Text message: 'Can't talk now. I'm driving to the airport. Call you later!'", "The person is:", ["Driving now", "At home sleeping", "On a plane", "Eating lunch"], 0, "'I'm driving' = está dirigindo agora."),
+  qe("Post: 'This week I'm reading a great book about space.'", "'I'm reading' here means:", ["A temporary action", "A habit for life", "A past action", "An order"], 0, "Present continuous também indica ações temporárias, em andamento."),
+  q("Qual verbo NÃO costuma ir para o -ing?", ["know", "run", "eat", "play"], 0, "Verbos de estado (know, like, want) evitam o continuous."),
+], "n");
+
+extend(INGLES, "Simple past", [
+  q("O passado de 'buy' é:", ["bought", "buyed", "brought", "buys"], 0, "Irregular: buy → bought. ('Brought' é de 'bring'.)"),
+  q("Complete: They ___ to Paris in 2019.", ["went", "go", "goes", "gone"], 0, "Ano passado definido: simple past (go → went)."),
+  q("A negativa de 'She called me' é:", ["She didn't call me.", "She didn't called me.", "She not called me.", "She doesn't called me."], 0, "Com 'didn't', o verbo fica na forma base."),
+  q("Complete: ___ you see the game yesterday?", ["Did", "Do", "Were", "Does"], 0, "Pergunta no passado com verbo principal: 'Did'."),
+  qe("Diary: 'Yesterday I woke up late, missed the bus and arrived at school at 9.'", "The writer:", ["Was late", "Took the school bus", "Woke up very early", "Stayed at home all day"], 0, "Acordou tarde, perdeu o ônibus e chegou às 9."),
+  qe("News: 'Firefighters rescued three people from a burning building last night.'", "What happened?", ["People were saved", "The building was sold", "Firefighters were hurt", "Nobody was there"], 0, "'Rescued' = resgataram."),
+  q("Complete: I ___ tired after the trip.", ["was", "were", "am being", "did"], 0, "Passado do to be com 'I': was."),
+], "n");
+
+extend(INGLES, "Cognatos e falsos cognatos", [
+  q("'Lecture' significa:", ["Palestra", "Leitura", "Letra", "Lição de casa"], 0, "Leitura = reading."),
+  q("'College' em inglês significa:", ["Faculdade", "Colégio", "Colega", "Coleção"], 0, "Colégio (escola) = school."),
+  q("'Prejudice' significa:", ["Preconceito", "Prejuízo", "Precipício", "Previsão"], 0, "Prejuízo = loss, damage."),
+  q("'Ingenious' significa:", ["Engenhoso", "Ingênuo", "Indígena", "Ingrato"], 0, "Ingênuo = naive."),
+  qe("Ad: 'Our hotel offers a large lounge and a gym. Breakfast is included.'", "'Large' significa:", ["Grande", "Largo", "Longo", "Leve"], 0, "Falso cognato: 'largo' = wide."),
+  qe("Text: 'The doctor will attend to you shortly.'", "'Attend to you' significa:", ["Atender você", "Assistir você", "Entender você", "Esperar você"], 0, "'Attend a class' = frequentar; 'attend to' = atender, cuidar."),
+  q("'Collar' significa:", ["Gola", "Colar", "Colher", "Coleira de joia"], 0, "Colar (joia) = necklace."),
+], "n");
+
+extend(INGLES, "Futuro (will e going to)", [
+  q("Complete: Be careful! You ___ fall off that ladder.", ["are going to", "will to", "going", "are go to"], 0, "Perigo evidente agora: going to."),
+  q("Complete: The phone is ringing. — I ___ answer it.", ["'ll", "am going", "going to", "will to"], 0, "Decisão tomada na hora: will."),
+  q("A negativa de 'She will come' é:", ["She won't come.", "She willn't come.", "She will not comes.", "She don't will come."], 0, "Won't = will not."),
+  q("Complete: We ___ visit Grandma next Sunday. We've planned it.", ["are going to", "will to", "goes to", "is going"], 0, "Plano já decidido: going to."),
+  qe("Text: 'Scientists say that by 2050 most cars will be electric.'", "The sentence is a:", ["Prediction", "Past fact", "Order", "Question"], 0, "Previsão sobre o futuro com 'will'."),
+  qe("Message: 'Don't worry about the dishes. I'll wash them!'", "'I'll wash them' is:", ["An offer", "A complaint", "A past habit", "A question"], 0, "'Will' também expressa oferta de ajuda."),
+  q("Complete: ___ you help me, please?", ["Will", "Are", "Going", "Do will"], 0, "Pedido educado com will."),
+], "n");
+
+extend(INGLES, "Present perfect", [
+  q("Complete: She has ___ three books this year.", ["read", "readed", "reads", "reading"], 0, "Particípio de read é read (pronunciado 'red')."),
+  q("Complete: I have lived here ___ 2015.", ["since", "for", "ago", "during"], 0, "Since + ponto no tempo; for + período."),
+  q("Complete: They have been friends ___ ten years.", ["for", "since", "ago", "at"], 0, "For + duração."),
+  q("Complete: Have you ___ been to Bahia?", ["ever", "yet", "ago", "since"], 0, "'Ever' = alguma vez."),
+  qe("Message: 'I've just finished my homework. Can we play now?'", "'Just' indica que a tarefa:", ["Acabou agora há pouco", "Nunca foi feita", "Vai ser feita amanhã", "Foi feita há anos"], 0, "Just + present perfect = acabou de."),
+  qe("Text: 'Brazil has won the World Cup five times.'", "The present perfect is used because:", ["The time is not specified", "It happened yesterday", "It is a future plan", "It is an order"], 0, "Experiência sem tempo definido."),
+  q("Complete: I haven't finished ___.", ["yet", "already", "ever", "ago"], 0, "'Yet' em negativas = ainda."),
+], "n");
+
+extend(INGLES, "Modal verbs", [
+  q("Complete: You ___ smoke here. It's forbidden.", ["mustn't", "don't have to", "may", "could"], 0, "Mustn't = proibição."),
+  q("Complete: You ___ wear a uniform. It's optional.", ["don't have to", "mustn't ever", "must always", "should never"], 0, "Don't have to = não é obrigatório."),
+  q("Complete: ___ I open the window?", ["May", "Must", "Should to", "Have"], 0, "Pedido de permissão formal: May I…?"),
+  q("Complete: She ___ speak three languages when she was ten.", ["could", "can", "must", "should"], 0, "Habilidade no passado: could."),
+  qe("Doctor: 'You should drink more water and sleep at least eight hours.'", "'Should' expresses:", ["Advice", "Prohibition", "Past ability", "Certainty"], 0, "Conselho."),
+  qe("Sign at a pool: 'Children under 12 must be accompanied by an adult.'", "The sign means children under 12:", ["Need an adult", "Can't swim", "Must swim alone", "Pay double"], 0, "'Must' = obrigação."),
+  q("Complete: Take a jacket. It ___ get cold tonight.", ["might", "must", "mustn't", "has to"], 0, "Possibilidade: might."),
+], "n");
+
+extend(INGLES, "Comparativos e superlativos", [
+  q("O comparativo de 'good' é:", ["better", "gooder", "more good", "best"], 0, "Irregular: good → better → the best."),
+  q("O superlativo de 'bad' é:", ["the worst", "the baddest", "the worse", "the most bad"], 0, "Bad → worse → the worst."),
+  q("Complete: This test is ___ than the last one.", ["easier", "more easy", "easyer", "easiest"], 0, "Adjetivo terminado em -y: troca por -ier."),
+  q("Complete: She is as tall ___ her brother.", ["as", "than", "that", "then"], 0, "Igualdade: as + adjetivo + as."),
+  qe("Ad: 'The fastest internet in town! 10 times faster than our competitors.'", "The ad says the internet is:", ["The quickest in town", "The slowest in town", "As fast as others", "Not available"], 0, "'The fastest' = a mais rápida."),
+  qe("Chart: 'Brazil: 214 million people. Argentina: 46 million.'", "Which sentence is correct?", ["Argentina is less populous", "Argentina is more populous", "They are as populous", "Brazil is the smallest"], 0, "Argentina tem menos habitantes."),
+  q("O superlativo de 'expensive' é:", ["the most expensive", "the expensivest", "the more expensive", "most expensiver"], 0, "Adjetivos longos usam 'the most'."),
+], "n");
+
+extend(INGLES, "Voz passiva", [
+  q("A passiva de 'They built the bridge in 1990' é:", ["The bridge was built in 1990.", "The bridge built in 1990.", "The bridge is build in 1990.", "The bridge were built in 1990."], 0, "Passado: was/were + particípio."),
+  q("Complete: Millions of photos ___ online every day.", ["are shared", "share", "are sharing", "is share"], 0, "Presente passivo: are + particípio."),
+  q("Complete: The thief ___ by the police yesterday.", ["was arrested", "arrested", "is arrest", "were arrested"], 0, "Sujeito singular no passado: was."),
+  q("Na voz passiva, quem pratica a ação aparece depois de:", ["by", "for", "to", "of"], 0, "Ex.: 'written by Machado'."),
+  qe("Label: 'Made in China. Designed in California.'", "The label means the product was:", ["Produced in China", "Sold only in China", "Invented in China", "Banned in California"], 0, "Passiva reduzida: (It was) made in China."),
+  qe("News: 'A new vaccine has been approved by health authorities.'", "Who approved the vaccine?", ["Health authorities", "The vaccine", "The patients", "The reporters"], 0, "O agente vem depois de 'by'."),
+  q("Complete: The results ___ next week.", ["will be announced", "will announce", "are announce", "will announced"], 0, "Futuro passivo: will be + particípio."),
+], "n");
+
+extend(INGLES, "Conditionals", [
+  q("Complete: If you mix red and blue, you ___ purple.", ["get", "will got", "got", "would getting"], 0, "Zero conditional: fato sempre verdadeiro (presente + presente)."),
+  q("Complete: If it rains tomorrow, we ___ stay home.", ["will", "would", "did", "had"], 0, "First conditional: if + presente, will + verbo."),
+  q("Complete: If I ___ a bird, I would fly over the sea.", ["were", "am", "will be", "be"], 0, "Second conditional: hipótese irreal (were)."),
+  q("Complete: If she had studied, she ___ passed.", ["would have", "will have", "would", "has had"], 0, "Third conditional: passado irreal."),
+  qe("Poster: 'If you see something, say something.'", "The poster asks people to:", ["Report problems", "Stay quiet about everything", "Take photos of strangers", "Leave the station at once"], 0, "Campanha de segurança: avise se notar algo estranho."),
+  qe("Text: 'If I had known about the party, I would have gone.'", "Did the person go to the party?", ["No", "Yes", "Maybe tomorrow", "Twice"], 0, "Third conditional: algo que não aconteceu."),
+  q("'Unless you hurry, you'll miss the bus' equivale a:", ["If you don't hurry…", "If you hurry…", "When you hurry…", "Because you hurry…"], 0, "Unless = if… not."),
+], "n");
+
+extend(INGLES, "Reported speech", [
+  q("'I am tired', she said. → She said she ___ tired.", ["was", "is", "were", "has"], 0, "Presente vira passado no discurso indireto."),
+  q("'I will call you', he said. → He said he ___ call me.", ["would", "will", "can", "shall"], 0, "Will vira would."),
+  q("'Close the door', the teacher said. → The teacher told us ___ the door.", ["to close", "close", "closing", "closed"], 0, "Ordens: told + objeto + to + verbo."),
+  q("'Where do you live?' → She asked me where I ___.", ["lived", "do live", "did live", "living"], 0, "Pergunta indireta: ordem afirmativa e passado."),
+  qe("Report: 'The minister said that the economy was growing.'", "The minister's original words were probably:", ["'The economy is growing.'", "'The economy grew.'", "'Will the economy grow?'", "'Grow the economy!'"], 0, "Was growing (indireto) ← is growing (direto)."),
+  qe("Message: 'Mom said she would be late, so dinner is in the fridge.'", "Mom's original words were:", ["'I will be late.'", "'I was late.'", "'Be late!'", "'Are you late?'"], 0, "Would ← will."),
+  q("'I can swim', he said. → He said he ___ swim.", ["could", "can", "would can", "may"], 0, "Can vira could."),
+], "n");
+
+extend(INGLES, "Estratégias de leitura", [
+  q("Ler o título, as imagens e as palavras em destaque antes do texto ajuda a:", ["Prever o assunto", "Decorar o texto", "Traduzir tudo", "Contar as palavras"], 0, "É a predição: ativa o que você já sabe."),
+  q("Palavras repetidas no texto costumam indicar:", ["O tema central", "Erros do autor", "Palavras sem sentido", "Nomes próprios"], 0, "Palavras-chave mostram do que o texto trata."),
+  q("O contexto ajuda a:", ["Deduzir palavras", "Ignorar o texto inteiro", "Mudar o assunto do texto", "Achar a data de publicação"], 0, "Nem toda palavra precisa ser traduzida."),
+  q("Marcadores como 'however' e 'but' indicam:", ["Contraste", "Adição", "Exemplo", "Conclusão"], 0, "Atenção a eles: costumam trazer a ideia principal."),
+  qe("Headline: 'Heatwave hits Europe: temperatures reach 45 °C in Spain.'", "Without reading the article, you can predict it is about:", ["Extreme heat", "A football match", "A new phone", "Snow storms"], 0, "'Heatwave' = onda de calor."),
+  qe("Text: 'Bees are essential. Without them, many crops would disappear.'", "The main idea is that bees:", ["Are vital for food", "Are dangerous to people", "Live mostly in big cities", "Make no honey at all"], 0, "Sem abelhas, muitas plantações sumiriam."),
+  q("Para achar um número ou nome específico rápido, usa-se o:", ["Scanning", "Skimming", "Dicionário", "Resumo"], 0, "Scanning: busca de informação pontual."),
+], "n");
+
+extend(INGLES, "Irregular verbs", [
+  q("O passado de 'think' é:", ["thought", "thinked", "taught", "thank"], 0, "'Taught' é de 'teach'."),
+  q("O passado de 'catch' é:", ["caught", "catched", "cought", "catch"], 0, "Catch → caught → caught."),
+  q("O particípio de 'write' é:", ["written", "wrote", "writed", "writing"], 0, "Write → wrote → written."),
+  q("O passado de 'fly' é:", ["flew", "flied", "flown", "flyed"], 0, "Fly → flew → flown."),
+  qe("Story: 'She took her bag, left the house and drove to work.'", "Os verbos 'took', 'left' e 'drove' vêm de:", ["take, leave, drive", "talk, live, dry", "touch, lift, dream", "tell, lend, draw"], 0, "Todos irregulares no simple past."),
+  qe("Post: 'I've forgotten my password again!'", "'Forgotten' é o particípio de:", ["forget", "forgive", "forgo", "form"], 0, "Forget → forgot → forgotten."),
+  q("O passado de 'sell' é:", ["sold", "selled", "sell", "sould"], 0, "Sell → sold → sold."),
+], "n");
+
+extend(INGLES, "Linking words", [
+  q("'Although' expressa:", ["Concessão", "Causa ou motivo", "Adição de ideias", "Tempo ou momento"], 0, "Although = embora."),
+  q("'Therefore' significa:", ["Portanto", "Porém", "Porque", "Além disso"], 0, "Introduz conclusão."),
+  q("'Because of' é seguido de:", ["Substantivo", "Oração completa", "Verbo no infinitivo", "Advérbio"], 0, "Because of the rain; because + oração (because it rained)."),
+  q("'In addition' indica:", ["Adição", "Contraste", "Condição", "Finalidade"], 0, "Em acréscimo, além disso."),
+  qe("Text: 'The city is beautiful. However, it is very expensive.'", "'However' shows:", ["Contrast", "Addition", "Cause", "Example"], 0, "Bonita, porém cara."),
+  qe("Text: 'Many species are endangered, such as the jaguar and the blue macaw.'", "'Such as' introduces:", ["Examples", "A conclusion", "A contrast", "A condition"], 0, "Such as = como, por exemplo."),
+  q("'Despite' significa:", ["Apesar de", "Por causa de", "Depois de", "A fim de"], 0, "Despite the rain = apesar da chuva."),
+], "n");
+
+extend(INGLES, "False friends", [
+  q("Em 'She was very sympathetic when I lost my job', 'sympathetic' significa:", ["Solidária", "Simpática", "Sinfônica", "Sincera"], 0, "Simpático = nice, friendly."),
+  q("'Injury' significa:", ["Lesão", "Injúria", "Injustiça", "Ingestão"], 0, "Injúria (ofensa) = insult."),
+  q("'Appointment' significa:", ["Consulta", "Apontamento", "Apartamento", "Aposentadoria"], 0, "Ex.: a doctor's appointment."),
+  q("'Data' em inglês significa:", ["Dados", "Data do calendário", "Dote", "Dado de jogo"], 0, "Data do calendário = date."),
+  qe("Text: 'The mayor of the city opened a new hospital.'", "'Mayor' significa:", ["Prefeito", "Maior", "Major do exército", "Morador"], 0, "Maior = bigger; major = major (patente)."),
+  qe("Notice: 'Please send your résumé by Friday.'", "'Résumé' significa:", ["Currículo", "Resumo", "Recibo", "Resultado"], 0, "No inglês americano, résumé = currículo; resumo = summary."),
+  q("'Mascara' significa:", ["Rímel", "Máscara", "Mascote", "Mascarado"], 0, "Máscara = mask."),
+], "n");
+
+extend(INGLES, "Reading for ENEM", [
+  qe("Poster: 'Save water: turn off the tap while brushing your teeth.'", "The poster's purpose is to:", ["Encourage saving water", "Sell new toothbrushes", "Announce a birthday party", "Teach a cake recipe"], 0, "Campanha de economia de água."),
+  qe("Tweet: 'Just finished my first marathon! 42 km, 4 hours, zero regrets.'", "The author feels:", ["Proud", "Ashamed", "Bored", "Angry"], 0, "'Zero regrets' = nenhum arrependimento."),
+  qe("Text: 'Plastic takes up to 400 years to decompose, and much of it ends up in the oceans.'", "The text warns about:", ["Plastic pollution", "Ocean tourism", "Fishing laws", "Beach sports"], 0, "Demora para decompor e acaba nos oceanos."),
+  qe("Comic: A student says: 'I studied all night!' The teacher replies: 'For a test that was last week?'", "The humor comes from:", ["Bad timing", "A spelling mistake on the board", "The teacher's anger at the class", "A new school rule about tests"], 0, "Estudou para uma prova que já tinha passado."),
+  qe("Quote: 'Education is the most powerful weapon which you can use to change the world.' — Nelson Mandela", "Mandela says education:", ["Can change the world", "Is a real metal weapon", "Is useless for most people", "Is the main cause of wars"], 0, "'Weapon' em sentido figurado."),
+  qe("Job ad: 'Wanted: Part-time cashier. Weekends only. No experience required.'", "Who can apply?", ["Beginners", "Only experts with degrees", "Full-time workers only", "People free only on weekdays"], 0, "'No experience required' = sem experiência exigida."),
+  qe("Song: 'Imagine all the people living life in peace…' (John Lennon)", "The song expresses a wish for:", ["Peace", "More wars and fights", "Money and luxury cars", "Fame and big concerts"], 0, "Utopia de paz entre as pessoas."),
+], "n");
