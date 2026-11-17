@@ -5,6 +5,7 @@ import { SEED } from "@/feed/sources/seed";
 import { CONTENT } from "@/feed/sources/library";
 import { CURATED_VIDEOS, parseYouTubeId } from "@/feed/sources/youtube";
 import type { QuizItem } from "@/feed/types";
+import { rootOf } from "@/data/pages";
 
 const noSignals: Signals = { followed: new Set(), interests: new Set(), pageLikes: {}, pageSkips: {} };
 const fresh = (): EngineState => ({ recent: [], kinds: [] });
@@ -132,5 +133,17 @@ describe("video frequency", () => {
       gap = i.kind === "video" ? 0 : gap + 1;
       expect(gap).toBeLessThan(3);
     }
+  });
+});
+
+describe("picked subjects lead the feed", () => {
+  it("about two thirds of the cards come from the subjects picked in onboarding", () => {
+    const picked = ["matematica", "biologia", "historia"];
+    const signals: Signals = { followed: new Set(), interests: new Set(picked), pageLikes: {}, pageSkips: {} };
+    const state: EngineState = { recent: [], kinds: [] };
+    const items = nextItems(600, { pool: CONTENT, signals, rng: createRng(7), state });
+    const share = items.filter((i) => picked.includes(rootOf(i.pageId))).length / items.length;
+    expect(share).toBeGreaterThan(0.55);
+    expect(share).toBeLessThan(0.85);
   });
 });

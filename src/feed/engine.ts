@@ -48,14 +48,16 @@ export function pageWeight(pageId: PageId, s: Signals): number {
   const root = rootOf(pageId);
   const likes = Math.min(s.pageLikes[pageId] ?? 0, 6);
   const skips = Math.min(s.pageSkips[pageId] ?? 0, 6);
-  const w =
-    1 +
-    (s.followed.has(pageId) ? 2 : s.followed.has(root) ? 1.5 : 0) +
-    (s.interests.has(pageId) || s.interests.has(root) ? 1.2 : 0) +
-    likes * 0.55 -
-    skips * 0.25;
-  return Math.max(0.15, w);
+  const followed = s.followed.has(pageId) ? 2 : s.followed.has(root) ? 1.5 : 0;
+  const picked = s.interests.has(pageId) || s.interests.has(root);
+  const w = 1 + followed + (picked ? 2 : 0) + likes * 0.55 - skips * 0.25;
+  // With subjects picked in onboarding, the rest is seasoning (about a third of the feed), not the main course.
+  const offTopic = s.interests.size > 0 && !picked && followed === 0 && likes === 0;
+  return Math.max(0.15, offTopic ? w * OFF_TOPIC : w);
 }
+
+/** Weight kept by subjects the student did not pick, follow or like. */
+export const OFF_TOPIC = 0.4;
 
 /** Videos from accounts you follow (or their subject) come first: three times the usual weight. */
 export const videoWeight = (pageId: PageId, s: Signals) => pageWeight(pageId, s) * (s.followed.has(pageId) || s.followed.has(rootOf(pageId)) ? 3 : 1);

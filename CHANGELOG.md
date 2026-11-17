@@ -25,9 +25,11 @@ Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Chan
   - No feed, o texto-base longo aparece resumido, com "Ler texto completo". No simulado, na aula e na revisão, aparece inteiro.
   - As novas têm alternativas do mesmo tamanho; a certa é a mais longa em só 12% delas.
 ### Melhorado
+- **O feed segue as matérias que você escolheu:** cerca de 70% dos cards vêm delas (antes eram só 37%, porque as outras 11 matérias somadas pesavam mais). O resto continua aparecendo, para variar.
 - **Todas as 1.017 questões antigas revisadas:** enunciados mais claros, explicações que ensinam por que a certa está certa, e cerca de 80 questões repetidas ou quase repetidas trocadas.
 - Alvos de toque maiores: abas segmentadas com 40 px, e a linha inteira liga e desliga nos Ajustes.
 ### Corrigido
+- O aviso de conquista cobria o "+10 XP" logo depois da resposta. Agora o chip desce e fica abaixo do aviso.
 - A comemoração "Meta do dia batida!" engolia os toques por 4,5 s, até no meio de uma aula. Agora um toque em qualquer lugar a fecha.
 - A pergunta do dia vira à meia-noite, mesmo com a tela aberta.
 - Compartilhar uma questão não mostra mais letras (a ordem na tela é aleatória) e não perde a 5ª alternativa.
@@ -37,7 +39,7 @@ Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Chan
 - Voltar de uma página aberta por link funciona.
 - As anotações ignoram registros sem card.
 ### Testes
-- 198 testes Jest (eram 134), entre eles:
+- 199 testes Jest (eram 134), entre eles:
   - stores, componentes e contraste WCAG de todos os temas;
   - um teste de conteúdo que confere ids, formato, repetidas e cobertura de todos os assuntos.
 - 52 jornadas de uso real no navegador, verdes em várias rodadas seguidas.
