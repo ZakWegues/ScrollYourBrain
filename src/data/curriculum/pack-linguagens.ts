@@ -27,7 +27,7 @@ pack(P, "gramatica", 2, 4, "Pontuação", [
 ]);
 
 pack(P, "gramatica", 3, 1, "Orações subordinadas", [
-  q("Em \"Espero que você venha\", a oração destacada \"que você venha\" é:", ["Adjetiva restritiva", "Substantiva objetiva direta", "Adverbial causal", "Coordenada sindética aditiva"], 1, "\"Espero o quê?\" → \"que você venha\": a oração completa o verbo como objeto direto. Troque por \"isso\": \"espero isso\"."),
+  q("Em \"É importante que você estude\", a oração \"que você estude\" é:", ["Substantiva objetiva direta", "Substantiva subjetiva", "Adjetiva restritiva", "Adverbial final"], 1, "\"O que é importante?\" → \"que você estude\": a oração funciona como sujeito de \"é importante\". Troque por \"isso\": \"Isso é importante\"."),
   q("Em \"O livro que li é ótimo\", \"que li\" é uma oração:", ["Adjetiva restritiva", "Substantiva subjetiva", "Adverbial final", "Coordenada explicativa"], 0, "\"Que li\" caracteriza o substantivo \"livro\", como faria um adjetivo (\"o livro lido\"). Sem vírgulas, restringe: não qualquer livro, o que eu li."),
   q("\"Embora estivesse cansado, terminou o trabalho\" expressa ideia de:", ["Causa", "Concessão", "Condição", "Finalidade"], 1, "\"Embora\" introduz um obstáculo que não impede a ação: concessão. Equivale a \"apesar de estar cansado\"."),
   q("\"Se chover, não iremos\" expressa:", ["Condição", "Tempo", "Consequência", "Comparação"], 0, "\"Se\" introduz uma condição para o fato principal: oração subordinada adverbial condicional. Também são condicionais \"caso\" e \"desde que\"."),

@@ -40,7 +40,7 @@ pack(Q, "ligacoes", 1, 3, "Geometria e polaridade", [
 pack(Q, "ligacoes", 1, 4, "Ácidos, bases, sais e óxidos", [
   q("Segundo Arrhenius, ácido é a substância que em água libera:", ["OH⁻", "H⁺", "Na⁺", "Cl⁻"], 1, "Ácido de Arrhenius libera H⁺ (na verdade H₃O⁺) em água, como HCl → H⁺ + Cl⁻. Base libera OH⁻."),
   q("Ácido + base produz:", ["Só água", "Sal + água", "Óxido", "Gás oxigênio"], 1, "Neutralização: o H⁺ do ácido e o OH⁻ da base formam água, e os íons restantes formam sal. HCl + NaOH → NaCl + H₂O."),
-  q("Qual é uma base?", ["HCl", "NaOH", "NaCl", "CO₂"], 1, "NaOH (hidróxido de sódio, soda cáustica) libera OH⁻ em água: base. HCl é ácido, NaCl é sal e CO₂ é óxido."),
+  q("Qual destas substâncias é um sal?", ["HCl", "NaOH", "NaCl", "CO₂"], 1, "Sal vem da neutralização de ácido com base: NaCl (cloreto de sódio). HCl é ácido, NaOH é base e CO₂ é óxido."),
   q("Qual destes NÃO ajuda a diminuir a chuva ácida?", ["Filtros nas chaminés das fábricas", "Diesel com menos enxofre", "Mais carros a combustíveis fósseis", "Trocar carvão por fontes limpas"], 1, "Chuva ácida vem de SO₂ e NOₓ da queima de combustíveis fósseis. Mais carros a gasolina e diesel AUMENTAM essas emissões; as outras medidas as reduzem."),
   q("O leite de magnésia alivia a azia porque:", ["É ácido e reforça a digestão", "É uma base que neutraliza o ácido", "É um sal neutro que acalma o estômago", "Tem açúcar que absorve o ácido"], 1, "Mg(OH)₂ é uma base fraca que neutraliza o excesso de ácido clorídrico do estômago, formando sal e água."),
   q("A fenolftaleína fica rosa em meio:", ["Ácido", "Básico", "Neutro", "Qualquer um"], 1, "A fenolftaleína é um indicador: incolor em meio ácido ou neutro e rosa (carmim) em meio básico."),

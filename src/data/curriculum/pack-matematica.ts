@@ -28,7 +28,7 @@ pack(M, "financeira", 3, 3, "Juros, inflação e parcelas", [
 pack(M, "algebra", 1, 1, "Razão, proporção e regra de três", [
   q("Se 3 cadernos custam R$ 24, quanto custam 5?", ["R$ 30", "R$ 35", "R$ 40", "R$ 45"], 2, "Grandezas diretamente proporcionais: cada caderno custa 24/3 = R$ 8; 5 cadernos = 5 · 8 = R$ 40."),
   q("4 pedreiros fazem um muro em 6 dias. Quantos dias 8 pedreiros levam (mesmo ritmo)?", ["3", "4", "12", "2"], 0, "Inversamente proporcional: mais pedreiros, menos dias. Dobrou a equipe → metade do tempo: 3 dias. Regra de três direta daria 12, errado."),
-  q("Num mapa de escala 1:100.000, 3 cm representam:", ["300 m", "3 km", "30 km", "300 km"], 1, "1 cm = 100.000 cm = 1 km. Então 3 cm = 3 km. Conversão: 100.000 cm ÷ 100 = 1.000 m = 1 km."),
+  q("Num mapa, 5 cm representam 20 km reais. Qual é a escala?", ["1:4.000", "1:40.000", "1:400.000", "1:4.000.000"], 1, "20 km = 2.000.000 cm. Dividindo pelos 5 cm do mapa: 2.000.000/5 = 400.000 → escala 1:400.000."),
   q("A razão entre meninos e meninas é 2:3 numa turma de 30. Quantos meninos?", ["10", "12", "18", "20"], 1, "2 + 3 = 5 partes; 30/5 = 6 alunos por parte. Meninos = 2 · 6 = 12; meninas = 18."),
   q("Um carro faz 12 km por litro. Quantos litros para 300 km?", ["20", "24", "25", "36"], 2, "Litros = distância/consumo = 300/12 = 25 L. Multiplicar não faz sentido: quanto mais km por litro, MENOS litros."),
   q("Se x/4 = 15/20, então x vale:", ["3", "5", "12", "75"], 0, "Produto cruzado: 20x = 4 · 15 = 60 → x = 3. Ou simplifique: 15/20 = 3/4, logo x = 3."),

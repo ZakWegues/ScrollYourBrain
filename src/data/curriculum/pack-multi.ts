@@ -63,7 +63,7 @@ extend(FISICA, "Conservação da energia", [
   m("Num pêndulo sem atrito, marque as corretas:", ["A energia mecânica se conserva", "No ponto mais baixo a velocidade é máxima", "No ponto mais alto a energia cinética é zero", "A energia mecânica diminui sempre", "No ponto mais baixo a velocidade é zero"], [0, 1, 2], "Sem atrito, potencial vira cinética e vice-versa, sem perdas."),
 ], "m");
 extend(FISICA, "Potência e rendimento", [
-  m("Marque as afirmações corretas:", ["Potência é energia por tempo", "1 kWh é uma unidade de energia", "Nenhum motor real tem rendimento de 100%", "O watt é unidade de energia", "Rendimento pode passar de 100%"], [0, 1, 2], "Watt é potência (J/s); kWh é energia. Rendimento é sempre menor que 100%."),
+  m("Sobre potência e rendimento, marque as corretas:", ["Potência é energia por tempo", "1 kWh é uma unidade de energia", "Nenhum motor real tem rendimento de 100%", "O watt é unidade de energia", "Rendimento pode passar de 100%"], [0, 1, 2], "Watt é potência (J/s); kWh é energia. Rendimento é sempre menor que 100%."),
 ], "m");
 extend(FISICA, "Calorimetria", [
   m("Sobre calor, marque as corretas:", ["Calor flui do mais quente ao mais frio", "Q = m·c·ΔT vale sem mudança de estado", "Na fusão a temperatura fica constante", "Calor é o mesmo que temperatura", "Na fusão a temperatura sobe"], [0, 1, 2], "Temperatura mede agitação; calor é energia em trânsito."),
@@ -84,16 +84,16 @@ extend(FISICA, "Ondas eletromagnéticas", [
   m("Marque as que são ondas eletromagnéticas:", ["Luz visível", "Raios X", "Ultrassom", "Som de um violão", "Ondas do mar"], [0, 1], "Som e ondas do mar são ondas mecânicas. Ultrassom é som (onda mecânica)."),
 ], "m");
 extend(FISICA, "Eletrostática", [
-  m("Marque as corretas:", ["Cargas iguais se repelem", "Cargas opostas se atraem", "A carga do nêutron é negativa", "O próton não tem carga", "Atritar cria carga do nada"], [0, 1], "O nêutron é neutro e o próton é positivo; no atrito, elétrons passam de um corpo para o outro."),
+  m("Sobre cargas elétricas, marque as corretas:", ["Cargas iguais se repelem", "Cargas opostas se atraem", "A carga do nêutron é negativa", "O próton não tem carga", "Atritar cria carga do nada"], [0, 1], "O nêutron é neutro e o próton é positivo; no atrito, elétrons passam de um corpo para o outro."),
 ], "m");
 extend(FISICA, "Circuitos e consumo na conta de luz", [
   m("Sobre energia em casa, marque as corretas:", ["A conta é cobrada em kWh", "Chuveiro elétrico gasta muito", "Disjuntor protege contra sobrecarga", "A conta é cobrada em volts", "Lâmpada LED gasta mais que a comum"], [0, 1, 2], "Volt é tensão; LED gasta bem menos para a mesma luz."),
 ], "m");
 extend(FISICA, "Magnetismo e indução", [
-  m("Marque as afirmações corretas:", ["Corrente elétrica cria campo magnético", "Ímã em movimento numa bobina gera corrente", "Todo ímã tem polo norte e sul", "Cortar um ímã separa norte e sul", "Ímã parado gera corrente sozinho"], [0, 1, 2], "Indução exige variação do campo; cada pedaço de ímã tem os dois polos."),
+  m("Sobre magnetismo e indução, marque as corretas:", ["Corrente elétrica cria campo magnético", "Ímã em movimento numa bobina gera corrente", "Todo ímã tem polo norte e sul", "Cortar um ímã separa norte e sul", "Ímã parado gera corrente sozinho"], [0, 1, 2], "Indução exige variação do campo; cada pedaço de ímã tem os dois polos."),
 ], "m");
 extend(FISICA, "Relatividade, fótons e átomo", [
-  m("Marque as corretas:", ["A luz tem a mesma velocidade para todos", "A luz também se comporta como partícula", "E = m·c² liga massa e energia", "Nada pode ser mais lento que a luz", "O fóton tem carga negativa"], [0, 1, 2], "Nada com massa alcança a luz; o fóton não tem carga."),
+  m("Sobre a luz e a física moderna, marque as corretas:", ["A luz tem a mesma velocidade para todos", "A luz também se comporta como partícula", "E = m·c² liga massa e energia", "Nada pode ser mais lento que a luz", "O fóton tem carga negativa"], [0, 1, 2], "Nada com massa alcança a luz; o fóton não tem carga."),
 ], "m");
 
 // Química
@@ -215,7 +215,7 @@ extend(HISTORIA, "Mundo pós-1991", [
 
 // Geografia
 extend(GEOGRAFIA, "Escalas, coordenadas e fusos", [
-  m("Marque as corretas:", ["Latitude é medida a partir do Equador", "Longitude é medida a partir de Greenwich", "Cada fuso tem cerca de 15°", "Latitude vai até 180°", "O Brasil tem um só fuso horário"], [0, 1, 2], "Latitude vai até 90°; o Brasil tem quatro fusos."),
+  m("Sobre coordenadas e fusos, marque as corretas:", ["Latitude é medida a partir do Equador", "Longitude é medida a partir de Greenwich", "Cada fuso tem cerca de 15°", "Latitude vai até 180°", "O Brasil tem um só fuso horário"], [0, 1, 2], "Latitude vai até 90°; o Brasil tem quatro fusos."),
 ], "m");
 extend(GEOGRAFIA, "Biomas brasileiros", [
   m("Marque os pares bioma → característica corretos:", ["Caatinga: clima semiárido", "Pantanal: planície alagável", "Cerrado: berço das águas", "Pampa: floresta densa", "Amazônia: vegetação de seca"], [0, 1, 2], "O Pampa é de campos; a Amazônia é floresta úmida."),
