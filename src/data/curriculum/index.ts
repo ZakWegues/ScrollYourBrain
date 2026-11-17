@@ -25,6 +25,7 @@ import "./pack2-matematica";
 import "./pack2-fisica";
 import "./pack2-quimica";
 import "./pack2-biologia";
+import "./pack2-historia";
 
 export type { Bimestre, CurriculumTopic, Serie } from "./build";
 
