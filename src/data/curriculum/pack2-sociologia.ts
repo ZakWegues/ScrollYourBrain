@@ -271,3 +271,147 @@ extend(SOCIOLOGIA, "Indústria cultural e mídia", [
     ["Exemplo atual", "musica", "serie", "filme", "rede", "exemplo", "streaming"],
   ]),
 ], "n");
+
+// Complemento (mais prática por assunto).
+extend(SOCIOLOGIA, "Surgimento da sociologia", [
+  q("O termo 'sociologia' foi criado por:", ["Comte", "Marx", "Weber", "Platão"], 0, "Auguste Comte, no século XIX."),
+  q("A sociologia surgiu em meio às mudanças da:", ["Revolução Industrial", "Idade Média feudal", "Pré-história humana", "Reforma Agrária de 1960"], 0, "Cidades cheias, fábricas e novos conflitos sociais."),
+  q("O positivismo de Comte valorizava:", ["A ciência", "A magia", "A tradição oral", "O misticismo"], 0, "A sociedade deveria ser estudada como a natureza."),
+  q("A 'lei dos três estados' de Comte termina no estado:", ["Positivo", "Teológico", "Metafísico", "Mítico"], 0, "Teológico → metafísico → positivo (científico)."),
+  qe("O lema 'Ordem e Progresso', na bandeira brasileira, veio de ideias de Comte.", "Isso mostra a influência no Brasil do:", ["Positivismo", "Marxismo", "Anarquismo", "Feudalismo"], 0, "Os republicanos de 1889 admiravam Comte."),
+  qe("Um sociólogo estranha algo comum, como o hábito de usar celular à mesa, e pergunta por que isso virou normal.", "Esse exercício é chamado de:", ["Desnaturalização", "Etnocentrismo cultural", "Alienação do trabalho", "Anomia das normas"], 0, "Ver o familiar como algo construído socialmente."),
+  q("A 'imaginação sociológica', de Wright Mills, liga:", ["O pessoal ao social", "Sonhos e mitos antigos", "Clima e humor das pessoas", "Arte e religião popular"], 0, "Ex.: o desemprego de uma pessoa ligado à crise econômica."),
+  q("A sociologia estuda principalmente:", ["As relações sociais", "Os astros e planetas", "As rochas e o relevo", "As células e os tecidos"], 0, "Grupos, instituições, interações e mudanças sociais."),
+], "n");
+
+extend(SOCIOLOGIA, "Durkheim", [
+  q("Para Durkheim, a sociologia deve tratar os fatos sociais como:", ["Coisas", "Sentimentos", "Sonhos", "Mitos"], 0, "Com objetividade, como o cientista observa a natureza."),
+  q("A solidariedade mecânica aparece em sociedades:", ["Simples", "Industriais e urbanas", "Grandes e muito diversas", "Globalizadas e conectadas"], 0, "Laços pela semelhança entre os membros."),
+  q("A solidariedade orgânica se baseia:", ["Na interdependência", "Na semelhança entre todos", "No acaso dos encontros", "Na força física do grupo"], 0, "Cada um faz uma função, como órgãos de um corpo."),
+  q("Para Durkheim, a educação serve para:", ["Integrar à sociedade", "Criar jovens rebeldes", "Separar as classes sociais", "Acabar com todas as regras"], 0, "Transmite normas e valores às novas gerações."),
+  qe("Durkheim mostrou que a taxa de suicídio varia conforme religião, estado civil e momento econômico.", "Isso indica que o suicídio também é:", ["Um fato social", "Só um fato biológico", "Só um ato individual", "Um mito"], 0, "Há causas sociais por trás de decisões aparentemente pessoais."),
+  qe("Uma pessoa que usa roupa de praia num velório recebe olhares de reprovação.", "Esses olhares mostram a característica do fato social chamada:", ["Coercitividade", "Generalidade", "Exterioridade", "Liberdade"], 0, "A sociedade pressiona quem foge das normas."),
+  q("Para Durkheim, a anomia surge quando:", ["As normas perdem força", "As leis aumentam", "A religião cresce", "A economia é estável"], 0, "Falta de regras claras gera desorientação."),
+  q("A divisão do trabalho, para Durkheim, gera:", ["Solidariedade orgânica", "Anomia em todos os casos", "Luta de classes inevitável", "Volta ao feudalismo"], 0, "Bem regulada, aumenta a interdependência."),
+], "n");
+
+extend(SOCIOLOGIA, "Weber", [
+  q("Para Weber, a sociologia deve compreender:", ["O sentido da ação", "Apenas números e dados", "Só a economia do país", "A vontade divina na história"], 0, "Sociologia compreensiva."),
+  q("A dominação carismática se baseia:", ["No líder", "Na tradição dos antigos", "Nas leis escritas e impessoais", "Na herança de sangue real"], 0, "Ex.: profetas, heróis e líderes populistas."),
+  q("A dominação racional-legal se baseia:", ["Em regras impessoais", "No carisma de um líder", "Na tradição dos avós", "Na força bruta do exército"], 0, "Típica dos Estados modernos e das burocracias."),
+  q("Weber estudou a relação entre a ética protestante e o:", ["Capitalismo", "Feudalismo", "Socialismo", "Escravismo"], 0, "O trabalho e a poupança como sinais de eleição divina."),
+  qe("Weber disse que o mundo moderno vive um 'desencantamento': explicações mágicas dão lugar ao cálculo e à ciência.", "Esse processo está ligado à:", ["Racionalização", "Anomia", "Mais-valia", "Solidariedade mecânica"], 0, "A razão técnica organiza cada vez mais a vida."),
+  qe("Um funcionário público decide pela regra, não por amizade com quem pede o serviço.", "Isso é típico da:", ["Burocracia", "Dominação carismática", "Dominação tradicional", "Anarquia"], 0, "Impessoalidade e hierarquia."),
+  q("Para Weber, o Estado tem o monopólio:", ["Da violência legítima", "Da economia nacional", "Da religião oficial", "Da cultura popular"], 0, "Só ele pode usar a força de forma legal."),
+  q("A ação social tradicional é guiada por:", ["Costumes", "Cálculo de meios e fins", "Emoções do momento", "Leis escritas do Estado"], 0, "'Sempre foi assim'."),
+], "n");
+
+extend(SOCIOLOGIA, "Marx", [
+  q("Para Marx, a burguesia é a classe que:", ["Possui os meios de produção", "Vende sua força de trabalho", "Vive no campo", "Governa por herança divina"], 0, "Proletariado = quem vende a força de trabalho."),
+  q("O 'exército industrial de reserva' são:", ["Os desempregados", "Os soldados do exército", "Os patrões das fábricas", "Os fiscais do governo"], 0, "Pressionam os salários para baixo."),
+  q("A ideologia, para Marx, serve para:", ["Ocultar a dominação", "Revelar a verdade social", "Acabar com as classes", "Unir todos os povos"], 0, "Faz a desigualdade parecer natural."),
+  q("O fetichismo da mercadoria faz as pessoas:", ["Esquecerem o trabalho", "Valorizarem mais o trabalhador", "Produzirem menos mercadorias", "Comprarem menos produtos"], 0, "Objetos parecem ter valor 'mágico'."),
+  qe("Marx: 'Os filósofos apenas interpretaram o mundo; a questão é transformá-lo.'", "Para Marx, o pensamento deve levar à:", ["Ação", "Contemplação", "Fuga da política", "Obediência"], 0, "Práxis: pensar para mudar a realidade."),
+  qe("Um entregador de aplicativo trabalha 12 horas por dia sem direitos trabalhistas.", "Um marxista diria que isso aumenta a:", ["Exploração", "Solidariedade", "Igualdade", "Liberdade"], 0, "Mais trabalho não pago e menos proteção."),
+  q("Para Marx, a superação do capitalismo levaria ao:", ["Socialismo", "Feudalismo", "Absolutismo", "Mercantilismo"], 0, "E depois a uma sociedade sem classes (comunismo)."),
+  q("O 'Manifesto Comunista' foi escrito por Marx e:", ["Engels", "Weber", "Comte", "Durkheim"], 0, "Publicado em 1848."),
+], "n");
+
+extend(SOCIOLOGIA, "Cultura e identidade", [
+  q("Relativismo cultural é:", ["Respeitar cada cultura", "Julgar outras culturas pela nossa", "Negar a existência das culturas", "Copiar a cultura dominante"], 0, "Oposto do etnocentrismo."),
+  q("Aculturação é:", ["Mudança pelo contato", "Falta total de cultura", "Cultura da elite letrada", "Cultura de massa da TV"], 0, "Duas culturas em contato se transformam."),
+  q("Patrimônio imaterial inclui:", ["Festas e saberes", "Prédios históricos", "Esculturas de bronze", "Estradas coloniais"], 0, "Ex.: frevo, samba de roda, capoeira."),
+  q("Contracultura é:", ["Oposição aos valores dominantes", "Cultura oficial do governo", "Folclore das regiões", "Cultura de massa da TV"], 0, "Ex.: movimento hippie nos anos 1960."),
+  qe("Em uma escola, alunos riem de um colega que fala com sotaque nordestino.", "Esse comportamento é um exemplo de:", ["Preconceito linguístico", "Relativismo cultural", "Hibridismo de culturas", "Tolerância à diferença"], 0, "Variação linguística não é erro."),
+  qe("O funk carioca, antes perseguido, hoje é tocado em festas de todas as classes e no exterior.", "Isso mostra que a cultura:", ["É dinâmica", "É imutável", "Pertence a uma classe", "Não circula"], 0, "Culturas se transformam e circulam."),
+  q("Identidade cultural é:", ["Sentir-se parte de um grupo", "Um documento oficial", "Uma lei do país", "Uma etnia biológica"], 0, "Construída por língua, costumes, história."),
+  q("Apropriação cultural é discutida quando:", ["Há uso desrespeitoso de símbolos", "Há troca igual entre culturas", "Não existe contato entre povos", "Leis protegem todas as culturas"], 0, "Debate sobre poder e reconhecimento."),
+], "n");
+
+extend(SOCIOLOGIA, "Desigualdade e estratificação", [
+  q("Num índice de Gini próximo de 1, a renda está:", ["Concentrada", "Bem distribuída", "Totalmente igual", "Sem dados medidos"], 0, "0 = igualdade total; 1 = desigualdade máxima."),
+  q("Quando regras e práticas das instituições reproduzem desvantagens raciais, fala-se em racismo:", ["Estrutural", "Reverso", "Individual apenas", "Ambiental"], 0, "Não depende só de atitudes individuais."),
+  q("Meritocracia pura é criticada porque:", ["Ignora pontos de partida", "Valoriza o esforço pessoal", "É justa em todos os casos", "Não existe em nenhum país"], 0, "Nem todos têm as mesmas oportunidades."),
+  q("Pobreza multidimensional considera:", ["Várias carências", "Só a renda mensal", "Só a altura das pessoas", "Só o clima da região"], 0, "A pobreza vai além do dinheiro."),
+  qe("No Brasil, os 10% mais ricos ficam com cerca de metade da renda nacional.", "O dado revela:", ["Concentração de renda", "Igualdade social plena", "O fim da pobreza no país", "Mobilidade social total"], 0, "O Brasil está entre os países mais desiguais do mundo."),
+  qe("Mulheres negras recebem, em média, menos que homens brancos na mesma função.", "Esse dado ilustra a:", ["Interseccionalidade", "Mobilidade ascendente", "Solidariedade mecânica", "Igualdade de gênero"], 0, "Gênero e raça somam desvantagens."),
+  q("Bourdieu chama de 'capital cultural':", ["Saberes valorizados", "Dinheiro guardado no banco", "Terras herdadas da família", "Fábricas e máquinas próprias"], 0, "Ajuda a explicar desempenho escolar desigual."),
+  q("Ações afirmativas buscam:", ["Reduzir desigualdades", "Aumentar privilégios antigos", "Acabar com as escolas", "Proibir o voto popular"], 0, "Ex.: cotas raciais e sociais."),
+], "n");
+
+extend(SOCIOLOGIA, "Trabalho e sociedade", [
+  q("A 'uberização' do trabalho se refere a:", ["Trabalho por app sem vínculo", "Carteira assinada e direitos", "Trabalho no serviço público", "Sindicatos fortes e ativos"], 0, "Autonomia aparente e pouca proteção."),
+  q("A terceirização é:", ["Contratar outra empresa", "Ter três empregos ao mesmo tempo", "Trabalho infantil nas fábricas", "Aposentadoria antes da hora"], 0, "Pode reduzir custos e direitos."),
+  q("O desemprego estrutural é causado por:", ["Novas tecnologias", "Férias coletivas no fim do ano", "Feriados prolongados no país", "Clima ruim no inverno"], 0, "Postos substituídos por máquinas e softwares."),
+  q("A CLT garante, entre outros direitos:", ["Férias e 13º salário", "Fim dos impostos", "Lucro garantido", "Emprego vitalício"], 0, "Consolidação das Leis do Trabalho, de 1943."),
+  qe("Em 2023, centenas de trabalhadores foram resgatados de vinícolas no Rio Grande do Sul em condições degradantes.", "Essa situação é chamada de:", ["Trabalho escravo", "Trabalho voluntário", "Estágio remunerado", "Home office flexível"], 0, "Jornadas exaustivas, dívidas e violência."),
+  qe("Um jovem trabalha como entregador de dia e faz faculdade à noite, sem tempo para descansar.", "Essa rotina ilustra a:", ["Precarização", "Ociosidade dos jovens", "Riqueza herdada da família", "Estabilidade no emprego público"], 0, "Muitos estudantes trabalham para se sustentar."),
+  q("O trabalho doméstico não pago é feito principalmente por:", ["Mulheres", "Robôs", "Empresas", "Governos"], 0, "Parte da dupla jornada feminina."),
+  q("O toyotismo exige trabalhadores:", ["Polivalentes", "Que façam só uma tarefa", "Sem formação", "Sem metas"], 0, "Flexibilidade e trabalho em equipe."),
+], "n");
+
+extend(SOCIOLOGIA, "Movimentos sociais", [
+  q("O movimento sufragista lutava pelo:", ["Voto feminino", "Fim do voto", "Voto censitário", "Voto dos reis"], 0, "No Brasil, conquistado em 1932."),
+  q("O movimento negro conquistou no Brasil:", ["Cotas e lei antirracismo", "O fim da República", "O voto censitário", "A volta da monarquia"], 0, "Também o ensino de história afro-brasileira (Lei 10.639)."),
+  q("Movimentos ambientalistas lutam por:", ["Preservação", "Mais desmatamento legal", "Fim dos parques nacionais", "Liberação da poluição"], 0, "Ex.: Chico Mendes e os seringueiros."),
+  q("O movimento LGBTQIA+ conquistou no Brasil:", ["O casamento civil", "A proibição de direitos", "O fim do voto direto", "A censura de filmes"], 0, "Por decisão do STF (2011) e do CNJ (2013)."),
+  qe("Em 1978, metalúrgicos do ABC fizeram greves que desafiaram a ditadura.", "Esse movimento ficou conhecido como:", ["Novo sindicalismo", "Tenentismo militar", "Coronelismo rural", "Integralismo fascista"], 0, "Daí surgiu a CUT e o PT."),
+  qe("Estudantes ocuparam escolas em São Paulo em 2015 contra o fechamento de unidades.", "Esse movimento mostra:", ["Participação juvenil", "Desinteresse total por política", "Apoio ao fechamento das escolas", "O fim da escola pública"], 0, "O governo recuou da reorganização escolar."),
+  q("Movimentos indígenas lutam principalmente por:", ["Demarcação de terras", "Fim das florestas", "Mineração livre", "Fim da cultura"], 0, "A terra é base da vida e da cultura."),
+  q("Hashtags e petições online são formas de:", ["Ativismo digital", "Censura prévia", "Voto eletrônico", "Comércio digital"], 0, "Mobilizam pessoas, mas críticos falam em 'ativismo de sofá'."),
+], "n");
+
+extend(SOCIOLOGIA, "Estado e democracia", [
+  q("O Estado moderno tem como elementos:", ["Povo, território e soberania", "Rei, igreja e exército feudal", "Moeda, banco e bolsa de valores", "Clima, solo e rios do país"], 0, "Também um governo que exerce o poder."),
+  q("A separação de poderes busca:", ["Evitar abusos", "Concentrar poder", "Acabar com eleições", "Fortalecer o rei"], 0, "Legislativo, Executivo e Judiciário se controlam."),
+  q("Plebiscito e referendo são formas de:", ["Democracia direta", "Ditadura militar", "Monarquia absoluta", "Censura prévia"], 0, "O povo decide diretamente."),
+  q("O Estado de bem-estar social garante:", ["Direitos sociais", "Só a segurança pública", "Nenhum serviço público", "Só a cobrança de impostos"], 0, "Welfare State, forte na Europa após 1945."),
+  qe("O neoliberalismo defende privatizações, corte de gastos e menos regulação.", "Ele se opõe ao:", ["Estado de bem-estar", "Mercado livre global", "Capitalismo financeiro", "Comércio internacional"], 0, "Críticos dizem que aumenta desigualdades."),
+  qe("Em 1993, um plebiscito no Brasil decidiu entre república e monarquia, presidencialismo e parlamentarismo.", "Venceram:", ["República e presidencialismo", "Monarquia e parlamentarismo", "República e parlamentarismo", "Monarquia e presidencialismo"], 0, "O sistema atual foi mantido."),
+  q("Totalitarismo é:", ["Controle total do Estado", "Democracia plena e livre", "Federalismo entre estados", "Anarquia sem governo"], 0, "Ex.: nazismo e stalinismo."),
+  q("O habeas corpus protege o direito:", ["De ir e vir", "De votar em branco", "De receber herança", "De abrir empresa"], 0, "Garante que ninguém seja preso ilegalmente."),
+], "n");
+
+extend(SOCIOLOGIA, "Cidadania e direitos humanos", [
+  q("A Declaração Universal dos Direitos Humanos é de:", ["1948", "1789", "1988", "1945"], 0, "Aprovada pela ONU após a Segunda Guerra."),
+  q("Para Marshall, a cidadania inclui direitos:", ["Civis, políticos e sociais", "Só econômicos e de mercado", "Só religiosos e de culto", "Só militares e de defesa"], 0, "Conquistados em etapas na Inglaterra."),
+  q("Direitos sociais incluem:", ["Saúde e educação", "Voto e candidatura", "Liberdade de ir e vir", "Propriedade"], 0, "Garantidos pelo artigo 6º da Constituição."),
+  q("Ser candidato a vereador é um direito:", ["Político", "Social", "Ambiental", "Trabalhista"], 0, "Direitos políticos: votar e ser votado."),
+  qe("José Murilo de Carvalho diz que no Brasil os direitos sociais vieram antes dos políticos, com Vargas.", "Isso é diferente do modelo inglês, em que vieram primeiro os direitos:", ["Civis", "Sociais", "Ambientais", "Digitais"], 0, "Na Inglaterra: civis → políticos → sociais."),
+  qe("Uma escola pública sem rampas impede um aluno cadeirante de frequentar as aulas.", "Esse caso viola o direito à:", ["Acessibilidade", "Propriedade privada", "Liberdade religiosa", "Herança familiar"], 0, "Garantido pela Lei Brasileira de Inclusão (2015)."),
+  q("O ECA protege:", ["Crianças", "Idosos aposentados", "Empresas privadas", "Partidos políticos"], 0, "Estatuto da Criança e do Adolescente, de 1990."),
+  q("Direitos humanos são:", ["Universais", "Só para cidadãos", "Só para ricos", "Opcionais"], 0, "Valem para todos, sem distinção."),
+], "n");
+
+extend(SOCIOLOGIA, "Globalização e mídia", [
+  q("A 'aldeia global' é um conceito de:", ["McLuhan", "Marx", "Comte", "Durkheim"], 0, "A mídia conecta o mundo como uma aldeia."),
+  q("Fake news são:", ["Notícias falsas", "Notícias novas", "Notícias pagas", "Notícias antigas"], 0, "Espalham desinformação, muitas vezes de propósito."),
+  q("A 'bolha' das redes sociais ocorre porque os algoritmos:", ["Repetem o que você curte", "Mostram tudo igual a todos", "Desligam a internet à noite", "Bloqueiam os amigos antigos"], 0, "Reduz o contato com opiniões diferentes."),
+  q("Concentração da mídia é:", ["Poucos donos de meios", "Muitos jornais diferentes", "O fim da televisão aberta", "Internet livre para todos"], 0, "Pode limitar a pluralidade de vozes."),
+  qe("Um vídeo falso de um político viraliza antes da eleição e é visto por milhões.", "Um risco disso para a democracia é:", ["Manipular o voto", "Aumentar a informação", "Acabar com a internet", "Fortalecer o debate"], 0, "Desinformação afeta escolhas."),
+  qe("Ao ver uma notícia chocante, a pessoa verifica a fonte, a data e procura em outros sites antes de compartilhar.", "Essa atitude é chamada de:", ["Checagem", "Censura prévia", "Alienação política", "Viralização de posts"], 0, "Educação midiática combate fake news."),
+  q("Influenciadores digitais exercem:", ["Influência", "Poder judiciário", "Poder militar", "Nenhum tipo de poder"], 0, "Afetam hábitos, compras e opiniões."),
+  q("A hibridização cultural é:", ["Mistura de culturas", "Fim de todas as culturas", "Cultura pura e isolada", "Cultura proibida pelo Estado"], 0, "Ex.: K-pop cantado em português."),
+], "n");
+
+extend(SOCIOLOGIA, "Questões contemporâneas", [
+  q("O racismo ambiental ocorre quando:", ["Os vulneráveis sofrem mais", "Todos sofrem igualmente", "Não existe poluição alguma", "Os ricos sofrem mais que todos"], 0, "Ex.: lixões perto de bairros pobres."),
+  q("Quando migrantes são hostilizados por serem estrangeiros, ocorre:", ["Xenofobia", "Relativismo", "Aculturação", "Meritocracia"], 0, "Aversão a estrangeiros; atinge migrantes e refugiados."),
+  q("Gordofobia é:", ["Preconceito", "Dieta saudável e equilibrada", "Esporte de academia", "Tipo de comida rápida"], 0, "Discriminação no trabalho, na saúde e nas redes."),
+  q("O envelhecimento da população exige:", ["Políticas para idosos", "Menos hospitais", "Fim da previdência", "Menos escolas técnicas"], 0, "Saúde, cuidado e acessibilidade."),
+  qe("Muitos jovens relatam ansiedade ligada a comparações nas redes sociais.", "Uma leitura sociológica diz que esse problema:", ["Tem causas sociais", "É só individual e íntimo", "Não existe de verdade", "É apenas genético"], 0, "Padrões de beleza e sucesso são construídos socialmente."),
+  qe("Em grandes cidades, motoristas de aplicativo trabalham longas horas para pagar o aluguel do carro.", "Esse cenário levanta debates sobre:", ["Direitos trabalhistas", "Fim dos carros", "Turismo urbano", "Moda e estilo"], 0, "Discussão sobre vínculos e proteção social."),
+  q("A Lei do Feminicídio (2015) trata do assassinato de mulheres:", ["Por razões de gênero", "Em acidentes de trânsito", "Por doenças contagiosas", "Em assaltos comuns na rua"], 0, "Qualificadora do homicídio, com pena maior."),
+  q("Inclusão digital busca:", ["Acesso à tecnologia", "Proibir celulares nas ruas", "Fechar escolas técnicas", "Aumentar o preço da internet"], 0, "A exclusão digital amplia desigualdades."),
+], "n");
+
+extend(SOCIOLOGIA, "Indústria cultural e mídia", [
+  q("Adorno e Horkheimer pertenciam à:", ["Escola de Frankfurt", "Escola de Chicago", "Escola de Sagres", "Academia de Platão"], 0, "Criaram o conceito de indústria cultural nos anos 1940."),
+  q("Para Adorno, a indústria cultural:", ["Padroniza a arte", "Liberta o público da alienação", "Acaba com o lucro das empresas", "Cria obras únicas e raras"], 0, "Produtos culturais em série para o consumo."),
+  q("Cultura de massa é:", ["Feita para grandes públicos", "Feita por uma só pessoa", "Só a cultura erudita", "Proibida pelo governo"], 0, "Ex.: novelas, hits, blockbusters."),
+  q("Walter Benjamin discutiu a perda da 'aura' da obra de arte pela:", ["Reprodução técnica", "Pintura a óleo em tela", "Escultura em mármore", "Censura do Estado"], 0, "Fotografia e cinema multiplicam as obras."),
+  qe("Plataformas de música recomendam sempre artistas parecidos com os que você já ouve.", "Para a teoria crítica, isso reforça a:", ["Padronização do gosto", "Diversidade cultural", "Arte de vanguarda", "Autonomia total"], 0, "Algoritmos favorecem o que já é popular."),
+  qe("Uma novela lança um figurino que vira moda e é vendido em lojas do país todo.", "Isso mostra a relação entre mídia e:", ["Consumo", "Religião", "Clima", "Esporte"], 0, "A indústria cultural estimula o consumo."),
+  q("Para Adorno, o público da indústria cultural tende a ser:", ["Passivo", "Crítico sempre", "Produtor", "Rebelde"], 0, "Recebe produtos prontos que pedem pouca reflexão."),
+  q("Uma crítica à visão de Adorno é que ela:", ["Ignora o público ativo", "Valoriza demais o público", "Defende o lucro das empresas", "Nega a existência da arte"], 0, "Estudos culturais mostram que o público reinterpreta o que consome."),
+], "n");
