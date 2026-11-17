@@ -2,6 +2,46 @@
 
 Todas as mudanças relevantes do ScrollYourBrain. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [0.9.0] — 2026-11-17
+### Adicionado
+- **Seu dia:** três missões por dia, com "Começar" em 1 toque, para nunca ficar sem saber o que estudar.
+  - **Memória:** revisões vencidas, ou erros para refazer, ou a pergunta do dia.
+  - **Foco:** a próxima prova, ou o seu ponto mais fraco, ou um assunto novo.
+  - **Meta do dia.**
+  - Aparece no topo da Biblioteca e ao tocar no anel da meta no feed.
+- **Minha jornada:** domínio de cada assunto em 5 níveis (Iniciante → Craque), com estrelas, barra e o próximo passo recomendado.
+- **Progresso visível:**
+  - depois de cada resposta, um aviso rápido como "+10 XP · Genética 62% ↑";
+  - um aviso quando um assunto sobe de nível;
+  - a cada 15 cards, um resumo do que você fez;
+  - o fim da aula mostra o domínio ganho e a próxima missão;
+  - o resumo da semana compara os acertos com a semana anterior.
+- **Modo Sobrevivência:** 3 vidas, e o relógio encurta a cada 3 acertos. Tem recorde.
+- **Cards novos primeiro:** o feed prefere o que você nunca viu, e as questões que você já acertou aparecem bem menos. A lista entra no backup.
+- **Lembretes inteligentes:** o texto usa o plano do dia ("3 revisões e 1 missão te esperam"), e à noite vem um aviso se a sequência estiver em risco.
+- **Onboarding** pergunta quando é a sua próxima prova e cria o evento no calendário.
+- **12 conquistas novas:** domínio, matérias, modos de jogo e constância.
+- **4× questões:** de 1.017 para **4.087** questões escritas à mão, sendo 978 no **estilo ENEM**, com texto-base (trecho, notícia, gráfico descrito ou situação).
+  - No feed, o texto-base longo aparece resumido, com "Ler texto completo". No simulado, na aula e na revisão, aparece inteiro.
+  - As novas têm alternativas do mesmo tamanho; a certa é a mais longa em só 12% delas.
+### Melhorado
+- **Todas as 1.017 questões antigas revisadas:** enunciados mais claros, explicações que ensinam por que a certa está certa, e cerca de 80 questões repetidas ou quase repetidas trocadas.
+- Alvos de toque maiores: abas segmentadas com 40 px, e a linha inteira liga e desliga nos Ajustes.
+### Corrigido
+- A comemoração "Meta do dia batida!" engolia os toques por 4,5 s, até no meio de uma aula. Agora um toque em qualquer lugar a fecha.
+- A pergunta do dia vira à meia-noite, mesmo com a tela aberta.
+- Compartilhar uma questão não mostra mais letras (a ordem na tela é aleatória) e não perde a 5ª alternativa.
+- O feed às vezes mostrava 3 cards do mesmo tipo seguidos.
+- Tema Claro: o texto apagado agora passa no contraste mínimo (de 2,98 para 3,9:1).
+- A folha da dissertativa não fecha mais depois que o card saiu da tela.
+- Voltar de uma página aberta por link funciona.
+- As anotações ignoram registros sem card.
+### Testes
+- 198 testes Jest (eram 134), entre eles:
+  - stores, componentes e contraste WCAG de todos os temas;
+  - um teste de conteúdo que confere ids, formato, repetidas e cobertura de todos os assuntos.
+- 52 jornadas de uso real no navegador, verdes em várias rodadas seguidas.
+
 ## [0.8.0] — 2026-11-13
 ### Corrigido
 - **A resposta certa não é mais a alternativa mais longa.** Nas questões escritas à mão, a certa era sozinha a mais longa em 49% dos casos e tinha 1,7× o tamanho das erradas.

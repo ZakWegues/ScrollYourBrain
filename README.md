@@ -51,8 +51,14 @@
   - **continua de onde você parou**.
 - **Funciona offline** com o conteúdo embutido; vídeos e Wikipédia voltam quando a internet volta.
 
+### Saber o que estudar e ver que avança
+- **Seu dia:** três missões por dia (revisar, focar na prova ou no ponto fraco, e a meta), cada uma com 1 toque.
+- **Minha jornada:** domínio de cada assunto em 5 níveis, com o próximo passo recomendado.
+- **Ganho na hora:** "+10 XP · Genética 62% ↑" depois de cada resposta, e um aviso quando um assunto sobe de nível.
+- **Cards novos primeiro** e o **modo Sobrevivência** (3 vidas) para não ficar repetitivo.
+
 ### Ensino médio e provas
-- **Currículo** de 10 matérias × 3 séries × 4 bimestres, com **mais de 1.300 cards**. Há geradores de questões em 19 contas para o conteúdo nunca acabar.
+- **Currículo** de 10 matérias × 3 séries × 4 bimestres, com **mais de 4.400 cards**, entre eles **4.087 questões escritas à mão** (978 no estilo ENEM, com texto-base). Há geradores de questões em 19 contas para o conteúdo nunca acabar.
 - **Assuntos da minha escola:** você marca o que sua escola dá e o feed segue as marcas.
 - **Modos de prova:** ENEM (por área), vestibular, prova anual, bimestral e mensal, e atividade.
   - Cada modo pode ser **personalizado** com várias matérias e os assuntos exatos.

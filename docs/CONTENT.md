@@ -35,6 +35,31 @@ extend(BIOLOGIA, "Mitose e meiose", [
   - Evite termos curtos e genéricos, como "ar" ou "para".
   - O teste exige que a resposta-modelo marque todos os próprios pontos.
 
+## Questões estilo ENEM (`qe`) e pacotes de questões novas
+Em `src/data/curriculum/pack2-<matéria>.ts`, anexadas aos assuntos que já existem com `extend(..., "n")`:
+
+```ts
+extend(BIOLOGIA, "Ecologia", [
+  q("Nicho ecológico é:", ["O papel da espécie no ambiente", "O endereço onde ela vive", "…", "…"], 0, "Explicação."),
+  qe("Texto-base: um trecho, uma notícia, um gráfico descrito ou uma situação (1 a 3 frases).",
+     "Pergunta sobre o texto:", ["Certa curta", "Errada do mesmo tamanho", "…", "…"], 0, "Explicação."),
+]);
+```
+- **`qe(contexto, pergunta, opções, certa, explicação)`:** o contexto aparece acima da pergunta.
+  - No feed, um texto longo (mais de 230 caracteres) mostra 4 linhas e o botão "Ler texto completo".
+  - No simulado, na aula e na revisão, o texto aparece inteiro.
+  - Questões com contexto ficam fora do Quiz relâmpago e da pergunta do dia, que precisam ser rápidas.
+- **Escreva a certa curta** e as erradas do mesmo tamanho ou maiores. O impulso natural é detalhar a certa, e isso vira pista.
+- **Enunciados específicos:** evite "Qual frase está correta?", "Isso ocorre porque:" ou "Marque as corretas:". Enunciados genéricos se repetem entre assuntos e o teste de conteúdo falha.
+- A chave `"n"` pode ser usada em vários `extend` do mesmo assunto: a numeração continua de onde parou, e os ids antigos não mudam.
+- **Antes do commit**, rode `npx jest __tests__/content.test.ts __tests__/quizBias.test.ts __tests__/grading.test.ts`. Esses testes conferem:
+  - ids únicos;
+  - formato (pergunta termina em pontuação, opções distintas);
+  - perguntas repetidas entre arquivos;
+  - todo assunto com pelo menos 3 cards;
+  - viés de tamanho por matéria;
+  - dissertativas coerentes.
+
 ## Uma conta nova
 Adicione em `SUBS` de `src/data/pages.ts`, com nome, @, descrição, ícone (Material Design Icons) e duas cores. Depois, rode `npm test`: o teste de contas exige pelo menos um card e 5 vídeos por conta.
 
