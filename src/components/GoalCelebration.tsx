@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 import Animated, { Easing, FadeIn, FadeOut, ZoomIn, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { haptic } from "@/lib/haptics";
 import { useCelebration, useToday } from "@/store/progress";
@@ -53,10 +53,12 @@ export function GoalCelebration() {
   if (!visible) return null;
   return (
     <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(250)} style={[StyleSheet.absoluteFill, styles.root]} testID="goal-celebration">
+      {/* A tap anywhere closes it: in the middle of a lesson, taps must never seem to do nothing. */}
+      <Pressable onPress={hide} style={StyleSheet.absoluteFill} accessibilityLabel="Fechar comemoração" testID="goal-celebration-backdrop" />
       <View style={styles.center} pointerEvents="none">
         {!reduceMotion && particles.map((p, i) => <Particle key={i} {...p} />)}
       </View>
-      <Animated.View entering={ZoomIn.springify().damping(18).stiffness(260).mass(1)} style={styles.card}>
+      <Animated.View entering={ZoomIn.springify().damping(18).stiffness(260).mass(1)} style={styles.card} pointerEvents="box-none">
         <Icon name="fire" size={64} color="#FB923C" />
         <AppText variant="title" style={{ textAlign: "center", marginTop: 6 }}>Meta do dia batida!</AppText>
         <AppText dim style={{ textAlign: "center", marginTop: 6 }}>
