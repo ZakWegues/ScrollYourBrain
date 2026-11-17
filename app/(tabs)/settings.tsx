@@ -2,7 +2,7 @@ import Constants from "expo-constants";
 import { LinearGradient } from "@/components/LinearGradient";
 import { router } from "expo-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Alert, Linking, Platform, ScrollView, StyleSheet, Switch, View } from "react-native";
+import { Alert, Linking, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from "react-native";
 import { Collapsible } from "@/components/Collapsible";
 import { Screen, SectionTitle } from "@/components/Screen";
 import { toast } from "@/components/Toast";
@@ -46,23 +46,31 @@ function Card({ children }: { children: ReactNode }) {
 
 function Row({ icon, title, subtitle, value, onChange, last, testID }: { icon: IconName; title: string; subtitle?: string; value: boolean; onChange: (v: boolean) => void; last?: boolean; testID?: string }) {
   const c = useColors();
+  const flip = () => { onChange(!value); haptic.select(); };
+  // The whole row is the switch: a big target instead of the small thumb alone.
   return (
-    <View style={[styles.row, !last && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: c.border }]}>
+    <Pressable
+      onPress={flip}
+      style={({ pressed }) => [styles.row, !last && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: c.border }, pressed && { opacity: 0.7 }]}
+      accessibilityRole="switch"
+      accessibilityState={{ checked: value }}
+      accessibilityLabel={subtitle ? `${title}. ${subtitle}` : title}
+      testID={testID}
+    >
       <View style={[styles.rowIcon, { backgroundColor: c.surface2 }]}><Icon name={icon} size={18} color={c.text} /></View>
       <View style={{ flex: 1 }}>
         <AppText variant="label">{title}</AppText>
         {subtitle && <AppText variant="caption" dim style={{ marginTop: 2 }}>{subtitle}</AppText>}
       </View>
-      <Switch
-        value={value}
-        onValueChange={(v) => { onChange(v); haptic.select(); }}
-        trackColor={{ false: c.surface2, true: c.accent }}
-        thumbColor="#fff"
-        {...({ activeThumbColor: "#fff" } as object)}
-        accessibilityLabel={title}
-        testID={testID}
-      />
-    </View>
+      <View pointerEvents="none" importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+        <Switch
+          value={value}
+          trackColor={{ false: c.surface2, true: c.accent }}
+          thumbColor="#fff"
+          {...({ activeThumbColor: "#fff" } as object)}
+        />
+      </View>
+    </Pressable>
   );
 }
 

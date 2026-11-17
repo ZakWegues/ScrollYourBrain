@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   glass: { overflow: "hidden", borderRadius: radius.lg, borderWidth: StyleSheet.hairlineWidth, zIndex: 0 },
   under: { zIndex: -1 },
   segment: { flexDirection: "row", borderRadius: radius.pill, padding: 4, borderWidth: StyleSheet.hairlineWidth, alignSelf: "flex-start" },
-  segmentItem: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: radius.pill },
+  segmentItem: { paddingHorizontal: 16, paddingVertical: 8, minHeight: 40, justifyContent: "center", borderRadius: radius.pill },
   segmentFill: { alignSelf: "stretch" },
   segmentItemFill: { flex: 1, alignItems: "center", paddingHorizontal: 4 },
   chip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 14, paddingVertical: 9, borderRadius: radius.pill, borderWidth: 1 },
