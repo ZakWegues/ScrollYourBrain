@@ -21,6 +21,7 @@ import "./pack-open";
 import "./pack2-ingles";
 import "./pack2-filosofia";
 import "./pack2-sociologia";
+import "./pack2-matematica";
 
 export type { Bimestre, CurriculumTopic, Serie } from "./build";
 
