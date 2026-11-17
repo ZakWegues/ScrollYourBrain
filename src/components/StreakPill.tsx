@@ -1,10 +1,10 @@
-import { router } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, { useAnimatedProps, useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 import { useToday } from "@/store/progress";
 import { useColors } from "@/theme";
+import { openToday } from "./Today";
 import { Bouncy, Icon } from "./ui";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -29,7 +29,7 @@ export function StreakPill() {
   const pop = useAnimatedStyle(() => ({ transform: [{ scale: bump.value }] }));
 
   return (
-    <Bouncy onPress={() => router.navigate("/library")} accessibilityLabel={`Sequência de ${streak} dias. Hoje ${count} de ${goal} cards.`} testID="streak-pill">
+    <Bouncy onPress={openToday} accessibilityLabel={`Seu dia: sequência de ${streak} dias, hoje ${count} de ${goal} cards. Abrir missões.`} testID="streak-pill">
       <Animated.View style={[styles.pill, { backgroundColor: "rgba(0,0,0,0.45)" }, pop]}>
         <Svg width={SIZE} height={SIZE} style={StyleSheet.absoluteFill}>
           <Circle cx={SIZE / 2} cy={SIZE / 2} r={R} stroke="rgba(255,255,255,0.18)" strokeWidth={STROKE} fill="none" />

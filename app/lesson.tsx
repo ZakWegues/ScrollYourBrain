@@ -21,7 +21,10 @@ import type { ConceptItem, FlashItem, QuizItem, StudyItem, VideoItem } from "@/f
 import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
 import { useModes } from "@/store/modes";
-import { countStudy, trackAnswer } from "@/store/progress";
+import { accountTotal, countStudy, trackAnswer, useProgress } from "@/store/progress";
+import { useTodayPlan } from "@/components/Today";
+import { nextMission } from "@/lib/today";
+import { mastery, masteryName } from "@/lib/xp";
 import { useReview } from "@/store/review";
 import { awardXp } from "@/store/xp";
 import { radius, space, TOUCH, useColors } from "@/theme";
@@ -68,6 +71,11 @@ export default function Lesson() {
   const [finished, setFinished] = useState(false);
   const step = lesson.steps[index];
   const page = getPage(lesson.pageId);
+  // Mastery of the account when the lesson started, to show how much it moved.
+  const [startMastery] = useState(() => mastery(accountTotal(useProgress.getState().log, lesson.pageId)));
+  const nowMastery = useProgress((s) => mastery(accountTotal(s.log, lesson.pageId)));
+  const plan = useTodayPlan();
+  const upNext = nextMission(plan.filter((m) => !(m.route.pathname === "/lesson" && m.route.params.page === lesson.pageId)));
 
   const next = () => {
     if (step) countStudy(step.pageId);
@@ -128,8 +136,28 @@ export default function Lesson() {
             {score.total ? `Você acertou ${score.right} de ${score.total} questões (${pct}%).` : "Você passou por toda a aula."}
             {passed && lesson.topicIds.length ? " Assunto marcado como dominado." : ""}
           </AppText>
+          {!!getPage(lesson.pageId).parent && (
+            <View style={[styles.mastery, { backgroundColor: c.surface, borderColor: c.border }]} testID="lesson-mastery">
+              <PageAvatar pageId={lesson.pageId} size={28} />
+              <AppText variant="label" style={{ flex: 1 }} numberOfLines={1}>{getPage(lesson.pageId).name}</AppText>
+              <AppText variant="label" dim>{startMastery}%</AppText>
+              <Icon name="arrow-right" size={16} color={c.textDim} />
+              <AppText variant="label" style={{ color: nowMastery > startMastery ? c.success : c.text }}>{nowMastery}%</AppText>
+              <AppText variant="caption" dim>{masteryName(nowMastery)}</AppText>
+            </View>
+          )}
         </Animated.View>
         <GradientButton label={passed ? "Continuar" : "Refazer a aula"} icon={passed ? "check" : "refresh"} onPress={passed ? back : () => router.replace({ pathname: "/lesson", params: { topic: params.topic, page: params.page } })} style={{ marginTop: space.xl, alignSelf: "stretch" }} />
+        {passed && upNext && (
+          <Bouncy onPress={() => { if (upNext.route.pathname === "/") router.navigate("/"); else router.replace(upNext.route as never); }} style={[styles.nextMission, { borderColor: c.border }]} accessibilityLabel={`Próxima missão: ${upNext.title}`} testID="lesson-next-mission">
+            <Icon name={upNext.icon as never} size={20} color={c.accent2} />
+            <View style={{ flex: 1 }}>
+              <AppText variant="caption" dim>Próxima missão</AppText>
+              <AppText variant="label" numberOfLines={1}>{upNext.title}</AppText>
+            </View>
+            <Icon name="chevron-right" size={20} color={c.textDim} />
+          </Bouncy>
+        )}
         {!passed && (
           <Bouncy onPress={back} style={styles.textBtn} accessibilityLabel="Sair da aula">
             <AppText variant="label" dim>Sair</AppText>
@@ -275,6 +303,8 @@ function VideoStep({ item }: { item: VideoItem }) {
 }
 
 const styles = StyleSheet.create({
+  mastery: { flexDirection: "row", alignItems: "center", gap: 8, borderWidth: 1, borderRadius: radius.md, paddingHorizontal: space.md, paddingVertical: space.sm, marginTop: space.lg, alignSelf: "stretch" },
+  nextMission: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderRadius: radius.md, padding: space.md, marginTop: space.md, alignSelf: "stretch", minHeight: 52 },
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: space.xl },
   top: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingHorizontal: space.sm },
   iconBtn: { width: TOUCH, height: TOUCH, alignItems: "center", justifyContent: "center" },

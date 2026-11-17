@@ -18,17 +18,17 @@ import { useViewer } from "@/feed/viewer";
 import { haptic } from "@/lib/haptics";
 import { useLibrary, type Snapshot } from "@/store/library";
 import { NOTEBOOK_COLORS, useNotebooks } from "@/store/notebooks";
-import { useDueCount, useReview } from "@/store/review";
 import { useProgress, useToday } from "@/store/progress";
 import { weekKey } from "@/lib/challenges";
 import { Collapsible } from "@/components/Collapsible";
 import { usePlanner } from "@/store/planner";
-import { countdownLabel, daysUntil } from "@/lib/planner";
+import { daysUntil } from "@/lib/planner";
 import { ACHIEVEMENTS } from "@/lib/achievements";
 import { fonts, radius, space, TOUCH, useColors } from "@/theme";
 import { LevelCard } from "@/components/LevelCard";
 import { WeeklySummary } from "@/components/WeeklySummary";
 import { DailyQuestion } from "@/components/DailyQuestion";
+import { TodayCard } from "@/components/Today";
 import { useMistakes } from "@/store/mistakes";
 
 type Tab = "saved" | "liked" | "notebooks" | "notes";
@@ -61,8 +61,7 @@ export default function Library() {
       }
     >
       <LevelCard />
-      <NextExam />
-      <ReviewCard />
+      <TodayCard />
       <DailyQuestion />
       <QuickLinks />
       <YourWeek />
@@ -172,52 +171,6 @@ function QuickLinks() {
         </Bouncy>
       ))}
     </View>
-  );
-}
-
-function NextExam() {
-  const c = useColors();
-  const exams = usePlanner((s) => s.exams);
-  const next = Object.values(exams).filter((e) => daysUntil(e.date) >= 0).sort((a, b) => a.date.localeCompare(b.date))[0];
-  if (!next) return null;
-  const days = daysUntil(next.date);
-  // In the last week the card opens the day-by-day final plan.
-  const final = days >= 1 && days <= 7;
-  return (
-    <Bouncy onPress={() => router.push(final ? { pathname: "/final", params: { exam: next.id } } : "/planner")} scaleTo={0.98} style={[styles.nextExam, { backgroundColor: c.surface, borderColor: days <= 3 ? c.danger : c.border }]} accessibilityLabel={`Próxima prova: ${next.title}, ${countdownLabel(days)}${final ? ". Abrir reta final" : ""}`} testID="next-exam">
-      <View style={[styles.examDays, { backgroundColor: days <= 3 ? "rgba(244,63,94,0.16)" : c.surface2 }]}>
-        <AppText variant="title" style={{ color: days <= 3 ? c.danger : c.text }}>{days}</AppText>
-        <AppText variant="caption" dim>{days === 1 ? "dia" : "dias"}</AppText>
-      </View>
-      <View style={{ flex: 1 }}>
-        <AppText variant="caption" style={{ color: final ? c.accent2 : c.textDim }}>{final ? "Reta final · plano do dia" : "Próxima prova"}</AppText>
-        <AppText variant="headline" numberOfLines={1}>{next.title}</AppText>
-      </View>
-      <Icon name="chevron-right" size={24} color={c.textDim} />
-    </Bouncy>
-  );
-}
-
-function ReviewCard() {
-  const c = useColors();
-  const due = useDueCount();
-  const total = useReview((s) => Object.keys(s.cards).length);
-  return (
-    <Bouncy onPress={() => router.push("/review")} scaleTo={0.98} style={styles.review} accessibilityLabel={`Revisão de hoje: ${due} cards`} testID="review-card">
-      <LinearGradient colors={due > 0 ? ["#F59E0B", "#F97316"] : [c.surface, c.surface]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-      <View style={[styles.reviewIcon, { backgroundColor: due > 0 ? "rgba(0,0,0,0.18)" : c.surface2 }]}>
-        <Icon name={due > 0 ? "history" : "check-decagram"} size={22} color={due > 0 ? "#fff" : c.success} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <AppText variant="headline" style={{ color: due > 0 ? "#fff" : c.text }}>
-          {due > 0 ? `${due} ${due === 1 ? "card para revisar" : "cards para revisar"}` : "Revisão em dia"}
-        </AppText>
-        <AppText variant="caption" numberOfLines={1} style={{ color: due > 0 ? "rgba(255,255,255,0.85)" : c.textDim }}>
-          {total > 0 ? `${total} na sua fila de repetição espaçada` : "Erros de quiz e flashcards difíceis entram aqui"}
-        </AppText>
-      </View>
-      <Icon name="chevron-right" size={24} color={due > 0 ? "#fff" : c.textDim} />
-    </Bouncy>
   );
 }
 

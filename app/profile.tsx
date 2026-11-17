@@ -72,6 +72,10 @@ export default function Profile() {
         <View style={{ paddingHorizontal: space.lg }}>
           <View style={[styles.sectionRow, styles.section]}>
             <AppText variant="headline" style={{ flex: 1 }}>Domínio por conta</AppText>
+            <Bouncy onPress={() => router.push("/journey")} style={[styles.weakBtn, { borderColor: c.accent2 }]} accessibilityLabel="Ver minha jornada" testID="profile-journey">
+              <Icon name="map-marker-path" size={16} color={c.accent2} />
+              <AppText variant="caption" style={{ color: c.accent2 }}>Jornada</AppText>
+            </Bouncy>
             <Bouncy onPress={startWeakExam} style={[styles.weakBtn, { borderColor: c.danger }]} accessibilityLabel="Treinar pontos fracos">
               <Icon name="target" size={16} color={c.danger} />
               <AppText variant="caption" style={{ color: c.danger }}>Treinar fracos</AppText>

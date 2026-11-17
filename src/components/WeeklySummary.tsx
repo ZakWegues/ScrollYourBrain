@@ -12,14 +12,19 @@ export function WeeklySummary({ linkToStats = true }: { linkToStats?: boolean })
   const c = useColors();
   const log = useProgress((s) => s.log);
   const data = useMemo(() => {
-    const two = summarize(log, 14).daily;
+    const both = summarize(log, 14);
+    const two = both.daily;
     const prev = two.slice(0, 7).reduce((n, d) => n + d.studied, 0);
     const week = summarize(log, 7);
+    // Accuracy of the week before: the 14-day totals minus this week's.
+    const prevAnswered = both.answered - week.answered;
+    const prevAccuracy = prevAnswered >= 5 ? Math.round(((both.correct - week.correct) / prevAnswered) * 100) : null;
     const favorite = week.topics.find((t) => t.studied > 0 || t.answered > 0);
     const best = [...week.daily].sort((a, b) => b.studied - a.studied)[0];
-    return { week, prev, favorite, best };
+    return { week, prev, favorite, best, prevAccuracy };
   }, [log]);
-  const { week, prev, favorite, best } = data;
+  const { week, prev, favorite, best, prevAccuracy } = data;
+  const accDelta = week.accuracy !== null && prevAccuracy !== null && week.answered >= 5 ? week.accuracy - prevAccuracy : null;
   if (week.studied === 0 && prev === 0) return null;
   const delta = prev === 0 ? null : Math.round(((week.studied - prev) / prev) * 100);
   const sunday = new Date().getDay() === 0;
@@ -45,6 +50,11 @@ export function WeeklySummary({ linkToStats = true }: { linkToStats?: boolean })
         <View style={styles.stat}>
           <AppText variant="title">{week.accuracy === null ? "–" : `${week.accuracy}%`}</AppText>
           <AppText variant="caption" dim>acertos</AppText>
+          {accDelta !== null && accDelta !== 0 && (
+            <AppText variant="caption" style={{ color: accDelta > 0 ? c.success : c.danger }}>
+              {accDelta > 0 ? "▲" : "▼"} {Math.abs(accDelta)} pontos
+            </AppText>
+          )}
         </View>
         <View style={styles.stat}>
           <AppText variant="title">{week.activeDays}/7</AppText>

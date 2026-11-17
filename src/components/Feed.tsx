@@ -9,10 +9,12 @@ import { useFeed, blockedItems, type FeedSource } from "@/feed/useFeed";
 import { useLibrary } from "@/store/library";
 import { hideTabBar, showTabBar } from "@/store/chrome";
 import { useResume } from "@/store/resume";
+import { useSeen } from "@/store/seen";
 import { countStudy, trackTime } from "@/store/progress";
 import { ForceDark, TAB_BAR_SPACE } from "@/theme";
 import { AmbientBackdrop } from "./AmbientBackdrop";
 import { FeedItem } from "./FeedItem";
+import { GainChip } from "./GainChip";
 import { Image } from "expo-image";
 import { PRELOAD_AHEAD, preloadIndex, upcomingThumbs } from "@/feed/preload";
 import { youtubeThumb } from "@/feed/sources/youtube";
@@ -139,7 +141,9 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
     (key: string) => {
       if (studied.has(key)) return;
       studied.add(key);
-      countStudy(entries.find((e) => e.key === key)?.item.pageId);
+      const item = entries.find((e) => e.key === key)?.item;
+      countStudy(item?.pageId);
+      if (item) useSeen.getState().markSeen(item.id);
     },
     [studied, entries],
   );
@@ -221,6 +225,7 @@ function FeedInner({ source, initialIndex = 0, emptyState, paused, bottomInset }
         />
         </Freeze>
       )}
+      <GainChip pageId={activePage} active={playing} />
     </View>
   );
 }

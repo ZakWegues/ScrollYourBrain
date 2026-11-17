@@ -75,3 +75,20 @@ export function mastery(t: { studied: number; answered: number; correct: number 
   const volume = Math.min(1, t.studied / 40);
   return Math.round(100 * (0.75 * accuracy * confidence + 0.25 * volume));
 }
+
+/** Mastery levels of an account, from 0 to 4. */
+export const MASTERY_LEVELS = [
+  { min: 0, name: "Iniciante" },
+  { min: 20, name: "Aprendiz" },
+  { min: 40, name: "Intermediário" },
+  { min: 60, name: "Avançado" },
+  { min: 80, name: "Craque" },
+] as const;
+
+export const masteryLevel = (score: number): number => {
+  let level = 0;
+  for (let i = 0; i < MASTERY_LEVELS.length; i++) if (score >= MASTERY_LEVELS[i].min) level = i;
+  return level;
+};
+
+export const masteryName = (score: number) => MASTERY_LEVELS[masteryLevel(score)].name;

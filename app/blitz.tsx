@@ -92,7 +92,7 @@ export default function Blitz() {
     const right = i === q.answer;
     if (right) haptic.success();
     else haptic.error();
-    trackAnswer(q, right);
+    trackAnswer(q, right, { quiet: true });
     setAnswers((a) => [...a, { q, picked: i }]);
     setFlash({ picked: i });
     setTimeout(() => {

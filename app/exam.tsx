@@ -89,7 +89,7 @@ export default function Exam() {
 
   const onAnswer = useCallback((item: ExamItem, picked: number, set?: number[], self?: SelfGrade) => {
     const ok = item.kind === "quiz" ? picked === item.answer : item.kind === "multi" ? !!set && gradeMulti(item, set).ok : !!self && selfGradeOk(self);
-    trackAnswer(item, ok);
+    trackAnswer(item, ok, { quiet: true });
     useReview.getState().recordQuiz(item, ok);
     countStudy(item.pageId);
     trackTime(item.pageId, Date.now() - lastAt.current);

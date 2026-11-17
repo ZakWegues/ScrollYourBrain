@@ -2,9 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { StudyItem } from "@/feed/types";
 import { bump, type ActivityLog, type Counter } from "@/lib/stats";
+import { mastery, masteryLevel, masteryName, XP_FOR } from "@/lib/xp";
+import { getPage, PAGE_BY_ID } from "@/data/pages";
+import { haptic } from "@/lib/haptics";
+import { toast } from "@/components/Toast";
+import { openToday } from "./todaySheet";
 import { currentStreak, dayKey } from "@/lib/streak";
 import { useLibrary } from "./library";
 import { useMistakes } from "./mistakes";
+import { useSeen } from "./seen";
 import { awardXp } from "./xp";
 import { persistStorage } from "./storage";
 import { useSettings } from "./settings";
@@ -99,15 +105,52 @@ export function countStudy(pageId?: string) {
   if (reached && progress.celebratedOn !== dayKey()) {
     progress.markCelebrated();
     useCelebration.setState({ visible: true });
+  } else if (!reached && pageId !== undefined) {
+    // A breather every 15 cards: how the session is going, and today's missions one tap away.
+    const today = useProgress.getState().log[dayKey()];
+    if (today && today.studied > 0 && today.studied % PAUSE_EVERY === 0) {
+      const acc = today.answered ? ` · ${Math.round((today.correct / today.answered) * 100)}% de acerto` : "";
+      toast({ message: `${today.studied} cards hoje${acc}. Que tal uma missão?`, icon: "coffee-outline", action: { label: "Seu dia", onPress: openToday } });
+    }
   }
 }
 
-/** Records a quiz answer everywhere it matters: overall quiz stats and the per-topic log. */
-export function trackAnswer(item: StudyItem, correct: boolean) {
+const PAUSE_EVERY = 15;
+
+/** Totals of one account over the whole log. */
+export function accountTotal(log: ActivityLog, pageId: string) {
+  const t = { studied: 0, answered: 0, correct: 0 };
+  for (const day of Object.values(log)) {
+    const d = day.topics?.[pageId];
+    if (!d) continue;
+    t.studied += d.studied;
+    t.answered += d.answered;
+    t.correct += d.correct;
+  }
+  return t;
+}
+
+/** The last answer's reward, shown as a small chip on the feed ("+10 XP · Genética 62%"). */
+export const useGain = create<{ at: number; pageId: string; xp: number; mastery: number; delta: number }>()(() => ({ at: 0, pageId: "", xp: 0, mastery: 0, delta: 0 }));
+
+/**
+ * Records an answer everywhere it matters: overall quiz stats, the per-topic log and the mistakes notebook.
+ * Also updates the account's mastery and celebrates a new mastery level (unless `quiet`, e.g. during an exam).
+ */
+export function trackAnswer(item: StudyItem, correct: boolean, opts: { quiet?: boolean } = {}) {
+  const before = mastery(accountTotal(useProgress.getState().log, item.pageId));
   useLibrary.getState().recordAnswer(correct);
   if (correct) awardXp("correct");
   useProgress.getState().logEvent(item.pageId, { answered: 1, correct: correct ? 1 : 0 });
   if (item.kind === "quiz" || item.kind === "multi" || item.kind === "open") useMistakes.getState().record(item, correct);
+  useSeen.getState().markSeen(item.id);
+  if (correct) useSeen.getState().markRight(item.id);
+  const after = mastery(accountTotal(useProgress.getState().log, item.pageId));
+  useGain.setState({ at: Date.now(), pageId: item.pageId, xp: correct ? XP_FOR.correct : 0, mastery: after, delta: after - before });
+  if (!opts.quiet && masteryLevel(after) > masteryLevel(before) && PAGE_BY_ID[item.pageId]?.parent) {
+    haptic.success();
+    toast({ message: `${getPage(item.pageId).name} subiu para ${masteryName(after)}!`, icon: "star-shooting", tone: "success" });
+  }
 }
 
 const MAX_CARD_SECONDS = 180;

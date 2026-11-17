@@ -14,13 +14,14 @@ import { AnimatedSplash } from "@/components/AnimatedSplash";
 import { GoalCelebration } from "@/components/GoalCelebration";
 import { ShareCardHost } from "@/components/ShareCard";
 import { SheetsHost } from "@/components/Sheets";
+import { TodaySheetHost } from "@/components/Today";
 import { OfflineBadge } from "@/components/OfflineBadge";
 import { ToastHost } from "@/components/Toast";
 import { YouTubeWarmup } from "@/components/video/YouTubeWarmup";
 import { useNetworkWatcher } from "@/store/network";
 import { useAchievementWatcher } from "@/store/achievementWatcher";
 import { useStoresHydrated } from "@/store/hydration";
-import { scheduleReminder } from "@/lib/notifications";
+import { refreshReminders } from "@/store/reminders";
 import { useToday } from "@/store/progress";
 import { useWidgetSync } from "@/widget/sync";
 import { useSettings } from "@/store/settings";
@@ -46,10 +47,16 @@ export default function RootLayout() {
   const reminder = useSettings((s) => s.reminder);
   const { streak, goal, count } = useToday();
   useWidgetSync(streak, count, goal, hydrated);
-  // Keep the reminder text in sync with the current streak and goal.
+  // Keep the reminders in sync with today's plan: on launch, when the goal is reached, and when leaving the app.
+  const goalDone = count >= goal;
   useEffect(() => {
-    if (hydrated && reminder !== null) scheduleReminder(reminder, streak, goal).catch(() => {});
-  }, [hydrated, reminder, streak, goal]);
+    if (!hydrated || reminder === null) return;
+    refreshReminders();
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state === "background") refreshReminders();
+    });
+    return () => sub.remove();
+  }, [hydrated, reminder, streak, goal, goalDone]);
   // Leaving or returning to the app cancels any half-finished swipe, so the tab bar must come back.
   useEffect(() => {
     const sub = AppState.addEventListener("change", () => {
@@ -114,10 +121,13 @@ export default function RootLayout() {
           <Stack.Screen name="mistakes" />
           <Stack.Screen name="final" />
           <Stack.Screen name="watch" options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="journey" />
+          <Stack.Screen name="survival" options={{ animation: "slide_from_bottom" }} />
         </Stack>
         <YouTubeWarmup />
         <OfflineBadge />
         <SheetsHost />
+        <TodaySheetHost />
         <ShareCardHost />
         <ToastHost />
         <GoalCelebration />
