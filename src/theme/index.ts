@@ -81,7 +81,7 @@ export const THEMES: Record<ThemeMode, ThemeDef> = {
     name: "Claro", description: "Telas claras; o feed continua escuro para ler bem.", backdrop: "orbs", light: true,
     ambient: ["#8B5CF6", "#22D3EE", "#F472B6"],
     colors: {
-      ...dark, text: "#16161D", textDim: "#5B5B66", textMute: "#8E8E99", accent: "#7C3AED", accent2: "#0891B2", save: "#D97706",
+      ...dark, text: "#16161D", textDim: "#5B5B66", textMute: "#7A7A85", accent: "#7C3AED", accent2: "#0891B2", save: "#D97706",
       bg: "#F5F5F8", surface: "#FFFFFF", surface2: "#ECECF2", border: "rgba(0,0,0,0.09)", glass: "rgba(255,255,255,0.78)", tab: "#FFFFFF",
     },
   },

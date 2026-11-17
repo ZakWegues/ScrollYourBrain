@@ -120,12 +120,23 @@ export function nextItems(count: number, opts: NextOptions): StudyItem[] {
     const varied = fresh.filter((i) => !repeatsKind(i));
     const candidates = varied.length > 0 ? varied : fresh;
 
-    let item: StudyItem;
-    if (candidates.length > 0) {
-      item = candidates[Math.floor(rng() * candidates.length)];
-    } else {
-      item = generateFor(pageId, rng);
-      for (let tries = 0; tries < 6 && recent.has(item.id); tries++) item = generateFor(pageId, rng);
+    let item: StudyItem | undefined;
+    if (varied.length > 0) item = varied[Math.floor(rng() * varied.length)];
+    // Nothing varied left in this account: its own generator keeps the account's turn (and its boost).
+    if (!item && GENERATED_PAGES.includes(pageId)) {
+      for (let tries = 0; tries < 8 && !item; tries++) {
+        const g = generateFor(pageId, rng);
+        if (!recent.has(g.id) && !repeatsKind(g)) item = g;
+      }
+    }
+    if (!item) {
+      // Borrow a varied card from the same subject, then from any account the student can see.
+      const variedFrom = (ids: readonly PageId[]) => ids.filter((id) => id !== pageId).flatMap((id) => freshFor(id).filter((i) => !repeatsKind(i)));
+      const sameFamily = variedFrom(family);
+      const elsewhere = sameFamily.length > 0 ? sameFamily : variedFrom(choices);
+      if (elsewhere.length > 0) item = weightedPick(rng, elsewhere.map((i) => [i, pageWeight(i.pageId, signals)] as [StudyItem, number]));
+      else if (candidates.length > 0) item = candidates[Math.floor(rng() * candidates.length)];
+      else item = generateFor(pageId, rng);
     }
     remember(state, item);
     out.push(item);
