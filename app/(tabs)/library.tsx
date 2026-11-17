@@ -272,7 +272,8 @@ function Notebooks() {
 function Notes({ onOpen }: { onOpen: (list: StudyItem[], i: number, title: string) => void }) {
   const c = useColors();
   const notes = useNotebooks((s) => s.notes);
-  const list = Object.values(notes).sort((a, b) => b.updatedAt - a.updatedAt);
+  // A note without its card (old or damaged backup) is skipped instead of breaking the whole tab.
+  const list = Object.values(notes).filter((n) => n?.item?.id).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
   if (list.length === 0) return <EmptyState icon="note-edit-outline" title="Nenhuma anotação" text="Toque em Nota em qualquer card do feed para escrever o que quer lembrar." />;
   const items = list.map((n) => n.item);
   return (

@@ -115,7 +115,7 @@ export default function PageScreen() {
         )}
       </View>
 
-      <Bouncy onPress={() => router.back()} style={[styles.back, { top: insets.top + 6 }]} accessibilityLabel="Voltar">
+      <Bouncy onPress={() => (router.canGoBack() ? router.back() : router.replace("/explore"))} style={[styles.back, { top: insets.top + 6 }]} accessibilityLabel="Voltar">
         <Icon name="chevron-left" size={30} color="#fff" />
       </Bouncy>
     </ScrollView>
